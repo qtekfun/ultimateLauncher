@@ -11,7 +11,7 @@ flags = []
 for f in sorted(glob.glob(str(root / "launcher3-base/aconfig/*.aconfig"))):
     txt = open(f).read()
     pkg = re.search(r'package:\s*"([^"]+)"', txt).group(1)
-    for m in re.finditer(r'flag\s*\{(.*?)\n\}', txt, re.S):
+    for m in re.finditer(r'flag\s*\{(.*?)\n\s*\}', txt, re.S):
         n = re.search(r'name:\s*"([^"]+)"', m.group(1)).group(1)
         flags.append((pkg, n))
 def camel(n):

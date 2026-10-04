@@ -45,6 +45,11 @@ guava = { module = "com.google.guava:guava", version = "33.4.8-android" }
 jsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2" }
 errorprone-annotations = { module = "com.google.errorprone:error_prone_annotations", version = "2.36.0" }
 
+androidx-slice-core = { module = "androidx.slice:slice-core", version = "1.1.0-alpha02" }
+androidx-appfunctions-service = { module = "androidx.appfunctions:appfunctions-service", version = "1.0.0-alpha09" }
+androidx-appfunctions-compiler = { module = "androidx.appfunctions:appfunctions-compiler", version = "1.0.0-alpha12" }
+androidx-graphics-shapes = { module = "androidx.graphics:graphics-shapes", version = "1.1.0" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }

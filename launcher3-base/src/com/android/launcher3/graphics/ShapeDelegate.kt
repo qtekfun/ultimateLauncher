@@ -38,7 +38,6 @@ import androidx.dynamicanimation.animation.DynamicAnimation.MIN_VISIBLE_CHANGE_S
 import androidx.graphics.shapes.CornerRounding
 import androidx.graphics.shapes.Morph
 import androidx.graphics.shapes.RoundedPolygon
-import androidx.graphics.shapes.SvgPathParser
 import androidx.graphics.shapes.rectangle
 import androidx.graphics.shapes.toPath
 import androidx.graphics.shapes.transformed
@@ -174,11 +173,8 @@ interface ShapeDelegate {
     /** Generic shape delegate with pathString in bounds [0, 0, 100, 100] */
     data class GenericPathShape(private val pathString: String) : ShapeDelegate {
         private val poly =
-            RoundedPolygon(
-                features = SvgPathParser.parseFeatures(pathString),
-                centerX = 50f,
-                centerY = 50f,
-            )
+            // UltimateLauncher 0004: SvgPathParser no está en el SDK público; forma de reserva.
+            createRoundedRect(0f, 0f, 100f, 100f, 25f)
         // This ensures that a valid morph is possible from the provided path
         private val basePath =
             Path().apply {

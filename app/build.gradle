@@ -8,7 +8,7 @@ plugins {
 
 def base = '../launcher3-base'
 def baseSrc = ['/src', '/src_no_quickstep', '/src_plugins', '/shared/src', '/modules/appfunctions/src', '/modules/concurrent/src',
-    '/modules/widgetpicker/src', '/dagger/src', '/tests/shared/src'].collect { base + it }
+    '/dagger/src', '/tests/shared/src'].collect { base + it }
 
 android {
     namespace 'com.android.launcher3'
@@ -19,6 +19,13 @@ android {
         targetSdk 37
         versionCode 1
         versionName '0.1.0'
+        // Equivalentes a tools/buildconfig.sh de Launcher3 (valores por defecto de AOSP, salvo QSB).
+        buildConfigField 'boolean', 'IS_STUDIO_BUILD', 'false'
+        buildConfigField 'boolean', 'IS_DEBUG_DEVICE', 'false'
+        buildConfigField 'boolean', 'WIDGETS_ENABLED', 'true'
+        buildConfigField 'boolean', 'NOTIFICATION_DOTS_ENABLED', 'true'
+        // RF-03: sin barra de búsqueda (QSB) en la primera pantalla.
+        buildConfigField 'boolean', 'QSB_ON_FIRST_SCREEN', 'false'
     }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_21; targetCompatibility = JavaVersion.VERSION_21 }
     buildFeatures { buildConfig = true; compose = true; aidl = true; resValues = true }
@@ -33,7 +40,7 @@ android {
         main {
             java.directories.addAll(baseSrc)
             kotlin.directories.addAll(baseSrc)
-            res.directories.addAll([(base + '/res'), (base + '/modules/widgetpicker/res')])
+            res.directories.addAll([(base + '/res')])
             proto { srcDirs = [(base + '/protos'), (base + '/protos_overrides')] }
         }
     }
@@ -47,6 +54,7 @@ protobuf {
 dependencies {
     ['iconloaderlib', 'animationlib', 'msdllib', 'dynamiccolors', 'usertypelib'].each { implementation project(":$it") }
     implementation project(':platform-stubs')
+    implementation project(':widgetpicker')
     implementation libs.androidx.core.ktx
     implementation libs.androidx.core.animation
     implementation libs.androidx.constraintlayout
@@ -55,6 +63,10 @@ dependencies {
     implementation libs.androidx.fragment
     implementation libs.androidx.preference
     implementation libs.androidx.slice.view
+    implementation libs.androidx.slice.core
+    implementation libs.androidx.graphics.shapes
+    implementation libs.androidx.appfunctions.service
+    ksp libs.androidx.appfunctions.compiler
     implementation libs.androidx.cardview
     implementation libs.androidx.window
     implementation libs.androidx.activity.compose

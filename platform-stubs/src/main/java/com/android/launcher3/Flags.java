@@ -60,6 +60,7 @@ public final class Flags {
     public static final String FLAG_ENABLE_SYSTEM_DRAG_TO_OTHER_APPS = "com.android.launcher3.enable_system_drag_to_other_apps";
     public static final String FLAG_FORCE_MONOCHROME_APP_ICONS_ADAPT_COLORS = "com.android.launcher3.force_monochrome_app_icons_adapt_colors";
     public static final String FLAG_ENABLE_CUSTOM_HEIGHT_FOR_ALL_APPS_ON_CD = "com.android.launcher3.enable_custom_height_for_all_apps_on_cd";
+    public static final String FLAG_EXPANDABLE_LONG_PRESS_MENU = "com.android.launcher3.expandable_long_press_menu";
     public static final String FLAG_ENABLE_CURSOR_DRIVEN_WORKFLOWS = "com.android.launcher3.enable_cursor_driven_workflows";
     public static final String FLAG_ENABLE_WORKSPACE_SELECTION = "com.android.launcher3.enable_workspace_selection";
     public static final String FLAG_ENABLE_WORKSPACE_PAGE_ANIMATION = "com.android.launcher3.enable_workspace_page_animation";
@@ -174,6 +175,7 @@ public final class Flags {
     public static boolean enableSystemDragToOtherApps() { return false; }
     public static boolean forceMonochromeAppIconsAdaptColors() { return false; }
     public static boolean enableCustomHeightForAllAppsOnCd() { return false; }
+    public static boolean expandableLongPressMenu() { return false; }
     public static boolean enableCursorDrivenWorkflows() { return false; }
     public static boolean enableWorkspaceSelection() { return false; }
     public static boolean enableWorkspacePageAnimation() { return false; }
