@@ -58,7 +58,7 @@ Rellenar con los móviles y la tablet reales del usuario antes del hito M1.
 
 | Marca | Modelo | Android | ROM/versión | GMS (sí/no) | Frecuencia Hz | Root (sí/no) |
 |---|---|---|---|---|---|---|
-| OPPO | | | | | | |
+| OPPO | CPH2841 (Find X9 Ultra según DevCheck) | 16 (API 36) | ColorOS V16.1.0 (CPH2841_16.0.10.500, EX01) | sí | 60/90/120/144 (120 por defecto) | no |
 | vivo | | | | | | |
 | Xiaomi | | | | | | |
 | Honor | | | | | | |

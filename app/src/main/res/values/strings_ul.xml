@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ul_wizard_title">UltimateLauncher setup</string>
+    <string name="ul_wizard_adapter">Detected device profile: %1$s</string>
+    <string name="ul_step_home">1. Default launcher</string>
+    <string name="ul_home_yes">UltimateLauncher is your default launcher.</string>
+    <string name="ul_home_no">UltimateLauncher is NOT the default launcher yet.</string>
+    <string name="ul_btn_home">Set as default launcher</string>
+    <string name="ul_step_battery">2. Battery</string>
+    <string name="ul_btn_open">Open settings</string>
+    <string name="ul_step_autostart">3. Auto-start / background activity</string>
+    <string name="ul_autostart_help">Allow UltimateLauncher to run in the background so widgets keep updating. If your phone has no dedicated screen, the app details page opens instead.</string>
+    <string name="ul_known_issues">Known limitations</string>
+    <string name="ul_btn_done">Done</string>
+    <string name="ul_launcher_label">UltimateLauncher setup</string>
+</resources>

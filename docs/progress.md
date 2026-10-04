@@ -74,3 +74,9 @@
 - Verificación en el dispositivo (Perfetto, ráfagas del launcher, 5 repeticiones): cerrar cajón 311 ms con AOSP (300) → 222 ms con `rapido` (210). La apertura por gesto (≈520 ms) no cambia: la dirige la velocidad del dedo, no el recurso. Carpeta y `pageSnap` no se midieron tras el cambio.
 - T5.4/T5.5 NO hechos (curvas medidas, validación lado a lado). Criterio de aceptación de M5 NO cumplido.
 - Build final entregada con `aosp-por-defecto`.
+
+## M6 — PARCIAL (mínimo) (~00:20)
+- `OemAdapter` (+ `HelpText`, `KnownIssue`, `DeviceInfo`), `GenericAdapter`, `ColorOsAdapter`, registro `OemAdapters`, rutas en `assets/oem-intents.json` (con campo `verified`), `FirstRunActivity` (asistente sin Compose, ES/EN) y gancho de una línea en `Launcher.onCreate` (parche 0010, se muestra una vez; se repite desde el icono «Configuración de UltimateLauncher» del cajón).
+- Pruebas unitarias: 6 pruebas JUnit (selección de adaptador) en verde (`:app:testDefaultDebugUnitTest`).
+- En el dispositivo: el asistente arranca en el primer inicio, detecta `coloros`, el botón de batería abre ajustes de batería, el de autoarranque cae a «detalles de la app», «Hecho» vuelve al inicio.
+- NO hecho: `VivoAdapter`, `HyperOsAdapter`, `MagicOsAdapter` (solo hay rutas candidatas sin verificar en el JSON); detección de «fallos conocidos» (RF-41) más allá de texto estático; ruta de autoarranque de ColorOS 16 sin resolver (ver `docs/oem-issues.md`).
