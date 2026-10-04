@@ -1,0 +1,174 @@
+{
+  "id": "oppo-medido",
+  "version": 1,
+  "speedMultiplier": 1.0,
+  "source": {
+    "device": "OPPO CPH2841",
+    "os": "ColorOS V16.1.0 (CPH2841_16.0.10.500(EX01))",
+    "androidApi": 36,
+    "refreshRateHz": 120,
+    "date": "2026-10-04",
+    "animationScales": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "method": "Perfetto (frametimeline del Launcher) sin root; ráfagas de fotogramas, 5 repeticiones, mediana descartando repeticiones con >25% de fotogramas con jank"
+  },
+  "events": {
+    "home.pageScroll": {
+      "type": "spring",
+      "dampingRatio": null,
+      "stiffness": null
+    },
+    "home.pageSnap": {
+      "type": "spring",
+      "dampingRatio": null,
+      "stiffness": null
+    },
+    "drawer.open": {
+      "type": "spring",
+      "dampingRatio": null,
+      "stiffness": null
+    },
+    "drawer.close": {
+      "type": "spring",
+      "dampingRatio": null,
+      "stiffness": null
+    },
+    "folder.open": {
+      "type": "easing",
+      "durationMs": 877,
+      "bezier": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "approximate": true
+    },
+    "folder.close": {
+      "type": "easing",
+      "durationMs": 823,
+      "bezier": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "approximate": true
+    },
+    "icon.pressScale": {
+      "type": "spring",
+      "dampingRatio": null,
+      "stiffness": null,
+      "scale": null
+    },
+    "icon.drag.pickup": {
+      "type": "spring",
+      "dampingRatio": null,
+      "stiffness": null,
+      "scale": null
+    },
+    "widget.resize": {
+      "type": "spring",
+      "dampingRatio": null,
+      "stiffness": null
+    },
+    "app.launch": {
+      "type": "easing",
+      "durationMs": 588,
+      "bezier": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "approximate": true
+    },
+    "app.returnHome": {
+      "type": "easing",
+      "durationMs": null,
+      "bezier": [
+        null,
+        null,
+        null,
+        null
+      ]
+    }
+  },
+  "rawBurstsMs": {
+    "drawer.open": {
+      "medianaMs": 802.3,
+      "repeticiones": [
+        806.0,
+        793.4,
+        802.3,
+        793.7,
+        818.8
+      ],
+      "usadas": 5
+    },
+    "drawer.close": {
+      "medianaMs": 523.0,
+      "repeticiones": [
+        523.0,
+        523.0,
+        523.2,
+        523.0,
+        523.2
+      ],
+      "usadas": 4
+    },
+    "folder.open": {
+      "medianaMs": 876.8,
+      "repeticiones": [
+        876.8,
+        877.0,
+        885.0,
+        868.2,
+        876.6
+      ],
+      "usadas": 5
+    },
+    "folder.close": {
+      "medianaMs": 822.8,
+      "repeticiones": [
+        823.0,
+        822.8,
+        821.4,
+        822.2,
+        822.8
+      ],
+      "usadas": 5
+    },
+    "app.launch": {
+      "medianaMs": 588.0,
+      "repeticiones": [
+        650.1,
+        588.1,
+        588.0,
+        587.9,
+        596.3
+      ],
+      "usadas": 2
+    },
+    "app.returnHome": {
+      "medianaMs": 939.3,
+      "repeticiones": [
+        1085.4,
+        641.9,
+        1041.3,
+        643.3,
+        939.3
+      ],
+      "usadas": 5
+    }
+  },
+  "notes": [
+    "APROXIMADO: la duración es último-primer fotograma de la ráfaga del Launcher; incluye 1-2 fotogramas de latencia y la cola de fotogramas posterior.",
+    "drawer.open/close y app.returnHome quedan sin duración: el primero incluye ~200 ms de arrastre del gesto de inyección, y los otros dos mostraron cola/variabilidad (app.returnHome bimodal ~640/~1040 ms).",
+    "No se midió la forma de la curva (muelle/bézier): requiere seguimiento por vídeo; todo eso queda en null.",
+    "home.pageScroll, home.pageSnap, icon.*, widget.resize no medidos."
+  ]
+}
