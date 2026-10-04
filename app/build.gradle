@@ -65,6 +65,7 @@ dependencies {
     implementation libs.androidx.slice.view
     implementation libs.androidx.slice.core
     implementation libs.androidx.graphics.shapes
+    implementation libs.androidx.appfunctions
     implementation libs.androidx.appfunctions.service
     ksp libs.androidx.appfunctions.compiler
     implementation libs.androidx.cardview
