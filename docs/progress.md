@@ -66,3 +66,11 @@
 ## Variante sync
 - `:app:assembleSyncDebug` compila; `applicationId` `com.qtekfun.ultimatelauncher.sync`, declara INTERNET. No incluye código WebDAV (M7 T7.4 no hecho).
 - `tools/check-permissions.sh` implementa el control de docs/09 para la variante default.
+
+## M5 — PARCIAL (CPH2841) (~00:05)
+- T5.1 hecho: `docs/anim-inventory.md` (generado por `tools/anim-inventory.py`): 11 recursos enteros redirigibles + 129 constantes en código (no redirigidas) + interpoladores/muelles (sin redirigir).
+- T5.2 parcial: `tools/apply-anim-profile.py <perfil>` genera `animprofile/res/values/ul_animation_profile.xml`, que ambas variantes superponen a `config.xml` de AOSP. Redirige 4 eventos: `home.pageSnap`, `drawer.open`, `drawer.close`, `folder.open/close`. NO hay carga de perfil importado en ejecución ni multiplicador cambiable por el usuario (es en compilación).
+- T5.3: perfiles `aosp-por-defecto` (valores de la rama) y `rapido` (extiende `oppo-medido`, ×0,7) en `assets/animations/`. `oppo-medido` aporta solo valores medidos no aproximados: hoy ninguno → equivale a AOSP.
+- Verificación en el dispositivo (Perfetto, ráfagas del launcher, 5 repeticiones): cerrar cajón 311 ms con AOSP (300) → 222 ms con `rapido` (210). La apertura por gesto (≈520 ms) no cambia: la dirige la velocidad del dedo, no el recurso. Carpeta y `pageSnap` no se midieron tras el cambio.
+- T5.4/T5.5 NO hechos (curvas medidas, validación lado a lado). Criterio de aceptación de M5 NO cumplido.
+- Build final entregada con `aosp-por-defecto`.

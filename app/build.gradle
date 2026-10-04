@@ -37,6 +37,9 @@ android {
     }
 
     sourceSets {
+        // Perfil de animación generado (tools/apply-anim-profile.py): superpone recursos de AOSP en ambas variantes.
+        'default' { res.directories.add('../animprofile/res') }
+        sync { res.directories.add('../animprofile/res') }
         main {
             java.directories.addAll(baseSrc)
             kotlin.directories.addAll(baseSrc)

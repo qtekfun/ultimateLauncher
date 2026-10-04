@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GENERADO por tools/apply-anim-profile.py: perfil aosp-por-defecto, multiplicador 1.0 -->
+<resources>
+    <integer name="config_pageSnapAnimationDuration">750</integer>
+    <integer name="config_allAppsOpenDuration">600</integer>
+    <integer name="config_allAppsCloseDuration">300</integer>
+    <integer name="config_materialFolderExpandDuration">200</integer>
+</resources>

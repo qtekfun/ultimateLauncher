@@ -1,0 +1,9 @@
+{
+  "id": "rapido",
+  "version": 1,
+  "extends": "oppo-medido",
+  "speedMultiplier": 0.7,
+  "notes": [
+    "Perfil oppo-medido con multiplicador < 1. Los eventos que oppo-medido no tiene medidos (null) o marca como aproximados caen a aosp-por-defecto."
+  ]
+}
