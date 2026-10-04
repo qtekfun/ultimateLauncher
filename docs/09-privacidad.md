@@ -15,7 +15,8 @@ Esta tabla es la **lista objetivo**. Hay que contrastarla con el manifiesto fusi
 |---|---|---|
 | `INTERNET` | **No** en `default`. Sí solo en la variante `sync` | WebDAV directo |
 | `ACCESS_NETWORK_STATE` | No | No hay red en `default` |
-| `QUERY_ALL_PACKAGES` | No (verificar) | El launcher usa `LauncherApps`; comprobar si la base lo declara y quitarlo |
+| `QUERY_ALL_PACKAGES` | No (verificado en M1) | La base lo declaraba; sin él solo se veían 5 apps, por lo que se declara `<queries>` con intent MAIN/LAUNCHER (solo apps con icono de lanzador) |
+| `SET_WALLPAPER_HINTS` | Sí (añadido en M1) | `WallpaperManager` lo exige al arrancar; permiso normal |
 | Acceso a notificaciones (listener) | Solo si el usuario lo activa; **desactivado por defecto** | Puntos de notificación; solo contar por paquete, sin guardar contenido |
 | Widgets (enlace de widgets) | Lo que exija Launcher3 | Alojar widgets de terceros |
 | Desinstalar apps desde el icono | Solo si hace falta | Acción de desinstalar |

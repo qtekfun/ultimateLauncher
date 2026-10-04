@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Parche 0008: colores del sistema que solo existen desde API 37 -->
+<resources>
+    <color name="materialColorInverseOnSurface">@android:color/system_inverse_on_surface_light</color>
+    <color name="materialColorInversePrimary">@android:color/system_inverse_primary_light</color>
+    <color name="materialColorInverseSurface">@android:color/system_inverse_surface_light</color>
+    <color name="materialColorScrim">@android:color/system_scrim_light</color>
+    <color name="materialColorShadow">@android:color/system_shadow_light</color>
+    <color name="materialColorSurfaceTint">@android:color/system_surface_tint_light</color>
+</resources>

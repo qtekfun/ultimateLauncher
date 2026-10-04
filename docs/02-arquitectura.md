@@ -44,6 +44,13 @@ Regla: **cada cambio sobre código de AOSP se registra en `/patches`** con archi
 
 *(Verificar en la primera compilación qué trae realmente la rama; esta tabla parte de lo que se espera de AOSP.)*
 
+**Verificado en M1 (2026-10-04, android17-release, sin `quickstep/`):**
+- QSB: existe y lo controla `BuildConfig.QSB_ON_FIRST_SCREEN` (por defecto `true` en `tools/buildconfig.sh`); UltimateLauncher lo pone a `false` y no aparece en inicio ni en dock.
+- Fila de previstas, feed/panel izquierdo y categorías: no aparecen sin `quickstep/` (los proveedores viven allí); el cajón es una lista plana con búsqueda local.
+- Búsqueda: `search_container_all_apps` filtra por nombre en local (probado: "cal" → Calendar, Calculadora).
+- Dependencias de GMS: ninguna en el código importado; sí hay `AppFunctions`, `slice` y otros androidx que se mantienen sin red.
+- La base declara permisos de más (QUERY_ALL_PACKAGES, CALL_PHONE, READ_EXTERNAL_STORAGE, POST_NOTIFICATIONS…): el manifiesto propio (`app/src/main/AndroidManifest.xml`) los quita.
+
 ## Puntos de extensión propios
 
 1. **AnimationProfileProvider**: sustituye las constantes de duración/interpoladores/muelles que usa Launcher3 por valores de un perfil (ver `04`).
