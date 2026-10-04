@@ -55,3 +55,14 @@
 - Lint (`:app:lintDefaultDebug`): 33 errores NewApi (API 33: back-invoked, getParcelableExtra; API 34: Stream.toList, OnBackAnimationCallback; API 35: addLast/removeLast; colores 34/37), más 972 `StringFormatMatches` heredados de traducciones de AOSP. NO están corregidos los de API 33–35: en Android 12–13 fallarían.
 - NO probado: redimensionar y mover widgets; perfil de trabajo (el CPH2841 solo tiene el usuario 999 "MultiApp", no un perfil de trabajo gestionado; sin emulador no hay forma de comprobarlo); widgets de otras marcas; tablet.
 - Nota: tras las pruebas quedan 2 widgets de prueba en la pantalla de inicio (se limpiarán al final con `pm clear` del propio launcher).
+
+## M4 — PARCIAL (CPH2841) (~23:45)
+- `tools/apply-theme-tokens.py` lee `assets/themes/oppo-medido.json` (clase phone) y genera la rejilla `ultimate_phone` (5 columnas × 7 filas, dock de 5, carpeta de 3 columnas, icono 57,1 dp, celda del cajón 114 dp) en `device_profiles.xml`; parche 0009 la hace rejilla por defecto. Los tokens `null` no se aplican.
+- Comprobado con `uiautomator dump`: columnas de 276 px (referencia 272), iconos en 5 columnas. Diferencias que SIGUEN: altura de celda de inicio 334 px (referencia 304), dock 225 px de alto a y=2621 (referencia 312 px a y=2752), márgenes laterales 30 px (referencia 40). Los paddings/dock los calcula AOSP desde `spec_handheld_*.xml`/`paddings_*.xml` y no se han tocado.
+- NO aplicado (token null o sin gancho): radios de esquina, tamaño de etiqueta, blur/scrim del dock, cajón y carpeta, estilo del indicador de páginas, clases phone-landscape/tablet.
+- No hay carga en tiempo de ejecución de `ThemeTokens` (es en compilación): decisión para que sea fácil de revertir y sin código nuevo en AOSP.
+- No se hizo la comparación lado a lado ni el criterio "indistinguible a simple vista": NO cumplido.
+
+## Variante sync
+- `:app:assembleSyncDebug` compila; `applicationId` `com.qtekfun.ultimatelauncher.sync`, declara INTERNET. No incluye código WebDAV (M7 T7.4 no hecho).
+- `tools/check-permissions.sh` implementa el control de docs/09 para la variante default.
