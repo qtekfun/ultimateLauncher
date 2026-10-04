@@ -1,8 +1,10 @@
-private-measurements/
 build/
+core.*
+dist/*.apk
 .gradle/
+.idea/
 *.jks
 *.keystore
 local.properties
-.idea/
+private-measurements/
 third_party/
