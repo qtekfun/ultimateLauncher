@@ -25,9 +25,9 @@
     <color name="materialColorError">@android:color/system_error_light</color>
     <color name="materialColorErrorContainer">@android:color/system_error_container_light</color>
     <color name="materialColorErrorDim">@android:color/system_error_dim_light</color>
-    <color name="materialColorInverseOnSurface">@android:color/system_inverse_on_surface_light</color>
-    <color name="materialColorInversePrimary">@android:color/system_inverse_primary_light</color>
-    <color name="materialColorInverseSurface">@android:color/system_inverse_surface_light</color>
+    <color name="materialColorInverseOnSurface">#F4EFF4</color>
+    <color name="materialColorInversePrimary">#D0BCFF</color>
+    <color name="materialColorInverseSurface">#313033</color>
     <color name="materialColorOnBackground">@android:color/system_on_background_light</color>
     <color name="materialColorOnError">@android:color/system_on_error_light</color>
     <color name="materialColorOnErrorContainer">@android:color/system_on_error_container_light</color>
@@ -50,11 +50,11 @@
     <color name="materialColorPrimary">@android:color/system_primary_light</color>
     <color name="materialColorPrimaryContainer">@android:color/system_primary_container_light</color>
     <color name="materialColorPrimaryDim">@android:color/system_primary_dim_light</color>
-    <color name="materialColorScrim">@android:color/system_scrim_light</color>
+    <color name="materialColorScrim">#000000</color>
     <color name="materialColorSecondary">@android:color/system_secondary_light</color>
     <color name="materialColorSecondaryContainer">@android:color/system_secondary_container_light</color>
     <color name="materialColorSecondaryDim">@android:color/system_secondary_dim_light</color>
-    <color name="materialColorShadow">@android:color/system_shadow_light</color>
+    <color name="materialColorShadow">#000000</color>
     <color name="materialColorSurface">@android:color/system_surface_light</color>
     <color name="materialColorSurfaceBright">@android:color/system_surface_bright_light</color>
     <color name="materialColorSurfaceContainer">@android:color/system_surface_container_light</color>
@@ -63,7 +63,7 @@
     <color name="materialColorSurfaceContainerLow">@android:color/system_surface_container_low_light</color>
     <color name="materialColorSurfaceContainerLowest">@android:color/system_surface_container_lowest_light</color>
     <color name="materialColorSurfaceDim">@android:color/system_surface_dim_light</color>
-    <color name="materialColorSurfaceTint">@android:color/system_surface_tint_light</color>
+    <color name="materialColorSurfaceTint">#6750A4</color>
     <color name="materialColorSurfaceVariant">@android:color/system_surface_variant_light</color>
     <color name="materialColorTertiary">@android:color/system_tertiary_light</color>
     <color name="materialColorTertiaryContainer">@android:color/system_tertiary_container_light</color>

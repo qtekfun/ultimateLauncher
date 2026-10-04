@@ -45,3 +45,13 @@
 - NO probado: Android 12 (API 31) ni 14; ningún dispositivo real sin GMS (el CPH2841 tiene GMS; el APK no depende de GMS, pero no se probó sin él); emulador; reinicio del teléfono; 12 h en segundo plano.
 - T1.4 (tabla de `02`): la rama trae QSB controlado por `BuildConfig.QSB_ON_FIRST_SCREEN`; no hay fila de previstas ni feed sin quickstep; el cajón es plano. Ver `docs/02` (nota añadida).
 - Punto de decisión minSdk: se compiló con minSdk 31 pero **sin** haber probado en API 31; se mantiene 31 sin evidencia de compuertas (Lint NewApi no se ha ejecutado). Pendiente.
+
+## M3 — HECHO en lo comprobable (CPH2841, Android 16) (~23:30)
+- Widget con pantalla de configuración: **AntennaPod → PlayerWidget** (`WidgetConfigActivity`). Flujo real: Menú de pulsación larga → Widgets (selector Compose de Android 17) → arrastrar → diálogo de sistema "¿Crear widget y permitir acceso?" (se aceptó SIN marcar "permitir siempre") → se abre `de.danoeh.antennapod/.ui.widget.WidgetConfigActivity` → "Crear widget" → el widget queda en `dumpsys appwidget` con host `com.qtekfun.ultimatelauncher` (hostId 1024). Sin FATAL en logcat.
+- También se añadió UltimateNotes (sin configuración): se dibuja.
+- Ruta de cancelación: DevCheck (`DashWidgetConfigureActivity`, exige Pro) → ATRÁS → el widget no queda registrado; el launcher sigue vivo.
+- Hallazgos: (1) falta del `intent-filter` PICK del selector de widgets → ActivityNotFoundException; (2) `AppWidgetHostView.stopVisibilityTracking()` es API de Android 17 → NoSuchMethodError en Android 16 (parche 0007);
+  (3) 12 colores `@android:color/system_*` solo existen desde API 37 (parche 0008, detectado con Lint NewApi).
+- Lint (`:app:lintDefaultDebug`): 33 errores NewApi (API 33: back-invoked, getParcelableExtra; API 34: Stream.toList, OnBackAnimationCallback; API 35: addLast/removeLast; colores 34/37), más 972 `StringFormatMatches` heredados de traducciones de AOSP. NO están corregidos los de API 33–35: en Android 12–13 fallarían.
+- NO probado: redimensionar y mover widgets; perfil de trabajo (el CPH2841 solo tiene el usuario 999 "MultiApp", no un perfil de trabajo gestionado; sin emulador no hay forma de comprobarlo); widgets de otras marcas; tablet.
+- Nota: tras las pruebas quedan 2 widgets de prueba en la pantalla de inicio (se limpiarán al final con `pm clear` del propio launcher).

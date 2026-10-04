@@ -65,7 +65,12 @@
             android:autoRemoveFromRecents="true"
             android:launchMode="singleTop"
             android:exported="false"
-            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize" />
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.PICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <receiver android:name="com.android.launcher3.SessionCommitReceiver" android:exported="true">
             <intent-filter>

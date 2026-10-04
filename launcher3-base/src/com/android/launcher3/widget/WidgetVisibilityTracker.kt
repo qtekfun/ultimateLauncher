@@ -69,10 +69,16 @@ class WidgetVisibilityTracker(
                 (view.tag as? LauncherAppWidgetInfo)?.screenId?.let {
                     workspace.getPageIndexForScreenId(it)
                 } ?: return@forEach
-            if (inNormalState && noFloatingViews && pageIndex in visiblePages) {
-                view.startVisibilityTracking()
-            } else {
-                view.stopVisibilityTracking()
+            // UltimateLauncher 0007: API de Android 17 (SDK 37); en versiones anteriores no existe.
+            if (android.os.Build.VERSION.SDK_INT < 37) return@forEach
+            try {
+                if (inNormalState && noFloatingViews && pageIndex in visiblePages) {
+                    view.startVisibilityTracking()
+                } else {
+                    view.stopVisibilityTracking()
+                }
+            } catch (e: NoSuchMethodError) {
+                // El framework del dispositivo no trae la API (SDK 37 sin el flag activado).
             }
         }
     }

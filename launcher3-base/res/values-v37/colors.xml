@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Parche 0008: colores del sistema que solo existen desde API 37 -->
+<resources>
+    <color name="system_inverse_on_surface_light">@android:color/system_inverse_on_surface_light</color>
+    <color name="system_inverse_primary_light">@android:color/system_inverse_primary_light</color>
+    <color name="system_inverse_surface_light">@android:color/system_inverse_surface_light</color>
+    <color name="system_scrim_light">@android:color/system_scrim_light</color>
+    <color name="system_shadow_light">@android:color/system_shadow_light</color>
+    <color name="system_surface_tint_light">@android:color/system_surface_tint_light</color>
+    <color name="system_inverse_on_surface_dark">@android:color/system_inverse_on_surface_dark</color>
+    <color name="system_inverse_primary_dark">@android:color/system_inverse_primary_dark</color>
+    <color name="system_inverse_surface_dark">@android:color/system_inverse_surface_dark</color>
+    <color name="system_scrim_dark">@android:color/system_scrim_dark</color>
+    <color name="system_shadow_dark">@android:color/system_shadow_dark</color>
+    <color name="system_surface_tint_dark">@android:color/system_surface_tint_dark</color>
+</resources>
