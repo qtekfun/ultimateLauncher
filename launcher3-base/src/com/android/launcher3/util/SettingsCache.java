@@ -18,7 +18,6 @@ package com.android.launcher3.util;
 
 import static android.provider.Settings.System.ACCELEROMETER_ROTATION;
 
-import static com.android.launcher3.concurrent.annotations.LightweightBackgroundPriority.UI;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -114,7 +113,7 @@ public class SettingsCache extends ContentObserver {
     SettingsCache(@ApplicationContext Context context,
             @Named("SETTINGS_ENABLED_BY_DEFAULT") Set<Uri> urisEnabledByDefault,
             DaggerSingletonTracker tracker,
-            @LightweightBackground(priority = UI) LooperExecutor lightweightBgLooperExecutor) {
+            @LightweightBackground(priority = com.android.launcher3.concurrent.annotations.LightweightBackgroundPriority.UI) LooperExecutor lightweightBgLooperExecutor) {
         super(new Handler(lightweightBgLooperExecutor.getLooper()));
         mResolver = context.getContentResolver();
         mUrisEnabledByDefault = urisEnabledByDefault;

@@ -30,7 +30,6 @@ import com.android.launcher3.dagger.ApplicationContext;
 import com.android.launcher3.dagger.LauncherAppSingleton;
 import com.android.launcher3.dagger.LauncherBaseAppComponent;
 import com.android.launcher3.concurrent.annotations.LightweightBackground;
-import static com.android.launcher3.concurrent.annotations.LightweightBackgroundPriority.UI;
 import com.android.launcher3.concurrent.annotations.Ui;
 import com.android.launcher3.util.LooperExecutor;
 
@@ -56,7 +55,7 @@ public class ScreenOnTracker {
     @Inject
     ScreenOnTracker(@ApplicationContext Context context, DaggerSingletonTracker tracker,
             @Ui LooperExecutor uiExecutor,
-            @LightweightBackground(priority = UI) LooperExecutor lightweightBackgroundExecutor) {
+            @LightweightBackground(priority = com.android.launcher3.concurrent.annotations.LightweightBackgroundPriority.UI) LooperExecutor lightweightBackgroundExecutor) {
         // Assume that the screen is on to begin with
         mReceiver = new SimpleBroadcastReceiver(
                 context, lightweightBackgroundExecutor, uiExecutor, this::onReceive);

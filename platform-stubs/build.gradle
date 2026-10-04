@@ -1,7 +1,6 @@
 // Stubs de APIs internas de la plataforma y flags (aconfig) que Launcher3 espera encontrar en AOSP.
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.parcelize)
 }
 def srcDirs = ['aosp/plugin_core/src', 'aosp/plugin_core/annotations/src', 'aosp/log/core/src']
