@@ -1,0 +1,66 @@
+{
+  "id": "aosp-por-defecto",
+  "version": 1,
+  "speedMultiplier": 1.0,
+  "source": {
+    "origin": "launcher3-base/res/values/config.xml (android17-release)",
+    "note": "Valores extraídos de la rama, no inventados. Muelles/interpoladores de código: ver docs/anim-inventory.md"
+  },
+  "events": {
+    "home.pageSnap": {
+      "type": "easing",
+      "durationMs": 750,
+      "bezier": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "source": "AOSP res/values/config.xml"
+    },
+    "drawer.open": {
+      "type": "easing",
+      "durationMs": 600,
+      "bezier": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "source": "AOSP res/values/config.xml"
+    },
+    "drawer.close": {
+      "type": "easing",
+      "durationMs": 300,
+      "bezier": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "source": "AOSP res/values/config.xml"
+    },
+    "folder.open": {
+      "type": "easing",
+      "durationMs": 200,
+      "bezier": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "source": "AOSP res/values/config.xml"
+    },
+    "folder.close": {
+      "type": "easing",
+      "durationMs": 200,
+      "bezier": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "source": "AOSP res/values/config.xml"
+    }
+  }
+}
