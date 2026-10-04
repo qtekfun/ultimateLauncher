@@ -4,7 +4,8 @@ import re, pathlib, glob
 root = pathlib.Path(__file__).resolve().parent.parent
 pk = {"window.flags": "com.qtekfun.stubs.window.flags", "wmshell": "com.qtekfun.stubs.wmshell",
       "sysuishared": "com.qtekfun.stubs.sysuishared", "media.flags": "com.qtekfun.stubs.media.flags",
-      "multiuser": "com.qtekfun.stubs.multiuser"}
+      "multiuser": "com.qtekfun.stubs.multiuser",
+      "security": "com.qtekfun.stubs.security", "appwidget.flags": "com.qtekfun.stubs.appwidget.flags"}
 srcs = [p for d in ("src", "shared", "modules", "dagger", "src_no_quickstep", "tests/shared") for p in glob.glob(str(root / "launcher3-base" / d / "**/*.*"), recursive=True) if p.endswith((".java", ".kt"))]
 ENABLED = {}
 for k, pkg in pk.items():
