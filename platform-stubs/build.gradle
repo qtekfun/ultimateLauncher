@@ -1,0 +1,25 @@
+// Stubs de APIs internas de la plataforma y flags (aconfig) que Launcher3 espera encontrar en AOSP.
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.parcelize)
+}
+def srcDirs = ['aosp/plugin_core/src', 'aosp/plugin_core/annotations/src', 'aosp/log/core/src']
+android {
+    namespace 'com.qtekfun.platformstubs'
+    compileSdk { version = release(37) { minorApiLevel = 0 } }
+    defaultConfig { minSdk = 31 }
+    compileOptions { sourceCompatibility = JavaVersion.VERSION_21; targetCompatibility = JavaVersion.VERSION_21 }
+    sourceSets {
+        main {
+            java.directories.addAll(srcDirs)
+            kotlin.directories.addAll(srcDirs)
+        }
+    }
+}
+dependencies {
+    api libs.androidx.core.ktx
+    api libs.androidx.fragment
+    compileOnly libs.errorprone.annotations
+    api libs.kotlinx.coroutines.android
+}

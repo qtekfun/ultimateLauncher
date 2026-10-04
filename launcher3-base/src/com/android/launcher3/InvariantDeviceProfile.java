@@ -298,7 +298,7 @@ public class InvariantDeviceProfile {
                     && enableTwoLinesInAllApps != prefs.get(ENABLE_TWOLINE_ALLAPPS_TOGGLE)) {
                 onConfigChanged();
             } else if (WORKSPACE_ITEMS_LABEL_HIDDEN.getSharedPrefKey().equals(key)
-                    && com.android.systemui.shared.Flags.workspaceItemsLabelHidden()) {
+                    && com.qtekfun.stubs.sysuishared.Flags.workspaceItemsLabelHidden()) {
                 onConfigChanged();
             }
         };
@@ -468,7 +468,7 @@ public class InvariantDeviceProfile {
             DeviceProfile.Builder builder = newDPBuilder(displayInfo)
                     .setIsMultiDisplay(deviceType == TYPE_MULTI_DISPLAY)
                     .setWindowBounds(bounds);
-            if (com.android.systemui.shared.Flags.workspaceItemsLabelHidden()) {
+            if (com.qtekfun.stubs.sysuishared.Flags.workspaceItemsLabelHidden()) {
                 builder.setIsWorkspaceItemsLabelHidden(mPrefs.get(WORKSPACE_ITEMS_LABEL_HIDDEN));
             }
             localSupportedProfiles.add(builder.build());

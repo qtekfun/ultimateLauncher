@@ -8,3 +8,7 @@
 Importación inicial: copia sin historial de `src`, `src_no_quickstep`, `src_plugins`, `shared`, `modules`, `dagger`, `protos`,
 `protos_overrides`, `res`, `aconfig`, manifiestos, `proguard.flags` y `tests/shared`. `quickstep/` NO se importa (recientes/gestos del sistema; fuera de alcance, ver docs/02).
 El commit "Importación AOSP sin modificar" contiene el estado puro; los cambios posteriores sobre `launcher3-base/` y `systemui-libs/` son los parches (ver patches/NNNN-*.md).
+
+| platform/frameworks/base (solo `packages/SystemUI/plugin_core` y `packages/SystemUI/log/core`) | android17-release | 94b4c163b7dfe5ce3607f7bb8456f9573f7de57d | 2026-10-04 |
+
+Este paquete vive en `platform-stubs/aosp/` (copia sin modificar, Apache-2.0).

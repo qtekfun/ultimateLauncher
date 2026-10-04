@@ -19,7 +19,7 @@ package com.android.launcher3.deviceprofile
 import android.graphics.Rect
 import com.android.launcher3.display.LauncherDisplayInfo
 import com.android.launcher3.util.WindowBounds
-import com.android.wm.shell.Flags
+import com.qtekfun.stubs.wmshell.Flags
 import kotlin.math.max
 import kotlin.math.min
 

@@ -791,7 +791,7 @@ class WorkspaceItemProcessor(
         private const val ORPHAN_APPS_QUERY =
             "$CONTAINER >= 0 AND $CONTAINER NOT IN (SELECT $_ID FROM $TABLE_NAME )"
         private val BAD_APP_PAIR_QUERY =
-            if (com.android.wm.shell.Flags.enable2x1Split()) {
+            if (com.qtekfun.stubs.wmshell.Flags.enable2x1Split()) {
                 "$ITEM_TYPE = $ITEM_TYPE_APP_GROUP AND $_ID NOT IN (SELECT $CONTAINER FROM $TABLE_NAME GROUP BY $CONTAINER HAVING COUNT BETWEEN ${AppPairInfo.MIN_ITEMS} AND ${AppPairInfo.MAX_ITEMS})"
             } else {
                 "$ITEM_TYPE = $ITEM_TYPE_APP_GROUP AND $_ID NOT IN (SELECT $CONTAINER FROM $TABLE_NAME GROUP BY $CONTAINER HAVING COUNT(*) = 2)"

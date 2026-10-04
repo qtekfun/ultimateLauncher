@@ -413,7 +413,7 @@ data class WorkspaceProfile(
             var iconDrawablePaddingPx: Int
 
             if (
-                isItemLabelHidden && com.android.systemui.shared.Flags.workspaceItemsLabelHidden()
+                isItemLabelHidden && com.qtekfun.stubs.sysuishared.Flags.workspaceItemsLabelHidden()
             ) {
                 iconDrawablePaddingPx = 0
                 iconTextSizePx = 0

@@ -393,7 +393,7 @@ private constructor(
         if (view is DeepShortcutView) {
             // System shortcut takes entire row with icon and text
             val shortcutView = view
-            if (com.android.wm.shell.Flags.enableGsf()) {
+            if (com.qtekfun.stubs.wmshell.Flags.enableGsf()) {
                 shortcutView.bubbleText.typeface =
                     Typeface.create(
                         DeepShortcutTextView.GOOGLE_SANS_FLEX_LABEL_LARGE,

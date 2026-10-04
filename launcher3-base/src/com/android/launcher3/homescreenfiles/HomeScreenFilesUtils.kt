@@ -25,7 +25,7 @@ import com.android.launcher3.Flags.showFilesOnHomeScreen
 import com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_FILE_SYSTEM_FILE
 import com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_FILE_SYSTEM_FOLDER
 import com.android.launcher3.model.data.ItemInfo
-import com.android.providers.media.flags.Flags.enableTrashAndRestoreByFilePathApi
+import com.qtekfun.stubs.media.flags.Flags.enableTrashAndRestoreByFilePathApi
 
 /** Other utility methods related to managing files on the home screen. */
 class HomeScreenFilesUtils {

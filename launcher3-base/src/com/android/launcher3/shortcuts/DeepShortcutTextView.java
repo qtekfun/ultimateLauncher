@@ -16,7 +16,7 @@
 
 package com.android.launcher3.shortcuts;
 
-import static com.android.wm.shell.Flags.enableGsf;
+import static com.qtekfun.stubs.wmshell.Flags.enableGsf;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -23,7 +23,7 @@ import com.android.launcher3.R
 import com.android.launcher3.icons.IconCache
 import com.android.launcher3.logger.LauncherAtom
 import com.android.launcher3.views.ActivityContext
-import com.android.wm.shell.Flags
+import com.qtekfun.stubs.wmshell.Flags
 
 /** A type of app collection that launches multiple apps into split screen. */
 class AppPairInfo() : CollectionInfo() {
