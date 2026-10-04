@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ul_wizard_title">Configuración de UltimateLauncher</string>
+    <string name="ul_wizard_adapter">Perfil de dispositivo detectado: %1$s</string>
+    <string name="ul_step_home">1. Launcher predeterminado</string>
+    <string name="ul_home_yes">UltimateLauncher es tu launcher predeterminado.</string>
+    <string name="ul_home_no">UltimateLauncher todavía NO es el launcher predeterminado.</string>
+    <string name="ul_btn_home">Fijar como launcher predeterminado</string>
+    <string name="ul_step_battery">2. Batería</string>
+    <string name="ul_btn_open">Abrir ajustes</string>
+    <string name="ul_step_autostart">3. Autoarranque / actividad en segundo plano</string>
+    <string name="ul_autostart_help">Permite que UltimateLauncher se ejecute en segundo plano para que los widgets se sigan actualizando. Si tu teléfono no tiene una pantalla específica, se abre la página de detalles de la app.</string>
+    <string name="ul_known_issues">Limitaciones conocidas</string>
+    <string name="ul_btn_done">Hecho</string>
+    <string name="ul_launcher_label">Configuración de UltimateLauncher</string>
+</resources>

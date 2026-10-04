@@ -411,6 +411,7 @@ public class Launcher extends StatefulActivity<LauncherState>
         mStartupLatencyLogger.logStart(LAUNCHER_LATENCY_STARTUP_ACTIVITY_ON_CREATE);
 
         super.onCreate(savedInstanceState);
+        com.qtekfun.ultimatelauncher.oem.FirstRun.maybeShow(this); // UltimateLauncher 0010
         mWallpaperThemeManager = new WallpaperThemeManager(this);
 
         LauncherAppState app = LauncherAppState.getInstance(this);

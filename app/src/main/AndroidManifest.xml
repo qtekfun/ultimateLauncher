@@ -59,6 +59,19 @@
             </intent-filter>
         </activity>
 
+        <!-- Asistente de primer arranque (M6). Icono propio para poder repetirlo. -->
+        <activity
+            android:name="com.qtekfun.ultimatelauncher.oem.FirstRunActivity"
+            android:label="@string/ul_launcher_label"
+            android:icon="@drawable/ic_setting"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name="com.android.launcher3.widgetpicker.WidgetPickerActivity"
             android:theme="@style/WidgetPickerActivityTheme"
             android:excludeFromRecents="true"
