@@ -9,12 +9,21 @@
     <!-- Permisos (tabla de docs/09). NO hay INTERNET en la variante default. -->
     <uses-permission android:name="android.permission.BIND_APPWIDGET" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <permission
         android:name="${applicationId}.permission.START_WIDGET_PICKER_ACTIVITY"
         android:protectionLevel="signature" />
+
+    <!-- Visibilidad de paquetes: solo apps con actividad de lanzador (sin QUERY_ALL_PACKAGES). Ver docs/09 y DECISIONS. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
 
     <application
         android:name="com.android.launcher3.LauncherApplication"

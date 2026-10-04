@@ -22,11 +22,26 @@
   `adb -s <ADB_SERIE_OPPO> shell cmd role add-role-holder --user 0 android.app.role.HOME com.android.launcher`
 - Escalas de animación: 1.0/1.0/1.0.
 
-## Hitos
-(se irá actualizando)
 
 ## Fase de referencia (hecha 2026-10-04, CPH2841, launcher OPPO activo, tema oscuro)
 - Capturas, dumps UI, trazas Perfetto: `private-measurements/` (ignorado por git, contiene datos personales; no se sube).
 - `assets/themes/oppo-medido.json`: rejilla 5x7 (inicio), dock 5, icono ≈57 dp, celda 77,7x86,9 dp, dock 89 dp, cajón 5 col, buscador del cajón abajo, carpeta 3 col. Solo móvil vertical y tema oscuro. Radios, etiqueta, blur/scrim: null.
 - `assets/animations/oppo-medido.json`: Perfetto SÍ funciona sin root (shell, perfetto v49): frametimeline, SF layers, transiciones WM shell, atrace. Pero cajón/carpetas se animan dentro de la ventana del Launcher, así que SF no da geometría. Duraciones solo por ráfagas de fotogramas = APROXIMADAS (carpeta abrir ≈877 ms, cerrar ≈823 ms, lanzar app ≈588 ms; frecuencia de pantalla 120 Hz). Muelles y bézier: null (no hay seguimiento por vídeo).
 - No se hizo grabación de vídeo (no necesaria para lo anterior; queda pendiente para ajustar curvas).
+
+## M0 — HECHO (2026-10-04 ~23:08)
+- Andamiaje Gradle propio (AGP 9.4.1, Kotlin 2.4.20, KSP, protobuf-lite) sobre Launcher3 `android17-release` (no-quickstep).
+- `./gradlew :app:assembleDefaultDebug` → `app/build/outputs/apk/default/debug/app-default-debug.apk` (copia en `dist/`).
+- Permisos del APK (apkanalyzer): BIND_APPWIDGET, REQUEST_DELETE_PACKAGES, VIBRATE, SET_WALLPAPER, SET_WALLPAPER_HINTS. **Sin INTERNET.**
+- Variante `sync` declarada (applicationIdSuffix `.sync`, INTERNET en su manifiesto); no se ha compilado ni hay código WebDAV.
+- Comprobación en CI: no hay CI en el repo; el comando de `docs/09` (apkanalyzer) se ejecutó a mano.
+- Tiempo: M0 llevó ~1 h 15 min de compilación incremental; no hizo falta el plan B.
+
+## M1 — HECHO en el CPH2841 (Android 16, API 36) (~23:11)
+- Instalado con `tools/install.sh`; rol HOME = `com.qtekfun.ultimatelauncher` (antes `com.android.launcher`). Restaurar: `tools/restore.sh`.
+- Evidencia: `dumpsys window` muestra el foco en `com.qtekfun.ultimatelauncher/com.android.launcher3.Launcher`; captura de inicio y de cajón; logcat sin FATAL/ANR tras arrancar, abrir cajón, buscar y volver con HOME.
+- Hallazgos al arrancar (corregidos): (1) falta de SET_WALLPAPER_HINTS → SecurityException; (2) NPE en `FirstScreenBroadcastHelper` (parche 0006);
+  (3) sin QUERY_ALL_PACKAGES solo aparecían 5 apps → se añadió `<queries>` de LAUNCHER (36 de ~80 visibles en el volcado; lista completa por scroll).
+- NO probado: Android 12 (API 31) ni 14; ningún dispositivo real sin GMS (el CPH2841 tiene GMS; el APK no depende de GMS, pero no se probó sin él); emulador; reinicio del teléfono; 12 h en segundo plano.
+- T1.4 (tabla de `02`): la rama trae QSB controlado por `BuildConfig.QSB_ON_FIRST_SCREEN`; no hay fila de previstas ni feed sin quickstep; el cajón es plano. Ver `docs/02` (nota añadida).
+- Punto de decisión minSdk: se compiló con minSdk 31 pero **sin** haber probado en API 31; se mantiene 31 sin evidencia de compuertas (Lint NewApi no se ha ejecutado). Pendiente.
