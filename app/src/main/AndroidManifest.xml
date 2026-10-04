@@ -72,6 +72,19 @@
             </intent-filter>
         </activity>
 
+        <!-- Exportar/importar disposición (M7): archivo por el selector de documentos, sin red. -->
+        <activity
+            android:name="com.qtekfun.ultimatelauncher.layoutsync.LayoutSyncActivity"
+            android:label="@string/ul_sync_label"
+            android:icon="@drawable/ic_setting"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name="com.android.launcher3.widgetpicker.WidgetPickerActivity"
             android:theme="@style/WidgetPickerActivityTheme"
             android:excludeFromRecents="true"

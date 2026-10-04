@@ -13,4 +13,15 @@
     <string name="ul_known_issues">Known limitations</string>
     <string name="ul_btn_done">Done</string>
     <string name="ul_launcher_label">UltimateLauncher setup</string>
+    <string name="ul_sync_title">Export / import layout</string>
+    <string name="ul_sync_warning">The file lists the apps installed on this phone, which is sensitive information. It is NOT encrypted in this version. No network is used: pick any place in the system document picker.</string>
+    <string name="ul_sync_export">Export layout…</string>
+    <string name="ul_sync_import">Import layout…</string>
+    <string name="ul_sync_summary">Import summary</string>
+    <string name="ul_sync_apply">Import</string>
+    <string name="ul_sync_exported">Exported %1$d items.</string>
+    <string name="ul_sync_done">Imported. A copy of the previous layout was saved as %1$s.</string>
+    <string name="ul_sync_error">Error: %1$s</string>
+    <string name="ul_sync_schema">This file uses schema %1$d, newer than this app supports.</string>
+    <string name="ul_sync_label">UltimateLauncher layout</string>
 </resources>
