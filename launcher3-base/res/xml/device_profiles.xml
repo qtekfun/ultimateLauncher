@@ -17,6 +17,33 @@
 
 <profiles xmlns:launcher="http://schemas.android.com/apk/res-auto" >
 
+    <!-- UL-TOKENS-BEGIN: generado por tools/apply-theme-tokens.py -->
+    <grid-option
+        launcher:name="ultimate_phone"
+        launcher:numRows="7"
+        launcher:numColumns="5"
+        launcher:numFolderColumns="3"
+        launcher:numFolderRows="4"
+        launcher:numHotseatIcons="5"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:dbFile="launcher.db"
+        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
+        launcher:defaultLayoutId="@xml/default_workspace_5x5"
+        launcher:deviceCategory="phone" >
+
+        <display-option
+            launcher:name="Medido oppo-medido"
+            launcher:minWidthDps="391"
+            launcher:minHeightDps="885"
+            launcher:iconImageSize="57.1"
+            launcher:iconTextSize="14.4"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="114"
+            launcher:canBeDefault="true" />
+
+    </grid-option>
+    <!-- UL-TOKENS-END -->
+
     <grid-option
         launcher:name="3_by_3"
         launcher:numRows="3"

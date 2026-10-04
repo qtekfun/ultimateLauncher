@@ -11,6 +11,9 @@ Base importada sin modificar en el commit "Importación AOSP sin modificar" (ver
 | 0004 | APIs no públicas: `SvgPathParser` (forma de reserva) y App Lock (desactivado) | ShapeDelegate.kt, ApplicationInfoWrapper.kt, AppLockShortcut.kt | `patches/0004-*.py` |
 | 0005 | dynamiccolors sin `@androidprv:` y con `customColorSurfaceEffect*` públicos | `systemui-libs/dynamiccolors/res/**/colors.xml` | ver `0005-*.md` |
 | 0006 | `LoaderTask.sendFirstScreenActiveInstallsBroadcast` desactivado (privacidad + NPE) | LoaderTask.java | `patches/0006-*.py` |
+| 0007 | Compuerta de versión/try-catch para `AppWidgetHostView.start/stopVisibilityTracking` (API de Android 17) | WidgetVisibilityTracker.kt | `patches/0007-*.py` |
+| 0008 | 12 colores `@android:color/system_*` solo de API 37 → `values-v37` + línea base M3 | `launcher3-base/res/values-v34/colors.xml`, dynamiccolors | `patches/0008-*.py` |
+| 0009 | Rejilla por defecto = tokens medidos (`ultimate_phone`) | `device_profiles.xml` (bloque generado), `InvariantDeviceProfile.java` (1 línea) | `tools/apply-theme-tokens.py` |
 
 Cambios que NO son parches sobre archivos de AOSP (andamiaje propio): `build.gradle*`, `settings.gradle.kts`, `gradle/`, `app/`,
 `platform-stubs/` (incluye copias sin modificar de `plugin_core` y `log/core` de frameworks/base), `launcher3-base/modules/widgetpicker/ul-build.gradle`,
