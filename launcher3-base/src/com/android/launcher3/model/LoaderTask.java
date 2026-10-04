@@ -263,6 +263,8 @@ public class LoaderTask implements Runnable {
     }
 
     private void sendFirstScreenActiveInstallsBroadcast() {
+        // UltimateLauncher 0006: desactivado (privacidad y NPE fuera de AOSP).
+        if (true) return;
         // Screen set is never empty
         IntArray allScreens = mBgDataModel.itemsIdMap.collectWorkspaceScreens();
         final int firstScreen = allScreens.get(0);
