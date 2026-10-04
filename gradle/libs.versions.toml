@@ -42,6 +42,7 @@ javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
 protobuf-protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
 guava = { module = "com.google.guava:guava", version = "33.4.8-android" }
+errorprone-annotations = { module = "com.google.errorprone:error_prone_annotations", version = "2.36.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
