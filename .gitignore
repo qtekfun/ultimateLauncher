@@ -1,0 +1,8 @@
+private-measurements/
+build/
+.gradle/
+*.jks
+*.keystore
+local.properties
+.idea/
+third_party/
