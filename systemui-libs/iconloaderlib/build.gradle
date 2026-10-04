@@ -6,7 +6,7 @@ plugins {
 }
 def srcDirs = ['src']
 android {
-    namespace 'com.android.app.animation'
+    namespace 'com.android.launcher3.icons'
     compileSdk { version = release(37) { minorApiLevel = 0 } }
     defaultConfig { minSdk = 31 }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_21; targetCompatibility = JavaVersion.VERSION_21 }
@@ -33,6 +33,7 @@ dependencies {
     api libs.androidx.constraintlayout
     api libs.guava
     api libs.javax.inject
+    api project(':usertypelib')
     api libs.dagger
 
 }

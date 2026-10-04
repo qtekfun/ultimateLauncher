@@ -1,14 +1,38 @@
+// Módulo generado por tools/gen-lib-modules.sh a partir de frameworks/libs/systemui (AOSP android17-release).
 plugins {
-    id 'com.android.library'
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.parcelize)
 }
-
+def srcDirs = []
 android {
-    namespace = "com.android.systemui.dynamiccolors"
-
+    namespace 'com.android.systemui.dynamiccolors'
+    compileSdk { version = release(37) { minorApiLevel = 0 } }
+    defaultConfig { minSdk = 31 }
+    compileOptions { sourceCompatibility = JavaVersion.VERSION_21; targetCompatibility = JavaVersion.VERSION_21 }
+    buildFeatures { compose = true }
     sourceSets {
         main {
-            res.srcDirs = ['res']
-            manifest.srcFile 'AndroidManifest.xml'
+            java.directories.addAll(srcDirs)
+            kotlin.directories.addAll(srcDirs)
+            res.directories.addAll(file('res').exists() ? ['res'] : [])
         }
     }
+}
+dependencies {
+    api project(':platform-stubs')
+    api libs.androidx.core.ktx
+    api libs.androidx.core.animation
+    api libs.androidx.dynamicanimation
+    api libs.kotlinx.coroutines.android
+    api platform(libs.compose.bom)
+    api libs.compose.ui
+    api libs.compose.foundation
+    api libs.compose.runtime
+    api libs.compose.material3
+    api libs.androidx.constraintlayout
+    api libs.guava
+    api libs.javax.inject
+    api libs.dagger
+
 }
