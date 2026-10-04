@@ -1,0 +1,103 @@
+{
+  "id": "oppo-medido",
+  "version": 1,
+  "source": {
+    "device": "OPPO CPH2841",
+    "os": "ColorOS V16.1.0",
+    "androidApi": 36,
+    "date": "2026-10-04",
+    "screenPx": "1440x3168",
+    "densityDpi": 560,
+    "densityNote": "override de usuario; física 640",
+    "themeMode": "oscuro (ajuste del usuario, no se cambió)",
+    "method": "uiautomator dump (bounds) + capturas; dp = px/3.5"
+  },
+  "classes": {
+    "phone": {
+      "grid": {
+        "columns": 5,
+        "rows": 7,
+        "dockColumns": 5
+      },
+      "icon": {
+        "sizeDp": 57.1,
+        "shape": "rounded",
+        "cornerRadiusRatio": null,
+        "labelSizeSp": null,
+        "labelLines": 1
+      },
+      "cell": {
+        "widthDp": 77.7,
+        "heightDp": 86.9,
+        "workspaceTopInsetDp": 85.1
+      },
+      "dock": {
+        "heightDp": 89.1,
+        "cornerRadiusDp": null,
+        "background": null,
+        "blurRadiusDp": null,
+        "scrimAlpha": null
+      },
+      "drawer": {
+        "columns": 5,
+        "cellWidthDp": 76.3,
+        "cellHeightDp": 114.3,
+        "sidePaddingDp": 14.9,
+        "background": null,
+        "blurRadiusDp": null,
+        "scrimAlpha": null,
+        "searchBar": "bottom",
+        "searchBarHeightDp": 80.0,
+        "scrollbar": null
+      },
+      "folder": {
+        "previewGrid": null,
+        "columns": 3,
+        "cellWidthDp": 114.3,
+        "cellHeightDp": 113.1,
+        "panelWidthDp": 365.7,
+        "cornerRadiusDp": null,
+        "openStyle": null,
+        "background": null
+      },
+      "pageIndicator": {
+        "style": "dots",
+        "sizeDp": null
+      }
+    },
+    "phone-landscape": {
+      "grid": null,
+      "icon": null,
+      "dock": null,
+      "drawer": null,
+      "folder": null,
+      "pageIndicator": null
+    },
+    "tablet": {
+      "grid": null,
+      "icon": null,
+      "dock": null,
+      "drawer": null,
+      "folder": null,
+      "pageIndicator": null
+    },
+    "tablet-landscape": {
+      "grid": null,
+      "icon": null,
+      "dock": null,
+      "drawer": null,
+      "folder": null,
+      "pageIndicator": null
+    }
+  },
+  "wallpaper": {
+    "scrollEffect": null,
+    "depth": null
+  },
+  "notes": [
+    "Solo medido móvil en vertical y tema oscuro. Tema claro, horizontal y tablet: null (no se cambiaron ajustes del teléfono ni hay tablet).",
+    "Radios de esquina, tamaño de etiqueta, desenfoque, scrim y estilo de carpeta/dock/cajón: no medibles con fiabilidad desde bounds; null (requieren análisis de capturas).",
+    "Unidades dp calculadas con densidad 560 dpi (override activo en el dispositivo).",
+    "Cajón: el primer bloque de 432 px de la lista es cabecera; el buscador del cajón está abajo (rect 0,2888-1440,3168)."
+  ]
+}
