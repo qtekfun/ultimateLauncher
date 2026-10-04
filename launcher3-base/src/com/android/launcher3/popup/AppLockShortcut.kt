@@ -59,10 +59,7 @@ sealed class AppLockShortcut<T : ActivityContext>(
             CompletableFuture.supplyAsync(
                 {
                     try {
-                        mTarget
-                            .asContext()
-                            .packageManager
-                            .getEnableAppLockIntentForPackage(packageName, newAppLockEnabled)
+                        null as PendingIntent? // UltimateLauncher 0004: API App Lock no pública
                     } catch (e: SecurityException) {
                         Log.e(TAG, "Failed to get App Lock intent for $packageName", e)
                         null
