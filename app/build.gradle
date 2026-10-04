@@ -1,0 +1,81 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.protobuf)
+}
+
+def base = '../launcher3-base'
+def baseSrc = ['/src', '/src_no_quickstep', '/src_plugins', '/shared/src', '/modules/appfunctions/src', '/modules/concurrent/src',
+    '/modules/widgetpicker/src', '/dagger/src', '/tests/shared/src'].collect { base + it }
+
+android {
+    namespace 'com.android.launcher3'
+    compileSdk { version = release(37) { minorApiLevel = 0 } }
+    defaultConfig {
+        applicationId 'com.qtekfun.ultimatelauncher'
+        minSdk 31
+        targetSdk 37
+        versionCode 1
+        versionName '0.1.0'
+    }
+    compileOptions { sourceCompatibility = JavaVersion.VERSION_21; targetCompatibility = JavaVersion.VERSION_21 }
+    buildFeatures { buildConfig = true; compose = true; aidl = true; resValues = true }
+
+    flavorDimensions += 'dist'
+    productFlavors {
+        'default' { dimension 'dist' }
+        sync { dimension 'dist'; applicationIdSuffix '.sync' }
+    }
+
+    sourceSets {
+        main {
+            java.directories.addAll(baseSrc)
+            kotlin.directories.addAll(baseSrc)
+            res.directories.addAll([(base + '/res'), (base + '/modules/widgetpicker/res')])
+            proto { srcDirs = [(base + '/protos'), (base + '/protos_overrides')] }
+        }
+    }
+}
+
+protobuf {
+    protoc { artifact = libs.protobuf.protoc.get().toString() }
+    generateProtoTasks { all().configureEach { task -> task.builtins { java { option "lite" } } } }
+}
+
+dependencies {
+    ['iconloaderlib', 'animationlib', 'msdllib', 'dynamiccolors', 'usertypelib'].each { implementation project(":$it") }
+    implementation project(':platform-stubs')
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.core.animation
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.recyclerview
+    implementation libs.androidx.dynamicanimation
+    implementation libs.androidx.fragment
+    implementation libs.androidx.preference
+    implementation libs.androidx.slice.view
+    implementation libs.androidx.cardview
+    implementation libs.androidx.window
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.lifecycle.runtime.ktx
+    implementation libs.androidx.lifecycle.viewmodel.compose
+    implementation libs.androidx.lifecycle.extensions
+    implementation libs.androidx.navigation.compose
+    implementation libs.material
+    implementation platform(libs.compose.bom)
+    implementation libs.compose.ui
+    implementation libs.compose.ui.graphics
+    implementation libs.compose.ui.tooling.preview
+    implementation libs.compose.foundation
+    implementation libs.compose.material3
+    implementation libs.compose.material.icons
+    implementation libs.compose.runtime
+    implementation libs.compose.runtime.livedata
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.guava
+    implementation libs.javax.inject
+    implementation libs.dagger
+    ksp libs.dagger.compiler
+    implementation libs.protobuf.javalite
+}
