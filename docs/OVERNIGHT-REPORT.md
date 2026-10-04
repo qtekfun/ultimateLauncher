@@ -1,6 +1,6 @@
 # Informe de la noche (2026-10-04)
 
-Estado: **UltimateLauncher compila, está instalado en el OPPO CPH2841 y fijado como launcher predeterminado.** Funciona en lo probado (inicio, cajón, búsqueda, widgets con configuración); hay límites claros listados abajo.
+Estado: **UltimateLauncher compila, está instalado en el OPPO CPH2841 y fijado como launcher predeterminado.** Funciona en lo probado (inicio, cajón, búsqueda, widgets con configuración, asistente de primer arranque, exportar/importar). Hay límites claros abajo. **Aviso:** a ~00:45 se perdió la conexión adb inalámbrica con el CPH2841 (la depuración inalámbrica dejó de anunciarse y el PGEM10 por USB tampoco aparece). Lo que hay instalado en el teléfono es la **última build verificada** (hito M7); `dist/ultimatelauncher-default-debug.apk` es la misma fuente recompilada después, sin instalar ni probar en el teléfono. Si algo no coincide, recompila con `./gradlew :app:assembleDefaultDebug`.
 
 ## Cómo probarlo en un minuto
 
@@ -25,15 +25,18 @@ Qué mirar: pantalla de inicio 5×7, arrastrar hacia arriba para el cajón (list
 | M2 Recortes | **Hecho** (verificado en el dispositivo) | Inicio sin buscador (QSB) ni feed; `BuildConfig.QSB_ON_FIRST_SCREEN=false`. Cajón plano alfabético sin categorías ni fila de previstas; búsqueda local por nombre ("cal" → Calendar, Calculadora). Ajustes mínimos de la base (insignias y "añadir icono a inicio"). |
 | M3 Widgets | **Hecho en lo comprobable** | Añadido el widget de AntennaPod con su `WidgetConfigActivity` (selector → diálogo del sistema → configuración → widget colocado, host del launcher en `dumpsys appwidget`). Ruta de cancelación probada con DevCheck. |
 | M4 Tokens | **Parcial** | Rejilla 5×7, dock de 5, carpeta de 3 columnas e icono 57 dp aplicados desde `assets/themes/oppo-medido.json`. Faltan dock/paddings, radios, etiqueta, blur. No se hizo comparación lado a lado. |
+| M5 Animaciones | **Parcial** | Inventario (`docs/anim-inventory.md`), perfiles `aosp-por-defecto`/`rapido`, superposición de 4 recursos de duración generada desde JSON. Verificado con Perfetto: cerrar cajón 311 ms (AOSP, 300) → 222 ms con `rapido` (210). No hay curvas medidas ni carga en ejecución. |
+| M6 Primer arranque | **Parcial (mínimo)** | `OemAdapter`, `GenericAdapter`, `ColorOsAdapter`, asistente ES/EN: se muestra en el primer inicio, detecta `coloros`, los botones abren Ajustes (batería, detalles de app), «Hecho» vuelve al inicio. 6 pruebas unitarias. Ruta de autoarranque de ColorOS 16 sin resolver (`docs/oem-issues.md`). |
+| M7 Exportar/importar | **Parcial** | Archivo JSON (esquema v1) con el selector de documentos, sin red. Exportó 8 elementos; la importación mostró resumen (app no instalada, perfil de trabajo, widget de otra marca) y al aplicar movió Gmail a la celda indicada, con copia de seguridad previa. 8 pruebas unitarias (reubicación de rejilla, esquema, planificador). Sin WebDAV, sin cifrado, widgets no restaurados. |
 | Referencia | **Hecha** | `assets/themes/oppo-medido.json`, `assets/animations/oppo-medido.json` (ver «Limitaciones de la medición»). |
 
 ## Qué NO funciona o no está hecho
 
-- M5 (perfil de animación), M6 (asistente de primer arranque), M7 (exportar/importar), M3b (tablet): **ver la sección final de esta página** (se actualiza al terminar).
+- M3b (tablet): **no hecho** (no hay tablet; las clases `tablet*` de los tokens están en `null`). M7 T7.4 (WebDAV): no hecho. M5 T5.4/T5.5 (curvas medidas y validación lado a lado): no hechos.
 - Perfil de trabajo (RF-20/21): **no probado** (código de AOSP presente, sin verificar).
 - Estética: no es «indistinguible» de OPPO todavía (dock, paddings, esquinas, blur, tipografía de etiqueta).
-- Android 12 (API 31) y 14 (API 34): **no probados**. Lint `NewApi` da 33 errores (API 33–35: `OnBackInvokedDispatcher`, `getParcelableExtra`, `Stream.toList`, `addLast`, colores `system_*` de API 34) que **no se han corregido**: en Android 12–13 fallarían, en 14 probablemente algunos. Solo se corrigió lo que rompía en Android 16 (parches 0007 y 0008).
-- Sin GMS: el APK no depende de GMS, pero **no se probó** en un teléfono sin GMS (el CPH2841 lo tiene).
+- Android 12 (API 31) y 14 (API 34): **no probados**. Se instalaron el emulador oficial 37.2.12 y las imágenes AOSP sin GMS de API 31 y 34, pero el emulador termina con SIGSEGV en este host con tres modos de GPU; `tools/emu-test.sh` está escrito y sin ejecutar. Por lectura: en API 31–33 el selector de widgets (`OnBackAnimationCallback`, API 34) fallaría al abrirse. Lint `NewApi` da 33 errores (API 33–35: `OnBackInvokedDispatcher`, `getParcelableExtra`, `Stream.toList`, `addLast`, colores `system_*` de API 34) que **no se han corregido**: en Android 12–13 fallarían, en 14 probablemente algunos. Solo se corrigió lo que rompía en Android 16 (parches 0007 y 0008).
+- Sin GMS: el APK no depende de GMS (ni de `gms`/Firebase en el árbol de dependencias), pero **no se probó** en un teléfono ni emulador sin GMS (el CPH2841 lo tiene).
 - Reinicio del teléfono y 12 h en segundo plano: no probados. Ajustes de batería/autoarranque: sin asistente.
 - Tablet, multiventana, plegables, otras marcas (vivo, Xiaomi, Honor): no probados.
 - La ventana de recientes y los gestos siguen siendo del launcher del sistema (límite sin root, `docs/02`): ahora que el launcher es el predeterminado, el gesto de volver a inicio usa el nuestro: **no se evaluó cómo se comporta con los gestos de ColorOS**.
@@ -65,10 +68,12 @@ Todas en `docs/DECISIONS.md`. Las que más afectan:
 - 972 errores `StringFormatMatches` de Lint heredados de las traducciones de AOSP (no bloquean el APK, sí un `lint` limpio).
 - Forma de icono personalizada (`GenericPathShape`) sustituida por un rectángulo redondeado (parche 0004); App Lock de Android 17 desactivado.
 - Cambio de `applicationId`: al desinstalar/reinstalar se pierde la disposición del inicio.
+- Pérdida de conexión con el CPH2841 a ~00:45 (ver arriba). Parche 0011 (compatibilidad API 33) preparado y **sin aplicar** por no poder verificarlo.
+- El historial git contiene una copia comprimida de un APK de una versión anterior (el `.git` pesa 34 MB); el APK actual está fuera de git.
 - Incidentes en el teléfono (sin consecuencias, lo digo por transparencia): mis toques abrieron un diálogo de privacidad de una app del sistema y la pantalla de inicio de sesión de UltimateNotes (en el que se escribieron letras en el campo del servidor, sin enviar nada); se hizo `force-stop` de UltimateNotes. Se aceptó 2 veces el diálogo del sistema «Crear widget» (sin «permitir siempre»). Los widgets de prueba desaparecieron al reinstalar el launcher.
 
 ## Los 3 siguientes pasos recomendados
 
-1. **Compuertas de compatibilidad de API** (R1): corregir los 33 `NewApi` (desugaring de `Stream.toList`, `getParcelableExtra`, back-invoked, colores) y probar en emulador Android 12/14; decidir con datos si subir `minSdk` a 33.
+1. **Compuertas de compatibilidad de API** (R1): resolver el SIGSEGV del emulador (otro host, o `-no-accel`/imagen ARM) o usar un teléfono con Android 12–14; aplicar el parche 0011, quitar `OnBackAnimationCallback` de `WidgetPickerActivity`/`AddItemActivity`, activar desugaring y corregir los 33 `NewApi`; decidir con datos si subir `minSdk` a 33.
 2. **Cerrar M4 y M5**: ajustar dock/paddings/esquinas con comparación lado a lado y medir curvas (muelles/bézier) con grabación de pantalla + sellos de tiempo; después implementar `AnimationProfileProvider`.
-3. **Asistente de primer arranque (M6) y exportar/importar (M7)**, y una pasada de privacidad (24 h sin red, auditoría de `docs/09`), más CI en GitHub Actions con `tools/check-permissions.sh`.
+3. **WebDAV (variante `sync`), cifrado del archivo exportado, restaurar widgets al importar, resto de adaptadores OEM verificados en vivo (vivo, Xiaomi, Honor)**, y una pasada de privacidad (24 h sin red, auditoría de `docs/09`), más CI en GitHub Actions con `tools/check-permissions.sh`.
