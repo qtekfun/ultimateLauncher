@@ -59,6 +59,13 @@
     <string name="ul_pref_allow_rotation">Girar la pantalla de inicio</string>
     <string name="ul_pref_allow_rotation_summary">Sigue la orientación del sistema para usar cuadrícula, dock y carpetas en horizontal. Apagado por defecto (inicio vertical como OPPO).</string>
 
+    <!-- Carpetas ampliables (parches 0140-0143) -->
+    <string name="ul_folder_expand">Ampliar carpeta</string>
+    <string name="ul_folder_shrink">Reducir carpeta</string>
+    <string name="ul_folder_no_room">No hay sitio para ampliar la carpeta</string>
+    <string name="ul_pref_folder_expand">Carpetas ampliables</string>
+    <string name="ul_pref_folder_expand_summary">Mantén pulsada una carpeta del inicio para ampliarla a 2x2: sus apps se ven en la baldosa y se abren con un toque.</string>
+
     <!-- Widget Reloj digital -->
     <string name="ul_clock_label_square">Reloj digital</string>
     <string name="ul_clock_label_wide">Reloj digital (ancho)</string>

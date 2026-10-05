@@ -136,6 +136,7 @@ public class ItemClickHandler {
      * @param v The view that was clicked. Must be an instance of {@link FolderIcon}.
      */
     private static void onClickFolderIcon(View v) {
+        if (com.qtekfun.ultimatelauncher.folder.FolderExpand.onFolderClick((FolderIcon) v)) return; // UltimateLauncher 0142
         Folder folder = ((FolderIcon) v).getFolder();
         if (!folder.isOpen() && !folder.isDestroyed()) {
             // Open the requested folder
