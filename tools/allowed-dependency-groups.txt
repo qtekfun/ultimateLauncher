@@ -1,0 +1,17 @@
+# Grupos de dependencias revisados (docs/dependencies.md). Un grupo nuevo hace fallar tools/check-dependencies.sh hasta revisarlo.
+# Un asterisco final admite prefijo. androidx.* es Apache-2.0 y sin red (androidx.appsearch es almacenamiento local).
+androidx.*
+com.google.android.material
+com.google.auto.service
+com.google.code.findbugs
+com.google.dagger
+com.google.errorprone
+com.google.guava
+com.google.j2objc
+com.google.protobuf
+jakarta.inject
+javax.inject
+org.jetbrains
+org.jetbrains.kotlin
+org.jetbrains.kotlinx
+org.jspecify

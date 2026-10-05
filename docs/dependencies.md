@@ -11,3 +11,6 @@ Pendiente: revisar licencias una a una y escanear trackers (Exodus) — NO hecho
 | Otros | Material Components, Guava (android), Dagger 2.60.1 (KSP), javax.inject, protobuf-javalite 4.36.2, kotlinx-coroutines, jsr305, errorprone-annotations (solo compilación) | Apache-2.0 / BSD |
 | Solo pruebas | junit 4.13.2, org.json 20250517 | EPL-1.0 / licencia JSON (solo pruebas, no se empaqueta) |
 | Herramientas de medición (fuera del APK) | perfetto (trace processor), numpy, scipy, opencv-headless en `~/work/venv` | Apache-2.0 / BSD |
+
+## Comprobación automática (2026-10-05)
+`tools/check-dependencies.sh` resuelve `defaultReleaseRuntimeClasspath` (160 artefactos, 60 grupos) y falla con cualquier artefacto de `tools/forbidden-deps.txt` (GMS, Firebase, Play, ML Kit, okhttp/retrofit/volley/grpc/cronet, telemetría) o con un grupo que no esté en `tools/allowed-dependency-groups.txt`. Todo `androidx.*` está permitido por grupo (incluye `appsearch`/`slice`, locales). Sigue pendiente la revisión de licencias artefacto a artefacto y el escáner de trackers. M7 no añadió dependencias (cifrado con `javax.crypto`).

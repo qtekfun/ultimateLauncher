@@ -18,11 +18,12 @@ Esta tabla es la **lista objetivo**. Hay que contrastarla con el manifiesto fusi
 | `QUERY_ALL_PACKAGES` | No (verificado en M1) | La base lo declaraba; sin él solo se veían 5 apps, por lo que se declara `<queries>` con intent MAIN/LAUNCHER (solo apps con icono de lanzador) |
 | `SET_WALLPAPER_HINTS` | Sí (añadido en M1) | `WallpaperManager` lo exige al arrancar; permiso normal |
 | Acceso a notificaciones (listener) | Solo si el usuario lo activa; **desactivado por defecto** | Puntos de notificación; solo contar por paquete, sin guardar contenido |
-| Widgets (enlace de widgets) | Lo que exija Launcher3 | Alojar widgets de terceros |
-| Desinstalar apps desde el icono | Solo si hace falta | Acción de desinstalar |
+| `BIND_APPWIDGET` | Sí (verificado 2026-10-05 en el manifiesto fusionado) | Alojar widgets de terceros; sin él cada widget pide el diálogo de enlace del sistema (también al restaurar un layout, ver `06`) |
+| `REQUEST_DELETE_PACKAGES` | Sí (verificado 2026-10-05) | Acción «Desinstalar» del icono; abre el diálogo del sistema |
 | Expandir barra de estado | Opcional | Gesto de deslizar para notificaciones |
-| Fondo de pantalla | Solo el estrictamente necesario | Mostrar/cambiar el fondo |
-| Vibración | Sí | Respuesta háptica |
+| `SET_WALLPAPER` | Sí (verificado 2026-10-05) | Mostrar/cambiar el fondo |
+| `VIBRATE` | Sí | Respuesta háptica |
+| `<applicationId>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` (`DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`) | Sí, lo añade androidx | Permiso propio de la app (nivel de firma, no concede nada a terceros) para receptores dinámicos no exportados |
 | `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | Sí (añadido 2026-10-05) | Solo si el usuario lo pide en el asistente: abre el diálogo del sistema para que no mate el launcher en segundo plano (si no, ColorOS lo cierra y los iconos tardan en volver). Google Play limita este permiso; la distribución es fuera de Play (como UltimateDeck). Sin red, sin datos. |
 | Almacenamiento, contactos, ubicación, cámara, micrófono, notificaciones propias, biometría | **No** | No se necesitan |
 
@@ -53,7 +54,7 @@ Regla: **cualquier permiso nuevo requiere actualizar esta tabla** y el README p�
 ## Red
 
 - La variante `default` **no tiene permiso `INTERNET`**; sin él, Android impide a la app abrir conexiones.
-- Comprobación en CI (la herramienta forma parte de las cmdline-tools del SDK de Android):
+- Comprobación en CI: `tools/check-permissions.sh` (permisos exactos contra `tools/permissions-allowed.txt`, cada uno nombrado en esta tabla, sin clases de cliente HTTP) y `tools/check-dependencies.sh`; se ejecutan con `tools/privacy-audit.sh` desde `tools/ci.sh`. Resultado real en `docs/privacy-audit.md`. La idea básica (apkanalyzer forma parte de las cmdline-tools del SDK de Android):
 
 ```bash
 # falla si la variante default declara INTERNET
