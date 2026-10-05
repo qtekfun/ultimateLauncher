@@ -220,3 +220,6 @@ Parches 0020–0025 (ver `patches/README.md`); todos los valores salen de `asset
 ### R8 por defecto y fondo de la carpeta cerrada (2026-10-05)
 - R8 encendido por defecto en la release (`-Pul.minify=false` lo apaga): APK de 10,5 MB; humo funcional en el CPH2841 (docs/arranque-en-frio.md).
 - Fondo del icono de carpeta cerrada: medido en el launcher de OPPO, ≈(201,190,172) sobre un fondo (224,209,186), es decir ≈10 % más oscuro, uniforme y con borde nítido. Aquí `0xB3C0B6A6` (70 % opaco, gris cálido) da (201,190,172) sobre ese mismo fondo y oculta casi todo el detalle del papel pintado. Diferencia que queda: OPPO probablemente desenfoca lo que hay detrás; una vista normal no puede desenfocar el fondo de otra ventana.
+
+### Título de la carpeta abierta al estilo iOS (2026-10-05)
+- Título 1,35× más grande y en negrita; separación título-iconos reducida (−16 dp sobre el relleno por defecto, ≈ 77 px del texto a la fila de iconos) en lugar de los +20 dp de la referencia de OPPO, que el usuario encontró «fea». `FolderStyle.TITLE_SCALE` y `TITLE_GAP_DP`.

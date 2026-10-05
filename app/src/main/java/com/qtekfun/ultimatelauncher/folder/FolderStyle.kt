@@ -20,8 +20,10 @@ object FolderStyle {
     private const val FADE_MS = 220L
     /** Posición vertical del centro del título (OPPO: 782 de 3168 px = 24,7 %). */
     private const val TITLE_CENTER_Y = 0.247f
-    /** Hueco extra entre el pie (título) y la fila de iconos, en dp: (1084-1014 px)/3,5 = 20. */
-    private const val TITLE_GAP_DP = 20f
+    /** Ajuste de la separación título-iconos, en dp (negativo = más juntos, estilo iOS). */
+    private const val TITLE_GAP_DP = -16f
+    /** Título más grande y en negrita (estilo iOS). */
+    private const val TITLE_SCALE = 1.35f
     private const val BOTTOM_MARGIN_DP = 16f
     private const val TOP_MARGIN_DP = 24f
 
@@ -46,6 +48,8 @@ object FolderStyle {
             c.setPadding(c.paddingLeft, c.paddingTop + (TITLE_GAP_DP * c.resources.displayMetrics.density).toInt(),
                 c.paddingRight, c.paddingBottom)
         }
+        name.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, name.textSize * TITLE_SCALE)
+        name.setTypeface(name.typeface, android.graphics.Typeface.BOLD)
         name.setTextColor(Color.WHITE)
         name.setHintTextColor(0xB3FFFFFF.toInt())
     }
