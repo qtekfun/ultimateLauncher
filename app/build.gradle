@@ -50,7 +50,11 @@ android {
         release {
             // Para pruebas locales se firma con la clave de depuración. La clave de release propia va fuera del repo (docs/03).
             signingConfig signingConfigs.debug
-            minifyEnabled false
+            // R8 (reducción de código): APAGADO por defecto porque no se ha probado en un dispositivo (la compilación y el análisis
+            // estático pasan; 66 MB -> 10,5 MB). Para probarlo: ./gradlew -Pul.minify=true :app:assembleDefaultRelease.
+            // Ver docs/arranque-en-frio.md y app/proguard-rules.pro.
+            minifyEnabled project.hasProperty('ul.minify') && project.property('ul.minify') == 'true'
+            proguardFiles 'proguard-rules.pro'
         }
     }
 
