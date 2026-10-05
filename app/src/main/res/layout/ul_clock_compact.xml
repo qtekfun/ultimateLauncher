@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Reloj digital, diseño compacto (2x1 / 4x1): solo la hora. Colores y fondo los pone el proveedor en tiempo de ejecución. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ul_clock_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ul_clock_card_light"
+    android:padding="@dimen/ul_clock_padding">
+
+    <TextClock
+        android:id="@+id/ul_clock_time"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:maxLines="1"
+        android:includeFontPadding="false"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:fontFeatureSettings="tnum"
+        android:format12Hour="h:mm"
+        android:format24Hour="HH:mm"
+        android:textColor="#000000"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="14sp"
+        android:autoSizeMaxTextSize="160sp"
+        android:autoSizeStepGranularity="1sp" />
+</FrameLayout>

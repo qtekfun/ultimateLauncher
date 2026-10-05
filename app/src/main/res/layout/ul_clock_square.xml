@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Reloj digital, diseño cuadrado (2x2): hora grande y, debajo, día y fecha. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ul_clock_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/ul_clock_card_light"
+    android:padding="@dimen/ul_clock_padding">
+
+    <TextClock
+        android:id="@+id/ul_clock_time"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:maxLines="1"
+        android:includeFontPadding="false"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:fontFeatureSettings="tnum"
+        android:format12Hour="h:mm"
+        android:format24Hour="HH:mm"
+        android:textColor="#000000"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="14sp"
+        android:autoSizeMaxTextSize="160sp"
+        android:autoSizeStepGranularity="1sp" />
+
+    <TextClock
+        android:id="@+id/ul_clock_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="1"
+        android:includeFontPadding="false"
+        android:fontFamily="sans-serif-medium"
+        android:format12Hour="EEE d MMM"
+        android:format24Hour="EEE d MMM"
+        android:textColor="#000000"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="9sp"
+        android:autoSizeMaxTextSize="18sp"
+        android:autoSizeStepGranularity="1sp" />
+</LinearLayout>

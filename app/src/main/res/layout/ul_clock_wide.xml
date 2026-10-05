@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Reloj digital, diseño ancho (4x2): hora a la izquierda; día de la semana y fecha a la derecha. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ul_clock_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/ul_clock_card_light"
+    android:paddingStart="@dimen/ul_clock_padding_wide"
+    android:paddingEnd="@dimen/ul_clock_padding_wide"
+    android:paddingTop="@dimen/ul_clock_padding"
+    android:paddingBottom="@dimen/ul_clock_padding">
+
+    <TextClock
+        android:id="@+id/ul_clock_time"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:gravity="center_vertical|start"
+        android:maxLines="1"
+        android:includeFontPadding="false"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:fontFeatureSettings="tnum"
+        android:format12Hour="h:mm"
+        android:format24Hour="HH:mm"
+        android:textColor="#000000"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="14sp"
+        android:autoSizeMaxTextSize="160sp"
+        android:autoSizeStepGranularity="1sp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:gravity="center_vertical|end">
+
+        <TextClock
+            android:id="@+id/ul_clock_weekday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:maxLines="1"
+            android:includeFontPadding="false"
+            android:fontFamily="sans-serif-medium"
+            android:format12Hour="EEEE"
+            android:format24Hour="EEEE"
+            android:textColor="#000000"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="26sp"
+            android:autoSizeStepGranularity="1sp" />
+
+        <TextClock
+            android:id="@+id/ul_clock_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:maxLines="1"
+            android:includeFontPadding="false"
+            android:fontFamily="sans-serif"
+            android:format12Hour="MMMM d"
+            android:format24Hour="MMMM d"
+            android:textColor="#000000"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="9sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeStepGranularity="1sp" />
+    </LinearLayout>
+</LinearLayout>
