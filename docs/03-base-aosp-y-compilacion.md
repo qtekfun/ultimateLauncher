@@ -54,6 +54,8 @@ Estrategia:
 
 Recomendación: mantener 31 durante M0 y M1. Al cierre de M1, contar cuántas compuertas hicieron falta y qué versiones usan los dispositivos reales; si son muchas y los dispositivos ya están en 33 o más, valorar subir (el candidato con más sentido sería 33 por los iconos temáticos). La decisión formal está en el punto de decisión de M1.
 
+Datos de M1 (2026-10-05, `docs/compat-android12-14.md`): 10 cambios de compatibilidad (3 compuertas de versión, 2 equivalentes androidx, 3 alternativas de recursos, desugaring, 1 alternativa sin GMS) y `NewApi` = 0 en Lint. **Recomendación: mantener 31** (la tablet de pruebas es Android 12; subir a 33 apenas elimina nada porque lo costoso son los colores de API 34; subir a 34 solo se justifica si dejan de importar Android 12–13).
+
 ## Firma y distribución
 
 - Clave de firma propia, fuera del repo.
