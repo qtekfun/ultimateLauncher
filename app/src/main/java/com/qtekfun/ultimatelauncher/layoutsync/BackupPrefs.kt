@@ -11,6 +11,14 @@ object BackupPrefs {
     fun suggestedName(now: java.util.Date = java.util.Date()): String =
         "ultimatelauncher-" + java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US).format(now) + ".json"
 
+    @Volatile private var restores = 0
+
+    /** Se llama al escribir los ajustes de una copia restaurada. Ajustes, abierta en otra tarea, lo compara al volver. */
+    @JvmStatic fun noteRestored() { restores++ }
+
+    /** Nº de restauraciones de ajustes desde que arrancó el proceso (la pantalla de Ajustes recuerda el que vio al crearse). */
+    @JvmStatic fun restoreCount(): Int = restores
+
     enum class Kind { BOOL, INT, STRING }
 
     /** Clave → tipo. Al añadir un interruptor `pref_ul_*` nuevo hay que añadirlo aquí (lo comprueba BackupPrefsTest). */

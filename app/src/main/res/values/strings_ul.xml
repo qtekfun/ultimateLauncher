@@ -198,4 +198,15 @@
     <string name="ul_icon_pack_none">No icon packs installed. Install one from your app store; it will appear here.</string>
     <string name="ul_pref_icon_pack_back">Apply the pack\'s background to unthemed icons</string>
     <string name="ul_pref_icon_pack_back_summary">Apps the pack does not cover get the pack\'s background, mask and overlay. Off: they keep their normal icon.</string>
+    <string name="ul_dock_menu_settings">Dock settings</string>
+    <string name="ul_dock_menu_clear_recents">Clear recents</string>
+    <string name="ul_dock_menu_hide_recents">Hide recents</string>
+    <string name="ul_dock_menu_show_recents">Show recents</string>
+    <string name="ul_pref_cat_home">Home screen</string>
+    <string name="ul_pref_cat_dock">Tablet dock</string>
+    <string name="ul_pref_cat_folders">Folders</string>
+    <string name="ul_pref_cat_animations">Animations</string>
+    <string name="ul_pref_cat_icons">Icons and wallpapers</string>
+    <string name="ul_pref_cat_gestures">Gestures</string>
+    <string name="ul_pref_cat_privacy">Privacy</string>
 </resources>
