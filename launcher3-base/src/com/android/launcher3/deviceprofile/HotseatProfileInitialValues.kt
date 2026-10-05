@@ -218,6 +218,8 @@ data class HotseatProfileInitialValues(
                 maxIconSpacePx =
                     if (areNavButtonsInline)
                         res.getDimensionPixelSize(R.dimen.max_hotseat_icon_space)
+                    else if (res.getBoolean(R.bool.ul_huawei_dock)) // UltimateLauncher 0042
+                        max(0, res.getDimensionPixelSize(R.dimen.ul_dock_cell) - pxFromDp(inv.iconSize[typeIndex], res.displayMetrics))
                     else Int.MAX_VALUE,
                 barBottomSpacePx = barBottomSpacePx,
                 qsbSpace = hotseatQsbSpace,
@@ -342,6 +344,8 @@ data class HotseatProfileInitialValues(
                 maxIconSpacePx =
                     if (areNavButtonsInline)
                         res.getDimensionPixelSize(R.dimen.max_hotseat_icon_space)
+                    else if (res.getBoolean(R.bool.ul_huawei_dock)) // UltimateLauncher 0042
+                        max(0, res.getDimensionPixelSize(R.dimen.ul_dock_cell) - pxFromDp(inv.iconSize[typeIndex], res.displayMetrics))
                     else Int.MAX_VALUE,
                 barBottomSpacePx = barBottomSpacePx,
                 qsbSpace = hotseatQsbSpace,
