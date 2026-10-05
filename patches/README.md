@@ -15,15 +15,19 @@ Base importada sin modificar en el commit "Importación AOSP sin modificar" (ver
 | 0008 | 12 colores `@android:color/system_*` solo de API 37 → `values-v37` + línea base M3 | `launcher3-base/res/values-v34/colors.xml`, dynamiccolors | `patches/0008-*.py` |
 | 0009 | Rejilla por defecto = tokens medidos (`ultimate_phone`) | `device_profiles.xml` (bloque generado), `InvariantDeviceProfile.java` (1 línea) | `tools/apply-theme-tokens.py` |
 | 0010 | Gancho `FirstRun.maybeShow(this)` en `Launcher.onCreate` | Launcher.java | `patches/0010-*.py` |
-| 0011 | **Preparado, NO aplicado**: `getParcelable(Extra)` con clase (API 33) → `BundleCompat`/`IntentCompat` en el selector de widgets | WidgetPickerActivity.kt, WidgetPickerComposeWrapperImpl.kt | `patches/0011-*.py` (compila; sin verificar en dispositivo) |
+| 0011 | `getParcelable(Extra)` con clase (API 33) → `BundleCompat`/`IntentCompat` en el selector de widgets (aplicado el 2026-10-05) | WidgetPickerActivity.kt, WidgetPickerComposeWrapperImpl.kt | `patches/0011-*.py` (compila; sin verificar en dispositivo) |
 | 0012 | El dock no reserva el hueco de la barra de búsqueda (≈64 dp) cuando no hay QSB | HotseatProfileInitialValues.kt | `patches/0012-*.py` |
 | 0013 | Márgenes superior/inferior/laterales del área de iconos desde recursos de tokens | WorkspaceProfileNonResponsiveFactory.kt | `patches/0013-*.py` + `tools/apply-theme-tokens.py` |
 | 0014 | Indicador de páginas: punto visible con una página, elevado según tokens | PageIndicatorDots.java, Workspace.java | `patches/0014-*.py` |
 | 0004b | Forma de icono genérica con el trazado real de la máscara del sistema (PathParser) | ShapeDelegate.kt | `patches/0004-*.py` |
 | 0015 | Colores de sistema de API 34 → paleta de API 31 (Android 12–13) en `values-v31` y `dynamiccolors` | res/values{,-night}-v31, dynamiccolors | `patches/0015-*.py` |
 | 0016 | `OseWidgetView` no pinta el widget de búsqueda sin proveedor (sin GMS) | qsb/OseWidgetView.kt | `patches/0016-*.py` |
+| 0030 | WidgetPickerActivity y AddItemActivity sin `OnBackAnimationCallback` (API 34): `OnBackInvokedCallback` solo con API ≥ 33, `onBackPressed` + `OnBackPressedDispatcher` único en 31–32 | WidgetPickerActivity.kt, AddItemActivity.kt | `patches/0030-*.py` (compila; sin verificar en dispositivo) |
+| 0031 | `LinkedHashSet.addLast/removeLast` (API 35) → `add` / `remove(last())` (código inalcanzable) | FirstScreenBroadcastHelper.kt | `patches/0031-*.py` |
+| 0032 | Colores propios `@color/system_*` que solo estaban en `values-v34` → alternativa generada en `values/ul_system_colors_fallback.xml` (paleta API 31, igual que 0015). Requiere 0008 y 0015 | `launcher3-base/res/values/ul_system_colors_fallback.xml` (nuevo; `values-v34` sin tocar) | `patches/0032-*.py` |
+| 0033 | `SimpleBroadcastReceiver.register` sin indicador → `RECEIVER_NOT_EXPORTED` en API ≥ 33 | SimpleBroadcastReceiver.kt | `patches/0033-*.py` |
 
-Además: `coreLibraryDesugaringEnabled` (desugar_jdk_libs 2.1.5) en `app/build.gradle` para `Stream.toList` (API 34) en Android 12–13.
+Además: `coreLibraryDesugaringEnabled` (desugar_jdk_libs 2.1.5) en `app/build.gradle` para `Stream.toList` (API 34) en Android 12–13. `lint { ... }` en `app/build.gradle`: `NewApi` como error y ruido heredado de AOSP desactivado (docs/compat-android12-14.md).
 
 Cambios que NO son parches sobre archivos de AOSP (andamiaje propio): `build.gradle*`, `settings.gradle.kts`, `gradle/`, `app/`,
 `platform-stubs/` (incluye copias sin modificar de `plugin_core` y `log/core` de frameworks/base), `launcher3-base/modules/widgetpicker/ul-build.gradle`,

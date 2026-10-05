@@ -116,3 +116,11 @@ Quejas: «el dock está levantado, los iconos se ven pequeños». Causas y corre
 - Capturas y volcados: `private-measurements/huawei/` (home, página 2, recorte del dock, gestos). Medidas en `assets/themes/huawei-tablet-medido.json`.
 - Dock de Huawei: dos píldoras (6 apps fijas | asa arrastrable | últimas usadas, ahora 2) de 194 px de alto con iconos de 138 px; rejilla 7×5 con celdas de 322×271 px; iconos sin fondo propio (engranajes de Ajustes, terminal, etc.) se rellenan con una baldosa clara.
 - Petición del usuario: dock de tablet «como Huawei» con zona fija + zona de últimos usados (3–4) e iconos rellenos como los originales.
+
+## Compatibilidad Android 12–14 (agente) — 2026-10-05
+Sin dispositivo (adb y emulador no usados). Detalle y tabla completa: `docs/compat-android12-14.md`.
+- Parche 0011 aplicado; nuevos 0030 (retroceso del selector de widgets y `AddItemActivity` sin tipos de API 34), 0031 (`LinkedHashSet` API 35), 0032 (colores `@color/system_*` de Launcher3 que solo existían en `values-v34`: habrían dado `Resources.NotFoundException` en 12–13), 0033 (receptores no exportados en API ≥ 33).
+- Lint `:app:lintDefaultDebug`: `NewApi` 33 → 0 y la tarea pasa limpia (configuración en `app/build.gradle`, sin línea base; `NewApi` error). Lint sin los `@SuppressWarnings("NewApi")` de AOSP: solo archivado (tras flag, inalcanzable) y retroceso (D8 incluye stubs de las clases de API 34).
+- Pruebas: 16 en verde (nueva `ResourceFallbackTest`: ningún recurso existe solo en `-vNN` > 31). `assembleDefaultDebug` y `assembleSyncDebug` compilan; `tools/check-permissions.sh` OK (sin INTERNET).
+- Recomendación: mantener `minSdk` 31 (la tablet es Android 12; subir a 33 apenas ahorra; 34 sí ahorraría pero excluye 12–13).
+- SIN verificar en dispositivo: todo lo anterior salvo lo que ya probó la tablet (0015, 0016, desugaring). Lista de pruebas pendientes en la tablet: al final de `docs/compat-android12-14.md`.
