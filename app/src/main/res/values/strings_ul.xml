@@ -164,4 +164,38 @@
     <string name="ul_imp_order_install">Install order (oldest first)</string>
     <string name="ul_imp_order_per_page">Apps per page: %1$d (%2$d×%3$d grid)</string>
     <string name="ul_imp_order_next">Show summary</string>
+    <!-- Fondos de UltimateLauncher (parche 0170) -->
+    <string name="ul_wp_menu">UltimateLauncher wallpapers</string>
+    <string name="ul_pref_wallpapers">UltimateLauncher wallpapers</string>
+    <string name="ul_pref_wallpapers_summary">A built-in set of wallpapers, drawn by the app itself. Apply to home screen, lock screen or both.</string>
+    <string name="ul_wp_title">Wallpapers</string>
+    <string name="ul_wp_subtitle">Included in the app. Nothing is downloaded.</string>
+    <string name="ul_wp_back">Back</string>
+    <string name="ul_wp_blur">Blur</string>
+    <string name="ul_wp_dim">Darken</string>
+    <string name="ul_wp_apply_to">Set as</string>
+    <string name="ul_wp_home">Home</string>
+    <string name="ul_wp_lock">Lock</string>
+    <string name="ul_wp_both">Both</string>
+    <string name="ul_wp_applying">Applying…</string>
+    <string name="ul_wp_applied">Wallpaper set: %1$s</string>
+    <string name="ul_wp_error">Could not set the wallpaper (the system or your admin does not allow it).</string>
+    <string name="ul_wp_aurora">Aurora</string>
+    <string name="ul_wp_atardecer">Sunset</string>
+    <string name="ul_wp_oceano">Ocean</string>
+    <string name="ul_wp_seda">Silk</string>
+    <string name="ul_wp_dunas">Dunes</string>
+    <string name="ul_wp_montanas">Mountains</string>
+    <string name="ul_wp_luna">Moon</string>
+    <string name="ul_wp_bokeh">Bokeh</string>
+    <string name="ul_wp_geometrico">Geometric</string>
+    <string name="ul_wp_facetas">Facets</string>
+    <string name="ul_wp_tinta">Ink</string>
+    <string name="ul_wp_olas">Waves</string>
+    <!-- Paquetes de iconos (parches 0171-0173) -->
+    <string name="ul_pref_icon_pack">Icon pack</string>
+    <string name="ul_icon_pack_default">Default</string>
+    <string name="ul_icon_pack_none">No icon packs installed. Install one from your app store; it will appear here.</string>
+    <string name="ul_pref_icon_pack_back">Apply the pack\'s background to unthemed icons</string>
+    <string name="ul_pref_icon_pack_back_summary">Apps the pack does not cover get the pack\'s background, mask and overlay. Off: they keep their normal icon.</string>
 </resources>

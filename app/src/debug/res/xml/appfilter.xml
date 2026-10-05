@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Paquete de iconos de PRUEBA (solo build debug). Mezcla referencias @drawable/ y nombres a secas para probar el lector del XML compilado. -->
+<resources>
+    <iconback img1="@drawable/ulpack_iconback" />
+    <iconmask img1="@drawable/ulpack_iconmask" />
+    <iconupon img1="@drawable/ulpack_iconupon" />
+    <scale factor="0.7" />
+    <item component="ComponentInfo{com.android.settings/com.android.settings.Settings}" drawable="@drawable/ulpack_settings" />
+    <item component="ComponentInfo{com.oplus.camera/com.oplus.camera.Camera}" drawable="ulpack_camera" />
+    <item component="ComponentInfo{com.google.android.dialer/com.google.android.dialer.extensions.GoogleDialtactsActivity}" drawable="@drawable/ulpack_phone" />
+    <item component="ComponentInfo{com.coloros.gallery3d/com.coloros.gallery3d.app.MainActivity}" drawable="ulpack_gallery" />
+</resources>

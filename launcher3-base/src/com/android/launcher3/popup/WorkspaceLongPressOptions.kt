@@ -62,6 +62,20 @@ object WorkspaceLongPressOptions {
                 startWallpaperPicker(ac, v)
             }
         )
+        // UL 0170: fondos propios incluidos en la app (sin red)
+        add(
+            PopupData(
+                R.drawable.ul_ic_wallpapers,
+                R.string.ul_wp_menu,
+                SYSTEM_SHORTCUT,
+                IGNORE,
+            ) { ac, _, _ ->
+                ac.asContext()
+                    .startActivity(
+                        com.qtekfun.ultimatelauncher.wallpaper.WallpaperPickerActivity.intent(ac.asContext())
+                    )
+            }
+        )
         if (BuildConfig.WIDGETS_ENABLED) {
             add(
                 PopupData(
