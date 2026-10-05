@@ -1110,6 +1110,7 @@ public class Launcher extends StatefulActivity<LauncherState>
     protected void onResume() {
         TraceHelper.INSTANCE.beginSection(ON_RESUME_EVT);
         super.onResume();
+        com.qtekfun.ultimatelauncher.anim.OpenReturnAnim.playReturn(this); // UltimateLauncher 0043
         mLauncherUiState.setIsResumedActivity(true);
         DragView.removeAllViews(this);
         TraceHelper.INSTANCE.endSection();
@@ -1965,6 +1966,7 @@ public class Launcher extends StatefulActivity<LauncherState>
     @Override
     public RunnableList startActivitySafely(View v, Intent intent, ItemInfo item) {
         com.qtekfun.ultimatelauncher.dock.RecentApps.record(this, intent, item); // UltimateLauncher 0040
+        com.qtekfun.ultimatelauncher.anim.OpenReturnAnim.remember(v); // UltimateLauncher 0043
         if (!hasBeenResumed()) {
             RunnableList result = new RunnableList();
             // Workaround an issue where the WM launch animation is clobbered when finishing the

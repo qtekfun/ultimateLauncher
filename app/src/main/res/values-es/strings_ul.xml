@@ -30,4 +30,8 @@
     <string name="ul_pref_dock_background_summary">Muestra píldoras translúcidas detrás de los iconos del dock. Desactivado: solo iconos.</string>
     <string name="ul_pref_dock_subtle">Fondo sutil</string>
     <string name="ul_pref_dock_subtle_summary">Hace las píldoras más transparentes.</string>
+    <string name="ul_pref_open_scale">Animación de apertura desde el icono (escala)</string>
+    <string name="ul_pref_open_scale_summary">Las apps crecen desde el icono pulsado. Desactivado: animación de revelado de AOSP.</string>
+    <string name="ul_pref_return_pop">Animación del icono al volver</string>
+    <string name="ul_pref_return_pop_summary">El icono que lanzaste hace un «pop» al volver al launcher. La ventana de la app la cierra el sistema.</string>
 </resources>

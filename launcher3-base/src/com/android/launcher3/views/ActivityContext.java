@@ -520,7 +520,7 @@ public interface ActivityContext extends SavedStateRegistryOwner {
             }
         }
         ActivityOptions options =
-                allowBGLaunch(ActivityOptions.makeClipRevealAnimation(v, left, top, width, height));
+                allowBGLaunch(com.qtekfun.ultimatelauncher.anim.OpenReturnAnim.makeOptions(v, left, top, width, height)); // UltimateLauncher 0043
         options.setLaunchDisplayId(
                 (v != null && v.getDisplay() != null) ? v.getDisplay().getDisplayId()
                         : Display.DEFAULT_DISPLAY);
