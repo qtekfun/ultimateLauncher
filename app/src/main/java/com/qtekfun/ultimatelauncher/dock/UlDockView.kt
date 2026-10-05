@@ -123,7 +123,9 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
                 if (shown.size >= RecentApps.max(context)) break
                 if (cn.packageName in fixed) continue
                 val info = la.getActivityList(cn.packageName, Process.myUserHandle()).firstOrNull { it.componentName == cn } ?: continue
-                val bmp = li.createBadgedIconBitmap(info.getIcon(0))
+                val bmp = li.createBadgedIconBitmap(
+                    // Mismo origen e iconDpi que el resto del launcher (IconLoader), no getIcon(0): en EMUI daba otro icono.
+                    com.android.launcher3.icons.IconProvider(context).getIcon(info.activityInfo, launcher.deviceProfile.inv.fillResIconDpi))
                 val v = ImageView(context).apply {
                     setImageDrawable(bmp.newIcon(context, 0, shape))
                     contentDescription = info.label
