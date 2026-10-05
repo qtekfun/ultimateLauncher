@@ -65,7 +65,8 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
     @Override
     public void doSearch(String query, SearchCallback<AdapterItem> callback) {
         mAppState.getModel().enqueueModelUpdateTask((taskController, dataModel, apps) ->  {
-            ArrayList<AdapterItem> result = getTitleMatchResult(apps.data, query);
+            ArrayList<AdapterItem> result = getTitleMatchResult(
+                    com.qtekfun.ultimatelauncher.hidden.HiddenApps.visibleApps(mAppState.getContext(), apps.data), query); // UltimateLauncher 0181
             if (mAddNoResultsMessage && result.isEmpty()) {
                 result.add(getEmptyMessageAdapterItem(query));
             }

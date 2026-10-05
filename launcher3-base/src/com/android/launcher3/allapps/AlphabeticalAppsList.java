@@ -114,6 +114,8 @@ public class AlphabeticalAppsList implements AllAppsStore.OnUpdateListener {
     private int mNumAppsPerRowAllApps;
     private int mNumAppRowsInAdapter;
     private Predicate<ItemInfo> mItemFilter;
+    // UltimateLauncher 0181: oyente de la lista de apps ocultas (referencia fuerte: SharedPreferences usa débiles).
+    private Object mUlHiddenListener;
 
     public AlphabeticalAppsList(ActivityContext activityContext, @Nullable AllAppsStore appsStore,
             WorkProfileManager workProfileManager, PrivateProfileManager privateProfileManager) {
@@ -128,6 +130,7 @@ public class AlphabeticalAppsList implements AllAppsStore.OnUpdateListener {
                 mActivityContext.getDeviceProfile().getAllAppsProfile().getNumShownAllAppsColumns();
         if (mAllAppsStore != null) {
             mAllAppsStore.addUpdateListener(this);
+            mUlHiddenListener = com.qtekfun.ultimatelauncher.hidden.HiddenApps.observe(context, mAllAppsStore::notifyUpdate); // UltimateLauncher 0181
         }
         mPrivateProfileAppScrollerBadge = new SpannableString(" ");
         mPrivateProfileAppScrollerBadge.setSpan(new ImageSpan(context, Flags.letterFastScroller()
@@ -245,8 +248,9 @@ public class AlphabeticalAppsList implements AllAppsStore.OnUpdateListener {
         mPrivateApps.clear();
 
         // Filter against private space app that may show outside of Private Profile.
+        final java.util.Set<String> ulHidden = com.qtekfun.ultimatelauncher.hidden.HiddenApps.hiddenSet(mActivityContext.asContext()); // UltimateLauncher 0181
         Stream<AppInfo> appSteam = Stream.of(mAllAppsStore.getApps()).filter(
-                info -> !isPrivateSpaceApp(info));
+                info -> !isPrivateSpaceApp(info) && !com.qtekfun.ultimatelauncher.hidden.HiddenApps.isHidden(ulHidden, info));
         Stream<AppInfo> privateAppStream = Stream.of(mAllAppsStore.getApps());
 
         if (!hasSearchResults() && mItemFilter != null) {

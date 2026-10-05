@@ -101,6 +101,23 @@ object WorkspaceLongPressOptions {
             }
         )
 
+        // UltimateLauncher 0183: acceso a las apps ocultas (pide autenticarse en la propia pantalla).
+        add(
+            PopupData(
+                R.drawable.ul_ic_hide,
+                R.string.ul_hidden_apps,
+                SYSTEM_SHORTCUT,
+                IGNORE,
+            ) { ac, _, _ ->
+                ac.asContext()
+                    .startActivity(
+                        Intent()
+                            .setClassName(ac.asContext().packageName, "com.qtekfun.ultimatelauncher.hidden.HiddenAppsActivity")
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    )
+            }
+        )
+
         if (Flags.condoPlanner()) {
             add(
                 PopupData(

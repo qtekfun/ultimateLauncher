@@ -113,4 +113,28 @@
     <string name="ul_step_import">4. Traer mi pantalla de inicio (opcional)</string>
     <string name="ul_import_help">Importa iconos, carpetas y dock de otro launcher instalado o de su archivo de copia. Nada sale del teléfono.</string>
     <string name="ul_btn_import">Traer mi pantalla de inicio</string>
+
+    <!-- Deslizar hacia abajo en el escritorio (parche 0180) -->
+    <string name="ul_pref_swipe_down">Deslizar hacia abajo en el escritorio</string>
+    <string name="ul_pref_swipe_down_summary">Desliza hacia abajo desde un hueco para abrir notificaciones o ajustes rápidos. Usa el permiso EXPAND_STATUS_BAR y una llamada no pública del sistema, así que puede no funcionar en todos los móviles. Apagado por defecto.</string>
+    <string name="ul_pref_swipe_split">Mitad derecha: ajustes rápidos</string>
+    <string name="ul_pref_swipe_split_summary">La mitad izquierda abre las notificaciones y la derecha los ajustes rápidos. Apagado: toda la pantalla abre las notificaciones.</string>
+    <string name="ul_pref_swipe_swap">Invertir las dos acciones</string>
+    <string name="ul_pref_swipe_swap_summary">La izquierda abre los ajustes rápidos y la derecha las notificaciones (o toda la pantalla abre ajustes rápidos si no hay división).</string>
+    <string name="ul_swipe_unavailable">Este móvil no deja que el launcher abra ese panel. Apaga el gesto en los ajustes de inicio.</string>
+
+    <!-- Apps ocultas (parches 0181-0183) -->
+    <string name="ul_hide_app">Ocultar</string>
+    <string name="ul_hide_needs_lock">Configura un bloqueo de pantalla (PIN, patrón, contraseña o biometría) en los ajustes del sistema antes de ocultar apps.</string>
+    <string name="ul_hide_done">%1$s oculta. La encontrarás en Ajustes > Apps ocultas o en el menú del escritorio.</string>
+    <string name="ul_hidden_apps">Apps ocultas</string>
+    <string name="ul_pref_hidden_apps_summary">Apps fuera del cajón y de su búsqueda. Solo se abren tras confirmar con huella, rostro, PIN, patrón o contraseña.</string>
+    <string name="ul_hidden_auth_subtitle">Confirma que eres tú para ver tus apps ocultas</string>
+    <string name="ul_hidden_no_lock_notice">No hay bloqueo de pantalla, así que las apps ocultas no se pueden proteger. Configura uno en los ajustes del sistema.</string>
+    <string name="ul_hidden_empty">No hay apps ocultas. Mantén pulsada una app y elige Ocultar, o usa el botón de arriba.</string>
+    <string name="ul_hidden_pick">Elegir apps a ocultar</string>
+    <string name="ul_hidden_done">Hecho</string>
+    <string name="ul_hidden_pick_help">Las apps que ocultes desaparecen del cajón y de la búsqueda. Los iconos que ya tengas en el escritorio se mantienen.</string>
+    <string name="ul_hidden_unhide">Mostrar de nuevo</string>
+    <string name="ul_hidden_cannot_open">No se pudo abrir esa app.</string>
 </resources>

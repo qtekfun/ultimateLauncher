@@ -113,4 +113,28 @@
     <string name="ul_step_import">4. Bring my home screen (optional)</string>
     <string name="ul_import_help">Import icons, folders and dock from another launcher you have installed or from its backup file. Nothing leaves your phone.</string>
     <string name="ul_btn_import">Bring my home screen</string>
+
+    <!-- Swipe down on the home screen (patch 0180) -->
+    <string name="ul_pref_swipe_down">Swipe down on the home screen</string>
+    <string name="ul_pref_swipe_down_summary">Swipe down on an empty spot to open notifications or quick settings. It uses the EXPAND_STATUS_BAR permission and a non-public system call, so it may not work on every phone. Off by default.</string>
+    <string name="ul_pref_swipe_split">Right half: quick settings</string>
+    <string name="ul_pref_swipe_split_summary">Left half opens notifications and right half opens quick settings. Off: the whole screen opens notifications.</string>
+    <string name="ul_pref_swipe_swap">Swap the two actions</string>
+    <string name="ul_pref_swipe_swap_summary">Left half opens quick settings and right half opens notifications (or the whole screen opens quick settings if the split is off).</string>
+    <string name="ul_swipe_unavailable">This phone does not let the launcher open that panel. Turn the gesture off in the home settings.</string>
+
+    <!-- Hidden apps (patches 0181-0183) -->
+    <string name="ul_hide_app">Hide</string>
+    <string name="ul_hide_needs_lock">Set a screen lock (PIN, pattern, password or biometrics) in the system settings before hiding apps.</string>
+    <string name="ul_hide_done">%1$s hidden. You can find it in Settings > Hidden apps, or in the home screen menu.</string>
+    <string name="ul_hidden_apps">Hidden apps</string>
+    <string name="ul_pref_hidden_apps_summary">Apps hidden from the drawer and its search. They open only after you confirm with your fingerprint, face, PIN, pattern or password.</string>
+    <string name="ul_hidden_auth_subtitle">Confirm it is you to see your hidden apps</string>
+    <string name="ul_hidden_no_lock_notice">There is no screen lock, so hidden apps cannot be protected. Set one in the system settings.</string>
+    <string name="ul_hidden_empty">No hidden apps. Long-press an app and choose Hide, or use the button above.</string>
+    <string name="ul_hidden_pick">Choose apps to hide</string>
+    <string name="ul_hidden_done">Done</string>
+    <string name="ul_hidden_pick_help">Apps you hide disappear from the drawer and search. Icons you already placed on the home screen stay.</string>
+    <string name="ul_hidden_unhide">Show again</string>
+    <string name="ul_hidden_cannot_open">Could not open that app.</string>
 </resources>

@@ -20,13 +20,14 @@ Esta tabla es la **lista objetivo**. Hay que contrastarla con el manifiesto fusi
 | Acceso a notificaciones (listener) | Solo si el usuario lo activa; **desactivado por defecto** | Puntos de notificación; solo contar por paquete, sin guardar contenido |
 | `BIND_APPWIDGET` | Sí (verificado 2026-10-05 en el manifiesto fusionado) | Alojar widgets de terceros; sin él cada widget pide el diálogo de enlace del sistema (también al restaurar un layout, ver `06`) |
 | `REQUEST_DELETE_PACKAGES` | Sí (verificado 2026-10-05) | Acción «Desinstalar» del icono; abre el diálogo del sistema |
-| Expandir barra de estado | Opcional | Gesto de deslizar para notificaciones |
+| `EXPAND_STATUS_BAR` | Sí (añadido 2026-10-05, parche 0180) | Gesto «deslizar hacia abajo» en el escritorio para abrir notificaciones/ajustes rápidos. Permiso **normal** (se concede al instalar, sin aviso). El gesto está **apagado por defecto**; sin el permiso no habría forma de abrir esos paneles (no existe API pública, la alternativa sería un servicio de accesibilidad, permiso peligroso: descartada). Sin red ni datos. Ver DECISIONS.md |
+| `USE_BIOMETRIC` | Sí (añadido 2026-10-05, parches 0181–0183) | «Apps ocultas»: el `BiometricPrompt` del framework (huella/rostro o, como alternativa, PIN/patrón/contraseña de pantalla) lo exige. Permiso **normal**. La app no recibe datos biométricos, solo «autenticado sí/no». Ver DECISIONS.md |
 | `SET_WALLPAPER` | Sí (verificado 2026-10-05) | Mostrar/cambiar el fondo |
 | `VIBRATE` | Sí | Respuesta háptica |
 | `<applicationId>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` (`DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`) | Sí, lo añade androidx | Permiso propio de la app (nivel de firma, no concede nada a terceros) para receptores dinámicos no exportados |
 | `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | Sí (añadido 2026-10-05) | Solo si el usuario lo pide en el asistente: abre el diálogo del sistema para que no mate el launcher en segundo plano (si no, ColorOS lo cierra y los iconos tardan en volver). Google Play limita este permiso; la distribución es fuera de Play (como UltimateDeck). Sin red, sin datos. |
 | ~~`com.android.launcher.permission.READ_SETTINGS` y `com.android.launcher3.permission.READ_SETTINGS`~~ (NO declarados: propuestos por el importador, retirados a la espera de que el usuario los apruebe; la vía de archivo no los necesita) | **Solo en la variante `sync`** (añadidos 2026-10-05); la variante `default` NO los declara (prohibidos en `tools/permissions-forbidden.txt`) | «Importar de otro launcher» por proveedor de contenido: son permisos normales que declaraban los launchers derivados de Launcher3 antiguos para leer su tabla de iconos. Solo se leen a petición del usuario y nada se envía. La rama actual de AOSP usa un permiso de sistema, así que en la práctica solo sirven con launchers antiguos. Ver DECISIONS.md |
-| Almacenamiento, contactos, ubicación, cámara, micrófono, notificaciones propias, biometría | **No** | No se necesitan |
+| Almacenamiento, contactos, ubicación, cámara, micrófono, notificaciones propias, accesibilidad, administrador de dispositivo | **No** | No se necesitan |
 
 Regla: **cualquier permiso nuevo requiere actualizar esta tabla** y el README público.
 

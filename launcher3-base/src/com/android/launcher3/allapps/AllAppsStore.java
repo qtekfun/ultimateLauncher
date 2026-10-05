@@ -183,7 +183,7 @@ public class AllAppsStore {
         return mDeferUpdatesFlags;
     }
 
-    private void notifyUpdate() {
+    public void notifyUpdate() { // UltimateLauncher 0181: público para recargar al cambiar las apps ocultas
         if (mDeferUpdatesFlags != 0) {
             Log.d(TAG, "notifyUpdate: deferring update");
             mUpdatePending = true;
