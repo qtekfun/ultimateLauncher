@@ -126,4 +126,7 @@ dependencies {
     coreLibraryDesugaring libs.desugar.jdk.libs
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.json:json:20250517'
+    // Solo pruebas unitarias (no se empaqueta): genera bases SQLite sintéticas para probar el importador de launchers ajenos.
+    testImplementation 'org.xerial:sqlite-jdbc:3.50.3.0'
+    testImplementation 'org.slf4j:slf4j-api:2.0.17'
 }
