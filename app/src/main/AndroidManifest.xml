@@ -34,6 +34,11 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.HOME" />
         </intent>
+        <!-- Paquetes de iconos (parches 0171-0173): descubrir los packs instalados por las acciones estándar de launchers (visibilidad de paquetes, no son permisos). -->
+        <intent><action android:name="org.adw.launcher.THEMES" /></intent>
+        <intent><action android:name="com.novalauncher.THEME" /></intent>
+        <intent><action android:name="org.adw.launcher.icons.ACTION_PICK_ICON" /></intent>
+        <intent><action android:name="com.anddoes.launcher.THEME" /></intent>
         <!-- Widget «Reloj digital»: saber si hay app de reloj que atienda el toque (no es un permiso). -->
         <intent>
             <action android:name="android.intent.action.SHOW_ALARMS" />
@@ -95,6 +100,13 @@
             android:excludeFromRecents="true"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|uiMode"
             android:exported="false" />
+        <!-- Fondos de UltimateLauncher: pack incluido en el APK; se abre desde el menú del escritorio y los ajustes (parche 0170). -->
+        <activity
+            android:name="com.qtekfun.ultimatelauncher.wallpaper.WallpaperPickerActivity"
+            android:label="@string/ul_wp_menu"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
+            android:exported="false"
+            android:excludeFromRecents="true" />
 
         <!-- Importar la pantalla de inicio de otro launcher (archivo de copia o proveedor), sin red. Se abre desde Exportar/importar y desde el asistente. -->
         <activity

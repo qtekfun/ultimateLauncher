@@ -33,6 +33,9 @@ import org.xmlpull.v1.XmlPullParser;
 import java.util.Collections;
 import java.util.Map;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.ComponentInfo;
+import android.graphics.drawable.Drawable;
 import javax.inject.Inject;
 
 /**
@@ -64,6 +67,19 @@ public class LauncherIconProvider extends IconProvider {
     @Override
     protected ThemeData getThemeDataForPackage(String packageName) {
         return getThemedIconMap().get(packageName);
+    }
+
+    // UltimateLauncher 0172: paquetes de iconos
+    @Override
+    protected Drawable applyIconPack(ComponentInfo info, Drawable original, int iconDpi) {
+        return com.qtekfun.ultimatelauncher.iconpack.IconPackManager.get(mContext).applyPack(info, original, iconDpi);
+    }
+
+    @Override
+    protected PersistedItemState getApplicationInfoHash(ApplicationInfo appInfo) {
+        PersistedItemState state = super.getApplicationInfoHash(appInfo);
+        String token = com.qtekfun.ultimatelauncher.iconpack.IconPackManager.get(mContext).stateToken();
+        return token.isEmpty() ? state : state.withAdditionalValues(token);
     }
 
     @Override

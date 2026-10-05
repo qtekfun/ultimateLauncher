@@ -176,9 +176,11 @@ constructor(
                     InsetDrawable(icon, inset, inset, inset, inset),
                 )
         }
+        // UltimateLauncher 0171: un icono de pack no opaco ya trae su forma: no se envuelve ni se rellena
+        val rawPackIcon = tempIcon is PackIcon && !isMostlyOpaque(tempIcon)
         tempIcon = fillOpaqueLegacy(tempIcon) // UltimateLauncher 0017b
-        if (options.wrapNonAdaptiveIcon) tempIcon = wrapToAdaptiveIcon(tempIcon, options)
-        tempIcon = fillTransparentBackground(tempIcon) // UltimateLauncher 0017
+        if (options.wrapNonAdaptiveIcon && !rawPackIcon) tempIcon = wrapToAdaptiveIcon(tempIcon, options)
+        if (!rawPackIcon) tempIcon = fillTransparentBackground(tempIcon) // UltimateLauncher 0017
 
         val drawFullBleed = options.drawFullBleed ?: drawFullBleedIcons
         val bitmap = drawableToBitmap(tempIcon, drawFullBleed, options)

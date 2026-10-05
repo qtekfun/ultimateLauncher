@@ -19,9 +19,11 @@ R = pathlib.Path(__file__).resolve().parent.parent / "launcher3-base"
 MARK = "UltimateLauncher 0120"
 
 
-def sub(path, old, new, count=1):
+def sub(path, old, new, count=1, done=None):
     p = R / path
     t = p.read_text()
+    if done is not None and done in t:  # idempotente aunque otro parche haya insertado texto junto a `old`
+        return
     if MARK in t and new in t:
         return
     assert t.count(old) >= 1, (path, old[:60])
@@ -133,7 +135,7 @@ sub("src/com/android/launcher3/settings/SettingsActivity.java",
                         return true;
                     });
                     return info.isLargeScreen(info.realBounds);
-                case "pref_ul_dock_recents_clear": // UltimateLauncher 0092""")
+                case "pref_ul_dock_recents_clear": // UltimateLauncher 0092""", done="EdgeGrid.KEY: // UltimateLauncher 0120")
 
 px = R / "res/xml/launcher_preferences.xml"
 t = px.read_text()

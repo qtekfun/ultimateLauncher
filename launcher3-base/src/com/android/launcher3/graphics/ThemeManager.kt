@@ -127,6 +127,12 @@ constructor(
         }
     }
 
+    /**
+     * UltimateLauncher 0172: el origen de los iconos cambió (paquete de iconos): se avisa como en un cambio de tema, lo que
+     * vacía la caché de iconos y recarga el modelo.
+     */
+    @AnyThread fun ulNotifyIconSourceChanged() = listeners.forEach { it.onThemeChanged() }
+
     @AnyThread fun addChangeListener(listener: ThemeChangeListener) = listeners.add(listener)
 
     @AnyThread fun removeChangeListener(listener: ThemeChangeListener) = listeners.remove(listener)

@@ -338,6 +338,16 @@ public class SettingsActivity extends FragmentActivity
                         return true;
                     });
                     return info.isLargeScreen(info.realBounds);
+                case "pref_ul_wallpapers": // UltimateLauncher 0170
+                    preference.setOnPreferenceClickListener(p -> {
+                        startActivity(com.qtekfun.ultimatelauncher.wallpaper.WallpaperPickerActivity.intent(getContext()));
+                        return true;
+                    });
+                    return true;
+                case "pref_ul_icon_pack": // UltimateLauncher 0173
+                    return com.qtekfun.ultimatelauncher.iconpack.IconPackSettings.initPicker(preference, getContext());
+                case "pref_ul_icon_pack_back": // UltimateLauncher 0173
+                    return com.qtekfun.ultimatelauncher.iconpack.IconPackSettings.initBackSwitch(preference, getContext());
                 case "pref_ul_dock_recents_clear": // UltimateLauncher 0092
                     preference.setOnPreferenceClickListener(p -> {
                         com.qtekfun.ultimatelauncher.dock.RecentApps.clear(getContext());

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SOLO build debug: paquete de iconos de prueba propio (tools/gen-testpack.py) para validar el flujo de «Paquete de iconos»
+  sin instalar packs de terceros. No existe en release (src/debug no se empaqueta).
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name="com.qtekfun.ultimatelauncher.debugpack.DebugPackActivity"
+            android:label="UL pack de prueba (debug)"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:exported="true"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="org.adw.launcher.THEMES" />
+                <action android:name="com.novalauncher.THEME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
