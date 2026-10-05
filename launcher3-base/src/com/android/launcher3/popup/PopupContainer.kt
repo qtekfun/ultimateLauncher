@@ -154,6 +154,7 @@ open class PopupContainer<T : ActivityContext>(
                             .log(systemShortcut.eventId)
                     }
                     systemShortcut.popupAction.invoke(activityContext, itemInfo, itemView)
+                    close(true) // UltimateLauncher 0150
                 }
             }
             show()

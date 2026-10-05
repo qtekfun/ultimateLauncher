@@ -9,6 +9,7 @@ app/src/main/res/values/ul_menu.xml. Este script solo toca AOSP:
    animación propia, filas destructivas en rojo.
  - OptionsPopupView.java: las filas van dentro de un contenedor (una sola tarjeta) y sin flecha.
  - PopupContainerWithArrow.kt: las filas de atajos ocupan todo el ancho de la tarjeta (antes ancho fijo).
+ - ic_add_circle_filled.xml (botón «+» de los atajos, en blanco sobre la tarjeta oscura)
  - layouts de filas/contenedores, dimens.xml, popup_background.xml, styles.xml (colores de popup en ambos temas).
 """
 import pathlib
@@ -181,6 +182,7 @@ sub("res/layout/system_shortcut_icons_container.xml",
 sub("res/drawable/popup_background.xml",
     '    <solid android:color="@color/materialColorSurfaceContainer"/>\n    <corners android:radius="@dimen/dialogCornerRadius"/>',
     '    <solid android:color="@color/ul_menu_card"/>\n    <corners android:radius="@dimen/ul_menu_corner_radius"/>')
+sub("res/drawable/ic_add_circle_filled.xml", 'android:tint="@color/materialColorOnSurface"', 'android:tint="@color/ul_menu_text"')
 sub("res/values/dimens.xml", '<dimen name="bg_popup_item_width">216dp</dimen>', '<dimen name="bg_popup_item_width">220dp</dimen>')
 sub("res/values/dimens.xml", '<dimen name="bg_popup_item_height">52dp</dimen>', '<dimen name="bg_popup_item_height">50dp</dimen>')
 sub("res/values/dimens.xml", '<dimen name="system_shortcut_header_height">52dp</dimen>', '<dimen name="system_shortcut_header_height">50dp</dimen>')
@@ -198,3 +200,10 @@ for old, new in (
     if old in t:
         t = t.replace(old, new)
 p.write_text(t)
+
+# PopupContainer.kt: tras elegir una fila de los menús del escritorio/carpetas el menú se cierra (antes se quedaba
+# abierto sobre el cajón al elegir «Lista de aplicaciones»).
+sub("src/com/android/launcher3/popup/PopupContainer.kt",
+    "                    systemShortcut.popupAction.invoke(activityContext, itemInfo, itemView)\n                }\n            }\n            show()",
+    "                    systemShortcut.popupAction.invoke(activityContext, itemInfo, itemView)\n"
+    "                    close(true) // UltimateLauncher 0150\n                }\n            }\n            show()")
