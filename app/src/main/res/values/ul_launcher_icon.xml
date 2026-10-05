@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
-  SPDX-License-Identifier: Apache-2.0
+  SPDX-License-Identifier: GPL-3.0-or-later
 -->
 <resources>
     <!-- Índigo: distinto de los azules, el verde y el oscuro del resto de apps Ultimate. -->
