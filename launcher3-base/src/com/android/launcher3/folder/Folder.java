@@ -301,6 +301,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
                 ResourcesCompat.getDrawable(getResources(),
                         R.drawable.round_rect_folder, getContext().getTheme()));
         mBackground.setCallback(this);
+        if (com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(context)) mBackground.setColor(android.graphics.Color.TRANSPARENT); // UltimateLauncher 0048
         mBoxSelectionHelper = enableWorkspaceSelection()
                 ? new BoxSelectionHelper(mActivityContext, this)
                 : null;
@@ -343,6 +344,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         mFolderName.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 dp.getFolderProfile().getLabelTextSizePx());
         mFolderName.setOnBackKeyListener(this);
+        com.qtekfun.ultimatelauncher.folder.FolderStyle.styleFolder(this, mFooter, mFolderName); // UltimateLauncher 0048
         mFolderName.setOnEditorActionListener(this);
         mFolderName.setSelectAllOnFocus(true);
         mFolderName.setInputType(mFolderName.getInputType()
@@ -765,6 +767,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         updateTextViewFocus();
 
         mIsOpen = true;
+        com.qtekfun.ultimatelauncher.folder.FolderStyle.onOpen((com.android.launcher3.Launcher) mActivityContext); // UltimateLauncher 0048
 
         BaseDragLayer dragLayer = mActivityContext.getDragLayer();
         // Just verify that the folder hasn't already been added to the DragLayer.
@@ -956,6 +959,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
     }
 
     private void animateClosed() {
+        com.qtekfun.ultimatelauncher.folder.FolderStyle.onClose((com.android.launcher3.Launcher) mActivityContext); // UltimateLauncher 0048
         if (mIsAnimatingClosed) {
             cancelRunningAnimations();
             return;
@@ -1017,6 +1021,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
 
     private void closeComplete(boolean wasAnimated) {
         mIsOpen = false;
+        com.qtekfun.ultimatelauncher.folder.FolderStyle.onClose((com.android.launcher3.Launcher) mActivityContext); // UltimateLauncher 0048
         mBlurBackgroundHelper.folderCloseComplete();
 
         // TODO: Clear all active animations.
@@ -1323,6 +1328,10 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         mActivityContext.updateOpenFolderPosition(inOutPosition, sTempRect, width, height);
         left = inOutPosition[0];
         top = inOutPosition[1];
+        int[] ulPos = new int[]{left, top}; // UltimateLauncher 0048
+        com.qtekfun.ultimatelauncher.folder.FolderStyle.position((com.android.launcher3.Launcher) mActivityContext, width, getFooterHeight(), ulPos);
+        left = ulPos[0];
+        top = ulPos[1];
 
         int folderPivotX = width / 2 + (centeredLeft - left);
         int folderPivotY = height / 2 + (centeredTop - top);

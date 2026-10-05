@@ -40,4 +40,6 @@
     <string name="ul_battery_no">Battery optimization is ON: the system may kill the launcher.</string>
     <string name="ul_pref_gesture_contract">Home-gesture icon contract</string>
     <string name="ul_pref_gesture_contract_summary">Animates the return to the icon after the swipe-up gesture. Off by default: on ColorOS it can leave the icons hidden for a moment.</string>
+    <string name="ul_pref_folder_style">Open folders like OPPO</string>
+    <string name="ul_pref_folder_style_summary">No card: title on top, icons over the blurred wallpaper and the rest of the home screen hidden.</string>
 </resources>
