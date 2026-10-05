@@ -5,7 +5,7 @@ Objetivo: que `com.qtekfun.ultimatelauncher` (variante `default`) esté en el ca
 ## Qué hay ya en el repositorio
 | Pieza | Dónde | Estado |
 |---|---|---|
-| Licencia Apache-2.0 | `LICENSE`, `NOTICE`, cabeceras SPDX en `app/src` y `tools/` | Hecho (decisión en `docs/DECISIONS.md`, el usuario puede cambiarla) |
+| Licencia GPL-3.0-or-later | `LICENSE`, `NOTICE`, cabeceras SPDX en `app/src` y `tools/` | Hecho (decisión en `docs/DECISIONS.md`, el usuario puede cambiarla) |
 | Metadatos del catálogo | `fastlane/metadata/android/{es-ES,en-US}/` (título, descripción corta y larga, `changelogs/1.txt`) | Hecho; **sin icono ni capturas** (ver «Pendiente») |
 | Receta borrador | `docs/fdroid/com.qtekfun.ultimatelauncher.yml` | Borrador, **no probada con `fdroid build`** (no hay fdroidserver instalado aquí) |
 | Release sin firma | `./gradlew -Pul.unsigned=true :app:assembleDefaultRelease` → `app-default-release-unsigned.apk` | Hecho (el `release` normal no cambia: sigue firmando con la clave de publicación por variables de entorno o, sin ellas, con la de depuración) |
@@ -85,7 +85,7 @@ Causas habituales de no determinismo que se revisaron: marcas de tiempo (normali
 - Si algún día F-Droid y el upstream firman distinto y se quiere unificar, la única vía es que los usuarios se muevan con copia de seguridad/restauración.
 
 ## Lista de comprobación del merge request a fdroiddata
-- [ ] Repositorio público con `LICENSE` (Apache-2.0) y etiqueta `vX.Y.Z` que contiene `fastlane/` y `-Pul.unsigned`.
+- [ ] Repositorio público con `LICENSE` (GPL-3.0-or-later) y etiqueta `vX.Y.Z` que contiene `fastlane/` y `-Pul.unsigned`.
 - [ ] Hacer fork de `gitlab.com/fdroid/fdroiddata`, rama nueva (`com.qtekfun.ultimatelauncher`), copiar `docs/fdroid/com.qtekfun.ultimatelauncher.yml` a `metadata/com.qtekfun.ultimatelauncher.yml`.
 - [ ] Quitar los comentarios del borrador que no apliquen y fijar `commit:` a la etiqueta real (o al hash completo).
 - [ ] `fdroid readmeta`, `fdroid rewritemeta com.qtekfun.ultimatelauncher`, `fdroid lint com.qtekfun.ultimatelauncher`, `fdroid build -v -l com.qtekfun.ultimatelauncher` y `fdroid scanner com.qtekfun.ultimatelauncher` sin errores.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Hace que un MÓVIL se comporte como tablet para diseñar (densidad 280 dpi => ≈1810×823 dp, horizontal => clase tablet-landscape).
 # Es REVERSIBLE: guarda los valores originales (densidad, tamaño, rotación) y `off` los restaura exactamente.
 # Uso: tools/emulate-tablet.sh on|off|status [serie]

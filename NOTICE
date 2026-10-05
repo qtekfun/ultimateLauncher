@@ -1,8 +1,12 @@
 UltimateLauncher
 Copyright 2026 UltimateLauncher contributors
 
-Este proyecto se distribuye bajo la licencia Apache, versión 2.0 (ver LICENSE).
-SPDX-License-Identifier: Apache-2.0
+Este proyecto se distribuye bajo la GNU General Public License, versión 3 o posterior (ver LICENSE).
+SPDX-License-Identifier: GPL-3.0-or-later
+
+Los archivos de AOSP (Launcher3, librerías de SystemUI) y las dependencias con licencia Apache-2.0 se
+incorporan con sus avisos y su licencia originales: la Apache-2.0 es compatible con la GPLv3, de modo que el
+conjunto se distribuye bajo la GPLv3 conservando las cabeceras y atribuciones de cada archivo.
 
 Este producto incluye software desarrollado por terceros. Se indican aquí sus
 atribuciones; cada componente conserva su propia licencia y sus avisos originales.

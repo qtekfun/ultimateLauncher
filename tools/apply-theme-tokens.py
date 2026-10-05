@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Aplica los tokens medidos (assets/themes/<id>.json, clase 'phone') a Launcher3 en tiempo de compilación.
 
 Genera una <grid-option> "ultimate_phone" dentro de launcher3-base/res/xml/device_profiles.xml (entre marcadores)

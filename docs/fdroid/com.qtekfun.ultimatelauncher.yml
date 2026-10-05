@@ -3,7 +3,7 @@
 # Antes de enviar: `fdroid rewritemeta com.qtekfun.ultimatelauncher`, `fdroid lint` y `fdroid build -v -l com.qtekfun.ultimatelauncher`.
 Categories:
   - System
-License: Apache-2.0
+License: GPL-3.0-or-later
 SourceCode: https://github.com/qtekfun/ultimateLauncher
 IssueTracker: https://github.com/qtekfun/ultimateLauncher/issues
 Changelog: https://github.com/qtekfun/ultimateLauncher/blob/HEAD/CHANGELOG.md
