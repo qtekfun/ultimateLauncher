@@ -68,4 +68,40 @@
     <string name="ul_clock_preview_date">lun, 5 oct</string>
     <string name="ul_clock_preview_weekday">lunes</string>
     <string name="ul_clock_preview_monthday">5 de octubre</string>
+
+    <!-- Importar de otro launcher -->
+    <string name="ul_imp_label">Importar de otro launcher</string>
+    <string name="ul_imp_title">Traer mi pantalla de inicio</string>
+    <string name="ul_imp_intro">Trae iconos, carpetas, dock y páginas de otro launcher. Nada sale del teléfono (sin red). Las apps que no estén instaladas aquí se omiten; los widgets vuelven vacíos y piden un toque para aceptar el aviso del sistema. El paquete de iconos no se importa: vuelve a elegirlo en su app.</string>
+    <string name="ul_imp_detected">Launchers encontrados en este teléfono</string>
+    <string name="ul_imp_none_detected">No hay otro launcher instalado. Aun así puedes elegir un archivo de copia abajo.</string>
+    <string name="ul_imp_route_ok">Se puede leer directamente.</string>
+    <string name="ul_imp_route_perm">Protege su disposición con el permiso %1$s, que esta app no tiene (permiso de sistema). Usa su archivo de copia de seguridad.</string>
+    <string name="ul_imp_route_absent">No expone su disposición a otras apps.</string>
+    <string name="ul_imp_route_unverified">(vía aún no verificada en un dispositivo real)</string>
+    <string name="ul_imp_btn_read">Leer su disposición</string>
+    <string name="ul_imp_closed">%1$s es un launcher cerrado: no expone nada a las apps normales, así que su disposición no se puede importar automáticamente. Mira las alternativas más abajo.</string>
+    <string name="ul_imp_backup_for">Archivo de copia admitido (%1$s):</string>
+    <string name="ul_imp_btn_file">Elegir un archivo de copia…</string>
+    <string name="ul_imp_file_help">Elige una base de datos de Launcher3 (.db) o un zip de copia como .lawnchairbackup o .novabackup con el selector de documentos del sistema. No hace falta permiso de almacenamiento.</string>
+    <string name="ul_imp_btn_own">Importar un export de UltimateLauncher…</string>
+    <string name="ul_imp_own_file">Este archivo es un export de UltimateLauncher: usa «Exportar/importar disposición».</string>
+    <string name="ul_imp_alt_title">Si tu launcher es cerrado (OPPO, Xiaomi, Huawei, vivo, Samsung…)</string>
+    <string name="ul_imp_alt_body">No hay forma legítima de leer su disposición sin privilegios de sistema, así que esta app no lo intenta. Opciones: (1) comprueba si el launcher antiguo puede exportar un archivo de copia y elígelo arriba; (2) haz una captura de cada página del inicio y coloca aquí tus apps siguiendo las capturas (mantén pulsado un icono del cajón para soltarlo en la página); (3) conserva el teléfono antiguo hasta tenerlo todo colocado.</string>
+    <string name="ul_imp_reading">Leyendo…</string>
+    <string name="ul_imp_preview_title">Resumen de la importación</string>
+    <string name="ul_imp_preview_msg">Se importarán %1$d apps, %2$d carpetas (%3$d apps dentro), %4$d widgets y %5$d elementos del dock en %6$d página(s). %7$d omitidos.</string>
+    <string name="ul_imp_preview_replace">Se reemplazará tu pantalla de inicio actual. Antes se guarda una copia.</string>
+    <string name="ul_imp_preview_trunc">El archivo superaba los límites de seguridad; solo se ha leído la primera parte.</string>
+    <string name="ul_imp_preview_omitted">No se importará:</string>
+    <string name="ul_imp_apply">Importar</string>
+    <string name="ul_imp_done">Importado. La disposición anterior se guardó como %1$s.</string>
+    <string name="ul_imp_err_notlayout">No se encontró ninguna disposición de pantalla de inicio en ese archivo.</string>
+    <string name="ul_imp_err_large">El archivo es demasiado grande o está mal formado.</string>
+    <string name="ul_imp_err_denied">El otro launcher rechazó el acceso (exige un permiso que esta app no tiene).</string>
+    <string name="ul_imp_err_generic">No se pudo leer: %1$s</string>
+    <string name="ul_imp_open_from_sync">Importar de otro launcher…</string>
+    <string name="ul_step_import">4. Traer mi pantalla de inicio (opcional)</string>
+    <string name="ul_import_help">Importa iconos, carpetas y dock de otro launcher instalado o de su archivo de copia. Nada sale del teléfono.</string>
+    <string name="ul_btn_import">Traer mi pantalla de inicio</string>
 </resources>
