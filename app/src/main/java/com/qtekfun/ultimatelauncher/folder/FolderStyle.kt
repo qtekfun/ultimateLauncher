@@ -16,16 +16,21 @@ import com.qtekfun.ultimatelauncher.dock.UlDockView
  */
 object FolderStyle {
     const val KEY = "pref_ul_folder_style"
-    private const val BLUR_PX = 90
+    private const val BLUR_PX = 220
     private const val FADE_MS = 220L
     /** Posición vertical del centro del título (OPPO: 782 de 3168 px = 24,7 %). */
     private const val TITLE_CENTER_Y = 0.247f
     /** Ajuste de la separación título-iconos, en dp (negativo = más juntos, estilo iOS). */
-    private const val TITLE_GAP_DP = -16f
+    private const val TITLE_GAP_DP = 20f
     /** Jerarquía discreta estilo iOS: título ≈ 1,1× la etiqueta de los iconos, en negrita. */
-    private const val TITLE_SCALE = 1.1f
+    private const val TITLE_SCALE = 1.7f
     private const val BOTTOM_MARGIN_DP = 16f
     private const val TOP_MARGIN_DP = 24f
+
+    /** Estado del interruptor para código sin contexto (organizador de la rejilla); se refresca al crear cada carpeta. */
+    @Volatile private var active = true
+
+    @JvmStatic fun fixedColumns(): Boolean = active
 
     fun enabled(context: Context): Boolean =
         context.getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
@@ -39,7 +44,8 @@ object FolderStyle {
     }
 
     @JvmStatic fun styleFolder(folder: Folder, footer: ViewGroup, name: android.widget.TextView) {
-        if (!enabled(folder.context)) return
+        active = enabled(folder.context)
+        if (!active) return
         // El título pasa encima de los iconos.
         (footer.parent as? ViewGroup)?.let { p -> p.removeView(footer); p.addView(footer, 0) }
         // Separación título-iconos: la referencia tiene la fila de iconos 302 px bajo el título; sin esto quedaba ~70 px
@@ -49,7 +55,6 @@ object FolderStyle {
                 c.paddingRight, c.paddingBottom)
         }
         name.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, name.textSize * TITLE_SCALE)
-        name.setTypeface(android.graphics.Typeface.create(android.graphics.Typeface.DEFAULT, android.graphics.Typeface.BOLD))
         name.setTextColor(Color.WHITE)
         name.setHintTextColor(0xB3FFFFFF.toInt())
     }
@@ -69,9 +74,9 @@ object FolderStyle {
     }
 
     /** Panel traslúcido tipo iOS tras el título y los iconos: aclara lo justo para leer sobre cualquier fondo. */
-    private const val CARD_ARGB = 0x38FFFFFF
+    private const val CARD_ARGB = 0x00000000
     /** Oscurecimiento del fondo desenfocado (el blanco sobre fondos claros no se lee). */
-    private const val DIM = 0.32f
+    private const val DIM = 0.1f
 
     @JvmStatic fun cardColor(context: Context): Int = CARD_ARGB
 

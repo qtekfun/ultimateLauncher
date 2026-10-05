@@ -134,6 +134,10 @@ public class FolderGridOrganizer {
             done = gridCountX == oldCountX && gridCountY == oldCountY;
         }
 
+        if (com.qtekfun.ultimatelauncher.folder.FolderStyle.fixedColumns()) { // UltimateLauncher 0052
+            gridCountX = mMaxCountX;
+            gridCountY = Math.max(1, Math.min(mMaxCountY, (count + gridCountX - 1) / gridCountX));
+        }
         mCountX = gridCountX;
         mCountY = gridCountY;
     }

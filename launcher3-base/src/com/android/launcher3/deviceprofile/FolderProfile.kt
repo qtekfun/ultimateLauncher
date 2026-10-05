@@ -270,7 +270,9 @@ data class FolderProfile(
             val invIconSizeDp = inv.iconSize[typeIndex]
             val invIconTextSizeDp = inv.iconTextSize[typeIndex]
             val folderChildIconSizePx = max(1, pxFromDp(invIconSizeDp, metrics, scale))
-            val folderChildTextSizePx = pxFromSp(invIconTextSizeDp, metrics, scale)
+            // UltimateLauncher 0049b: etiqueta de las apps dentro de la carpeta de OPPO ≈ 0,87 de la del escritorio (teléfono)
+            val folderChildTextSizePx = (pxFromSp(invIconTextSizeDp, metrics, scale) *
+                (if (minOf(metrics.widthPixels, metrics.heightPixels) / metrics.density < 600f) 0.87f else 1f)).toInt()
             val textHeight: Int = calculateTextHeight(folderChildTextSizePx.toFloat())
             val cellPaddingX =
                 (res.getDimensionPixelSize(R.dimen.folder_cell_x_padding) * scale).toInt()
