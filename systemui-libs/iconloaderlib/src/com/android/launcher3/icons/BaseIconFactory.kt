@@ -176,6 +176,7 @@ constructor(
                     InsetDrawable(icon, inset, inset, inset, inset),
                 )
         }
+        tempIcon = fillOpaqueLegacy(tempIcon) // UltimateLauncher 0017b
         if (options.wrapNonAdaptiveIcon) tempIcon = wrapToAdaptiveIcon(tempIcon, options)
         tempIcon = fillTransparentBackground(tempIcon) // UltimateLauncher 0017
 
@@ -220,6 +221,44 @@ constructor(
         }
 
         return info
+    }
+
+    /** UltimateLauncher 0017b: icono heredado opaco (≥ 75 % de píxeles) -> adaptativo a sangre, sin encoger. */
+    private fun fillOpaqueLegacy(icon: Drawable): Drawable {
+        if (icon is AdaptiveIconDrawable || !isMostlyOpaque(icon)) return icon
+        var inset = AdaptiveIconDrawable.getExtraInsetFraction()
+        inset /= (1 + 2 * inset)
+        return AdaptiveIconDrawable(ColorDrawable(legacyEdgeColor(icon)), InsetDrawable(icon, inset, inset, inset, inset))
+    }
+
+    /** Media del color en la mitad de cada lado (píxeles opacos); blanco si no hay. */
+    private fun legacyEdgeColor(d: Drawable): Int {
+        val size = 24
+        val bmp = Bitmap.createBitmap(size, size, ARGB_8888)
+        val oldBounds = d.copyBounds()
+        d.setBounds(0, 0, size, size)
+        d.draw(android.graphics.Canvas(bmp))
+        d.bounds = oldBounds
+        var r = 0; var g = 0; var b = 0; var n = 0
+        for ((x, y) in listOf(12 to 2, 12 to 21, 2 to 12, 21 to 12)) {
+            val c = bmp.getPixel(x, y)
+            if (Color.alpha(c) > 200) { r += Color.red(c); g += Color.green(c); b += Color.blue(c); n++ }
+        }
+        bmp.recycle()
+        return if (n == 0) Color.WHITE else Color.rgb(r / n, g / n, b / n)
+    }
+
+    private fun isMostlyOpaque(d: Drawable): Boolean {
+        val size = 24
+        val bmp = Bitmap.createBitmap(size, size, ARGB_8888)
+        val oldBounds = d.copyBounds()
+        d.setBounds(0, 0, size, size)
+        d.draw(android.graphics.Canvas(bmp))
+        d.bounds = oldBounds
+        var opaque = 0
+        for (y in 0 until size) for (x in 0 until size) if (Color.alpha(bmp.getPixel(x, y)) > 200) opaque++
+        bmp.recycle()
+        return opaque * 4 >= size * size * 3
     }
 
     /** UltimateLauncher 0017: rellena con la baldosa clara los iconos adaptativos sin fondo visible. */

@@ -1178,6 +1178,7 @@ public class Launcher extends StatefulActivity<LauncherState>
         mOverviewPanel = findViewById(R.id.overview_panel);
         mHotseat = findViewById(R.id.hotseat);
         mHotseat.setWorkspace(mWorkspace);
+        com.qtekfun.ultimatelauncher.dock.UlDockView.attach(this); // UltimateLauncher 0040
 
         // Setup the drag layer
         mDragLayer.setup(mDragController, mWorkspace);
@@ -1963,6 +1964,7 @@ public class Launcher extends StatefulActivity<LauncherState>
 
     @Override
     public RunnableList startActivitySafely(View v, Intent intent, ItemInfo item) {
+        com.qtekfun.ultimatelauncher.dock.RecentApps.record(this, intent, item); // UltimateLauncher 0040
         if (!hasBeenResumed()) {
             RunnableList result = new RunnableList();
             // Workaround an issue where the WM launch animation is clobbered when finishing the

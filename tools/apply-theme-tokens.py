@@ -48,8 +48,8 @@ p.write_text(t)
 idp = root / "launcher3-base/src/com/android/launcher3/InvariantDeviceProfile.java"
 s = idp.read_text()
 old = "        List<DisplayOption> profiles = DisplayOption.getPredefinedDisplayOptions(\n                displayInfo, isFixedLandscapeMode);\n"
-new = "        // UltimateLauncher 0009: rejilla por defecto = tokens medidos (tools/apply-theme-tokens.py).\n        if (TextUtils.isEmpty(gridName)) gridName = \"ultimate_phone\";\n" + old
-if new not in s:
+new = "        // UltimateLauncher 0009: rejilla por defecto = tokens medidos (tools/apply-theme-tokens.py).\n        if (TextUtils.isEmpty(gridName)) gridName = displayInfo.getDeviceType() == TYPE_TABLET ? \"ultimate_tablet\" : \"ultimate_phone\";\n" + old
+if "UltimateLauncher 0009" not in s:
     assert old in s; idp.write_text(s.replace(old, new))
 res = root / "themetokens/res/values/ul_theme_tokens.xml"
 res.parent.mkdir(parents=True, exist_ok=True)

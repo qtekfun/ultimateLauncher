@@ -801,6 +801,13 @@ public class DeviceProfile {
      */
     public Rect getHotseatLayoutPadding(Context context) {
         Rect hotseatBarPadding = new Rect();
+        if (!isVerticalBarLayout() && context.getResources().getBoolean(R.bool.ul_huawei_dock)) { // UltimateLauncher 0040
+            int dockCell = context.getResources().getDimensionPixelSize(R.dimen.ul_dock_cell);
+            int side = Math.max(0, (mDeviceProperties.getAvailableWidthPx()
+                    - dockCell * mHotseatProfile.getNumShownIcons()) / 2);
+            hotseatBarPadding.set(side, 0, side, getHotseatBarBottomPadding());
+            return hotseatBarPadding;
+        }
         if (isVerticalBarLayout()) {
             // The hotseat icons will be placed in the middle of the hotseat cells.
             // Changing the hotseatCellHeightPx is not affecting hotseat icon positions

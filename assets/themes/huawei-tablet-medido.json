@@ -97,6 +97,45 @@
   "notes": [
     "Valores en px de esta pantalla; dp = px / 2,25.",
     "Radio de píldora y color medidos a ojo sobre captura (aproximados).",
-    "No se midieron animaciones."
-  ]
+    "No se midieron animaciones.",
+    "Clase tablet-landscape medida en landscape 2800x1840; tablet vertical no medida (se reutiliza la misma rejilla)."
+  ],
+  "classes": {
+    "tablet-landscape": {
+      "grid": {
+        "columns": 7,
+        "rows": 5,
+        "dockColumns": 6
+      },
+      "icon": {
+        "sizeDp": 62.2,
+        "shape": "superellipse",
+        "exponent": 5,
+        "labelSizeSp": null,
+        "labelLines": 1
+      },
+      "cell": {
+        "widthDp": 143.1,
+        "heightDp": 120.4,
+        "horizontalMarginDp": 120.0
+      },
+      "dock": {
+        "pillHeightDp": 86.2,
+        "pillCornerRadiusDp": 21.3,
+        "iconDp": 61.3,
+        "cellDp": 77.8,
+        "gapDp": 34.2,
+        "bottomMarginDp": 12.0,
+        "recentsMax": 4,
+        "pillPaddingDp": 4.4
+      },
+      "calibration": {
+        "launcherVisibleRatio": 0.915,
+        "workspaceTopPaddingDp": 0,
+        "workspaceBottomPaddingDp": 0,
+        "workspaceSideMarginDp": null,
+        "hotseatBottomSpaceDp": 24.5
+      }
+    }
+  }
 }
