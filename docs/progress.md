@@ -245,3 +245,20 @@ Dispositivo: Android 12 (API 31), EMUI 14.2.0 (`MRO-W09 4.2.0.192`), HarmonyOS n
 - Recientes del dock: pulsación larga → diálogo «Quitar de recientes / Borrar todos los recientes» (verificado, `r2.png`, `r3c.png`); poda persistente de apps desinstaladas al refrescar; «Borrar los recientes» en los ajustes (parche 0092, verificado: `r4.png`). Podar «los que ya no están en tareas recientes» NO es viable sin permiso nuevo (`getRecentTasks` solo devuelve las propias; `GET_TASKS`/`REAL_GET_TASKS` son de firma, `UsageStats` está prohibido por docs/09): se ofrece borrado manual. `RecentsLogic` + `RecentsLogicTest` (7 pruebas); total 34 pruebas unitarias en verde.
 
 **Sin probar / abiertos:** carpetas en tablet (icono 3x3 cerrado y abierta sin tarjeta): no se pudo crear una carpeta (el arrastre por adb sobre un icono no la crea; `input touchscreen motionevent` sí permite pulsación larga pero no se completó); celda de carpeta de teléfono en tablet (comprobada solo por código: 0049 usa el lado corto <600 dp); rotación/multiventana; retrato; cajón: los iconos del inicio se ven tenues detrás del velo (comportamiento heredado); `pm compile` falla en esta build (solo rendimiento); asa del dock sin función.
+
+## Dock de tablet editable (2026-10-05, 13:00–13:35, MatePad MRO-W09)
+Petición: «las apps del dock han de ser editables».
+
+**Causa (diagnosticada con `uiautomator dump`, un registro temporal del árbol de vistas bajo el dedo y pruebas de toque):** ni siquiera un toque corto sobre un icono fijo lo abría. `Hotseat` añade el QSB (`OseWidgetView`) como hijo POR ENCIMA de las celdas; en tablet mide casi todo el ancho del dock (275..2348 px) y, aunque no pinta nada sin GMS (parche 0016), es long-clickable y se quedaba todos los toques. No era `UlDockView` (va por debajo del hotseat), ni la falta de zona de suelta, ni el tipo de arrastre.
+
+**Arreglo:**
+- Parche 0100: `OseWidgetView.dispatchTouchEvent` devuelve false si no hay proveedor (`appWidgetInfo == null`); el ViewGroup pasa entonces el gesto a las celdas.
+- `UlDockView`: durante un arrastre la píldora de fijos abarca TODOS los huecos del hotseat (antes el hueco libre quedaba fuera de la píldora, a la izquierda, y no se veía) y se vuelve a ajustar al soltar. Lógica pura en `DockLogic` + `DockLogicTest` (3 pruebas).
+
+**Verificado en la tablet (capturas en `private-measurements/dockedit/`):**
+1. Toque corto en un fijo abre la app; pulsación larga + arrastre inicia el arrastre de AOSP (aparece «Quitar» arriba).
+2. Sacar un fijo al escritorio (`t2`), volver a meterlo al dock (`t3`), añadir desde el escritorio al hueco izquierdo (6.º fijo, `t7`), reordenar dentro del dock (`t9`), soltar sobre otro icono crea carpeta en el dock (comportamiento estándar; se deshizo sacando el icono de la carpeta, `t5`).
+3. Máximo de fijos = 6 (`numHotseatIcons` = `dockColumns` = 6 en `huawei-tablet-medido.json`): con 5 fijos queda un hueco libre. Soltar en la zona del asa/recientes no es un hueco válido y el icono vuelve al escritorio (`t6`).
+4. Píldoras y asa se redibujan bien durante y tras el arrastre; la zona de recientes y su menú siguen intactos (no se tocó).
+
+**Sin probar / abierto:** persistencia tras `force-stop` (la base de datos es la de AOSP, pero no se pudo repetir porque la tablet se bloqueó, ver abajo); menú de pulsación larga sin mover («Info de la aplicación / Eliminar» sale en el escritorio, en el dock no se llegó a ver); soltar en la papelera/«Quitar» con el dedo; los huecos intermedios que deja un arrastre no se compactan (el dock de Huawei los empaqueta; se intentó `DockLogic.compactTargets` + `moveItemInDatabase` pero no se pudo probar en el dispositivo y se retiró). La tablet se bloqueó (pantalla apagada, huella/contraseña) durante la instalación de la última build; no se introdujo ningún PIN.

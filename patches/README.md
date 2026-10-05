@@ -58,3 +58,4 @@ Cambios que NO son parches sobre archivos de AOSP (andamiaje propio): `build.gra
 
 Piezas de AOSP no importadas o excluidas: `quickstep/` (recientes/gestos), `viewcapturelib`, `displaylib`, `mechanics`, `cuebarlib`,
 `contextualeducationlib`, `iconloaderlib/src_full_lib`, pruebas.
+| 0100 | El hueco del buscador (OseWidgetView) sin proveedor no captura el táctil: los iconos fijos del dock de tablet vuelven a recibir toques y arrastres | qsb/OseWidgetView.kt | `patches/0100-*.py` |
