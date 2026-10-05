@@ -31,3 +31,7 @@
 - M5: curvas medidas (muelles/bézier), validación lado a lado.
 - M7: WebDAV (decidido NO), widgets con configuración al importar.
 - M8: clave de firma de release, CI real, build reproducible, revisión de licencias.
+
+## Hecho por código el 2026-10-05 (sin dispositivo; ver progress.md, «Dock de tablet: compactar...»)
+- Compactar los fijos del dock tras editar, asa con menú (Ajustes del dock / Borrar / Ocultar-Mostrar recientes), Ajustes por categorías y refresco tras restaurar una copia. Pendiente solo verificarlo con la checklist.
+
