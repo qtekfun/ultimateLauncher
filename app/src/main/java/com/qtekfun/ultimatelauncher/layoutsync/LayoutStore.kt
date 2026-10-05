@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.qtekfun.ultimatelauncher.layoutsync
 
 import android.appwidget.AppWidgetManager

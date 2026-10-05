@@ -1,0 +1,73 @@
+UltimateLauncher
+Copyright 2026 UltimateLauncher contributors
+
+Este proyecto se distribuye bajo la licencia Apache, versión 2.0 (ver LICENSE).
+SPDX-License-Identifier: Apache-2.0
+
+Este producto incluye software desarrollado por terceros. Se indican aquí sus
+atribuciones; cada componente conserva su propia licencia y sus avisos originales.
+
+--------------------------------------------------------------------------------
+Código de AOSP (The Android Open Source Project) — Apache-2.0
+--------------------------------------------------------------------------------
+Copyright (C) The Android Open Source Project
+
+Licenciado bajo la licencia Apache, versión 2.0. Las cabeceras originales de cada
+archivo se conservan. Las modificaciones están registradas, archivo por archivo,
+en el directorio patches/.
+
+  - packages/apps/Launcher3, rama android17-release  -> launcher3-base/
+  - frameworks/libs/systemui (iconloaderlib, animationlib, msdllib,
+    usertypelib, dynamiccolors)                       -> systemui-libs/
+  - frameworks/base (plugin_core y log/core)          -> partes de launcher3-base/ y
+                                                          platform-stubs/
+
+--------------------------------------------------------------------------------
+Bibliotecas empaquetadas en el APK (variante default)
+--------------------------------------------------------------------------------
+Lista real en docs/dependencies.md (resuelta con
+`./gradlew :app:dependencies --configuration defaultReleaseRuntimeClasspath`).
+
+Apache License 2.0:
+  - AndroidX (androidx.*): Copyright The Android Open Source Project
+    (core, appcompat, recyclerview, fragment, preference, lifecycle, navigation,
+    activity, constraintlayout, window, cardview, slice, appsearch, startup,
+    profileinstaller, graphics-shapes, appfunctions, etc.)
+  - Jetpack Compose (androidx.compose.*) y Material 3: Copyright The Android Open
+    Source Project
+  - Material Components for Android (com.google.android.material): Copyright
+    Google LLC
+  - Guava (com.google.guava): Copyright The Guava Authors
+  - Dagger (com.google.dagger): Copyright The Dagger Authors
+  - Kotlin y kotlinx.coroutines / kotlinx.serialization: Copyright JetBrains s.r.o.
+    and Kotlin Programming Language contributors
+  - JetBrains Annotations: Copyright JetBrains s.r.o.
+  - javax.inject, jakarta.inject-api, JSpecify, j2objc-annotations,
+    error-prone annotations, auto-service-annotations: sus respectivos autores
+
+BSD de 3 cláusulas:
+  - Protocol Buffers (com.google.protobuf:protobuf-javalite): Copyright 2008 Google
+    Inc.
+  - JSR-305 (com.google.code.findbugs:jsr305): licencia declarada en su POM como
+    Apache-2.0; anotaciones sin código en tiempo de ejecución relevante.
+
+GPL v2 con Classpath Exception:
+  - desugar_jdk_libs (com.android.tools:desugar_jdk_libs), usada con
+    coreLibraryDesugaring para APIs de Java 8+ en minSdk 31. Deriva de OpenJDK; la
+    excepción Classpath permite enlazarla desde una aplicación con otra licencia.
+
+--------------------------------------------------------------------------------
+Solo compilación y pruebas (no se empaquetan)
+--------------------------------------------------------------------------------
+  - JUnit 4 (EPL-1.0), org.json (licencia JSON), sqlite-jdbc (Apache-2.0),
+    slf4j-api (MIT), protoc (BSD-3-Clause), KSP, AGP.
+
+--------------------------------------------------------------------------------
+Recursos
+--------------------------------------------------------------------------------
+  - El icono del lanzador y otros recursos de launcher3-base/res proceden de AOSP
+    (Apache-2.0).
+  - Los fondos de pantalla incluidos (app/src/main/res/drawable-nodpi) se generan
+    por código con tools/gen-wallpapers.py (sin imágenes de terceros).
+  - Los valores de estética y animación salen de mediciones propias (docs/04);
+    no se incluye código, recursos, fuentes, iconos ni marcas de ningún fabricante.
