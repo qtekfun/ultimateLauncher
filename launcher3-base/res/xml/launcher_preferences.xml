@@ -101,4 +101,12 @@
         android:defaultValue="true"
         android:persistent="true" />
 
+    <!-- UltimateLauncher 0061 -->
+    <SwitchPreference
+        android:key="pref_ul_allow_rotation"
+        android:title="@string/ul_pref_allow_rotation"
+        android:summary="@string/ul_pref_allow_rotation_summary"
+        android:defaultValue="false"
+        android:persistent="true" />
+
 </androidx.preference.PreferenceScreen>
