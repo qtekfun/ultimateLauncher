@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+# SPDX-License-Identifier: Apache-2.0
 """Genera stubs com.qtekfun.stubs.*.Flags con los métodos que el código realmente usa (todos devuelven false)."""
 import re, pathlib, glob
 root = pathlib.Path(__file__).resolve().parent.parent

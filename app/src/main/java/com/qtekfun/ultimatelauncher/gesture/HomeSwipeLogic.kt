@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.qtekfun.ultimatelauncher.gesture
 
 /** Panel del sistema que abre un deslizamiento hacia abajo en el escritorio. */
