@@ -2133,7 +2133,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
 
     boolean willAddToExistingUserFolder(ItemInfo dragInfo, CellLayout target, int[] targetCell,
                                         float distance) {
-        if (distance > target.getFolderCreationRadius(targetCell)) return false;
+        if (com.qtekfun.ultimatelauncher.folder.FolderExpand.beyondFolderRadius(target, targetCell, distance)) return false; // UltimateLauncher 0144
         View dropOverView = target.getChildAt(targetCell[0], targetCell[1]);
         return willAddToExistingUserFolder(dragInfo, dropOverView);
     }
@@ -2227,7 +2227,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
 
     boolean addToExistingFolderIfNecessary(View newView, CellLayout target, int[] targetCell,
             float distance, DragObject d, boolean external) {
-        if (distance > target.getFolderCreationRadius(targetCell)) return false;
+        if (com.qtekfun.ultimatelauncher.folder.FolderExpand.beyondFolderRadius(target, targetCell, distance)) return false; // UltimateLauncher 0144
 
         View dropOverView = target.getChildAt(targetCell[0], targetCell[1]);
         if (!mAddToExistingFolderOnDrop) return false;
@@ -2984,7 +2984,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
     }
 
     private void manageFolderFeedback(float distance, DragObject dragObject) {
-        if (distance > mDragTargetLayout.getFolderCreationRadius(mTargetCell)) {
+        if (com.qtekfun.ultimatelauncher.folder.FolderExpand.beyondFolderRadius(mDragTargetLayout, mTargetCell, distance)) { // UltimateLauncher 0144
             if ((mDragMode == DRAG_MODE_ADD_TO_FOLDER
                     || mDragMode == DRAG_MODE_CREATE_FOLDER)) {
                 setDragMode(DRAG_MODE_NONE);
