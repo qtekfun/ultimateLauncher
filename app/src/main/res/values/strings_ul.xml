@@ -58,4 +58,14 @@
     <string name="ul_pref_folder_style_summary">No card: title on top, icons over the blurred wallpaper and the rest of the home screen hidden.</string>
     <string name="ul_pref_allow_rotation">Rotate the home screen</string>
     <string name="ul_pref_allow_rotation_summary">Follows the system orientation so the grid, dock and folders also work in landscape. Off by default (portrait home like OPPO).</string>
+
+    <!-- Digital clock widget -->
+    <string name="ul_clock_label_square">Digital clock</string>
+    <string name="ul_clock_label_wide">Digital clock (wide)</string>
+    <string name="ul_clock_label_square_dark">Digital clock, dark</string>
+    <string name="ul_clock_label_wide_dark">Digital clock, dark (wide)</string>
+    <string name="ul_clock_desc">Large time on a rounded card, with the day and date. Tap to open the clock app.</string>
+    <string name="ul_clock_preview_date">Mon, Oct 5</string>
+    <string name="ul_clock_preview_weekday">Monday</string>
+    <string name="ul_clock_preview_monthday">October 5</string>
 </resources>
