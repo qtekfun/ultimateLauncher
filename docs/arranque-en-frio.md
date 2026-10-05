@@ -88,3 +88,10 @@ real: módulo Macrobenchmark `BaselineProfileRule` con un dispositivo (no hecho;
 
 R8 y la grabación del perfil quedan listos pero **no son el predeterminado** hasta que el humano ejecute el procedimiento anterior con R8.
 Si D arranca sin errores y es ≥ A, cambiar el valor por defecto de `ul.minify` en `app/build.gradle`.
+
+## Prueba de R8 en el CPH2841 (2026-10-05)
+- APK con `-Pul.minify=true`: 10,5 MB (sin R8: 66,2 MB), compilado a nativo (`speed`) en el móvil.
+- Arranque en frío con otra app delante (`am start -W`, mediana de 7): 162 ms con R8 frente a 176 ms sin R8. Diferencia pequeña, dentro del ruido; la ganancia es sobre todo de tamaño.
+- Humo funcional con R8 (sin cierres ni `ClassNotFound`/`NoSuchMethod` propios en logcat): abrir cajón, abrir carpeta, ajustes de inicio, pantalla de sincronización, abrir una app desde el dock, menú de pulsación larga. El único `NoSuchMethodException` es de `OplusPredictiveBackController` (código de ColorOS).
+- Sin probar con R8: selector de widgets y widgets con configuración, perfil de trabajo, arrastrar iconos/carpetas, importar un archivo de sincronización, asistente de primer arranque.
+- Estado: R8 sigue apagado por defecto; en el móvil queda la release sin R8.
