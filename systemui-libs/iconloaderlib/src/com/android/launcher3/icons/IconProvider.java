@@ -109,7 +109,16 @@ public class IconProvider {
      * Loads the icon for the provided component info
      */
     public Drawable getIcon(ComponentInfo info, int iconDpi) {
-        return getIcon(info, info.applicationInfo, iconDpi);
+        // UltimateLauncher 0171: paquetes de iconos
+        return applyIconPack(info, getIcon(info, info.applicationInfo, iconDpi), iconDpi);
+    }
+
+    /**
+     * UltimateLauncher 0171: gancho para paquetes de iconos. Recibe el icono normal de la actividad y devuelve el que se
+     * debe usar (por defecto, el mismo).
+     */
+    protected Drawable applyIconPack(ComponentInfo info, Drawable original, int iconDpi) {
+        return original;
     }
 
     /**

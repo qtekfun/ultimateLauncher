@@ -1,5 +1,6 @@
 package com.qtekfun.ultimatelauncher.ui
 
+import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -16,6 +17,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import com.android.launcher3.R
@@ -115,6 +117,74 @@ object ContextMenuStyle {
         card.scaleX = START_SCALE; card.scaleY = START_SCALE; card.alpha = 0f
         card.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(durationMs)
             .setInterpolator(DecelerateInterpolator()).start()
+    }
+
+    /**
+     * Diálogo de elección única con el mismo aspecto que los menús (tarjeta de cristal oscuro, filas de 50 dp con
+     * separadores, texto blanco, marca en la fila elegida y zoom + fundido al aparecer). Se cierra al elegir o al tocar
+     * fuera; `onPick` recibe el índice. Pensado para listas cortas o medianas (hace scroll si no caben).
+     */
+    fun showChoiceDialog(
+        context: Context,
+        title: CharSequence,
+        items: List<CharSequence>,
+        selected: Int,
+        onPick: (Int) -> Unit,
+    ): Dialog {
+        val res = context.resources
+        val rowH = res.getDimensionPixelSize(R.dimen.ul_menu_row_height)
+        val pad = res.getDimensionPixelSize(R.dimen.ul_menu_text_padding)
+        val dm = res.displayMetrics
+        val dialog = Dialog(context, android.R.style.Theme_Translucent_NoTitleBar)
+        val card = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            background = cardDrawable(context)
+            clipToOutline = true
+            outlineProvider = ViewOutlineProvider.BACKGROUND
+        }
+        card.addView(TextView(context).apply {
+            text = title; textSize = 18f; setTypeface(typeface, android.graphics.Typeface.BOLD)
+            setTextColor(context.getColor(R.color.ul_menu_text)); setPadding(pad, pad, pad, pad / 2)
+        })
+        val list = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
+            dividerDrawable = context.getDrawable(R.drawable.ul_menu_divider)
+        }
+        items.forEachIndexed { i, label ->
+            list.addView(TextView(context).apply {
+                text = if (i == selected) "$label  \u2713" else label
+                textSize = 16f
+                setTextColor(context.getColor(R.color.ul_menu_text))
+                gravity = Gravity.CENTER_VERTICAL
+                setPadding(pad, 0, pad, 0)
+                minHeight = rowH
+                background = StateListDrawable().apply {
+                    addState(intArrayOf(android.R.attr.state_pressed), ColorDrawable(context.getColor(R.color.ul_menu_pressed)))
+                    addState(intArrayOf(), ColorDrawable(Color.TRANSPARENT))
+                }
+                setOnClickListener { dialog.dismiss(); onPick(i) }
+            }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        }
+        val listH = minOf(items.size * rowH + items.size, (dm.heightPixels * 0.6f).toInt())
+        card.addView(ScrollView(context).apply { addView(list) }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, listH))
+        val maxW = minOf(dm.widthPixels - 2 * res.getDimensionPixelSize(R.dimen.ul_menu_screen_margin) * 3,
+            res.getDimensionPixelSize(R.dimen.ul_menu_min_width) * 3 / 2 + pad * 2)
+        dialog.setContentView(card, ViewGroup.LayoutParams(maxOf(maxW, res.getDimensionPixelSize(R.dimen.ul_menu_min_width)), ViewGroup.LayoutParams.WRAP_CONTENT))
+        dialog.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            setGravity(Gravity.CENTER)
+            addFlags(android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            attributes = attributes.apply { dimAmount = 0.45f }
+        }
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.show()
+        card.post {
+            animateIn(card, card.width / 2f, above = false, res.getInteger(R.integer.ul_menu_open_ms).toLong())
+            card.pivotY = card.height / 2f
+        }
+        return dialog
     }
 
     /** Una fila de un menú de `PopupWindow` (el del dock). */

@@ -141,4 +141,10 @@
     <string name="ul_wp_facetas">Facets</string>
     <string name="ul_wp_tinta">Ink</string>
     <string name="ul_wp_olas">Waves</string>
+    <!-- Paquetes de iconos (parches 0171-0173) -->
+    <string name="ul_pref_icon_pack">Icon pack</string>
+    <string name="ul_icon_pack_default">Default</string>
+    <string name="ul_icon_pack_none">No icon packs installed. Install one from your app store; it will appear here.</string>
+    <string name="ul_pref_icon_pack_back">Apply the pack\'s background to unthemed icons</string>
+    <string name="ul_pref_icon_pack_back_summary">Apps the pack does not cover get the pack\'s background, mask and overlay. Off: they keep their normal icon.</string>
 </resources>
