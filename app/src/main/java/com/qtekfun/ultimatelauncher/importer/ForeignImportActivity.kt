@@ -123,7 +123,7 @@ class ForeignImportActivity : Activity() {
         val body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(pad, pad, pad, 0)
             addView(TextView(this@ForeignImportActivity).apply { text = getString(R.string.ul_imp_order_not_imported) })
             addView(orders); addView(perPageLabel); addView(bar) }
-        AlertDialog.Builder(this).setTitle(R.string.ul_imp_order_btn).setView(ScrollView(this).apply { addView(body) })
+        AlertDialog.Builder(this).setTitle(R.string.ul_imp_order_title).setView(ScrollView(this).apply { addView(body) })
             .setPositiveButton(R.string.ul_imp_order_next) { _, _ ->
                 val order = if (orders.checkedRadioButtonId == 2) AppOrder.INSTALL_DATE else AppOrder.ALPHABETICAL
                 val perPage = bar.progress + 1

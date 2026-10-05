@@ -67,7 +67,10 @@ class LayoutStore(private val context: Context) {
     /** Escribe los ajustes ya filtrados con `commit()` (síncrono: el modelo y el launcher los leen al recargar). */
     private fun applyPrefs(prefs: Map<String, Any>) {
         val ed = launcherPrefs().edit()
-        for ((k, v) in BackupPrefs.filter(prefs)) when (v) {
+        val clean = BackupPrefs.filter(prefs)
+        // Una clave conocida que el archivo no trae estaba en su valor por defecto al guardar: se borra para volver a él.
+        BackupPrefs.SPEC.keys.filter { it !in clean }.forEach { ed.remove(it) }
+        for ((k, v) in clean) when (v) {
             is Boolean -> ed.putBoolean(k, v); is Int -> ed.putInt(k, v); is String -> ed.putString(k, v)
         }
         ed.commit()
