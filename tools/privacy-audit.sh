@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Auditoría de privacidad automatizada (docs/09 «Auditoría antes de cada versión», parte comprobable sin dispositivo).
 # Uso: tools/privacy-audit.sh [--build]     (--build compila antes los APK release de default y sync)
 # Ejecuta: permisos y código de red del APK default y del sync, dependencias y exportación sin credenciales.

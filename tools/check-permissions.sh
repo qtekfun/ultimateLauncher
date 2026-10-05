@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Auditoría de privacidad sobre un APK (docs/09, «Red» y «Permisos»).
 # Uso: tools/check-permissions.sh [apk] [default|sync]
 #   Por defecto: app/build/outputs/apk/default/release/app-default-release.apk (variante deducida del nombre).

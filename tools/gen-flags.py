@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Genera com.android.launcher3.Flags a partir de launcher3-base/aconfig/*.aconfig.
 
 aconfig no está disponible fuera del árbol de AOSP y los valores de release viven en otro repositorio,

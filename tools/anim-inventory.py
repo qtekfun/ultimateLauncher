@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 """T5.1: inventario de constantes de animación de Launcher3 (genera docs/anim-inventory.md)."""
 import pathlib, re
 root = pathlib.Path(__file__).resolve().parent.parent

@@ -27,7 +27,7 @@
 
 ## Decisiones abiertas (pendientes de confirmar)
 
-1. **Licencia**: decidida Apache-2.0 (2026-10-05; sustituye a la propuesta GPLv3), ver `docs/DECISIONS.md`. Cualquier código de Lawnchair que se reutilice sigue exigiendo revisar su licencia y registrarlo en `/patches`.
+1. **Licencia**: decidida GPL-3.0-or-later (2026-10-05; la misma que UltimateDeck), ver `docs/DECISIONS.md`. Cualquier código de Lawnchair que se reutilice sigue exigiendo revisar su licencia y registrarlo en `/patches`.
 2. **¿Se mantiene la variante `sync` con WebDAV directo**, o solo el selector de documentos?
 3. **Root opcional** en algún dispositivo para un modo con gestos nativos (fuera de v1).
 4. **Matriz de dispositivos** real del usuario (móviles y tablet, Android, GMS).

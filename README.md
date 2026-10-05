@@ -32,7 +32,7 @@ Sin `INTERNET`, sin almacenamiento, contactos, ubicación, cámara ni notificaci
 `app/` (módulo Android y código propio: `oem/`, `layoutsync/`), `launcher3-base/` (AOSP + parches, ver `patches/`), `systemui-libs/` (librerías de AOSP), `platform-stubs/` (flags y APIs internas), `assets/` (tokens y perfiles de animación), `tools/`.
 
 ## Licencia
-Apache License 2.0 para todo el proyecto (texto en `LICENSE`, atribuciones en `NOTICE`). Las partes de AOSP conservan sus cabeceras originales; el código propio lleva una cabecera SPDX mínima (`Apache-2.0`, «UltimateLauncher contributors»).
+GNU General Public License v3.0 o posterior (texto en `LICENSE`, atribuciones en `NOTICE`), la misma que UltimateDeck. Las partes de AOSP (Apache-2.0, compatible con la GPLv3) conservan sus cabeceras originales; el código propio lleva una cabecera SPDX mínima (`GPL-3.0-or-later`, «UltimateLauncher contributors»).
 
 ## F-Droid
 Preparación para publicar en el catálogo de F-Droid: metadatos en `fastlane/metadata/android/`, receta borrador en `docs/fdroid/` y estado en `docs/fdroid.md`.

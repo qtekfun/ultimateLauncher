@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Auditoría de dependencias resueltas (docs/09 «Sin GMS» y «Dependencias»; lista en docs/dependencies.md).
 # Uso: tools/check-dependencies.sh [configuración]    (por defecto defaultReleaseRuntimeClasspath, la que se empaqueta)
 #   TXT=archivo  usa un volcado ya hecho de `gradlew :app:dependencies` (sin ejecutar Gradle).
