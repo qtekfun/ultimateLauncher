@@ -354,7 +354,7 @@ private constructor(
             )
                 break
             val v = inflateAndAdd<DeepShortcutView>(R.layout.deep_shortcut, deepShortcutContainer)
-            v.layoutParams.width = containerWidth
+            v.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT // UltimateLauncher 0150
             deepShortcuts.add(v)
         }
         updateHiddenShortcuts()
@@ -370,7 +370,7 @@ private constructor(
 
     fun initializeWidgetShortcut(container: ViewGroup?, info: SystemShortcut<*>) {
         val view = initializeSystemShortcut(R.layout.system_shortcut, container, info, false)
-        view.layoutParams.width = containerWidth
+        view.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT // UltimateLauncher 0150
     }
 
     /**

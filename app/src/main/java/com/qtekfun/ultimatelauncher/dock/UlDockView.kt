@@ -17,6 +17,7 @@ import com.android.launcher3.Launcher
 import com.android.launcher3.R
 import com.android.launcher3.graphics.ThemeManager
 import com.android.launcher3.icons.LauncherIcons
+import com.qtekfun.ultimatelauncher.ui.ContextMenuStyle
 
 /**
  * Dock de tablet estilo Huawei: dos píldoras (apps fijas del hotseat | asa | últimas apps usadas).
@@ -164,81 +165,17 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     }
 
     /**
-     * Pulsación larga en un reciente: menú contextual que sale del propio icono (encima, con zoom desde él), con
-     * «Quitar de recientes» y «Borrar todos los recientes». Estilo cristal oscuro redondeado; se cierra al tocar fuera.
+     * Pulsación larga en un reciente: menú contextual que sale del propio icono con «Quitar de recientes» y «Borrar todos
+     * los recientes». Mismo estilo y comportamiento que el resto de menús del launcher (ver [ContextMenuStyle]).
      */
     private fun showRecentMenu(anchor: View, cn: ComponentName) {
-        val d = res.displayMetrics.density
-        fun dp(v: Float) = (v * d).toInt()
-        val card = android.widget.LinearLayout(context).apply {
-            orientation = android.widget.LinearLayout.VERTICAL
-            background = android.graphics.drawable.GradientDrawable().apply {
-                setColor(0xF02C2C2E.toInt()); cornerRadius = dp(18f).toFloat()
-            }
-            clipToOutline = true
-            outlineProvider = android.view.ViewOutlineProvider.BACKGROUND
-        }
-        var popup: android.widget.PopupWindow? = null
-        fun row(textRes: Int, destructive: Boolean, action: () -> Unit) {
-            val tv = android.widget.TextView(context).apply {
-                setText(textRes)
-                setTextColor(if (destructive) 0xFFFF6B63.toInt() else Color.WHITE)
-                textSize = 16f
-                gravity = android.view.Gravity.CENTER_VERTICAL
-                setPadding(dp(18f), 0, dp(18f), 0)
-                minHeight = dp(50f)
-                minWidth = dp(220f)
-                background = android.graphics.drawable.StateListDrawable().apply {
-                    addState(intArrayOf(android.R.attr.state_pressed), android.graphics.drawable.ColorDrawable(0x33FFFFFF))
-                    addState(intArrayOf(), android.graphics.drawable.ColorDrawable(Color.TRANSPARENT))
-                }
-                setOnClickListener {
-                    popup?.dismiss()
-                    action()
-                    refresh() // al instante (el listener de preferencias también lo haría, pero asíncrono)
-                }
-            }
-            if (card.childCount > 0) card.addView(android.view.View(context).apply {
-                setBackgroundColor(0x33FFFFFF)
-            }, android.widget.LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, 1))
-            card.addView(tv, android.widget.LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
-        }
-        row(R.string.ul_dock_recent_remove, false) { RecentApps.remove(context, cn) }
-        row(R.string.ul_dock_recent_clear_all, true) { RecentApps.clear(context) }
-
-        card.measure(
-            android.view.View.MeasureSpec.makeMeasureSpec(0, android.view.View.MeasureSpec.UNSPECIFIED),
-            android.view.View.MeasureSpec.makeMeasureSpec(0, android.view.View.MeasureSpec.UNSPECIFIED),
-        )
-        val w = card.measuredWidth
-        val h = card.measuredHeight
-        val loc = IntArray(2)
-        anchor.getLocationOnScreen(loc)
-        val screenW = res.displayMetrics.widthPixels
-        val margin = dp(8f)
-        val iconCx = loc[0] + anchor.width / 2
-        val x = (iconCx - w / 2).coerceIn(margin, maxOf(margin, screenW - w - margin))
-        val y = maxOf(margin, loc[1] - h - dp(10f))
-
-        // Hueco alrededor de la tarjeta para que la sombra no se recorte.
-        val frame = android.widget.FrameLayout(context).apply {
-            setPadding(dp(14f), dp(14f), dp(14f), dp(14f))
-            clipToPadding = false
-            clipChildren = false
-            addView(card)
-        }
-        popup = android.widget.PopupWindow(frame, w + dp(28f), h + dp(28f), true).apply {
-            isOutsideTouchable = true
-            setBackgroundDrawable(android.graphics.drawable.ColorDrawable(Color.TRANSPARENT))
-            isClippingEnabled = false
-        }
-        popup.showAtLocation(anchor, android.view.Gravity.NO_GRAVITY, x - dp(14f), y - dp(14f))
-        // Sale del icono: zoom + fundido con el pivote en la base, centrado sobre el icono.
-        card.pivotX = (iconCx - x).toFloat().coerceIn(0f, w.toFloat())
-        card.pivotY = h.toFloat()
-        card.scaleX = 0.4f; card.scaleY = 0.4f; card.alpha = 0f
-        card.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(180)
-            .setInterpolator(android.view.animation.DecelerateInterpolator()).start()
+        ContextMenuStyle.showRows(
+            anchor,
+            listOf(
+                ContextMenuStyle.Row(R.string.ul_dock_recent_remove, false) { RecentApps.remove(context, cn) },
+                ContextMenuStyle.Row(R.string.ul_dock_recent_clear_all, true) { RecentApps.clear(context) },
+            ),
+        ) { refresh() } // al instante (el listener de preferencias también lo haría, pero asíncrono)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {

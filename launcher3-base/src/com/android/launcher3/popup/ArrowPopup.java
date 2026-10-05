@@ -58,6 +58,7 @@ import com.android.launcher3.util.RunnableList;
 import com.android.launcher3.util.Themes;
 import com.android.launcher3.views.ActivityContext;
 import com.android.launcher3.views.BaseDragLayer;
+import com.qtekfun.ultimatelauncher.ui.ContextMenuStyle; // UltimateLauncher 0150
 
 /**
  * A container for shortcuts to deep links and notifications associated with an app.
@@ -135,7 +136,7 @@ public abstract class ArrowPopup<T extends ActivityContext> extends AbstractFloa
     public ArrowPopup(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mInflater = LayoutInflater.from(context);
-        mOutlineRadius = Themes.getDialogCornerRadius(context);
+        mOutlineRadius = ContextMenuStyle.cornerRadiusPx(context); // UltimateLauncher 0150
         mActivityContext = (T) ActivityContext.lookupContext(context);
         mIsRtl = Utilities.isRtl(getResources());
         mElevation = getResources().getDimension(R.dimen.deep_shortcuts_elevation);
@@ -167,14 +168,15 @@ public abstract class ArrowPopup<T extends ActivityContext> extends AbstractFloa
 
         mIterateChildrenTag = getContext().getString(R.string.popup_container_iterate_children);
 
-        if (mActivityContext.canUseMultipleShadesForPopup()) {
+        if (false /* UltimateLauncher 0150: una sola tarjeta */
+                && mActivityContext.canUseMultipleShadesForPopup()) {
             mColors = new int[]{
                     getContext().getColor(R.color.popup_shade_first),
                     getContext().getColor(R.color.popup_shade_second),
                     getContext().getColor(R.color.popup_shade_third)
             };
         } else {
-            mColors = new int[]{getContext().getColor(R.color.materialColorSurfaceContainer)};
+            mColors = new int[]{ContextMenuStyle.cardColor(getContext())}; // UltimateLauncher 0150
         }
     }
 
@@ -322,6 +324,7 @@ public abstract class ArrowPopup<T extends ActivityContext> extends AbstractFloa
     public void show() {
         setupForDisplay();
         assignMarginsAndBackgrounds(this);
+        ContextMenuStyle.styleRows(this); // UltimateLauncher 0150
         if (shouldAddArrow()) {
             addArrow();
         }
@@ -382,7 +385,7 @@ public abstract class ArrowPopup<T extends ActivityContext> extends AbstractFloa
      * Returns whether or not we should add the arrow.
      */
     protected boolean shouldAddArrow() {
-        return true;
+        return false; // UltimateLauncher 0150: menús sin flecha
     }
 
     /**
@@ -421,6 +424,10 @@ public abstract class ArrowPopup<T extends ActivityContext> extends AbstractFloa
      */
     private void orientAboutObject(boolean allowAlignLeft, boolean allowAlignRight,
             @Px int maxHeightPx) {
+        if (true) { // UltimateLauncher 0150: colocación común sin flecha
+            orientCentered(maxHeightPx);
+            return;
+        }
         measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 
         int extraVerticalSpace = mArrowHeight + mArrowOffsetVertical + getExtraVerticalOffset();
@@ -527,6 +534,84 @@ public abstract class ArrowPopup<T extends ActivityContext> extends AbstractFloa
             lp.topMargin = y + insets.top;
             arrowLp.topMargin = lp.topMargin - insets.top - arrowLp.height - mArrowOffsetVertical;
         }
+    }
+
+    // UltimateLauncher 0150: abscisa (relativa a la tarjeta) del centro del icono, pivote de la animación.
+    private float mUlPivotX;
+
+    /**
+     * UltimateLauncher 0150: colocación sin flecha. Centrada sobre el objetivo y ENCIMA si cabe; si no, debajo; si
+     * tampoco, centrada en vertical junto al objetivo. Acotada a la pantalla con el margen de ContextMenuStyle.
+     */
+    private void orientCentered(@Px int maxHeightPx) {
+        measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+        // Los márgenes entre contenedores se añaden después de este método: se cuentan aquí.
+        int numVisibleChildren = 0;
+        for (int i = getChildCount() - 1; i >= 0; --i) {
+            if (getChildAt(i).getVisibility() == VISIBLE) {
+                numVisibleChildren++;
+            }
+        }
+        int childMargins = Math.max(0, numVisibleChildren - 1) * mChildContainerMargin;
+        int height = getMeasuredHeight() + childMargins;
+        int width = getMeasuredWidth() + getPaddingLeft() + getPaddingRight();
+
+        getTargetObjectLocation(mTempRect);
+        InsettableFrameLayout dragLayer = getPopupContainer();
+        Rect insets = dragLayer.getInsets();
+        Resources res = getResources();
+        int gap = res.getDimensionPixelSize(R.dimen.ul_menu_anchor_gap);
+        int margin = res.getDimensionPixelSize(R.dimen.ul_menu_screen_margin);
+        Rect bounds = new Rect(insets.left, insets.top, dragLayer.getWidth() - insets.right,
+                dragLayer.getHeight() - insets.bottom);
+        ContextMenuStyle.Placement p = ContextMenuStyle.place(mTempRect, width, height, bounds, gap,
+                margin, maxHeightPx);
+        mIsAboveIcon = p.getAbove();
+        mIsLeftAligned = true;
+        int x = p.getX();
+        mGravity = 0;
+        if (!p.getFits()) {
+            // No cabe ni encima ni debajo: centrado en vertical, junto al objetivo (derecha si cabe).
+            mGravity = Gravity.CENTER_VERTICAL;
+            int rightX = mTempRect.right + gap;
+            int leftX = mTempRect.left - gap - width;
+            x = rightX + width <= bounds.right - margin ? rightX : Math.max(bounds.left + margin, leftX);
+            mIsAboveIcon = true;
+        }
+        mUlPivotX = ContextMenuStyle.pivotX(mTempRect.centerX(), x, width);
+        // Los insets ya se suman al margen izquierdo al añadir la vista: se restan del desplazamiento.
+        setX(x - insets.left);
+        if (Gravity.isVertical(mGravity)) {
+            return;
+        }
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) getLayoutParams();
+        if (mIsAboveIcon) {
+            // Gravedad inferior: al cargar los atajos o añadir márgenes la tarjeta crece hacia arriba.
+            lp.gravity = Gravity.BOTTOM;
+            lp.bottomMargin = dragLayer.getHeight() - (mTempRect.top - gap);
+        } else {
+            lp.gravity = Gravity.TOP;
+            lp.topMargin = mTempRect.bottom + gap;
+        }
+    }
+
+    /** UltimateLauncher 0150: entrada/salida con zoom y fundido, pivote en la base centrada sobre el icono. */
+    private AnimatorSet getUlOpenCloseAnimator(boolean isOpening) {
+        setPivotX(mUlPivotX);
+        setPivotY(mIsAboveIcon ? getMeasuredHeight() : 0f);
+        float s = ContextMenuStyle.START_SCALE;
+        float from = isOpening ? s : 1f;
+        float to = isOpening ? 1f : s;
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(
+                ObjectAnimator.ofFloat(this, View.SCALE_X, from, to),
+                ObjectAnimator.ofFloat(this, View.SCALE_Y, from, to),
+                ObjectAnimator.ofFloat(this, View.ALPHA, isOpening ? 0f : 1f, isOpening ? 1f : 0f));
+        set.setDuration(getResources().getInteger(
+                isOpening ? R.integer.ul_menu_open_ms : R.integer.ul_menu_close_ms));
+        set.setInterpolator(isOpening ? new android.view.animation.DecelerateInterpolator()
+                : new android.view.animation.AccelerateInterpolator());
+        return set;
     }
 
     @Override
@@ -669,6 +754,9 @@ public abstract class ArrowPopup<T extends ActivityContext> extends AbstractFloa
     protected AnimatorSet getOpenCloseAnimator(boolean isOpening, int scaleDuration,
             int fadeStartDelay, int fadeDuration, int childFadeStartDelay, int childFadeDuration,
             Interpolator interpolator) {
+        if (true) { // UltimateLauncher 0150: zoom + fundido desde el icono
+            return getUlOpenCloseAnimator(isOpening);
+        }
 
         setPivotForOpenCloseAnimation();
 
