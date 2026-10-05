@@ -65,7 +65,7 @@ open class WidgetPickerActivity :
         val appPackageName = intent.getStringExtra(Intent.EXTRA_PACKAGE_NAME)
 
         if (appPackageName != null) {
-            val userHandle = intent.getParcelableExtra(Intent.EXTRA_USER, UserHandle::class.java)
+            val userHandle = androidx.core.content.IntentCompat.getParcelableExtra(intent, Intent.EXTRA_USER, UserHandle::class.java)
 
             userHandle?.let {
                 component.widgetPickerComposeWrapper.showWidgetsFor(
