@@ -58,4 +58,14 @@
     <string name="ul_pref_folder_style_summary">Sin tarjeta: título arriba, iconos sobre el fondo desenfocado y el resto de la pantalla de inicio oculto.</string>
     <string name="ul_pref_allow_rotation">Girar la pantalla de inicio</string>
     <string name="ul_pref_allow_rotation_summary">Sigue la orientación del sistema para usar cuadrícula, dock y carpetas en horizontal. Apagado por defecto (inicio vertical como OPPO).</string>
+
+    <!-- Widget Reloj digital -->
+    <string name="ul_clock_label_square">Reloj digital</string>
+    <string name="ul_clock_label_wide">Reloj digital (ancho)</string>
+    <string name="ul_clock_label_square_dark">Reloj digital oscuro</string>
+    <string name="ul_clock_label_wide_dark">Reloj digital oscuro (ancho)</string>
+    <string name="ul_clock_desc">Hora grande sobre una tarjeta redondeada, con el día y la fecha. Toca para abrir la app de reloj.</string>
+    <string name="ul_clock_preview_date">lun, 5 oct</string>
+    <string name="ul_clock_preview_weekday">lunes</string>
+    <string name="ul_clock_preview_monthday">5 de octubre</string>
 </resources>

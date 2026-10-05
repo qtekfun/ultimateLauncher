@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Vista previa del selector de widgets (Android 12+): reloj blanco 2x2 con hora fija. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/ul_clock_card_light"
+    android:padding="@dimen/ul_clock_padding">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:maxLines="1"
+        android:includeFontPadding="false"
+        android:fontFamily="sans-serif-medium"
+        android:text="10:09"
+        android:textColor="#000000"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="14sp"
+        android:autoSizeMaxTextSize="160sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="1"
+        android:includeFontPadding="false"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/ul_clock_preview_date"
+        android:textColor="#B3000000"
+        android:textSize="14sp" />
+</LinearLayout>

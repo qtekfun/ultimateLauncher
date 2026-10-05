@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="250dp"
+    android:minHeight="@dimen/ul_clock_min_height"
+    android:minResizeWidth="@dimen/ul_clock_min_resize_width"
+    android:minResizeHeight="@dimen/ul_clock_min_resize_height"
+    android:targetCellWidth="4"
+    android:targetCellHeight="2"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/ul_clock_wide"
+    android:previewLayout="@layout/ul_clock_preview_wide_light"
+    android:previewImage="@drawable/ul_clock_preview_wide_light"
+    android:description="@string/ul_clock_desc" />
