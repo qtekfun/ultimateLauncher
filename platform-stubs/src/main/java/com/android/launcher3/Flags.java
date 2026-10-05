@@ -143,7 +143,7 @@ public final class Flags {
     public static boolean blurredHomeAnimation() { return false; }
     public static boolean allAppsSurface() { return false; }
     public static boolean enableMultiInstanceMenuTaskbar() { return false; }
-    public static boolean letterFastScroller() { return false; }
+    public static boolean letterFastScroller() { return true; }
     public static boolean ignoreThreeFingerTrackpadForNavHandleLongPress() { return false; }
     public static boolean oneGridRotationHandling() { return false; }
     public static boolean enableAllAppsButtonInHotseat() { return false; }

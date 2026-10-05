@@ -72,7 +72,7 @@ public class AllAppsRecyclerView extends FastScrollRecyclerView {
     protected final int mNumAppsPerRow;
     private final AllAppsFastScrollHelper mFastScrollHelper;
     private int mCumulativeVerticalScroll;
-    private ConstraintLayout mLetterList;
+    private android.widget.FrameLayout mLetterList; // UL 0023: FrameLayout en vez de ConstraintLayout
 
     protected AlphabeticalAppsList mApps;
 
@@ -370,11 +370,23 @@ public class AllAppsRecyclerView extends FastScrollRecyclerView {
         return false;
     }
 
+    private String mUlLetterKey = ""; // UL 0023
+
     public void setLettersToScrollLayout(
             List<AlphabeticalAppsList.FastScrollSectionInfo> fastScrollSections) {
         if (fastScrollSections.isEmpty()) {
             return;
         }
+        // UltimateLauncher 0023: no reconstruir la lista de letras en cada evento de scroll.
+        StringBuilder ulKey = new StringBuilder();
+        for (AlphabeticalAppsList.FastScrollSectionInfo s : fastScrollSections) {
+            ulKey.append(s.sectionName).append('|');
+        }
+        if (mLetterList != null && mLetterList.getChildCount() > 0
+                && ulKey.toString().equals(mUlLetterKey)) {
+            return;
+        }
+        mUlLetterKey = ulKey.toString();
         if (mLetterList != null) {
             mLetterList.removeAllViews();
         }
@@ -404,12 +416,42 @@ public class AllAppsRecyclerView extends FastScrollRecyclerView {
         int currentId = View.generateViewId();
         lastLetterListTextView.setId(currentId);
         lastLetterListTextView.setVisibility(INVISIBLE);
+        lastLetterListTextView.setLayoutParams(new android.widget.FrameLayout.LayoutParams(
+                Math.round(getResources().getDimension(R.dimen.ul_drawer_az_pitch)),
+                Math.round(getResources().getDimension(R.dimen.ul_drawer_az_pitch)),
+                android.view.Gravity.END | android.view.Gravity.TOP)); // UL 0023
         textViews.add(lastLetterListTextView);
         mLetterList.addView(lastLetterListTextView);
-        constraintTextViewsVertically(mLetterList, textViews);
+        for (int ulI = 0; ulI < textViews.size(); ulI++) { // UL 0023: posición explícita en un FrameLayout, sin cadena
+            android.widget.FrameLayout.LayoutParams ulCl =
+                    (android.widget.FrameLayout.LayoutParams) textViews.get(ulI).getLayoutParams();
+            ulCl.topMargin = Math.round(ulI * getResources().getDimension(R.dimen.ul_drawer_az_pitch));
+            ulCl.setMarginEnd(Math.round(getResources().getDimension(R.dimen.ul_drawer_az_end_margin)));
+            textViews.get(ulI).setLayoutParams(ulCl);
+        }
         mLetterList.setVisibility(VISIBLE);
-        // Set the alpha to 0 to avoid the letter list being shown when it shouldn't be.
-        mLetterList.setAlpha(0);
+        // UltimateLauncher 0023: pista y letras compactas (paso fijo) y siempre visibles.
+        final int ulHeight = Math.round(getResources().getDimension(R.dimen.ul_drawer_az_pitch)
+                * textViews.size()) + getScrollBarTop() + getScrollBarMarginBottom();
+        final int ulTop = Math.round(getResources().getDimension(R.dimen.ul_drawer_az_top))
+                - getScrollBarTop();
+        mLetterList.post(() -> {
+            View ulParent = (View) mLetterList.getParent();
+            for (View ulV : new View[] {mLetterList, mScrollbar}) {
+                if (ulV.getLayoutParams() instanceof android.widget.RelativeLayout.LayoutParams) {
+                    android.widget.RelativeLayout.LayoutParams ulLp =
+                            (android.widget.RelativeLayout.LayoutParams) ulV.getLayoutParams();
+                    ulLp.removeRule(android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM);
+                    ulLp.removeRule(android.widget.RelativeLayout.ALIGN_TOP);
+                    ulLp.addRule(android.widget.RelativeLayout.ALIGN_PARENT_TOP);
+                    ulLp.height = ulHeight;
+                    ulLp.topMargin = ulTop - ulParent.getPaddingTop();
+                    ulV.setLayoutParams(ulLp);
+                }
+            }
+            ulParent.requestLayout();
+        });
+        mLetterList.setAlpha(1);
     }
 
     private void constraintTextViewsVertically(ConstraintLayout constraintLayout,
@@ -440,7 +482,7 @@ public class AllAppsRecyclerView extends FastScrollRecyclerView {
     }
 
     @Override
-    public ConstraintLayout getLetterList() {
+    public android.widget.FrameLayout getLetterList() {
         return mLetterList;
     }
 

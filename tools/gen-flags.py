@@ -5,7 +5,7 @@ aconfig no está disponible fuera del árbol de AOSP y los valores de release vi
 así que todos los flags quedan en su valor por defecto 'false' salvo los listados en ENABLED.
 """
 import re, glob, pathlib
-ENABLED = set()   # nombres (snake_case) que se fuerzan a true
+ENABLED = {"letter_fast_scroller"}   # nombres (snake_case) que se fuerzan a true (cajón con letras A-Z, como OPPO)
 root = pathlib.Path(__file__).resolve().parent.parent
 flags = []
 for f in sorted(glob.glob(str(root / "launcher3-base/aconfig/*.aconfig"))):

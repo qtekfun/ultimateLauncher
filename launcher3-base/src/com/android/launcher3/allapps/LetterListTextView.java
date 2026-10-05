@@ -55,17 +55,19 @@ public class LetterListTextView extends TextView {
         mLetterBackground = context.getDrawable(R.drawable.bg_letter_list_text);
         mLetterListTextWidthAndHeight = context.getResources().getDimensionPixelSize(
                 R.dimen.fastscroll_list_letter_size);
-        mTextColor = context.getColor(R.color.materialColorOnSurface);
+        mTextColor = context.getColor(R.color.ul_drawer_az_color); // UL 0023
     }
 
     @Override
     public void onFinishInflate() {
         super.onFinishInflate();
-        setBackground(mLetterBackground);
+        setBackground(new android.graphics.drawable.ColorDrawable(
+                android.graphics.Color.TRANSPARENT)); // UL 0023: sin círculo opaco
         setTextColor(mTextColor);
         setClickable(false);
         setWidth(mLetterListTextWidthAndHeight);
-        setTextSize(mLetterListTextWidthAndHeight);
+        setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimension(R.dimen.ul_drawer_az_text_size)); // UL 0023
         setVisibility(VISIBLE);
     }
 
@@ -77,9 +79,9 @@ public class LetterListTextView extends TextView {
             int viewId) {
         setId(viewId);
         setText(fastScrollSectionInfo.sectionName);
-        ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(
-                MATCH_CONSTRAINT, WRAP_CONTENT);
-        lp.dimensionRatio = "v,1:1";
+        int ulPitch = Math.round(getResources().getDimension(R.dimen.ul_drawer_az_pitch));
+        android.widget.FrameLayout.LayoutParams lp = new android.widget.FrameLayout.LayoutParams(
+                ulPitch, ulPitch, android.view.Gravity.END | android.view.Gravity.TOP); // UL 0023: letra de paso x paso
         setLayoutParams(lp);
     }
 

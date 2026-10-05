@@ -25,6 +25,7 @@
 
     <View
         android:id="@+id/bottom_sheet_handle"
+        android:visibility="gone"
         android:layout_width="@dimen/bottom_sheet_handle_width"
         android:layout_height="@dimen/bottom_sheet_handle_height"
         android:layout_gravity="center_horizontal"

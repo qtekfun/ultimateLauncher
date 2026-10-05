@@ -109,7 +109,7 @@ public class AllAppsState extends LauncherState {
                 /* backgroundColor */
                 launcher.getDeviceProfile().getDeviceProperties().isLargeScreen()
                         ? launcher.getResources().getColor(R.color.widgets_picker_scrim)
-                        : Themes.getAttrColor(launcher, R.attr.allAppsScrimColor),
+                        : Color.TRANSPARENT, // UL 0020: el velo lo pinta la hoja a pantalla completa
                 /* foregroundColor */ Color.TRANSPARENT);
     }
 }

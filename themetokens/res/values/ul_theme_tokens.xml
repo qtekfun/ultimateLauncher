@@ -5,4 +5,21 @@
     <dimen name="ul_workspace_bottom_padding">25.4dp</dimen>
     <dimen name="ul_workspace_side_margin">11.0dp</dimen>
     <dimen name="ul_page_indicator_lift">43.1dp</dimen>
+    <dimen name="page_indicator_dot_size">6.7dp</dimen>
+    <dimen name="ul_page_indicator_single_dx">6.57dp</dimen>
+    <!-- Cajón (parches 0020-0022) -->
+    <dimen name="ul_drawer_blur_radius">26.0dp</dimen>
+    <color name="ul_drawer_scrim_blur">#54000000</color>
+    <color name="ul_drawer_scrim_fallback">#99000000</color>
+    <dimen name="ul_drawer_search_height">45.2dp</dimen>
+    <dimen name="ul_drawer_search_side_margin">18.0dp</dimen>
+    <dimen name="ul_drawer_search_bottom_margin">11.5dp</dimen>
+    <dimen name="ul_drawer_search_reserved">64.7dp</dimen>
+    <dimen name="ul_drawer_top_gap">50.6dp</dimen>
+    <dimen name="ul_drawer_az_pitch">13.71dp</dimen>
+    <dimen name="ul_drawer_az_end_margin">13.14dp</dimen>
+    <dimen name="ul_drawer_az_top">281.14dp</dimen>
+    <dimen name="ul_drawer_az_text_size">11.3sp</dimen>
+    <color name="ul_drawer_az_color">#99FFFFFF</color>
+    <dimen name="ul_drawer_side_padding">14.9dp</dimen>
 </resources>
