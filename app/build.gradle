@@ -28,6 +28,9 @@ android {
         buildConfigField 'boolean', 'QSB_ON_FIRST_SCREEN', 'false'
     }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_21; targetCompatibility = JavaVersion.VERSION_21; coreLibraryDesugaringEnabled = true }
+    // Sin el bloque de metadatos de dependencias cifrado con la clave de Google Play: es un blob opaco, F-Droid lo marca y
+    // no aporta nada fuera de Play (docs/fdroid.md).
+    dependenciesInfo { includeInApk = false; includeInBundle = false }
     buildFeatures { buildConfig = true; compose = true; aidl = true; resValues = true }
 
     // Lint como compuerta de compatibilidad (R1, docs/compat-android12-14.md): NewApi es ERROR y no se admite en la línea base.
@@ -62,7 +65,10 @@ android {
 
     buildTypes {
         release {
-            signingConfig ulKeystoreFile ? signingConfigs.release : signingConfigs.debug
+            // -Pul.unsigned=true (lo usa F-Droid, docs/fdroid.md): sin firma; F-Droid firma con su clave o copia la del upstream.
+            if (!(project.hasProperty('ul.unsigned') && project.property('ul.unsigned') == 'true')) {
+                signingConfig ulKeystoreFile ? signingConfigs.release : signingConfigs.debug
+            }
             // R8 (reducción de código): ENCENDIDO por defecto (66 MB -> 10,5 MB; humo funcional probado en el CPH2841).
             // Para desactivarlo: ./gradlew -Pul.minify=false :app:assembleDefaultRelease.
             // Ver docs/arranque-en-frio.md y app/proguard-rules.pro.
