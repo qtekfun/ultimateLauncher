@@ -320,3 +320,6 @@ Petición del usuario: «un setup para importar los iconos de otros launchers se
 
 ### Reloj 2x2 cuadrado en pantallas apaisadas (2026-10-05)
 - En tablet las celdas son apaisadas y la tarjeta rellenaba todo el rectángulo. Ahora el proveedor 2x2 genera un diseño por cada tamaño real que da el launcher (`OPTION_APPWIDGET_SIZES`) y fija la tarjeta a un cuadrado de lado = el menor de los dos, centrada (`setViewLayoutWidth/Height`, API 31). El 4x2 sigue rectangular. Backlog en `docs/pendientes.md`.
+
+### Menú contextual de recientes del dock (2026-10-05)
+- La pulsación larga en un reciente ya no abre un diálogo centrado: sale un menú de cristal oscuro redondeado encima del propio icono (zoom desde él, pivote en su base), con «Quitar de recientes» y «Borrar todos los recientes» (rojo). Se cierra al tocar fuera. Verificado en la MatePad (`UlDockView.showRecentMenu`). Se probó con `input swipe` largo sobre el icono.
