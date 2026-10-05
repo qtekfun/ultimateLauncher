@@ -76,7 +76,16 @@ constructor(
         completionCallback: Runnable? = null,
     ) = apply {
         executor.execute {
-            context.registerReceiver(this, filter, permission, callbackExecutor.handler, flags)
+            // UltimateLauncher 0033: sin indicador explícito, no exportado (API 33+; las difusiones del sistema llegan igual).
+            val safeFlags =
+                if (android.os.Build.VERSION.SDK_INT >= 33 &&
+                    (flags and (Context.RECEIVER_EXPORTED or Context.RECEIVER_NOT_EXPORTED)) == 0
+                ) {
+                    flags or Context.RECEIVER_NOT_EXPORTED
+                } else {
+                    flags
+                }
+            context.registerReceiver(this, filter, permission, callbackExecutor.handler, safeFlags)
 
             if (completionCallback != null) {
                 callbackExecutor.execute(completionCallback)
