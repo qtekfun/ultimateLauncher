@@ -25,6 +25,10 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent>
+        <!-- Widget «Reloj digital»: saber si hay app de reloj que atienda el toque (no es un permiso). -->
+        <intent>
+            <action android:name="android.intent.action.SHOW_ALARMS" />
+        </intent>
     </queries>
 
     <application
@@ -99,6 +103,28 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+<!-- Widgets «Reloj digital» (propios): hora con TextClock, sin alarmas ni permisos. -->
+        <receiver android:name="com.qtekfun.ultimatelauncher.clockwidget.ClockWidgetSquareLight"
+            android:label="@string/ul_clock_label_square" android:exported="true">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/ul_clock_widget_square_light" />
+        </receiver>
+        <receiver android:name="com.qtekfun.ultimatelauncher.clockwidget.ClockWidgetWideLight"
+            android:label="@string/ul_clock_label_wide" android:exported="true">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/ul_clock_widget_wide_light" />
+        </receiver>
+        <receiver android:name="com.qtekfun.ultimatelauncher.clockwidget.ClockWidgetSquareDark"
+            android:label="@string/ul_clock_label_square_dark" android:exported="true">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/ul_clock_widget_square_dark" />
+        </receiver>
+        <receiver android:name="com.qtekfun.ultimatelauncher.clockwidget.ClockWidgetWideDark"
+            android:label="@string/ul_clock_label_wide_dark" android:exported="true">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/ul_clock_widget_wide_dark" />
+        </receiver>
 
         <receiver android:name="com.android.launcher3.SessionCommitReceiver" android:exported="true">
             <intent-filter>
