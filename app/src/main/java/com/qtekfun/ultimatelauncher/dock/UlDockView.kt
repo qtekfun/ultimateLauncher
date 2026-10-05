@@ -54,14 +54,38 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         clipToPadding = false
     }
 
-    private var lastHotseatCount = -1
+    /** Rango de huecos ocupados del hotseat (primer y último cellX) para ajustar la píldora aunque haya huecos libres. */
+    private fun occupiedRange(): IntArray {
+        val container = launcher.hotseat.shortcutsAndWidgets
+        var lo = Int.MAX_VALUE
+        var hi = -1
+        for (i in 0 until container.childCount) {
+            val child = container.getChildAt(i)
+            // El hotseat de tablet lleva un hueco del buscador (OseWidgetView, vacío sin GMS): no cuenta como app fija.
+            if (child is com.android.launcher3.qsb.OseWidgetView || child.tag !is com.android.launcher3.model.data.ItemInfo) continue
+            val lp = child.layoutParams as? com.android.launcher3.celllayout.CellLayoutLayoutParams ?: continue
+            lo = minOf(lo, lp.cellX); hi = maxOf(hi, lp.cellX + lp.cellHSpan - 1)
+        }
+        return if (hi < 0) intArrayOf(0, 0) else intArrayOf(lo, hi)
+    }
+
+    private var lastRange = -1
     private val hotseatListener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-        val c = launcher.hotseat.shortcutsAndWidgets.childCount
-        if (c != lastHotseatCount) { lastHotseatCount = c; post { requestLayout(); invalidate() } }
+        val r = occupiedRange()
+        val key = r[0] * 100 + r[1]
+        if (key != lastRange) { lastRange = key; post { requestLayout(); invalidate() } }
+    }
+
+    /** Las píldoras siguen la opacidad del hotseat (se desvanecen con el cajón abierto). */
+    private val alphaSync = android.view.ViewTreeObserver.OnPreDrawListener {
+        val a = launcher.hotseat.alpha
+        if (alpha != a) alpha = a
+        true
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        viewTreeObserver.addOnPreDrawListener(alphaSync)
         launcher.hotseat.addOnLayoutChangeListener(hotseatListener)
         RecentApps.prefs(context).registerOnSharedPreferenceChangeListener(listener)
         DockPrefs.prefs(context).registerOnSharedPreferenceChangeListener(settingsListener)
@@ -69,6 +93,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     }
 
     override fun onDetachedFromWindow() {
+        viewTreeObserver.removeOnPreDrawListener(alphaSync)
         launcher.hotseat.removeOnLayoutChangeListener(hotseatListener)
         RecentApps.prefs(context).unregisterOnSharedPreferenceChangeListener(listener)
         DockPrefs.prefs(context).unregisterOnSharedPreferenceChangeListener(settingsListener)
@@ -126,7 +151,9 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val h = (dp.deviceProperties.heightPx - t).toFloat()
         val n = launcher.deviceProfile.hotseatProfile.numShownIcons
         // La píldora izquierda abarca solo las apps que hay (mínimo 1), no todos los huecos del hotseat.
-        val k = launcher.hotseat.shortcutsAndWidgets.childCount.coerceIn(1, n)
+        val range = occupiedRange()
+        val first = range[0].coerceIn(0, n - 1)
+        val k = (range[1] - range[0] + 1).coerceIn(1, n)
         val leftW = k * cell + 2 * pad
         val rightW = if (recents.isEmpty()) 0f else recents.size * cell + 2 * pad
         val g = if (recents.isEmpty()) 0f else gap
@@ -140,7 +167,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val hh = 35f * res.displayMetrics.density
         handleRect.set(leftRect.right + g / 2 - hw / 2, top + (pillH - hh) / 2, leftRect.right + g / 2 + hw / 2, top + (pillH + hh) / 2)
         // El hotseat se centra solo; se desplaza para que el conjunto (izquierda + asa + derecha) quede centrado.
-        launcher.hotseat.translationX = (startX - x0) + pad - (w - n * cell) / 2f
+        launcher.hotseat.translationX = (startX - x0) + pad - (w - n * cell) / 2f - first * cell
         for (i in 0 until childCount) {
             val v = getChildAt(i)
             val x = (rightRect.left + pad + i * cell + (cell - iconPx) / 2).toInt()
