@@ -7,10 +7,13 @@ data class Omission(val what: String, val reason: String)
 
 /** Resultado de planificar una importación; el resumen se muestra antes de aplicar (docs/06 punto 6). */
 data class ImportPlan(val hotseat: List<Pair<Int, Item>>, val pages: List<List<Item>>, val omitted: List<Omission>,
-                      val pendingWidgets: List<Item.Widget>, val changes: List<String>) {
+                      val pendingWidgets: List<Item.Widget>, val changes: List<String>,
+                      /** Ajustes del launcher a restaurar (ya filtrados por [BackupPrefs]); vacío en importaciones de otros launchers. */
+                      val prefs: Map<String, Any> = emptyMap()) {
     fun summary(): String = buildString {
         appendLine("Se importarán: ${hotseat.size} del dock y ${pages.sumOf { it.size }} elementos en ${pages.size} página(s).")
         changes.forEach { appendLine("• $it") }
+        if (prefs.isNotEmpty()) appendLine("Se restaurarán ${prefs.size} ajuste(s) del launcher.")
         if (pendingWidgets.isNotEmpty()) appendLine("Widgets que se restauran vacíos (${pendingWidgets.joinToString { it.provider.substringAfterLast('.') }}): sin permiso de enlace, toca cada uno y acepta el aviso del sistema; sus datos y configuración no se copian.")
         if (omitted.isNotEmpty()) { appendLine("No se importarán (${omitted.size}):"); omitted.forEach { appendLine("  – ${it.what}: ${it.reason}") } }
     }.trim()
@@ -52,6 +55,6 @@ object ImportPlanner {
         val r = GridReflow.reflow(withOverflow.map { p -> Page(p.index, p.items.map { if (it.cell == null) it.at(Cell(0, 0)) else it }) }, dev.grid)
         if (r.reflowed) changes += "Rejilla ${s.settings.grid.columns}×${s.settings.grid.rows} → ${dev.grid.columns}×${dev.grid.rows}: elementos reubicados por orden de lectura (${r.pages.size} página(s))"
         if (s.device.cls.isNotEmpty() && s.device.cls != (if (dev.grid.columns >= 6) "tablet" else "phone")) changes += "Cambio de clase de pantalla (${s.device.cls}): se ha adaptado a la rejilla de destino"
-        return ImportPlan(keptHot, r.pages.filter { it.isNotEmpty() }, omitted, pending, changes)
+        return ImportPlan(keptHot, r.pages.filter { it.isNotEmpty() }, omitted, pending, changes, s.prefs)
     }
 }

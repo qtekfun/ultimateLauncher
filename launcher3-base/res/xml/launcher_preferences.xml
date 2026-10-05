@@ -164,5 +164,26 @@
         android:title="@string/ul_hidden_apps"
         android:summary="@string/ul_pref_hidden_apps_summary"
         android:persistent="false" />
+    <!-- UltimateLauncher 0160: copia de seguridad -->
+    <PreferenceCategory
+        android:key="pref_ul_backup_category"
+        android:title="@string/ul_pref_backup_category"
+        android:persistent="false">
+        <Preference
+            android:key="pref_ul_backup_save"
+            android:title="@string/ul_pref_backup_save"
+            android:summary="@string/ul_pref_backup_save_summary"
+            android:persistent="false" />
+        <Preference
+            android:key="pref_ul_backup_restore"
+            android:title="@string/ul_pref_backup_restore"
+            android:summary="@string/ul_pref_backup_restore_summary"
+            android:persistent="false" />
+        <Preference
+            android:key="pref_ul_backup_import"
+            android:title="@string/ul_pref_backup_import"
+            android:summary="@string/ul_pref_backup_import_summary"
+            android:persistent="false" />
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

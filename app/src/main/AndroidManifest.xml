@@ -103,6 +103,14 @@
             android:theme="@android:style/Theme.DeviceDefault.DayNight"
             android:exported="false" />
 
+        <!-- Guardar/restaurar copia desde Ajustes de inicio (parche 0160): abre el selector de documentos, sin permisos ni red. -->
+        <activity
+            android:name="com.qtekfun.ultimatelauncher.layoutsync.BackupActivity"
+            android:label="@string/ul_pref_backup_category"
+            android:theme="@style/UlBackupTheme"
+            android:excludeFromRecents="true"
+            android:exported="false" />
+
         <!-- Exportar/importar disposición (M7): archivo por el selector de documentos, sin red. -->
         <activity
             android:name="com.qtekfun.ultimatelauncher.layoutsync.LayoutSyncActivity"
