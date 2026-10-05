@@ -27,7 +27,7 @@ android {
         // RF-03: sin barra de búsqueda (QSB) en la primera pantalla.
         buildConfigField 'boolean', 'QSB_ON_FIRST_SCREEN', 'false'
     }
-    compileOptions { sourceCompatibility = JavaVersion.VERSION_21; targetCompatibility = JavaVersion.VERSION_21 }
+    compileOptions { sourceCompatibility = JavaVersion.VERSION_21; targetCompatibility = JavaVersion.VERSION_21; coreLibraryDesugaringEnabled = true }
     buildFeatures { buildConfig = true; compose = true; aidl = true; resValues = true }
 
     flavorDimensions += 'dist'
@@ -95,6 +95,7 @@ dependencies {
     implementation libs.dagger
     ksp libs.dagger.compiler
     implementation libs.protobuf.javalite
+    coreLibraryDesugaring libs.desugar.jdk.libs
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.json:json:20250517'
 }
