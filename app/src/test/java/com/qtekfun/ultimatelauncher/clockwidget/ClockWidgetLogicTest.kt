@@ -27,4 +27,15 @@ class ClockWidgetLogicTest {
         assertEquals(ClockWidgetLogic.FALLBACK_DATE_PATTERN, ClockWidgetLogic.datePattern("x") { "  " })
         assertEquals(ClockWidgetLogic.FALLBACK_DATE_PATTERN, ClockWidgetLogic.datePattern("x") { null })
     }
+
+    @Test fun squareCardIsSquareOnLandscapeCell() {
+        // Tablet apaisada: celda 2x2 ≈ 178 x 143 dp -> tarjeta de 143 dp.
+        assertEquals(ClockLayout.SQUARE, ClockWidgetLogic.chooseSquare(178f, 143f))
+        assertEquals(143f, ClockWidgetLogic.squareSide(178f, 143f), 0.001f)
+    }
+
+    @Test fun squareProviderNeverUsesWideAndFallsBackToCompact() {
+        assertEquals(ClockLayout.SQUARE, ClockWidgetLogic.chooseSquare(300f, 120f))
+        assertEquals(ClockLayout.COMPACT, ClockWidgetLogic.chooseSquare(300f, 60f))
+    }
 }

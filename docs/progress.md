@@ -317,3 +317,6 @@ Petición del usuario: «un setup para importar los iconos de otros launchers se
 ### Iconos hasta el borde con mini hueco y reloj más iOS (2026-10-05)
 - Iconos hasta el borde: margen lateral de 12 dp (el mismo que el hueco del dock al borde inferior, `dock.bottomMarginDp` de huawei-tablet-medido.json) en lugar de 0; las celdas reparten el ancho restante (`EdgeGrid.EDGE_MARGIN_DP`, parche 0120 actualizado).
 - Reloj digital: solo tarjeta BLANCA con números negros (se quitaron del selector las variantes oscuras: el usuario veía el negativo), `forceDarkAllowed=false` en los diseños para que ColorOS no invierta la tarjeta con el modo oscuro del sistema, esquinas de 44 dp, dígitos en `sans-serif-black` y fecha en negro al 60 %.
+
+### Reloj 2x2 cuadrado en pantallas apaisadas (2026-10-05)
+- En tablet las celdas son apaisadas y la tarjeta rellenaba todo el rectángulo. Ahora el proveedor 2x2 genera un diseño por cada tamaño real que da el launcher (`OPTION_APPWIDGET_SIZES`) y fija la tarjeta a un cuadrado de lado = el menor de los dos, centrada (`setViewLayoutWidth/Height`, API 31). El 4x2 sigue rectangular. Backlog en `docs/pendientes.md`.
