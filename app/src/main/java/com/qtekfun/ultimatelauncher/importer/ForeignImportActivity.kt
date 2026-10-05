@@ -7,9 +7,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.SeekBar
 import android.widget.ScrollView
 import android.widget.TextView
 import com.android.launcher3.R
+import com.qtekfun.ultimatelauncher.layoutsync.AppOrder
+import com.qtekfun.ultimatelauncher.layoutsync.AppsByOrder
 import com.qtekfun.ultimatelauncher.layoutsync.ImportPlan
 import com.qtekfun.ultimatelauncher.layoutsync.ImportPlanner
 import com.qtekfun.ultimatelauncher.layoutsync.LayoutStore
@@ -53,6 +58,9 @@ class ForeignImportActivity : Activity() {
             startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*"), pickFile) } })
         root.addView(Button(this).apply { text = getString(R.string.ul_imp_btn_own); setOnClickListener {
             startActivity(Intent(this@ForeignImportActivity, LayoutSyncActivity::class.java)) } })
+        root.addView(text(getString(R.string.ul_imp_order_title), 18f, true))
+        root.addView(text(getString(R.string.ul_imp_order_help), 14f))
+        root.addView(Button(this).apply { text = getString(R.string.ul_imp_order_btn); setOnClickListener { askOrder() } })
         status = text("")
         root.addView(status)
         root.addView(text(getString(R.string.ul_imp_alt_title), 18f, true))
@@ -91,6 +99,43 @@ class ForeignImportActivity : Activity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val uri = data?.data
         if (requestCode == pickFile && resultCode == RESULT_OK && uri != null) readBackup(uri)
+    }
+
+    /** «Colocar mis apps por orden»: elige orden y apps por página, y pasa la disposición generada por la vista previa normal. */
+    private fun askOrder() {
+        val pad = (16 * resources.displayMetrics.density).toInt()
+        val grid = com.qtekfun.ultimatelauncher.layoutsync.Grid(
+            com.android.launcher3.LauncherAppState.getIDP(this).numColumns, com.android.launcher3.LauncherAppState.getIDP(this).numRows)
+        val cap = AppsByOrder.capacity(grid)
+        val orders = RadioGroup(this).apply {
+            addView(RadioButton(this@ForeignImportActivity).apply { id = 1; text = getString(R.string.ul_imp_order_alpha); isChecked = true })
+            addView(RadioButton(this@ForeignImportActivity).apply { id = 2; text = getString(R.string.ul_imp_order_install) })
+        }
+        val perPageLabel = TextView(this).apply { setPadding(0, pad, 0, 0) }
+        val bar = SeekBar(this).apply { max = cap - 1; progress = cap - 1 }
+        fun refresh() { perPageLabel.text = getString(R.string.ul_imp_order_per_page, bar.progress + 1, grid.columns, grid.rows) }
+        bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(s: SeekBar?, p: Int, u: Boolean) = refresh()
+            override fun onStartTrackingTouch(s: SeekBar?) = Unit
+            override fun onStopTrackingTouch(s: SeekBar?) = Unit
+        })
+        refresh()
+        val body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(pad, pad, pad, 0)
+            addView(TextView(this@ForeignImportActivity).apply { text = getString(R.string.ul_imp_order_not_imported) })
+            addView(orders); addView(perPageLabel); addView(bar) }
+        AlertDialog.Builder(this).setTitle(R.string.ul_imp_order_btn).setView(ScrollView(this).apply { addView(body) })
+            .setPositiveButton(R.string.ul_imp_order_next) { _, _ ->
+                val order = if (orders.checkedRadioButtonId == 2) AppOrder.INSTALL_DATE else AppOrder.ALPHABETICAL
+                val perPage = bar.progress + 1
+                setStatus(getString(R.string.ul_imp_reading))
+                thread { present { orderSnapshot(order, perPage, grid) to ParseStats(0, 0, 0, false, grid) } }
+            }.setNegativeButton(android.R.string.cancel, null).show()
+    }
+
+    private fun orderSnapshot(order: AppOrder, perPage: Int, grid: com.qtekfun.ultimatelauncher.layoutsync.Grid): com.qtekfun.ultimatelauncher.layoutsync.Snapshot {
+        val dm = resources.displayMetrics
+        val device = com.qtekfun.ultimatelauncher.layoutsync.Device("", "", "", 0, dm.densityDpi, 0, 0)
+        return AppsByOrder.snapshot(store.installedApps(), order, perPage, grid, store.currentHotseat(), device)
     }
 
     private fun setStatus(s: String) = runOnUiThread { status.text = s }
