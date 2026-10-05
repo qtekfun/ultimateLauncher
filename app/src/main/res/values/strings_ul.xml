@@ -38,4 +38,6 @@
     <string name="ul_btn_battery">Don\'t optimize battery for the launcher</string>
     <string name="ul_battery_yes">Battery optimization is OFF for UltimateLauncher (good).</string>
     <string name="ul_battery_no">Battery optimization is ON: the system may kill the launcher.</string>
+    <string name="ul_pref_gesture_contract">Home-gesture icon contract</string>
+    <string name="ul_pref_gesture_contract_summary">Animates the return to the icon after the swipe-up gesture. Off by default: on ColorOS it can leave the icons hidden for a moment.</string>
 </resources>

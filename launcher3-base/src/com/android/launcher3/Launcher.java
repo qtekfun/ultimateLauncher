@@ -1537,7 +1537,8 @@ public class Launcher extends StatefulActivity<LauncherState>
      */
     protected void handleGestureContract(Intent intent) {
         GestureNavContract gnc = GestureNavContract.fromIntent(intent);
-        if (gnc != null) {
+        if (gnc != null && getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, MODE_PRIVATE)
+                .getBoolean("pref_ul_gesture_contract", false)) { // UltimateLauncher 0046
             AbstractFloatingView.closeOpenViews(this, false, TYPE_ICON_SURFACE);
             FloatingSurfaceView.show(this, gnc);
         }
