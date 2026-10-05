@@ -199,3 +199,7 @@ Parches 0020–0025 (ver `patches/README.md`); todos los valores salen de `asset
 ### Carpeta: mezcla iOS + ColorOS (parche 0050, 2026-10-05)
 - Carpeta cerrada: forma del icono (superelipse/cuadrado redondeado) en vez de círculo y fondo de cristal claro (blanco 40 %) en vez del azul oscuro del tema (`ThemeManager.folderShape = iconShape`, `FolderStyle.closedIconColor`).
 - Carpeta abierta: fondo desenfocado de OPPO + oscurecimiento 32 % + panel de cristal traslúcido tipo iOS (blanco 22 %) tras título e iconos, para leer sobre fondos claros. Todo tras el interruptor «Carpetas abiertas como OPPO».
+
+### Icono de carpeta cerrada como OPPO (parche 0051, 2026-10-05)
+- Referencia medida en el launcher de OPPO (captura propia, carpeta «Redes sociales», 198 px de lado): rejilla 3x3 en orden de lectura, mini-iconos ≈40 px (20,2 %), paso 54 px (27,3 %), margen 25 px (12,6 %), fondo gris traslúcido (≈ negro/gris 30 % sobre el fondo de pantalla).
+- 0051: `ClippedFolderIconLayoutRule` pasa de círculo de 4 a rejilla 3x3 de hasta 9; `FolderStyle.closedIconColor` = gris 30 %.
