@@ -66,4 +66,24 @@ class WallpaperLogicTest {
         assertTrue(WallpaperLogic.dimAlpha(50) in 100..120)
         assertEquals(WallpaperLogic.dimAlpha(100), WallpaperLogic.dimAlpha(400))
     }
+
+    @Test fun gridColumnsGrowWithWidth() {
+        assertEquals(2, WallpaperLogic.gridColumns(360f))
+        assertEquals(5, WallpaperLogic.gridColumns(851f)) // móvil horizontal
+        assertEquals(6, WallpaperLogic.gridColumns(1280f)) // tablet horizontal
+        assertEquals(2, WallpaperLogic.gridColumns(100f))
+    }
+
+    @Test fun cellAspectIsClampedAndHasFallback() {
+        assertEquals(1.45f, WallpaperLogic.cellAspect(1080, 2400), 0f)
+        assertEquals(0.657f, WallpaperLogic.cellAspect(2800, 1840), 1e-3f)
+        assertEquals(0.55f, WallpaperLogic.cellAspect(3000, 1000), 0f)
+        assertEquals(1.45f, WallpaperLogic.cellAspect(0, 0), 0f)
+    }
+
+    @Test fun panelWidthIsCardInLandscapeAndFullInPortraitPhone() {
+        assertEquals(336, WallpaperLogic.panelWidthDp(360f)) // móvil vertical: casi todo el ancho
+        assertEquals(460, WallpaperLogic.panelWidthDp(1280f))
+        assertEquals(460, WallpaperLogic.panelWidthDp(851f))
+    }
 }

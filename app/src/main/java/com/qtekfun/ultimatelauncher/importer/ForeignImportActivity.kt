@@ -19,6 +19,7 @@ import com.qtekfun.ultimatelauncher.layoutsync.ImportPlan
 import com.qtekfun.ultimatelauncher.layoutsync.ImportPlanner
 import com.qtekfun.ultimatelauncher.layoutsync.LayoutStore
 import com.qtekfun.ultimatelauncher.layoutsync.LayoutSyncActivity
+import com.qtekfun.ultimatelauncher.ui.ScreenLayout
 import java.io.File
 import java.util.Locale
 import kotlin.concurrent.thread
@@ -65,7 +66,7 @@ class ForeignImportActivity : Activity() {
         root.addView(status)
         root.addView(text(getString(R.string.ul_imp_alt_title), 18f, true))
         root.addView(text(getString(R.string.ul_imp_alt_body), 14f))
-        setContentView(ScrollView(this).apply { addView(root) })
+        setContentView(ScreenLayout.scrollColumn(this, root))
         fillDetected(pad)
     }
 

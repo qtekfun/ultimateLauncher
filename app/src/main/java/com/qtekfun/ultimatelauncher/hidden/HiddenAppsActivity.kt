@@ -16,10 +16,10 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import com.android.launcher3.R
+import com.qtekfun.ultimatelauncher.ui.ScreenLayout
 
 /**
  * Pantalla «Apps ocultas» (parche 0183). Exige autenticar con el dispositivo (huella/rostro o PIN, patrón, contraseña)
@@ -42,19 +42,13 @@ class HiddenAppsActivity : Activity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         launcherApps = getSystemService(LauncherApps::class.java)
         title = getString(R.string.ul_hidden_apps)
-        val scroll = ScrollView(this).apply { isFillViewport = true }
         content = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             val pad = dp(16)
             setPadding(pad, dp(24), pad, dp(24))
         }
-        scroll.addView(content, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        scroll.setOnApplyWindowInsetsListener { v, insets ->
-            val bars = insets.getInsets(android.view.WindowInsets.Type.systemBars())
-            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-            insets
-        }
-        setContentView(scroll)
+        // Desplazable, respeta barras/recorte y limita el ancho a ~640 dp en tablet.
+        setContentView(ScreenLayout.scrollColumn(this, content))
         if (savedInstanceState == null) startAuth() else finish()
     }
 

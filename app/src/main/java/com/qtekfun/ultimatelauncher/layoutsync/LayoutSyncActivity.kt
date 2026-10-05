@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.android.launcher3.R
+import com.qtekfun.ultimatelauncher.ui.ScreenLayout
 import kotlin.concurrent.thread
 
 /**
@@ -39,7 +40,7 @@ class LayoutSyncActivity : Activity() {
             startActivity(Intent(this@LayoutSyncActivity, com.qtekfun.ultimatelauncher.importer.ForeignImportActivity::class.java)) } })
         status = TextView(this).apply { setPadding(0, pad, 0, 0) }
         root.addView(status)
-        setContentView(root)
+        setContentView(ScreenLayout.scrollColumn(this, root))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
