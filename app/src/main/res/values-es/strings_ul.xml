@@ -14,7 +14,7 @@
     <string name="ul_btn_done">Hecho</string>
     <string name="ul_launcher_label">Configuración de UltimateLauncher</string>
     <string name="ul_sync_title">Exportar / importar disposición</string>
-    <string name="ul_sync_warning">El archivo lista las apps instaladas en este teléfono, lo que es información sensible. En esta versión NO está cifrado. No se usa red: elige cualquier lugar en el selector de documentos del sistema.</string>
+    <string name="ul_sync_warning">El archivo lista las apps instaladas en este teléfono, lo que es información sensible. Puedes cifrarlo con una frase de paso (AES-256-GCM). No se usa red: elige cualquier lugar en el selector de documentos del sistema.</string>
     <string name="ul_sync_export">Exportar disposición…</string>
     <string name="ul_sync_import">Importar disposición…</string>
     <string name="ul_sync_summary">Resumen de la importación</string>
@@ -23,6 +23,15 @@
     <string name="ul_sync_done">Importado. Se guardó una copia de la disposición anterior como %1$s.</string>
     <string name="ul_sync_error">Error: %1$s</string>
     <string name="ul_sync_schema">Este archivo usa el esquema %1$d, más nuevo de lo que soporta esta app.</string>
+    <string name="ul_sync_pass_export">¿Cifrar el archivo?</string>
+    
+<string name="ul_sync_pass_hint_export">Frase de paso (vacía = sin cifrar)</string>
+    
+<string name="ul_sync_pass_import">Archivo cifrado</string>
+    
+<string name="ul_sync_pass_hint_import">Frase de paso</string>
+    
+<string name="ul_sync_wrong_pass">Frase de paso incorrecta o archivo alterado.</string>
     <string name="ul_sync_label">Disposición de UltimateLauncher</string>
     <string name="ul_pref_dock_recents">Últimas apps en el dock</string>
     <string name="ul_pref_dock_recents_summary">Muestra las últimas apps abiertas desde este launcher (hasta 4). Se guardan solo en este dispositivo; al desactivarlo se borran.</string>

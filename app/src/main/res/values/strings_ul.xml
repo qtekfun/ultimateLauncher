@@ -14,7 +14,7 @@
     <string name="ul_btn_done">Done</string>
     <string name="ul_launcher_label">UltimateLauncher setup</string>
     <string name="ul_sync_title">Export / import layout</string>
-    <string name="ul_sync_warning">The file lists the apps installed on this phone, which is sensitive information. It is NOT encrypted in this version. No network is used: pick any place in the system document picker.</string>
+    <string name="ul_sync_warning">The file lists the apps installed on this phone, which is sensitive information. You can encrypt it with a passphrase (AES-256-GCM). No network is used: pick any place in the system document picker.</string>
     <string name="ul_sync_export">Export layout…</string>
     <string name="ul_sync_import">Import layout…</string>
     <string name="ul_sync_summary">Import summary</string>
@@ -23,6 +23,15 @@
     <string name="ul_sync_done">Imported. A copy of the previous layout was saved as %1$s.</string>
     <string name="ul_sync_error">Error: %1$s</string>
     <string name="ul_sync_schema">This file uses schema %1$d, newer than this app supports.</string>
+    <string name="ul_sync_pass_export">Encrypt the file?</string>
+    
+<string name="ul_sync_pass_hint_export">Passphrase (leave empty for no encryption)</string>
+    
+<string name="ul_sync_pass_import">Encrypted file</string>
+    
+<string name="ul_sync_pass_hint_import">Passphrase</string>
+    
+<string name="ul_sync_wrong_pass">Wrong passphrase, or the file was altered.</string>
     <string name="ul_sync_label">UltimateLauncher layout</string>
     <string name="ul_pref_dock_recents">Recent apps in the dock</string>
     <string name="ul_pref_dock_recents_summary">Shows the last apps opened from this launcher (up to 4). Stored only on this device; turning it off deletes them.</string>
