@@ -116,6 +116,8 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val shape = ThemeManager.INSTANCE.get(context).iconShapeData.value
         removeAllViews()
         val shown = ArrayList<ComponentName>()
+        // Poda persistente de apps desinstaladas (antes solo se saltaban al pintar y se quedaban guardadas).
+        RecentApps.prune(context) { cn -> la.getActivityList(cn.packageName, Process.myUserHandle()).any { it.componentName == cn } }
         val li = LauncherIcons.obtain(context)
         try {
             val wanted = if (DockPrefs.recentsEnabled(context)) RecentApps.load(context) else emptyList()
@@ -131,6 +133,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
                     contentDescription = info.label
                     layoutParams = LayoutParams(iconPx, iconPx)
                     setOnClickListener { la.startMainActivity(cn, Process.myUserHandle(), null, null) }
+                    setOnLongClickListener { confirmRemove(cn, info.label?.toString().orEmpty()); true }
                 }
                 addView(v)
                 shown += cn
@@ -141,6 +144,19 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         recents = shown
         requestLayout()
         invalidate()
+    }
+
+    /** Pulsación larga en un reciente: «Quitar de recientes» / «Borrar todos los recientes». */
+    private fun confirmRemove(cn: ComponentName, label: String) {
+        val items = arrayOf(res.getString(R.string.ul_dock_recent_remove), res.getString(R.string.ul_dock_recent_clear_all))
+        android.app.AlertDialog.Builder(launcher)
+            .setTitle(label)
+            .setItems(items) { _, which ->
+                if (which == 0) RecentApps.remove(context, cn) else RecentApps.clear(context)
+                refresh() // al instante (el listener de preferencias también lo haría, pero asíncrono)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
