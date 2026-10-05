@@ -301,7 +301,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
                 ResourcesCompat.getDrawable(getResources(),
                         R.drawable.round_rect_folder, getContext().getTheme()));
         mBackground.setCallback(this);
-        if (com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(context)) mBackground.setColor(android.graphics.Color.TRANSPARENT); // UltimateLauncher 0048
+        if (com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(context)) mBackground.setColor(com.qtekfun.ultimatelauncher.folder.FolderStyle.cardColor(context)); // UltimateLauncher 0048
         mBoxSelectionHelper = enableWorkspaceSelection()
                 ? new BoxSelectionHelper(mActivityContext, this)
                 : null;

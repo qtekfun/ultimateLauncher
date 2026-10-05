@@ -167,7 +167,9 @@ constructor(
 
         val folderRadius = shapeModel?.folderRadiusRatio ?: 1f
         val folderShape =
-            if (oldState != null && oldState.folderRadius == folderRadius) {
+            if (shapeModel == null) { // UL 0050: la carpeta usa la forma del icono
+                iconShape
+            } else if (oldState != null && oldState.folderRadius == folderRadius) {
                 oldState.folderShape
             } else if (folderRadius == 1f) {
                 ShapeDelegate.Circle()

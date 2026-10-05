@@ -19,7 +19,7 @@ def sub(old, new):
     t = t.replace(old, new, 1)
 sub("        mBackground.setCallback(this);\n",
     "        mBackground.setCallback(this);\n"
-    f"        if ({F}.transparentCard(context)) mBackground.setColor(android.graphics.Color.TRANSPARENT); // UltimateLauncher 0048\n")
+    f"        if ({F}.transparentCard(context)) mBackground.setColor({F}.cardColor(context)); // UltimateLauncher 0048\n")
 sub("        mFolderName.setOnBackKeyListener(this);\n",
     "        mFolderName.setOnBackKeyListener(this);\n"
     f"        {F}.styleFolder(this, mFooter, mFolderName); // UltimateLauncher 0048\n")
@@ -43,12 +43,12 @@ pa = R / "src/com/android/launcher3/folder/FolderAnimationManager.java"; ta = pa
 old = "        mFolderBackground.mutate();\n        mFolderBackground.setColor(mIsOpening ? initialColor : finalColor);\n"
 new = ("        mFolderBackground.mutate();\n"
        "        mFolderBackground.setColor(com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(mContext)\n"
-       "                ? android.graphics.Color.TRANSPARENT : (mIsOpening ? initialColor : finalColor)); // UltimateLauncher 0048\n")
+       "                ? com.qtekfun.ultimatelauncher.folder.FolderStyle.cardColor(mContext) : (mIsOpening ? initialColor : finalColor)); // UltimateLauncher 0048\n")
 if "UltimateLauncher 0048" not in ta:
     assert old in ta; ta = ta.replace(old, new, 1)
     old2 = 'mBgColorAnimator = getAnimator(mFolderBackground, "color", initialColor, finalColor);'
     assert old2 in ta
-    ta = ta.replace(old2, 'mBgColorAnimator = getAnimator(mFolderBackground, "color",\n                com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(mContext) ? 0 : initialColor,\n                com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(mContext) ? 0 : finalColor); // UltimateLauncher 0048', 1)
+    ta = ta.replace(old2, 'mBgColorAnimator = getAnimator(mFolderBackground, "color",\n                com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(mContext) ? 0 : initialColor,\n                com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(mContext) ? com.qtekfun.ultimatelauncher.folder.FolderStyle.cardColor(mContext) : finalColor); // UltimateLauncher 0048', 1)
     pa.write_text(ta)
 px = R / "res/xml/launcher_preferences.xml"; t = px.read_text()
 if "pref_ul_folder_style" not in t:
