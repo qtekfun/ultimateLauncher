@@ -202,6 +202,7 @@ public class RotationHelper implements DeviceProfile.OnDeviceProfileChangeListen
         } else if (mIgnoreAutoRotateSettings
                 || mCurrentStateRequest == REQUEST_ROTATE
                 || mForceAllowRotationForTesting
+                || com.qtekfun.ultimatelauncher.RotationPref.allowed(mActivity) // UltimateLauncher 0061
         ) {
             activityFlags = SCREEN_ORIENTATION_UNSPECIFIED;
         } else {

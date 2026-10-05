@@ -249,7 +249,8 @@ data class FolderProfile(
                 cellWidthPx = folderCellWidthPx,
                 cellHeightPx = folderCellHeightPx,
                 labelTextScale = folderLabelTextScale,
-                numRows = inv.numFolderRows[typeIndex],
+                numRows = com.qtekfun.ultimatelauncher.folder.FolderStyle.rowsFor(inv.numFolderRows[typeIndex], folderCellHeightPx, roundPxValueFromFloat(folderFooterHeightPx * scale), metrics,
+                    com.qtekfun.ultimatelauncher.folder.FolderStyle.phoneCells(context)), // UltimateLauncher 0049
                 numColumns = inv.numFolderColumns[typeIndex],
                 folderIconSizePx = folderIconSizePx,
                 folderIconOffsetYPx = (workspaceProfile.iconSizePx - folderIconSizePx) / 2,
@@ -275,7 +276,7 @@ data class FolderProfile(
                 (res.getDimensionPixelSize(R.dimen.folder_cell_x_padding) * scale).toInt()
             val cellPaddingY =
                 (res.getDimensionPixelSize(R.dimen.folder_cell_y_padding) * scale).toInt()
-            val ulPhone = metrics.widthPixels / metrics.density < 600f // UltimateLauncher 0049
+            val ulPhone = minOf(metrics.widthPixels, metrics.heightPixels) / metrics.density < 600f // UltimateLauncher 0049
             val folderCellHeightPx = if (ulPhone) pxFromDp(113.1f, metrics, scale)
                 else folderChildIconSizePx + 2 * cellPaddingY + textHeight
             val folderIconSizePx =
@@ -307,7 +308,8 @@ data class FolderProfile(
                     else folderChildIconSizePx + 2 * cellPaddingX,
                 cellHeightPx = folderCellHeightPx,
                 labelTextScale = folderLabelTextScale,
-                numRows = inv.numFolderRows[typeIndex],
+                numRows = com.qtekfun.ultimatelauncher.folder.FolderStyle.rowsFor(inv.numFolderRows[typeIndex], folderCellHeightPx,
+                    roundPxValueFromFloat(res.getDimensionPixelSize(R.dimen.folder_footer_height_default) * scale), metrics, ulPhone), // UltimateLauncher 0049
                 numColumns = inv.numFolderColumns[typeIndex],
                 folderIconSizePx = folderIconSizePx,
                 folderIconOffsetYPx = (workspaceProfile.iconSizePx - folderIconSizePx) / 2,
