@@ -134,4 +134,35 @@
         android:defaultValue="false"
         android:persistent="true" />
 
+    <!-- UltimateLauncher 0180 -->
+    <SwitchPreference
+        android:key="pref_ul_swipe_down"
+        android:title="@string/ul_pref_swipe_down"
+        android:summary="@string/ul_pref_swipe_down_summary"
+        android:defaultValue="false"
+        android:persistent="true" />
+
+    <SwitchPreference
+        android:key="pref_ul_swipe_split"
+        android:title="@string/ul_pref_swipe_split"
+        android:summary="@string/ul_pref_swipe_split_summary"
+        android:defaultValue="true"
+        android:dependency="pref_ul_swipe_down"
+        android:persistent="true" />
+
+    <SwitchPreference
+        android:key="pref_ul_swipe_swap"
+        android:title="@string/ul_pref_swipe_swap"
+        android:summary="@string/ul_pref_swipe_swap_summary"
+        android:defaultValue="false"
+        android:dependency="pref_ul_swipe_down"
+        android:persistent="true" />
+
+    <!-- UltimateLauncher 0183 -->
+    <Preference
+        android:key="pref_ul_hidden_apps_open"
+        android:title="@string/ul_hidden_apps"
+        android:summary="@string/ul_pref_hidden_apps_summary"
+        android:persistent="false" />
+
 </androidx.preference.PreferenceScreen>

@@ -15,6 +15,5 @@ android.permission.ACCESS_COARSE_LOCATION
 android.permission.CAMERA
 android.permission.RECORD_AUDIO
 android.permission.POST_NOTIFICATIONS
-android.permission.USE_BIOMETRIC
 com.android.launcher.permission.READ_SETTINGS
 com.android.launcher3.permission.READ_SETTINGS

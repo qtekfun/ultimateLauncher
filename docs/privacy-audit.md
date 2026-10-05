@@ -16,7 +16,7 @@ Ejecución real: 2026-10-05, sobre `master` + los cambios de M7/M8 (APK `release
 | El serializador de layout (`LayoutModel.kt`, `LayoutStore.kt`) no menciona contraseñas, tokens ni URL | `grep` | OK |
 
 ### Permisos reales de `default` (manifiesto fusionado)
-`BIND_APPWIDGET`, `REQUEST_DELETE_PACKAGES`, `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`, `SET_WALLPAPER`, `SET_WALLPAPER_HINTS`, `VIBRATE`, y el propio `<applicationId>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` (lo añade androidx). La variante `sync` añade solo `INTERNET`.
+`BIND_APPWIDGET`, `EXPAND_STATUS_BAR`, `REQUEST_DELETE_PACKAGES`, `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`, `SET_WALLPAPER`, `SET_WALLPAPER_HINTS`, `USE_BIOMETRIC`, `VIBRATE`, y el propio `<applicationId>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` (lo añade androidx). La variante `sync` añade solo `INTERNET`.
 
 ### Observaciones
 - `androidx.appsearch` y `androidx.slice` están en el árbol de dependencias (los arrastra AOSP/appfunctions). Son almacenamiento local y vistas, sin red; el servicio de AppFunctions no está en el manifiesto (decisión previa en `docs/DECISIONS.md`).
