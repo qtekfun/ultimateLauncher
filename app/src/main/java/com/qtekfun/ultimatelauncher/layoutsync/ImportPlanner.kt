@@ -11,7 +11,7 @@ data class ImportPlan(val hotseat: List<Pair<Int, Item>>, val pages: List<List<I
     fun summary(): String = buildString {
         appendLine("Se importarán: ${hotseat.size} del dock y ${pages.sumOf { it.size }} elementos en ${pages.size} página(s).")
         changes.forEach { appendLine("• $it") }
-        if (pendingWidgets.isNotEmpty()) appendLine("Widgets que hay que añadir a mano (requieren permiso del sistema): ${pendingWidgets.joinToString { it.provider.substringAfterLast('.') }}")
+        if (pendingWidgets.isNotEmpty()) appendLine("Widgets que se restauran vacíos (${pendingWidgets.joinToString { it.provider.substringAfterLast('.') }}): sin permiso de enlace, toca cada uno y acepta el aviso del sistema; sus datos y configuración no se copian.")
         if (omitted.isNotEmpty()) { appendLine("No se importarán (${omitted.size}):"); omitted.forEach { appendLine("  – ${it.what}: ${it.reason}") } }
     }.trim()
 }
@@ -33,13 +33,16 @@ object ImportPlanner {
             is Item.App -> resolveApp(i)
             is Item.Folder -> { val kids = i.items.mapNotNull { resolveApp(it) }
                 if (kids.isEmpty()) { omitted += Omission(i.label, "sin apps instaladas"); null } else i.copy(items = kids) }
-            is Item.Widget -> { if (i.provider.substringBefore('/') !in dev.widgetProviders.map { it.substringBefore('/') }.toSet() && i.provider !in dev.widgetProviders)
-                omitted += Omission(i.label, "proveedor ausente (widget de otra marca o app no instalada)") else pending += i; null }
+            is Item.Widget -> {
+                // Solo se restaura si el proveedor exacto (paquete/clase) existe aquí; el resto se omite y se anota.
+                if (i.provider in dev.widgetProviders) { pending += i; i }
+                else { omitted += Omission(i.label, "proveedor ausente (widget de otra marca o app no instalada)"); null }
+            }
             is Item.Shortcut -> { omitted += Omission(i.label, "los accesos directos no se restauran en v1"); null }
         }
 
-        val pagesIn = s.pages.map { p -> Page(p.index, p.items.mapNotNull { resolve(it) } + pending.filter { false }) }
-        // Los widgets se omiten del layout (se listan aparte), pero cuentan para la reubicación solo si se añadieran: no se reservan celdas.
+        val pagesIn = s.pages.map { p -> Page(p.index, p.items.mapNotNull { resolve(it) }) }
+        // Los widgets presentes se quedan en las páginas (cuentan para la reubicación) y además se listan en pendingWidgets.
         val hot = s.hotseat.sortedBy { it.first }.mapNotNull { (slot, it) -> resolve(it)?.let { r -> slot to r } }
         val keptHot = hot.filter { it.first < dev.hotseatSlots }
         val overflow = hot.filter { it.first >= dev.hotseatSlots }.map { it.second }

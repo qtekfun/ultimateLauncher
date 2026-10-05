@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Process
 import com.android.launcher3.LauncherAppState
 import com.android.launcher3.LauncherSettings.Favorites
+import com.android.launcher3.model.data.LauncherAppWidgetInfo
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -82,6 +83,17 @@ class LayoutStore(private val context: Context) {
             put(Favorites.SPANX, 1); put(Favorites.SPANY, 1); put(Favorites.ITEM_TYPE, Favorites.ITEM_TYPE_APPLICATION)
             put(Favorites.PROFILE_ID, ownSerial); put(Favorites.RANK, rank); put(Favorites.RESTORED, 0)
         }
+        // Widgets sin permiso nuevo: se escribe la fila con appWidgetId=-1 y FLAG_ID_NOT_VALID|FLAG_PROVIDER_NOT_READY, igual que
+        // AutoInstallsLayout. Al recargar, WidgetInflater intenta reservar el id y enlazarlo; si no puede (sin BIND_APPWIDGET)
+        // lo deja como widget pendiente y el toque lanza el diálogo de enlace del sistema. No se copian ni datos ni configuración.
+        fun widgetValues(w: Item.Widget, screen: Int, c: Cell) = ContentValues().apply {
+            put(Favorites._ID, db.generateNewItemId()); put(Favorites.CONTAINER, Favorites.CONTAINER_DESKTOP)
+            put(Favorites.SCREEN, screen); put(Favorites.CELLX, c.x); put(Favorites.CELLY, c.y)
+            put(Favorites.SPANX, w.span.w); put(Favorites.SPANY, w.span.h); put(Favorites.ITEM_TYPE, Favorites.ITEM_TYPE_APPWIDGET)
+            put(Favorites.APPWIDGET_PROVIDER, w.provider); put(Favorites.APPWIDGET_ID, -1)
+            put(Favorites.PROFILE_ID, ownSerial); put(Favorites.RANK, 0)
+            put(Favorites.RESTORED, LauncherAppWidgetInfo.FLAG_ID_NOT_VALID or LauncherAppWidgetInfo.FLAG_PROVIDER_NOT_READY)
+        }
         plan.hotseat.forEach { (slot, it) -> if (it is Item.App) db.insert(appValues(it, Favorites.CONTAINER_HOTSEAT, slot, slot, 0, 0)) }
         plan.pages.forEachIndexed { screen, items -> items.forEach { it ->
             val c = it.cell ?: Cell(0, 0)
@@ -96,7 +108,8 @@ class LayoutStore(private val context: Context) {
                     })
                     it.items.forEachIndexed { rank, a -> db.insert(appValues(a, fid, 0, rank % 3, rank / 3, rank)) }
                 }
-                else -> Unit // widgets y accesos: se listan en el resumen, no se escriben
+                is Item.Widget -> db.insert(widgetValues(it, screen, c))
+                else -> Unit // accesos directos: no se restauran en v1 (se avisa en el resumen)
             }
         } }
         state.model.forceReload("layoutsync")
