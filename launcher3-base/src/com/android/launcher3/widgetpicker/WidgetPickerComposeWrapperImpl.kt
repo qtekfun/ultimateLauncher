@@ -166,10 +166,13 @@ constructor(
                     if (pinItemRequest.requestType == PinItemRequest.REQUEST_TYPE_APPWIDGET) {
                         val extras: Bundle? = pinItemRequest.extras
                         val previewExtra =
-                            extras?.getParcelable(
-                                AppWidgetManager.EXTRA_APPWIDGET_PREVIEW,
-                                RemoteViews::class.java,
-                            )
+                            extras?.let {
+                                androidx.core.os.BundleCompat.getParcelable(
+                                    it,
+                                    AppWidgetManager.EXTRA_APPWIDGET_PREVIEW,
+                                    RemoteViews::class.java,
+                                )
+                            }
                         if (previewExtra != null) {
                             val context = activity.asContext()
                             val widgetInfo =
