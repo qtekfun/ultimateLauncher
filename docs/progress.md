@@ -376,3 +376,6 @@ Petición del usuario (entrevista): «unos fondos de pantalla chulos» y «paque
 
 **Sin probar en dispositivo** (el OPPO CPH2841 estaba bloqueado y con la pantalla apagada; no se metió PIN y no se instaló nada): todo lo visual y de integración. Pendiente: abrir el selector de fondos (menú del escritorio y Ajustes), rejilla y vista previa, barras de desenfoque/oscurecer, y aplicar a Inicio/Bloqueo (ANTES de probar, anotar el fondo actual del usuario: `WallpaperManager` no siempre permite leerlo; que lo confirme el usuario). En la build debug: elegir «UL pack de prueba (debug)» en Ajustes y comprobar que Ajustes/Cámara/Teléfono/Galería cambian, que el resto recibe fondo+máscara, que el interruptor los devuelve a su icono normal y que «Predeterminado» restaura todo. También: rendimiento con un pack real grande y packs reales de la tienda (no se instaló ninguno). Tablet: el recorte apaisado solo está probado con pruebas unitarias.
 
+
+### Fondos en 4K (2026-10-05)
+- Los 12 fondos pasan de 2304² a **3840² px** (4K en el lado largo: cubre retrato 2160x3840 y tablet apaisada 3840x2160 con recorte centrado), WebP calidad 92 (`tools/gen-wallpapers.py`, `SIDE=3840`, `QUALITY=92`). Peso total de los fondos ≈2,3 MB; APK ≈12,6 MB. Decodificar uno entero ocupa ≈59 MB de memoria mientras el selector está abierto.

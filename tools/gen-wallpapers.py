@@ -16,8 +16,8 @@ import pathlib
 import numpy as np
 from PIL import Image
 
-SIDE = 2304  # múltiplo de 16; cubre 1080x2400 (retrato) y 2800x1840 (tablet) con recorte centrado y poco escalado
-QUALITY = 88
+SIDE = 3840  # 4K: múltiplo de 16; cubre retrato 2160x3840 y tablet apaisada 3840x2160 con recorte centrado y sin escalar hacia arriba
+QUALITY = 92
 
 
 # ---------------------------------------------------------------- utilidades
