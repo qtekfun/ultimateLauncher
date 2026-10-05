@@ -24,4 +24,9 @@
     <string name="ul_sync_error">Error: %1$s</string>
     <string name="ul_sync_schema">This file uses schema %1$d, newer than this app supports.</string>
     <string name="ul_sync_label">UltimateLauncher layout</string>
+    <string name="ul_pref_dock_style">Tablet dock background</string>
+    <string name="ul_pref_dock_recents">Recent apps in the dock</string>
+    <string name="ul_pref_dock_recents_summary">Shows the last apps opened from this launcher (up to 4). Stored only on this device; turning it off deletes them.</string>
+    <string-array name="ul_dock_style_entries"><item>Pills (like Huawei)</item><item>Subtle</item><item>None (icons only)</item></string-array>
+    <string-array name="ul_dock_style_values"><item>pills</item><item>subtle</item><item>none</item></string-array>
 </resources>

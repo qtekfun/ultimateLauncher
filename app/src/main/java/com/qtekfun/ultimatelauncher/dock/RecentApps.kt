@@ -25,7 +25,7 @@ object RecentApps {
     /** Llamado al lanzar una actividad desde el launcher (parche 0040). */
     @JvmStatic
     fun record(context: Context, intent: Intent?, item: ItemInfo?) {
-        if (max(context) <= 0 || intent == null) return
+        if (max(context) <= 0 || intent == null || !DockPrefs.recentsEnabled(context)) return
         val cn = intent.component ?: return
         if (cn.packageName == context.packageName) return
         if (!intent.hasCategory(Intent.CATEGORY_LAUNCHER) && intent.action != Intent.ACTION_MAIN) return

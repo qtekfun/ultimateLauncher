@@ -24,6 +24,11 @@ Base importada sin modificar en el commit "Importación AOSP sin modificar" (ver
 | 0016 | `OseWidgetView` no pinta el widget de búsqueda sin proveedor (sin GMS) | qsb/OseWidgetView.kt | `patches/0016-*.py` |
 
 Además: `coreLibraryDesugaringEnabled` (desugar_jdk_libs 2.1.5) en `app/build.gradle` para `Stream.toList` (API 34) en Android 12–13.
+| 0017 | Iconos: adaptativos sin fondo → baldosa clara; heredados opacos → a sangre con el color de su borde | iconloaderlib BaseIconFactory.kt | `patches/0017-*.py` |
+| 0018 | Máscara de icono desde tokens (`ul_icon_mask`) | ThemeManager.kt | `patches/0018-*.py` + `tools/apply-tablet-tokens.py` |
+| 0019 | Forma de icono propia también fuera de iconos temáticos (cajón) | ItemInfoWithIcon.java | `patches/0019-*.py` |
+| 0040 | Dock de tablet estilo Huawei (hotseat centrado + `UlDockView` + `RecentApps`) | Launcher.java, DeviceProfile.java | `patches/0040-*.py` |
+| 0041 | Ajustes del dock (estilo de fondo y recientes) | launcher_preferences.xml | `patches/0041-*.py` |
 
 Cambios que NO son parches sobre archivos de AOSP (andamiaje propio): `build.gradle*`, `settings.gradle.kts`, `gradle/`, `app/`,
 `platform-stubs/` (incluye copias sin modificar de `plugin_core` y `log/core` de frameworks/base), `launcher3-base/modules/widgetpicker/ul-build.gradle`,

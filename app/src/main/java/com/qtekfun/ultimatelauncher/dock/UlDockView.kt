@@ -32,14 +32,20 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     private val gap = res.getDimension(R.dimen.ul_dock_gap)
     private val iconPx = res.getDimension(R.dimen.ul_dock_icon).toInt()
     private val bottomMargin = res.getDimension(R.dimen.ul_dock_bottom_margin)
-    private val pillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.argb(0xB8, 0xFF, 0xFF, 0xFF) }
-    private val handlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.argb(0x99, 0xFF, 0xFF, 0xFF) }
+    private val pillPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val handlePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val leftRect = RectF()
     private val rightRect = RectF()
     private val handleRect = RectF()
     private var recents: List<ComponentName> = emptyList()
     private val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
         if (key == RecentApps.CHANGED_KEY) post { refresh() }
+    }
+    private val settingsListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        if (key == DockPrefs.KEY_STYLE || key == DockPrefs.KEY_RECENTS) post {
+            if (key == DockPrefs.KEY_RECENTS && !DockPrefs.recentsEnabled(context)) RecentApps.clear(context)
+            refresh()
+        }
     }
 
     init {
@@ -51,11 +57,13 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         RecentApps.prefs(context).registerOnSharedPreferenceChangeListener(listener)
+        DockPrefs.prefs(context).registerOnSharedPreferenceChangeListener(settingsListener)
         refresh()
     }
 
     override fun onDetachedFromWindow() {
         RecentApps.prefs(context).unregisterOnSharedPreferenceChangeListener(listener)
+        DockPrefs.prefs(context).unregisterOnSharedPreferenceChangeListener(settingsListener)
         super.onDetachedFromWindow()
     }
 
@@ -77,7 +85,8 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val shown = ArrayList<ComponentName>()
         val li = LauncherIcons.obtain(context)
         try {
-            for (cn in RecentApps.load(context)) {
+            val wanted = if (DockPrefs.recentsEnabled(context)) RecentApps.load(context) else emptyList()
+            for (cn in wanted) {
                 if (shown.size >= RecentApps.max(context)) break
                 if (cn.packageName in fixed) continue
                 val info = la.getActivityList(cn.packageName, Process.myUserHandle()).firstOrNull { it.componentName == cn } ?: continue
@@ -126,6 +135,10 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     }
 
     override fun onDraw(canvas: Canvas) {
+        val a = DockPrefs.pillAlpha(context)
+        if (a == 0) return // «sin fondo»: solo iconos
+        pillPaint.color = Color.argb(a, 0xFF, 0xFF, 0xFF)
+        handlePaint.color = Color.argb(a * 0x99 / 0xB8, 0xFF, 0xFF, 0xFF)
         canvas.drawRoundRect(leftRect, radius, radius, pillPaint)
         if (recents.isNotEmpty()) {
             canvas.drawRoundRect(rightRect, radius, radius, pillPaint)
