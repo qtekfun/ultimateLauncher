@@ -181,3 +181,11 @@ Parches 0020–0025 (ver `patches/README.md`); todos los valores salen de `asset
 - Es un problema conocido: OnePlus/OPPO/realme desde Android 14 (XDA, comunidad OnePlus, docs de Lawnchair «Gesture navigation issues»): con launcher de terceros y gestos, el cierre de la app ocurre sobre un home en blanco 1–2 s; con botones no pasa. Solo se arregla con root (módulo QuickSwitch, que hace al launcher proveedor de recientes).
 - Pista del usuario: con «atrás» los iconos salen al instante y con «inicio» no. Diferencia: «inicio» llega como `onNewIntent` HOME con el contrato `GestureNavContract`; `Launcher.handleGestureContract` muestra `FloatingSurfaceView`, que oculta el icono real hasta que el sistema cierra. Lawnchair recomienda desactivar ese API en OEM que lo rompen.
 - Parche 0046: interruptor «Contrato del gesto de inicio», apagado por defecto (se ignora el contrato). Sin verificar en el dispositivo.
+
+### Medición automatizada del gesto y causa raíz (2026-10-05, CPH2841, ColorOS)
+- `input swipe` desde el borde inferior dispara el gesto real; ráfagas de `screencap` crudo (~110 ms/captura) en el propio móvil. Resultado (montajes en `private-measurements/gesto/`, no se versionan):
+  - Launcher de OPPO como inicio: iconos desde ≈0,25 s.
+  - UltimateLauncher: solo fondo de pantalla hasta ≈0,9–1,0 s, igual con el contrato del gesto encendido, apagado o con respuesta inmediata del contrato (probado y descartado, no se versiona).
+- Registro del sistema: el gesto lo arranca `com.android.launcher/com.android.quickstep.RecentsActivity` (proveedor de recientes de OPPO, uid 10177), que a los ≈80 ms lanza nuestro HOME dos veces (el primero con el contrato). Nuestra actividad queda `RESUMED` a los ≈76 ms, pero WindowManager aplaza su visibilidad («defer commitVisibility for transition») hasta `finishTransition` de la animación de recientes a los ≈0,97 s, y esa transición la termina el proceso de OPPO. Es decir, el retraso no está en nuestro código: la ventana existe y está lista, el sistema no la muestra hasta que OPPO cierra su animación.
+- Con el botón atrás no hay animación de recientes, por eso allí los iconos salen al instante.
+- Es el problema conocido de OxygenOS/ColorOS desde Android 14 con cualquier launcher de terceros (XDA, comunidad OnePlus, docs de Lawnchair); solo lo resuelve QuickSwitch con root.
