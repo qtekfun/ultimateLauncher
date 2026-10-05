@@ -18,12 +18,13 @@ for node in ast.parse(src15).body:
 assert M, "tabla M de 0015 no encontrada"
 v34 = (root / "launcher3-base/res/values-v34/colors.xml").read_text()
 pat = re.compile(r'^\s*<color name="([^"]+)">(.*?)</color>\s*$', re.M)
-ref = re.compile(r"^@android:color/system_([a-z0-9_]+?)_(light|dark)$")
+ref = re.compile(r"^@android:color/system_([a-z0-9_]+?)(?:_(light|dark))?$")  # los *_fixed no llevan sufijo
 lines = []
 for name, val in pat.findall(v34):
     m = ref.match(val.strip())
     if m:
         tok, mode = m.groups()
+        mode = mode or "light"  # *_fixed: mismo valor en claro y oscuro (tabla M)
         if tok.startswith(("accent", "neutral")):
             new = val.strip()
         else:
