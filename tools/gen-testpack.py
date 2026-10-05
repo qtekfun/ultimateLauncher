@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Genera el paquete de iconos de PRUEBA propio que solo viaja en la build debug (app/src/debug).
 
 Sirve para validar el flujo de paquetes de iconos sin instalar packs de terceros: 4 iconos con componente concreto (dos con

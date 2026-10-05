@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Integración continua genérica (sirve igual en local, GitHub Actions o cualquier otro CI). Sin secretos ni red propia:
 # compila, pasa las pruebas unitarias y Lint, y ejecuta la auditoría de privacidad (docs/09).
 # Uso: tools/ci.sh            Variables: GRADLE_ARGS (por defecto --offline si OFFLINE=1), ANDROID_HOME para apkanalyzer.

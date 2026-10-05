@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 """T5.5 (parcial): compara un perfil de animación con las mediciones y dice qué eventos faltan.
 
 Para cada evento del alcance (docs/04, sección B) informa de:

@@ -1,0 +1,6 @@
+Primera versión pública (0.1.0).
+• Launcher basado en Launcher3 de AOSP: sin GMS, sin telemetría y sin permiso de Internet.
+• Rejilla, iconos, dock, cajón y carpetas ajustados a mediciones; dock de tablet.
+• Carpetas ampliables a 2x2, copia de seguridad y restauración, importar de otros launchers.
+• Fondos incluidos, paquetes de iconos, gestos de deslizar y apps ocultas con biometría o PIN.
+• Widget de reloj digital.

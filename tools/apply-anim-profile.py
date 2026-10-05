@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 """T5.2/T5.3: aplica un perfil de animación (assets/animations/<id>.json) como superposición de recursos enteros.
 
 Genera animprofile/res/values/ul_animation_profile.xml, que las variantes default y sync superponen a res/values/config.xml

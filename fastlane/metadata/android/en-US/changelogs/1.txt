@@ -1,0 +1,6 @@
+First public release (0.1.0).
+• Launcher based on AOSP Launcher3: no GMS, no telemetry and no Internet permission.
+• Grid, icons, dock, drawer and folders tuned to measurements; tablet dock.
+• Folders enlargeable to 2x2, backup and restore, import from other launchers.
+• Bundled wallpapers, icon packs, swipe gestures and hidden apps with biometrics or PIN.
+• Digital clock widget.

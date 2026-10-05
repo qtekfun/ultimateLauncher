@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Aplica los tokens de tablet (assets/themes/huawei-tablet-medido.json, clase tablet-landscape) a Launcher3 en compilación.
 
 Genera: (1) una <grid-option> "ultimate_tablet" en launcher3-base/res/xml/device_profiles.xml (entre marcadores UL-TABLET),

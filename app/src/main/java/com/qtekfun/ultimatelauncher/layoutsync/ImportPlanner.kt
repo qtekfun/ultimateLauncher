@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+// SPDX-License-Identifier: GPL-3.0-or-later
 package com.qtekfun.ultimatelauncher.layoutsync
 
 /** Qué hay instalado en el dispositivo de destino. `launchable`: paquete → actividades de lanzador. */

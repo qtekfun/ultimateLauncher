@@ -1,0 +1,1 @@
+Launcher sin servicios de Google, sin telemetría y sin permiso de Internet

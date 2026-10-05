@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+// SPDX-License-Identifier: GPL-3.0-or-later
 package com.qtekfun.ultimatelauncher.importer
 
 import java.io.BufferedInputStream
