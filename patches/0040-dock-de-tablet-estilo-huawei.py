@@ -21,7 +21,7 @@ sub("DeviceProfile.java", "        Rect hotseatBarPadding = new Rect();\n       
     "        Rect hotseatBarPadding = new Rect();\n"
     "        if (!isVerticalBarLayout() && context.getResources().getBoolean(R.bool.ul_huawei_dock)) { // UltimateLauncher 0040\n"
     "            int dockCell = context.getResources().getDimensionPixelSize(R.dimen.ul_dock_cell);\n"
-    "            int side = Math.max(0, (mDeviceProperties.getAvailableWidthPx()\n"
+    "            int side = Math.max(0, (mDeviceProperties.getWidthPx()\n"
     "                    - dockCell * mHotseatProfile.getNumShownIcons()) / 2);\n"
     "            hotseatBarPadding.set(side, 0, side, getHotseatBarBottomPadding());\n"
     "            return hotseatBarPadding;\n"

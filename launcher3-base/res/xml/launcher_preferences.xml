@@ -39,15 +39,20 @@
 
 
     <!-- UltimateLauncher 0041: dock de tablet -->
-    <ListPreference
-        android:key="pref_ul_dock_style"
-        android:title="@string/ul_pref_dock_style"
-        android:entries="@array/ul_dock_style_entries"
-        android:entryValues="@array/ul_dock_style_values"
-        android:defaultValue="pills"
+    <SwitchPreference
+        android:key="pref_ul_dock_background"
+        android:title="@string/ul_pref_dock_background"
+        android:summary="@string/ul_pref_dock_background_summary"
+        android:defaultValue="true"
+        android:persistent="true" />
+
+    <SwitchPreference
+        android:key="pref_ul_dock_subtle"
+        android:title="@string/ul_pref_dock_subtle"
+        android:summary="@string/ul_pref_dock_subtle_summary"
+        android:defaultValue="false"
         android:persistent="true"
-        app:useSimpleSummaryProvider="true"
-        xmlns:app="http://schemas.android.com/apk/res-auto" />
+        android:dependency="pref_ul_dock_background" />
 
     <SwitchPreference
         android:key="pref_ul_dock_recents"

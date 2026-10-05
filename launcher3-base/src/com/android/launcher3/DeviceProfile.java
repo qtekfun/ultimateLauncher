@@ -803,7 +803,7 @@ public class DeviceProfile {
         Rect hotseatBarPadding = new Rect();
         if (!isVerticalBarLayout() && context.getResources().getBoolean(R.bool.ul_huawei_dock)) { // UltimateLauncher 0040
             int dockCell = context.getResources().getDimensionPixelSize(R.dimen.ul_dock_cell);
-            int side = Math.max(0, (mDeviceProperties.getAvailableWidthPx()
+            int side = Math.max(0, (mDeviceProperties.getWidthPx()
                     - dockCell * mHotseatProfile.getNumShownIcons()) / 2);
             hotseatBarPadding.set(side, 0, side, getHotseatBarBottomPadding());
             return hotseatBarPadding;
