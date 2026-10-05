@@ -272,3 +272,21 @@ Petición del usuario: un widget «como el reloj de los iPad» (cuadrado blanco,
 - **Verificación en el CPH2841**: el teléfono estaba bloqueado con PIN (no se introdujo), así que NO se añadió el widget al inicio. Hecho: instalación de la build R8, `dumpsys appwidget` lista los cuatro proveedores, y render de los `RemoteViews` reales (receptor temporal, ya retirado, que los infla con la densidad del teléfono a 2x2, 4x2, 4x1, 2x1 y 3x3 en claro y oscuro; capturas en `private-measurements/clock/`, git-ignorado). Se vio: colores correctos, fecha localizada en español, texto que se adapta, elección de diseño por tamaño (tras el render, el umbral de WIDE subió de 200 a 260 dp para que un 3x3 no use el diseño ancho).
 - **Sin probar**: añadir el widget desde el selector del launcher y verlo vivo (el `TextClock` fuera de ventana no pinta la hora, por eso el render la rellenó a mano; en el host real lo mantiene el sistema); cambio 12/24 h en vivo; redimensionar en el inicio; toque que abre el Reloj de ColorOS; vista previa en el selector; tablet. La fuente del sistema de ColorOS ignora `textStyle=bold` con variable, así que los dígitos salen en peso normal en el OPPO.
 - Procedimiento para probarlo con el móvil desbloqueado: mantener pulsado el inicio -> Widgets -> «Reloj digital» -> colocarlo en un hueco libre; para quitarlo, arrastrarlo a «Quitar».
+
+## Importar de otro launcher (2026-10-05, solo código y pruebas; sin dispositivos)
+Petición del usuario: «un setup para importar los iconos de otros launchers sería top». Código en `app/src/main/java/com/qtekfun/ultimatelauncher/importer/`; datos en `assets/launcher-import-sources.json`; diseño y vías en `docs/06-sync-de-layout.md` (sección «Importar de otro launcher»); decisión de permisos en `docs/DECISIONS.md`. Sin parches de AOSP.
+
+**Hecho:** catálogo de launchers (con vías `verified=false`), detección por intent HOME (`<queries>`, no es un permiso), parser robusto de `favorites`/`workspaceScreens` con límites, extractor de copias (SQLite suelto o ZIP, anti-bomba), lectura por SQLite en solo lectura o por proveedor, vista previa antes de aplicar, enlace desde «Exportar/importar» y paso 4 opcional del asistente de primer arranque, cadenas es/en. `LayoutStore` ahora también restaura carpetas del dock; `GridReflow.fits` detecta solapes (archivos corruptos). 16 pruebas nuevas (`ForeignImportTest`) con bases SQLite sintéticas.
+
+**Permisos:** `default` sin cambios (auditoría de privacidad superada). `sync` añade `com.android.launcher[3].permission.READ_SETTINGS` (normales; ver aviso en DECISIONS.md).
+
+**Sin probar (no se usó ningún dispositivo):** toda la parte con Android real. Checklist para el móvil (OPPO):
+1. Abrir «UltimateLauncher layout» > «Importar de otro launcher…» y, desde el asistente de primer arranque, el paso 4: ambas rutas abren la pantalla.
+2. Con ColorOS instalado como launcher del sistema: debe aparecer en «Launchers encontrados» como cerrado, con el texto de alternativas (no debe intentar leer nada).
+3. Instalar Lawnchair (o Nova) y crear una copia (`.lawnchairbackup` / `.novabackup`), copiarla al móvil, «Elegir un archivo de copia…»: ¿se encuentra una base con `favorites`? Si no, anotar el nombre de las entradas del ZIP (`unzip -l`) y ajustar `BackupExtractor.score`. Comprobar la vista previa (cifras y omitidos) y aplicar; verificar que se creó la copia en `files/backups/`.
+4. Elegir un archivo cualquiera que no sea copia (foto, PDF): mensaje «No se encontró ninguna disposición», sin cierre.
+5. Elegir un export JSON de UltimateLauncher: mensaje que remite a «Exportar/importar».
+6. Con un launcher Launcher3 instalado (p. ej. Lawnchair o Trebuchet): ver qué dice la vía de proveedor (esperado: «protege su disposición con el permiso …»). Anotar el permiso exacto y la autoridad real, y marcar `verified` en el JSON.
+7. Tras importar: carpetas con su título y orden, dock (incluida una carpeta en el dock), widgets vacíos que piden el aviso de enlace al tocarlos, rejilla distinta (reubicación), y que «Rotar/atrás» no se rompe.
+8. Variante `sync` (si se instala): `dumpsys package` muestra los dos `READ_SETTINGS` concedidos solo si algún launcher los define como normales.
+9. Revisar que la copia de seguridad previa permite volver (Exportar/importar > importar ese JSON).

@@ -31,7 +31,7 @@ echo "== Auditoría de $APK (variante $VARIANT)"
 # El permiso propio de androidx (DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION) lleva el applicationId delante: se normaliza.
 actual="$("$AA" manifest permissions "$APK" | sed -E 's/^[A-Za-z0-9_.]+\.(DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION)$/<applicationId>.\1/' | sort -u)"
 expected="$(strip tools/permissions-allowed.txt)"
-[ "$VARIANT" = sync ] && expected="$(printf '%s\nandroid.permission.INTERNET\n' "$expected")"
+[ "$VARIANT" = sync ] && expected="$(printf '%s\nandroid.permission.INTERNET\n%s\n' "$expected" "$(strip tools/permissions-allowed-sync.txt)")"
 expected="$(printf '%s\n' "$expected" | sort -u)"
 echo "Permisos declarados:"; printf '  %s\n' $actual
 
@@ -50,7 +50,7 @@ if [ "$VARIANT" = sync ] && ! printf '%s\n' "$actual" | grep -qx "android.permis
 while read -r p; do
   short="${p##*.}"
   grep -q "$short" docs/09-privacidad.md || err "el permiso $short no figura en la tabla de docs/09-privacidad.md"
-done < <(strip tools/permissions-allowed.txt)
+done < <(strip tools/permissions-allowed.txt; strip tools/permissions-allowed-sync.txt)
 
 # --- 4: manifiesto fusionado ----------------------------------------------------
 MF="$("$AA" manifest print "$APK")"
