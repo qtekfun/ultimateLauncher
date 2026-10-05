@@ -169,7 +169,7 @@ public abstract class FastScrollRecyclerView extends RecyclerView  {
     /**
      * Return the fast scroll letter list view in the A-Z list.
      */
-    public ConstraintLayout getLetterList() {
+    public android.widget.FrameLayout getLetterList() { // UL 0023
         return null;
     }
 

@@ -88,6 +88,30 @@ public class AppsSearchContainerLayout extends ExtendedEditText
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         mAppsView.getAppsStore().addUpdateListener(this);
+        // UltimateLauncher 0025: subir el buscador con el teclado.
+        setWindowInsetsAnimationCallback(new android.view.WindowInsetsAnimation.Callback(
+                android.view.WindowInsetsAnimation.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
+            @Override
+            public android.view.WindowInsets onProgress(android.view.WindowInsets insets,
+                    java.util.List<android.view.WindowInsetsAnimation> animations) {
+                ulShiftForIme(insets);
+                return insets;
+            }
+
+            @Override
+            public void onEnd(android.view.WindowInsetsAnimation animation) {
+                ulShiftForIme(getRootWindowInsets());
+            }
+        });
+    }
+
+    private void ulShiftForIme(android.view.WindowInsets insets) {
+        if (insets == null) {
+            return;
+        }
+        int ime = insets.getInsets(android.view.WindowInsets.Type.ime()).bottom;
+        int nav = insets.getInsets(android.view.WindowInsets.Type.navigationBars()).bottom;
+        setTranslationY(-Math.max(0, ime - nav));
     }
 
     @Override
@@ -111,7 +135,8 @@ public class AppsSearchContainerLayout extends ExtendedEditText
                 Math.round(ICON_VISIBLE_AREA_FACTOR * dp.getWorkspaceProfile().getIconSizePx());
         int iconPadding = cellWidth - iconVisibleSize;
 
-        int myWidth = rowWidth - iconPadding + getPaddingLeft() + getPaddingRight();
+        int myWidth = myRequestedWidth - 2 * getResources().getDimensionPixelSize(
+                R.dimen.ul_drawer_search_side_margin); // UltimateLauncher 0021
         super.onMeasure(makeMeasureSpec(myWidth, EXACTLY), heightMeasureSpec);
     }
 
@@ -127,7 +152,7 @@ public class AppsSearchContainerLayout extends ExtendedEditText
         int shift = expectedLeft - left;
         setTranslationX(shift);
 
-        offsetTopAndBottom(mContentOverlap);
+        // UltimateLauncher 0021: sin desplazamiento vertical (buscador abajo)
     }
 
     @Override
@@ -192,7 +217,9 @@ public class AppsSearchContainerLayout extends ExtendedEditText
     @Override
     public void setInsets(Rect insets) {
         MarginLayoutParams mlp = (MarginLayoutParams) getLayoutParams();
-        mlp.topMargin = insets.top;
+        mlp.topMargin = 0; // UltimateLauncher 0021: buscador abajo
+        mlp.bottomMargin = insets.bottom + getResources().getDimensionPixelSize(
+                R.dimen.ul_drawer_search_bottom_margin);
         requestLayout();
     }
 

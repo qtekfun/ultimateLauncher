@@ -26,6 +26,12 @@ Base importada sin modificar en el commit "Importación AOSP sin modificar" (ver
 | 0031 | `LinkedHashSet.addLast/removeLast` (API 35) → `add` / `remove(last())` (código inalcanzable) | FirstScreenBroadcastHelper.kt | `patches/0031-*.py` |
 | 0032 | Colores propios `@color/system_*` que solo estaban en `values-v34` → alternativa generada en `values/ul_system_colors_fallback.xml` (paleta API 31, igual que 0015). Requiere 0008 y 0015 | `launcher3-base/res/values/ul_system_colors_fallback.xml` (nuevo; `values-v34` sin tocar) | `patches/0032-*.py` |
 | 0033 | `SimpleBroadcastReceiver.register` sin indicador → `RECEIVER_NOT_EXPORTED` en API ≥ 33 | SimpleBroadcastReceiver.kt | `patches/0033-*.py` |
+| 0020 | Cajón a pantalla completa: hoja desde y=0, sin esquinas ni asa, velo de tokens (`ul_drawer_scrim_*`), hueco superior (`ul_drawer_top_gap`); `Launcher` aplica `blur behind` de ventana proporcional al progreso (reserva: velo más opaco si `isCrossWindowBlurEnabled()` es false) | ActivityAllAppsContainerView.java, all_apps_bottom_sheet_background.xml, AllAppsState.java (src_no_quickstep), Launcher.java | `patches/0020-*.py` + `tools/apply-theme-tokens.py` |
+| 0021 | Buscador del cajón abajo (píldora translúcida, dentro del cajón), lista recortada sobre él, texto a la izquierda | ActivityAllAppsContainerView.java, AppsSearchContainerLayout.java, FloatingHeaderView.java, search_container_all_apps.xml | `patches/0021-*.py` + generador (superpone `bg_all_apps_searchbox` y `all_apps_search_hint` en `themetokens/res`) |
+| 0022 | Margen lateral de la rejilla del cajón (móvil) desde tokens (14,9 dp) | AllAppsProfile.kt | `patches/0022-*.py` + generador |
+| 0023 | Barra A-Z siempre visible a la derecha (activa el flag `letter_fast_scroller` en `tools/gen-flags.py`; letras en `FrameLayout` con paso fijo de tokens, sin pulgar en reposo) | AllAppsRecyclerView.java, FastScrollRecyclerView.java, LetterListTextView.java, RecyclerViewFastScroller.java, ActivityAllAppsContainerView.java, all_apps_fast_scroller.xml | `python3 tools/gen-flags.py` + `patches/0023-*.py` + generador |
+| 0024 | Indicador con UNA página: punto redondo (no píldora), tamaño y desplazamiento de tokens | PageIndicatorDots.java | `patches/0024-*.py` + generador (`page_indicator_dot_size`) |
+| 0025 | El buscador de abajo sube con el teclado (`WindowInsetsAnimation.Callback`) y la barra A-Z se oculta al buscar | AppsSearchContainerLayout.java, ActivityAllAppsContainerView.java | `patches/0025-*.py` |
 
 Además: `coreLibraryDesugaringEnabled` (desugar_jdk_libs 2.1.5) en `app/build.gradle` para `Stream.toList` (API 34) en Android 12–13.
 | 0017 | Iconos: adaptativos sin fondo → baldosa clara; heredados opacos → a sangre con el color de su borde | iconloaderlib BaseIconFactory.kt | `patches/0017-*.py` |
@@ -37,7 +43,7 @@ Además: `coreLibraryDesugaringEnabled` (desugar_jdk_libs 2.1.5) en `app/build.g
 
 Cambios que NO son parches sobre archivos de AOSP (andamiaje propio): `build.gradle*`, `settings.gradle.kts`, `gradle/`, `app/`,
 `platform-stubs/` (incluye copias sin modificar de `plugin_core` y `log/core` de frameworks/base), `launcher3-base/modules/widgetpicker/ul-build.gradle`,
-`systemui-libs/*/build.gradle`, `tools/gen-flags.py` (flags aconfig → Flags.java; todos false).
+`systemui-libs/*/build.gradle`, `tools/gen-flags.py` (flags aconfig → Flags.java; todos false salvo `letter_fast_scroller`, ver 0023), `themetokens/res` (valores y drawables generados por `tools/apply-theme-tokens.py`).
 
 Piezas de AOSP no importadas o excluidas: `quickstep/` (recientes/gestos), `viewcapturelib`, `displaylib`, `mechanics`, `cuebarlib`,
 `contextualeducationlib`, `iconloaderlib/src_full_lib`, pruebas.

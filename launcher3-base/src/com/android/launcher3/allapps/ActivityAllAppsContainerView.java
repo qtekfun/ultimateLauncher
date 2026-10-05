@@ -160,7 +160,7 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
     protected final List<AllAppsRow> mAdditionalHeaderRows = new ArrayList<>();
     protected View mBottomSheetBackground;
     protected RecyclerViewFastScroller mFastScroller;
-    private ConstraintLayout mFastScrollLetterLayout;
+    private android.widget.FrameLayout mFastScrollLetterLayout; // UL 0023
 
     /**
      * View that defines the search box. Result is rendered inside {@link #mSearchRecyclerView}.
@@ -278,9 +278,17 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
         setClipChildren(false);
 
         mSearchContainer = inflateSearchBar();
-        if (!isSearchBarFloating()) {
+        if (true) { // UltimateLauncher 0021: el buscador va siempre dentro del cajón, abajo
             // Add the search box above everything else in this container (if the flag is enabled,
             // it's added to drag layer in onAttach instead).
+            RelativeLayout.LayoutParams ulLp = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    getResources().getDimensionPixelSize(R.dimen.ul_drawer_search_height));
+            ulLp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            ulLp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            ulLp.bottomMargin = getResources().getDimensionPixelSize(
+                    R.dimen.ul_drawer_search_bottom_margin);
+            mSearchContainer.setLayoutParams(ulLp); // UL 0021
             addView(mSearchContainer);
             // The search container is visually at the top of the all apps UI, and should thus be
             // focused by default. It's added to end of the children list, so it needs to be
@@ -301,7 +309,7 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
         mAH.get(SEARCH).setup(mSearchRecyclerView,
                 /* Filter out A-Z apps */ itemInfo -> false);
         rebindAdapters(true /* force */);
-        float cornerRadius = Themes.getDialogCornerRadius(getContext());
+        float cornerRadius = 0f; // UltimateLauncher 0020: sin esquinas redondeadas (pantalla completa)
         mBottomSheetCornerRadii = new float[]{
                 cornerRadius,
                 cornerRadius, // Top left radius in px
@@ -315,10 +323,9 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
 
         int layerFg = getContext().getColor(R.color.blur_shade_panel_fg);
         int layerBg = getContext().getColor(R.color.blur_shade_panel_bg);
-        mBottomSheetBackgroundColorOverBlur = ColorUtils.compositeColors(layerFg, layerBg);
+        mBottomSheetBackgroundColorOverBlur = getContext().getColor(R.color.ul_drawer_scrim_blur); // UL 0020
         mBottomSheetBackgroundColorBlurFallback = getContext().getColor(
-                Utilities.isDarkTheme(getContext()) ? android.R.color.system_accent2_800
-                        : android.R.color.system_accent2_200);
+                R.color.ul_drawer_scrim_fallback); // UL 0020
 
         mSearchUiManager.initializeSearch(this);
         if (useModelRepositoryBinding()) {
@@ -331,7 +338,7 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (isSearchBarFloating()) {
+        if (isSearchBarFloating() && mSearchContainer.getParent() == null) { // UL 0021
             // Note: for Taskbar this is removed in TaskbarAllAppsController#cleanUpOverlay when the
             // panel is closed. Can't do so in onDetach because we are also a child of drag layer
             // so can't remove its views during that dispatch.
@@ -661,9 +668,8 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
             // Keep the scroller above the search bar.
             RelativeLayout.LayoutParams scrollerLayoutParams =
                     (LayoutParams) mFastScroller.getLayoutParams();
-            scrollerLayoutParams.bottomMargin = mSearchContainer.getHeight()
-                    + getResources().getDimensionPixelSize(
-                            R.dimen.fastscroll_bottom_margin_floating_search);
+            scrollerLayoutParams.bottomMargin = getResources().getDimensionPixelSize(
+                    R.dimen.ul_drawer_search_reserved); // UL 0021
         }
 
         mAllAppsStore.registerIconContainer(mAH.get(AdapterHolder.MAIN).mRecyclerView);
@@ -755,7 +761,8 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
                 getCurrentPage(),
                 tabsHidden);
 
-        int padding = mHeader.getMaxTranslation();
+        int padding = mHeader.getMaxTranslation()
+                + getResources().getDimensionPixelSize(R.dimen.ul_drawer_top_gap); // UL 0020
         mAH.forEach(adapterHolder -> {
             adapterHolder.mPadding.top = padding;
             adapterHolder.applyPadding();
@@ -842,7 +849,7 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
      * @return true if the search bar is floating above this container (at the bottom of the screen)
      */
     protected boolean isSearchBarFloating() {
-        return mSearchUiDelegate.isSearchBarFloating();
+        return true; // UltimateLauncher 0021: buscador abajo
     }
 
     /**
@@ -1234,6 +1241,7 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
     }
 
     protected void updateSearchResultsVisibility() {
+        mFastScrollLetterLayout.setAlpha(isSearching() ? 0f : 1f); // UL 0025: sin letras al buscar
         if (isSearching()) {
             getSearchRecyclerView().setVisibility(VISIBLE);
             getAppsRecyclerViewContainer().setVisibility(GONE);
@@ -1436,7 +1444,7 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
         float left = getLeft() + panel.getLeft();
         float right = left + panel.getWidth();
 
-        final float topNoScale = panel.getTop() + translationY;
+        final float topNoScale = translationY; // UL 0020: la hoja cubre también la barra de estado
         final float topWithScale = topNoScale + verticalScaleOffset;
         final float leftWithScale = left + horizontalScaleOffset;
         final float rightWithScale = right - horizontalScaleOffset;
@@ -1532,7 +1540,7 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
         }
     }
 
-    ConstraintLayout getFastScrollerLetterList() {
+    android.widget.FrameLayout getFastScrollerLetterList() { // UL 0023
         return mFastScrollLetterLayout;
     }
 
@@ -1614,6 +1622,8 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
             FocusedItemDecorator focusedItemDecorator = isSearch() ? new FocusedItemDecorator(
                     new ViewGroupFocusHelper(mRecyclerView)) : new FocusedItemDecorator(
                     mRecyclerView);
+            mRecyclerView.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or2, ob) -> v.setClipBounds(
+                    new Rect(0, 0, r - l, (b - t) - v.getPaddingBottom()))); // UL 0021
             mRecyclerView.addItemDecoration(focusedItemDecorator);
             mOnFocusChangeListener = focusedItemDecorator.getFocusListener();
             mAdapter.setIconFocusListener(mOnFocusChangeListener);
@@ -1636,7 +1646,8 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
                     }
                 }
                 if (isSearchBarFloating()) {
-                    bottomOffset += mSearchContainer.getHeight();
+                    bottomOffset += getResources().getDimensionPixelSize(
+                            R.dimen.ul_drawer_search_reserved); // UL 0021
                 }
                 mRecyclerView.setPadding(mPadding.left, mPadding.top, mPadding.right,
                         mPadding.bottom + bottomOffset);
