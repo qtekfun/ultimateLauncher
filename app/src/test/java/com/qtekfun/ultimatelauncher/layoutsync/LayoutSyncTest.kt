@@ -53,6 +53,13 @@ class LayoutSyncTest {
         val s = snap(Grid(5, 7), listOf(Page(0, listOf(Item.Widget("com.miui.x/W", Span(2, 2), Cell(0, 0)), Item.Widget("com.keep/W", Span(2, 2), Cell(2, 0))))))
         val p = ImportPlanner.plan(s, state(Grid(5, 7), emptyList(), widgets = setOf("com.keep/W")))
         assertEquals(1, p.pendingWidgets.size); assertEquals(1, p.omitted.size)
+        assertTrue("el widget restaurable se queda en la página", p.pages.flatten().any { it is Item.Widget && it.provider == "com.keep/W" })
+    }
+
+    @Test fun sameAppDifferentWidgetClassIsOmitted() {
+        val s = snap(Grid(5, 7), listOf(Page(0, listOf(Item.Widget("com.keep/Other", Span(2, 2), Cell(0, 0))))))
+        val p = ImportPlanner.plan(s, state(Grid(5, 7), emptyList(), widgets = setOf("com.keep/W")))
+        assertEquals(0, p.pendingWidgets.size); assertEquals(1, p.omitted.size)
     }
 
     @Test fun hotseatOverflowMovesToHomeAndFolderKeepsInstalledApps() {

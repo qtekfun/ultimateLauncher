@@ -1,0 +1,16 @@
+# Clases de cliente de red que no deben aparecer (definidas ni referenciadas) en el APK default. Expresión regular por línea.
+java\.net\.HttpURLConnection
+javax\.net\.ssl\.HttpsURLConnection
+java\.net\.http\.
+android\.net\.http\.
+okhttp3\.
+com\.squareup\.okhttp
+retrofit2\.
+com\.android\.volley
+io\.grpc\.
+org\.chromium\.net\.
+org\.apache\.http\.
+com\.google\.android\.gms\.
+com\.google\.firebase\.
+com\.google\.mlkit\.
+com\.google\.android\.play\.

@@ -1,0 +1,9 @@
+# Permisos que puede declarar el manifiesto fusionado de la variante default (docs/09, tabla de permisos).
+# Un permiso nuevo exige actualizar ESTA lista y la tabla de docs/09 y el README. La variante sync añade INTERNET por código.
+android.permission.BIND_APPWIDGET
+android.permission.REQUEST_DELETE_PACKAGES
+android.permission.VIBRATE
+android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+android.permission.SET_WALLPAPER
+android.permission.SET_WALLPAPER_HINTS
+<applicationId>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION   # permiso propio que androidx añade para receptores no exportados

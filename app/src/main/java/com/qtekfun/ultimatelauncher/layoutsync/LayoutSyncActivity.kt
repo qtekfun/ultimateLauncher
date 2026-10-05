@@ -5,7 +5,9 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -14,7 +16,7 @@ import kotlin.concurrent.thread
 
 /**
  * Exportar/importar la disposición a un archivo JSON con el selector de documentos del sistema (sin red, docs/06).
- * El archivo lista las apps instaladas: es información sensible; esta versión NO lo cifra.
+ * El archivo lista las apps instaladas: es información sensible; se puede cifrar con una frase de paso (AES-GCM, ver LayoutCrypto).
  */
 class LayoutSyncActivity : Activity() {
     private val export = 1
@@ -44,22 +46,49 @@ class LayoutSyncActivity : Activity() {
         if (requestCode == export) doExport(uri) else if (requestCode == import) doImport(uri)
     }
 
-    private fun doExport(uri: Uri) = thread {
+    /** Pide una frase de paso; [onDone] recibe null si se cancela y un array vacío si se deja en blanco (sin cifrar al exportar). */
+    private fun askPassphrase(title: Int, hint: Int, onDone: (CharArray?) -> Unit) {
+        val input = EditText(this).apply {
+            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD; setHint(hint)
+        }
+        AlertDialog.Builder(this).setTitle(title).setView(input)
+            .setPositiveButton(android.R.string.ok) { _, _ -> onDone(input.text.toString().toCharArray()) }
+            .setNegativeButton(android.R.string.cancel, null).show()
+    }
+
+    private fun doExport(uri: Uri) = askPassphrase(R.string.ul_sync_pass_export, R.string.ul_sync_pass_hint_export) { pass ->
+        if (pass != null) exportTo(uri, pass)
+    }
+
+    private fun exportTo(uri: Uri, pass: CharArray) = thread {
         val msg = runCatching {
             val s = store.export()
-            contentResolver.openOutputStream(uri, "wt")!!.use { it.write(LayoutJson.toJson(s).toByteArray()) }
+            val json = LayoutJson.toJson(s)
+            val out = if (pass.isEmpty()) json else LayoutCrypto.encrypt(json, pass)
+            contentResolver.openOutputStream(uri, "wt")!!.use { it.write(out.toByteArray()) }
             getString(R.string.ul_sync_exported, s.pages.sumOf { it.items.size } + s.hotseat.size)
         }.getOrElse { getString(R.string.ul_sync_error, it.message ?: it.javaClass.simpleName) }
         runOnUiThread { status.text = msg }
     }
 
     private fun doImport(uri: Uri) = thread {
+        val text = runCatching { contentResolver.openInputStream(uri)!!.bufferedReader().use { it.readText() } }
+        if (text.isSuccess && LayoutCrypto.isEncrypted(text.getOrThrow())) {
+            runOnUiThread { askPassphrase(R.string.ul_sync_pass_import, R.string.ul_sync_pass_hint_import) { pass ->
+                if (pass != null) thread { showPlan(runCatching { LayoutCrypto.decrypt(text.getOrThrow(), pass) }) } } }
+        } else showPlan(text)
+    }
+
+    private fun showPlan(text: Result<String>) {
         val result = runCatching {
-            val snap = LayoutJson.fromJson(contentResolver.openInputStream(uri)!!.bufferedReader().use { it.readText() })
+            val snap = LayoutJson.fromJson(text.getOrThrow())
             snap to ImportPlanner.plan(snap, store.deviceState())
         }
         runOnUiThread {
-            result.onFailure { status.text = if (it is UnsupportedSchemaException) getString(R.string.ul_sync_schema, it.found) else getString(R.string.ul_sync_error, it.message ?: "") }
+            result.onFailure { status.text = when (it) {
+                is UnsupportedSchemaException -> getString(R.string.ul_sync_schema, it.found)
+                is LayoutCrypto.WrongPasswordException -> getString(R.string.ul_sync_wrong_pass)
+                else -> getString(R.string.ul_sync_error, it.message ?: "") } }
             result.onSuccess { (_, plan) ->
                 AlertDialog.Builder(this).setTitle(R.string.ul_sync_summary).setMessage(plan.summary())
                     .setPositiveButton(R.string.ul_sync_apply) { _, _ -> thread {
