@@ -21,7 +21,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.UserHandle
 import android.view.ContextThemeWrapper
-import android.window.OnBackAnimationCallback
+import android.window.OnBackInvokedCallback
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.OnBackPressedDispatcherOwner
@@ -37,7 +37,7 @@ import com.android.launcher3.util.Themes
 
 /** Activity that shows widget picker UI; shows content only if compose is available. */
 open class WidgetPickerActivity :
-    BaseActivity(), OnBackPressedDispatcherOwner, OnBackAnimationCallback, LifecycleOwner {
+    BaseActivity(), OnBackPressedDispatcherOwner, LifecycleOwner {
     private var _dragLayer: SimpleDragLayer<WidgetPickerActivity>? = null
     protected var widgetPickerConfig: WidgetPickerConfig = WidgetPickerConfig()
 
@@ -93,23 +93,36 @@ open class WidgetPickerActivity :
         systemUiController?.updateUiState(SystemUiController.UI_STATE_WIDGET_BOTTOM_SHEET, flags)
     }
 
-    override val onBackPressedDispatcher: OnBackPressedDispatcher
-        get() =
-            OnBackPressedDispatcher().apply {
-                if (Build.VERSION.SDK_INT >= 33) {
-                    setOnBackInvokedDispatcher(onBackInvokedDispatcher)
-                }
+    // UltimateLauncher 0030: un único dispatcher; sin tipos de API 34 (OnBackAnimationCallback).
+    private val backDispatcher: OnBackPressedDispatcher by lazy {
+        OnBackPressedDispatcher().apply {
+            if (Build.VERSION.SDK_INT >= 33) {
+                setOnBackInvokedDispatcher(onBackInvokedDispatcher)
             }
-
-    override fun registerBackDispatcher() {
-        onBackInvokedDispatcher.registerOnBackInvokedCallback(
-            OnBackInvokedDispatcher.PRIORITY_DEFAULT,
-            this,
-        )
+        }
     }
 
-    override fun onBackInvoked() {
-        finish()
+    override val onBackPressedDispatcher: OnBackPressedDispatcher
+        get() = backDispatcher
+
+    // UltimateLauncher 0030: API 33+ usa OnBackInvokedCallback; en API 31-32 rige onBackPressed().
+    override fun registerBackDispatcher() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT,
+                OnBackInvokedCallback { finish() },
+            )
+        }
+    }
+
+    // API 31-32 (sin OnBackInvokedDispatcher): atiende primero los callbacks de androidx y, si no hay, cierra.
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (backDispatcher.hasEnabledCallbacks()) {
+            backDispatcher.onBackPressed()
+        } else {
+            finish()
+        }
     }
 
     private fun onScreenOnChange(on: Boolean) {

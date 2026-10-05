@@ -25,7 +25,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
-import android.window.OnBackAnimationCallback
+import android.window.OnBackInvokedCallback
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.OnBackPressedDispatcherOwner
@@ -56,7 +56,7 @@ import kotlin.math.min
 
 /** Activity to show pin widget dialog. */
 open class AddItemActivity :
-    BaseActivity(), OnBackPressedDispatcherOwner, OnBackAnimationCallback, PinItemAddHandler {
+    BaseActivity(), OnBackPressedDispatcherOwner, PinItemAddHandler {
 
     private lateinit var pinItemRequest: LauncherApps.PinItemRequest
     private lateinit var app: LauncherAppState
@@ -292,23 +292,26 @@ open class AddItemActivity :
         statsLogManager.logger().log(command)
     }
 
-    override val onBackPressedDispatcher: OnBackPressedDispatcher
-        get() =
-            OnBackPressedDispatcher().apply {
-                if (Build.VERSION.SDK_INT >= 33) {
-                    setOnBackInvokedDispatcher(onBackInvokedDispatcher)
-                }
+    // UltimateLauncher 0030: un único dispatcher; sin tipos de API 34 (OnBackAnimationCallback).
+    private val backDispatcher: OnBackPressedDispatcher by lazy {
+        OnBackPressedDispatcher().apply {
+            if (Build.VERSION.SDK_INT >= 33) {
+                setOnBackInvokedDispatcher(onBackInvokedDispatcher)
             }
-
-    public override fun registerBackDispatcher() {
-        onBackInvokedDispatcher.registerOnBackInvokedCallback(
-            OnBackInvokedDispatcher.PRIORITY_DEFAULT,
-            this,
-        )
+        }
     }
 
-    override fun onBackInvoked() {
-        finish()
+    override val onBackPressedDispatcher: OnBackPressedDispatcher
+        get() = backDispatcher
+
+    // UltimateLauncher 0030: API 33+ usa OnBackInvokedCallback; en API 31-32 rige onBackPressed().
+    public override fun registerBackDispatcher() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT,
+                OnBackInvokedCallback { finish() },
+            )
+        }
     }
 
     companion object {

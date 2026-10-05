@@ -183,7 +183,7 @@ constructor(private val packageManagerHelper: PackageManagerHelper) {
             if (widget.screenId == 0) {
                 installedWidgets.add(packageName)
             } else {
-                installedWidgets.addLast(packageName)
+                installedWidgets.add(packageName) // 0031: antes addLast (API 35)
             }
         }
     }
@@ -235,7 +235,7 @@ constructor(private val packageManagerHelper: PackageManagerHelper) {
                     pendingCollectionItems.isNotEmpty() -> pendingCollectionItems.removeLast()
                     pendingHotseatItems.isNotEmpty() -> pendingHotseatItems.removeLast()
                     installedHotseatItems.isNotEmpty() -> installedHotseatItems.removeLast()
-                    installedWidgets.isNotEmpty() -> installedWidgets.removeLast()
+                    installedWidgets.isNotEmpty() -> installedWidgets.remove(installedWidgets.last()) // 0031: antes removeLast (API 35)
                     pendingWidgetItems.isNotEmpty() -> pendingWidgetItems.removeLast()
                     pendingWorkspaceItems.isNotEmpty() -> pendingWorkspaceItems.removeLast()
                     installedWorkspaceItems.isNotEmpty() -> installedWorkspaceItems.removeLast()
