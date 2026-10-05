@@ -15,7 +15,9 @@ if "pref_ul_dock_background" not in t:
         android:title="@string/ul_pref_dock_background"
         android:summary="@string/ul_pref_dock_background_summary"
         android:defaultValue="true"
-        android:persistent="true" />
+        android:persistent="true"
+        app:isPreferenceVisible="@bool/ul_huawei_dock"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
 
     <SwitchPreference
         android:key="pref_ul_dock_subtle"
@@ -23,14 +25,18 @@ if "pref_ul_dock_background" not in t:
         android:summary="@string/ul_pref_dock_subtle_summary"
         android:defaultValue="false"
         android:persistent="true"
-        android:dependency="pref_ul_dock_background" />
+        android:dependency="pref_ul_dock_background"
+        app:isPreferenceVisible="@bool/ul_huawei_dock"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
 
     <SwitchPreference
         android:key="pref_ul_dock_recents"
         android:title="@string/ul_pref_dock_recents"
         android:summary="@string/ul_pref_dock_recents_summary"
         android:defaultValue="true"
-        android:persistent="true" />
+        android:persistent="true"
+        app:isPreferenceVisible="@bool/ul_huawei_dock"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
 
 '''
     t = t.replace("</androidx.preference.PreferenceScreen>", add + "</androidx.preference.PreferenceScreen>", 1)
