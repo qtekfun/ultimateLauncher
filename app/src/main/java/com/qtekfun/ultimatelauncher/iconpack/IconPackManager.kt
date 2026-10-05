@@ -138,8 +138,15 @@ class IconPackManager private constructor(private val app: Context) {
         // 1) assets/appfilter.xml (texto)  2) res/xml/appfilter (XML compilado)
         runCatching {
             res.assets.open("appfilter.xml").use { ins ->
-                val bytes = ins.readNBytes(AppFilter.MAX_BYTES + 1)
-                data = AppFilter.parseText(String(bytes, Charsets.UTF_8))
+                // Lectura acotada (readNBytes es de API 33): como mucho MAX_BYTES + 1 para detectar que se pasa del límite.
+                val out = java.io.ByteArrayOutputStream()
+                val buf = ByteArray(16 * 1024)
+                while (out.size() <= AppFilter.MAX_BYTES) {
+                    val n = ins.read(buf, 0, minOf(buf.size, AppFilter.MAX_BYTES + 1 - out.size()))
+                    if (n < 0) break
+                    out.write(buf, 0, n)
+                }
+                data = AppFilter.parseText(String(out.toByteArray(), Charsets.UTF_8))
             }
         }
         if (data == null || data!!.isEmpty) {
