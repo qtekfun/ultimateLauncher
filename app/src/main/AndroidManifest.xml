@@ -14,6 +14,10 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- Solo se usa si el usuario lo pide en el asistente: abre el diálogo del sistema para que ColorOS/Android no mate el launcher. -->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <!-- Gesto «deslizar hacia abajo» del escritorio (parche 0180): abrir notificaciones/ajustes rápidos. Permiso normal, apagado por defecto. -->
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <!-- «Apps ocultas» (0181-0183): BiometricPrompt del framework (huella/rostro o PIN/patrón/contraseña). Permiso normal. -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <permission
         android:name="${applicationId}.permission.START_WIDGET_PICKER_ACTIVITY"
@@ -82,6 +86,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Apps ocultas (parche 0183): exige autenticar con el dispositivo; ventana FLAG_SECURE; no exportada. -->
+        <activity
+            android:name="com.qtekfun.ultimatelauncher.hidden.HiddenAppsActivity"
+            android:label="@string/ul_hidden_apps"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight"
+            android:excludeFromRecents="true"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|uiMode"
+            android:exported="false" />
 
         <!-- Importar la pantalla de inicio de otro launcher (archivo de copia o proveedor), sin red. Se abre desde Exportar/importar y desde el asistente. -->
         <activity
