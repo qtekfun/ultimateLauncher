@@ -20,6 +20,8 @@ object FolderStyle {
     private const val FADE_MS = 220L
     /** Posición vertical del centro del título (OPPO: 782 de 3168 px = 24,7 %). */
     private const val TITLE_CENTER_Y = 0.247f
+    /** Hueco extra entre el pie (título) y la fila de iconos, en dp: (1084-1014 px)/3,5 = 20. */
+    private const val TITLE_GAP_DP = 20f
 
     fun enabled(context: Context): Boolean =
         context.getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
@@ -36,6 +38,12 @@ object FolderStyle {
         if (!enabled(folder.context)) return
         // El título pasa encima de los iconos.
         (footer.parent as? ViewGroup)?.let { p -> p.removeView(footer); p.addView(footer, 0) }
+        // Separación título-iconos: la referencia tiene la fila de iconos 302 px bajo el título; sin esto quedaba ~70 px
+        // más arriba (20 dp a 560 dpi). Se suma al relleno superior del contenido (cuenta en la altura deseada).
+        folder.findViewById<View>(com.android.launcher3.R.id.folder_content)?.let { c ->
+            c.setPadding(c.paddingLeft, c.paddingTop + (TITLE_GAP_DP * c.resources.displayMetrics.density).toInt(),
+                c.paddingRight, c.paddingBottom)
+        }
         name.setTextColor(Color.WHITE)
         name.setHintTextColor(0xB3FFFFFF.toInt())
     }
@@ -80,6 +88,12 @@ object FolderStyle {
     @JvmStatic fun onOpen(launcher: Launcher) {
         if (!enabled(launcher)) return
         blur(launcher, BLUR_PX)
+        // Tema claro: las etiquetas de las apps son oscuras (pensadas para la tarjeta clara); sobre el fondo oscurecido
+        // deben ser blancas, como el título. Se aplica una vez que la carpeta está en el árbol de vistas.
+        launcher.dragLayer.post {
+            Folder.getOpen(launcher)?.iconsInReadingOrder?.filterIsInstance<android.widget.TextView>()
+                ?.forEach { it.setTextColor(Color.WHITE) }
+        }
         covered(launcher).forEach { ObjectAnimator.ofFloat(it, View.ALPHA, it.alpha, 0f).setDuration(FADE_MS).start() }
     }
 
