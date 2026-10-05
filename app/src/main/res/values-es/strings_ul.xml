@@ -58,4 +58,6 @@
     <string name="ul_pref_folder_style_summary">Sin tarjeta: título arriba, iconos sobre el fondo desenfocado y el resto de la pantalla de inicio oculto.</string>
     <string name="ul_pref_allow_rotation">Girar la pantalla de inicio</string>
     <string name="ul_pref_allow_rotation_summary">Sigue la orientación del sistema para usar cuadrícula, dock y carpetas en horizontal. Apagado por defecto (inicio vertical como OPPO).</string>
+    <string name="ul_pref_edge_grid">Iconos hasta el borde</string>
+    <string name="ul_pref_edge_grid_summary">En tablet, la rejilla del escritorio usa todo el ancho, sin márgenes laterales. Apagado mantiene los márgenes medidos de Huawei.</string>
 </resources>
