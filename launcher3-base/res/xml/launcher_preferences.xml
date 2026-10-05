@@ -109,6 +109,13 @@
         android:defaultValue="true"
         android:persistent="true" />
 
+    <!-- UltimateLauncher 0170 -->
+    <Preference
+        android:key="pref_ul_wallpapers"
+        android:title="@string/ul_pref_wallpapers"
+        android:summary="@string/ul_pref_wallpapers_summary"
+        android:persistent="false" />
+
     <!-- UltimateLauncher 0061 -->
     <SwitchPreference
         android:key="pref_ul_allow_rotation"
