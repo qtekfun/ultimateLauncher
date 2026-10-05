@@ -301,6 +301,13 @@ public class SettingsActivity extends FragmentActivity
         protected boolean initPreference(Preference preference) {
             LauncherDisplayInfo info = DisplayController.INSTANCE.get(getContext()).getInfo();
             switch (preference.getKey()) {
+                case "pref_ul_hidden_apps_open": // UltimateLauncher 0183
+                    preference.setOnPreferenceClickListener(p -> {
+                        startActivity(new android.content.Intent().setClassName(
+                                getContext().getPackageName(), "com.qtekfun.ultimatelauncher.hidden.HiddenAppsActivity"));
+                        return true;
+                    });
+                    return true;
                 case com.qtekfun.ultimatelauncher.grid.EdgeGrid.KEY: // UltimateLauncher 0120
                     // Solo tablet (lado corto >= 600 dp); al cambiar se reconstruye la rejilla tras guardar el valor.
                     preference.setOnPreferenceChangeListener((pref, newValue) -> {
