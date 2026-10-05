@@ -115,7 +115,7 @@ object AppFilter {
     /** Etiquetas de inicio (y autocerradas) de un texto XML, en orden. Ignora comentarios, CDATA, PI, DOCTYPE y cierres. */
     @JvmStatic
     fun tokenize(text: String): Sequence<Tag> = sequence {
-        var i = if (text.startsWith("﻿")) 1 else 0
+        var i = if (text.startsWith("\uFEFF")) 1 else 0
         val n = text.length
         while (i < n) {
             val lt = text.indexOf('<', i)
