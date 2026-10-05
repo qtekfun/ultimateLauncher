@@ -24,6 +24,18 @@ object ClockWidgetLogic {
         return fitting.maxBy { (_, s) -> s.first * s.second }.key
     }
 
+    /** Lado (dp) de la tarjeta cuadrada del reloj 2x2: el menor de los dos lados del área. */
+    fun squareSide(widthDp: Float, heightDp: Float): Float = minOf(widthDp, heightDp)
+
+    /**
+     * Diseño del reloj de tarjeta cuadrada: si el área es al menos 100x100 dp, SQUARE (nunca WIDE: ese es otro
+     * widget); si es más baja o estrecha, COMPACT a rectángulo completo (2x1, 4x1).
+     */
+    fun chooseSquare(widthDp: Float, heightDp: Float): ClockLayout {
+        val sq = minSizes.getValue(ClockLayout.SQUARE)
+        return if (widthDp >= sq.first && heightDp >= sq.second) ClockLayout.SQUARE else ClockLayout.COMPACT
+    }
+
     /** Esqueletos de fecha que se pasan a `DateFormat.getBestDateTimePattern` (localizan orden y separadores). */
     const val SKELETON_DAY_DATE = "EEEMMMd"   // «lun, 5 oct» / «Mon, Oct 5»
     const val SKELETON_WEEKDAY = "EEEE"       // «lunes»

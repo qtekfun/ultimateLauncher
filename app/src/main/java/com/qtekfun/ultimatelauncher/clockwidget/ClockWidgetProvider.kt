@@ -9,7 +9,9 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.provider.AlarmClock
 import android.text.format.DateFormat
+import android.os.Bundle
 import android.util.SizeF
+import android.util.TypedValue
 import android.widget.RemoteViews
 import com.android.launcher3.R
 import java.util.Locale
@@ -24,10 +26,26 @@ import java.util.Locale
  * - Toque: `ACTION_SHOW_ALARMS` (app de reloj del sistema) con `PendingIntent` inmutable; si nadie lo resuelve, no se
  *   asigna ninguna acción (el toque no hace nada).
  */
-abstract class ClockWidgetProvider(private val dark: Boolean) : AppWidgetProvider() {
+abstract class ClockWidgetProvider(private val dark: Boolean, private val squareCard: Boolean = false) : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, manager: AppWidgetManager, appWidgetIds: IntArray) {
-        for (id in appWidgetIds) manager.updateAppWidget(id, buildViews(context, dark))
+        for (id in appWidgetIds) update(context, manager, id, manager.getAppWidgetOptions(id))
+    }
+
+    override fun onAppWidgetOptionsChanged(context: Context, manager: AppWidgetManager, appWidgetId: Int, newOptions: Bundle) {
+        update(context, manager, appWidgetId, newOptions)
+    }
+
+    private fun update(context: Context, manager: AppWidgetManager, id: Int, options: Bundle) {
+        if (!squareCard) { manager.updateAppWidget(id, buildViews(context, dark)); return }
+        // Tarjeta SIEMPRE cuadrada y centrada (en tablet las celdas son apaisadas): un diseño por cada tamaño real que da el launcher.
+        @Suppress("DEPRECATION")
+        val sizes = options.getParcelableArrayList<SizeF>(AppWidgetManager.OPTION_APPWIDGET_SIZES).orEmpty()
+            .ifEmpty { listOf(SizeF(ClockWidgetLogic.minSizes.getValue(ClockLayout.SQUARE).first, ClockWidgetLogic.minSizes.getValue(ClockLayout.SQUARE).second)) }
+        val pending = clockPendingIntent(context)
+        val map = linkedMapOf<SizeF, RemoteViews>()
+        for (s in sizes) map[s] = buildSquare(context, dark, pending, s.width, s.height)
+        manager.updateAppWidget(id, RemoteViews(map))
     }
 
     companion object {
@@ -39,6 +57,18 @@ abstract class ClockWidgetProvider(private val dark: Boolean) : AppWidgetProvide
                 sizes[SizeF(min.first, min.second)] = build(context, layout, dark, pending)
             }
             return RemoteViews(sizes)
+        }
+
+        /** Reloj de tarjeta cuadrada centrada en un área [widthDp] x [heightDp] (lado = el menor, sin pasar de ClockWidgetLogic). */
+        internal fun buildSquare(context: Context, dark: Boolean, pending: PendingIntent?, widthDp: Float, heightDp: Float): RemoteViews {
+            val layout = ClockWidgetLogic.chooseSquare(widthDp, heightDp)
+            val rv = build(context, layout, dark, pending)
+            if (layout == ClockLayout.SQUARE) {
+                val side = ClockWidgetLogic.squareSide(widthDp, heightDp)
+                rv.setViewLayoutWidth(R.id.ul_clock_card, side, TypedValue.COMPLEX_UNIT_DIP)
+                rv.setViewLayoutHeight(R.id.ul_clock_card, side, TypedValue.COMPLEX_UNIT_DIP)
+            }
+            return rv
         }
 
         internal fun build(context: Context, layout: ClockLayout, dark: Boolean, pending: PendingIntent?): RemoteViews {
@@ -93,7 +123,7 @@ abstract class ClockWidgetProvider(private val dark: Boolean) : AppWidgetProvide
 }
 
 /** Cuatro proveedores (selector de widgets): el tamaño inicial (2x2 o 4x2) lo fija el XML de cada uno. */
-class ClockWidgetSquareLight : ClockWidgetProvider(false)
+class ClockWidgetSquareLight : ClockWidgetProvider(false, squareCard = true)
 class ClockWidgetWideLight : ClockWidgetProvider(false)
-class ClockWidgetSquareDark : ClockWidgetProvider(true)
+class ClockWidgetSquareDark : ClockWidgetProvider(true, squareCard = true)
 class ClockWidgetWideDark : ClockWidgetProvider(true)
