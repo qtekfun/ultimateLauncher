@@ -20,7 +20,7 @@ class LayoutSyncTest {
     }
 
     @Test(expected = UnsupportedSchemaException::class) fun rejectsNewerSchema() {
-        LayoutJson.fromJson(LayoutJson.toJson(snap(Grid(4, 6), emptyList())).replace("\"schema\": 1", "\"schema\": 2"))
+        LayoutJson.fromJson(LayoutJson.toJson(snap(Grid(4, 6), emptyList())).replace("\"schema\": 2", "\"schema\": 3"))
     }
 
     @Test fun growingGridKeepsPositions() { // 4x6 -> 5x6

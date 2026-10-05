@@ -89,7 +89,7 @@
     <string name="ul_imp_route_absent">No expone su disposición a otras apps.</string>
     <string name="ul_imp_route_unverified">(vía aún no verificada en un dispositivo real)</string>
     <string name="ul_imp_btn_read">Leer su disposición</string>
-    <string name="ul_imp_closed">%1$s es un launcher cerrado: no expone nada a las apps normales, así que su disposición no se puede importar automáticamente. Mira las alternativas más abajo.</string>
+    <string name="ul_imp_closed">%1$s es un launcher cerrado: no expone nada a las apps normales, así que su disposición no se puede importar automáticamente. Usa «Colocar mis apps por orden» o mira las alternativas más abajo.</string>
     <string name="ul_imp_backup_for">Archivo de copia admitido (%1$s):</string>
     <string name="ul_imp_btn_file">Elegir un archivo de copia…</string>
     <string name="ul_imp_file_help">Elige una base de datos de Launcher3 (.db) o un zip de copia como .lawnchairbackup o .novabackup con el selector de documentos del sistema. No hace falta permiso de almacenamiento.</string>
@@ -137,4 +137,31 @@
     <string name="ul_hidden_pick_help">Las apps que ocultes desaparecen del cajón y de la búsqueda. Los iconos que ya tengas en el escritorio se mantienen.</string>
     <string name="ul_hidden_unhide">Mostrar de nuevo</string>
     <string name="ul_hidden_cannot_open">No se pudo abrir esa app.</string>
+    <!-- Copia de seguridad en Ajustes de inicio (parche 0160) -->
+    <string name="ul_pref_backup_category">Copia de seguridad</string>
+    <string name="ul_pref_backup_save">Guardar copia</string>
+    <string name="ul_pref_backup_save_summary">Guarda en un archivo tu disposición, los ajustes del launcher y los widgets (sin cifrar).</string>
+    <string name="ul_pref_backup_restore">Restaurar copia</string>
+    <string name="ul_pref_backup_restore_summary">Elige un archivo de copia guardado antes y recupera disposición y ajustes.</string>
+    <string name="ul_pref_backup_import">Traer mi pantalla de inicio</string>
+    <string name="ul_pref_backup_import_summary">Importa desde otro launcher o coloca tus apps por orden.</string>
+    <string name="ul_backup_save_title">Guardar copia</string>
+    <string name="ul_backup_restore_title">Restaurar copia</string>
+    <string name="ul_backup_saved">Copia guardada: %1$d elementos de la pantalla de inicio y %2$d ajustes. El archivo no está cifrado y lista tus apps instaladas: guárdalo donde confíes.</string>
+    <string name="ul_backup_error">No se pudo completar (%1$s).</string>
+    <string name="ul_backup_not_backup">Ese archivo no es una copia de UltimateLauncher. Para traer la pantalla de otro launcher usa «Traer mi pantalla de inicio».</string>
+    <string name="ul_backup_widget_limit">Widgets: se restauran su proveedor, tamaño y posición, pero NO su contenido ni su configuración interna (la guarda cada app y no se puede copiar). Tras restaurar, toca cada widget y el sistema te pedirá aceptarlo o configurarlo de nuevo.</string>
+    <string name="ul_backup_replace_note">Se reemplazará tu pantalla de inicio actual y se aplicarán los ajustes del archivo. Antes se guarda una copia automática en la app.</string>
+    <string name="ul_backup_restore_btn">Restaurar</string>
+    <string name="ul_backup_restored">Restaurado. La disposición anterior se guardó como %1$s.</string>
+
+    <!-- Colocar mis apps por orden (launchers cerrados) -->
+    <string name="ul_imp_order_title">Colocar mis apps por orden</string>
+    <string name="ul_imp_order_help">Para launchers cerrados (OPPO, Huawei, vivo, Honor, Xiaomi, Samsung…) cuya pantalla no se puede leer. Pone todas tus apps instaladas en páginas, con el orden que elijas.</string>
+    <string name="ul_imp_order_btn">Colocar mis apps por orden…</string>
+    <string name="ul_imp_order_not_imported">No se importan carpetas, dock ni las páginas del launcher anterior: eso no es legible sin root. Se conserva tu dock actual y se reemplazan las páginas (antes se guarda una copia).</string>
+    <string name="ul_imp_order_alpha">Alfabético (A–Z)</string>
+    <string name="ul_imp_order_install">Orden de instalación (las más antiguas primero)</string>
+    <string name="ul_imp_order_per_page">Apps por página: %1$d (rejilla de %2$d×%3$d)</string>
+    <string name="ul_imp_order_next">Ver resumen</string>
 </resources>

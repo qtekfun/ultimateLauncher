@@ -38,6 +38,7 @@ Regla: **cualquier permiso nuevo requiere actualizar esta tabla** y el README p�
 - Copia en la nube del sistema desactivada para los datos del launcher; la única exportación es la que pide el usuario (ver `06`).
 - Registros: en versiones de producción, sin registros con nombres de apps ni datos personales; eliminar trazas de depuración en la compilación de release.
 - El **archivo de exportación lista las apps instaladas**: es información sensible. Cifrado opcional en local y por defecto en la variante `sync`.
+- «Guardar copia» de Ajustes de inicio (parche 0160) escribe el archivo **sin cifrar** por decisión expresa del usuario (no hay datos críticos): solo contiene disposición, ajustes del launcher y proveedores de widgets; el aviso al guardar recuerda que lista las apps. Sin permisos nuevos (selector de documentos) y sin red; los recientes del dock no entran en la copia.
 - Sin informes de fallos automáticos. Si hace falta, un botón para **exportar un registro local** que el usuario envía a mano.
 
 ## Sin GMS

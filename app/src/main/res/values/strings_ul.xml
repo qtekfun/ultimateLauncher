@@ -89,7 +89,7 @@
     <string name="ul_imp_route_absent">It does not expose its layout to other apps.</string>
     <string name="ul_imp_route_unverified">(route not verified on a real device yet)</string>
     <string name="ul_imp_btn_read">Read its layout</string>
-    <string name="ul_imp_closed">%1$s is a closed launcher: it does not expose anything to normal apps, so its layout cannot be imported automatically. See the alternatives below.</string>
+    <string name="ul_imp_closed">%1$s is a closed launcher: it does not expose anything to normal apps, so its layout cannot be imported automatically. Use \"Place my apps in order\" or see the alternatives below.</string>
     <string name="ul_imp_backup_for">Backup file accepted (%1$s):</string>
     <string name="ul_imp_btn_file">Choose a backup file…</string>
     <string name="ul_imp_file_help">Pick a Launcher3 database (.db) or a backup zip such as .lawnchairbackup or .novabackup with the system document picker. No storage permission is needed.</string>
@@ -137,4 +137,31 @@
     <string name="ul_hidden_pick_help">Apps you hide disappear from the drawer and search. Icons you already placed on the home screen stay.</string>
     <string name="ul_hidden_unhide">Show again</string>
     <string name="ul_hidden_cannot_open">Could not open that app.</string>
+    <!-- Backup section in Home settings (patch 0160) -->
+    <string name="ul_pref_backup_category">Backup</string>
+    <string name="ul_pref_backup_save">Save backup</string>
+    <string name="ul_pref_backup_save_summary">Saves your layout, launcher settings and widgets to a file (unencrypted).</string>
+    <string name="ul_pref_backup_restore">Restore backup</string>
+    <string name="ul_pref_backup_restore_summary">Pick a backup file saved earlier and get layout and settings back.</string>
+    <string name="ul_pref_backup_import">Bring my home screen</string>
+    <string name="ul_pref_backup_import_summary">Import from another launcher or place your apps in order.</string>
+    <string name="ul_backup_save_title">Save backup</string>
+    <string name="ul_backup_restore_title">Restore backup</string>
+    <string name="ul_backup_saved">Backup saved: %1$d home screen items and %2$d settings. The file is not encrypted and lists your installed apps: keep it somewhere you trust.</string>
+    <string name="ul_backup_error">Could not finish (%1$s).</string>
+    <string name="ul_backup_not_backup">That file is not an UltimateLauncher backup. To bring another launcher\'s home screen use \"Bring my home screen\".</string>
+    <string name="ul_backup_widget_limit">Widgets: provider, size and position are restored, but NOT their content or internal configuration (each app keeps it and it cannot be copied). After restoring, tap each widget and the system will ask you to accept or configure it again.</string>
+    <string name="ul_backup_replace_note">Your current home screen will be replaced and the settings in the file applied. An automatic copy is kept inside the app first.</string>
+    <string name="ul_backup_restore_btn">Restore</string>
+    <string name="ul_backup_restored">Restored. The previous layout was saved as %1$s.</string>
+
+    <!-- Place my apps in order (closed launchers) -->
+    <string name="ul_imp_order_title">Place my apps in order</string>
+    <string name="ul_imp_order_help">For closed launchers (OPPO, Huawei, vivo, Honor, Xiaomi, Samsung…) whose screen cannot be read. Puts all your installed apps on pages, in the order you choose.</string>
+    <string name="ul_imp_order_btn">Place my apps in order…</string>
+    <string name="ul_imp_order_not_imported">Folders, dock and the old launcher\'s pages are not imported: they cannot be read without root. Your current dock is kept and the pages are replaced (a copy is saved first).</string>
+    <string name="ul_imp_order_alpha">Alphabetical (A–Z)</string>
+    <string name="ul_imp_order_install">Install order (oldest first)</string>
+    <string name="ul_imp_order_per_page">Apps per page: %1$d (%2$d×%3$d grid)</string>
+    <string name="ul_imp_order_next">Show summary</string>
 </resources>

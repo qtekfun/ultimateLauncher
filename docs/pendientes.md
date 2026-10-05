@@ -1,6 +1,6 @@
 # Pendientes (backlog vivo)
 
-Última actualización: 2026-10-05. Lo hecho está en `docs/progress.md`; esto es lo que falta o se ha pedido y no está terminado.
+Última actualización: 2026-10-05 (copia de seguridad en Ajustes de inicio hecha). Lo hecho está en `docs/progress.md`; esto es lo que falta o se ha pedido y no está terminado.
 
 ## Entrevista del 2026-10-05 (decisiones del usuario)
 - **Copia a demanda del setup:** disposición + ajustes del launcher + widgets (con su configuración hasta donde sea posible; la config interna de cada widget la guarda cada app), en un archivo con el selector del sistema, **sin cifrar**. Acceso desde **Ajustes de inicio** con tres acciones: Guardar copia, Restaurar copia, Traer mi pantalla de inicio.
@@ -15,6 +15,7 @@
 - Más columnas/migración de rejilla para «Iconos hasta el borde» (hoy solo ensancha celdas).
 
 ## Sin verificar en dispositivo
+- Copia de seguridad (parche 0160): verificada guardar/restaurar en la tablet; falta restaurar en otro dispositivo, archivo cifrado, «Colocar mis apps por orden» por fecha de instalación y en móvil.
 - Tablet: animación de cierre de carpeta (parche del subagente, solo por código), «Iconos hasta el borde» con mini hueco de 12 dp, dock editable tras reiniciar el launcher, retrato y multiventana.
 - OPPO: menú y ampliación de carpetas 2x2, soltar iconos en carpeta ampliada (0144), reloj digital en el inicio (sizes reales, tarjeta cuadrada), importador «Traer mi pantalla de inicio» (checklist de 9 pasos en `progress.md`), R8 con widgets con configuración, perfil de trabajo, arrastres.
 - Intents de batería/autoarranque de vivo, Xiaomi, Honor/Huawei (candidatos).

@@ -46,6 +46,21 @@ Reglas del formato:
 - No se guarda la frase en ningún sitio. La copia automática previa a importar (`filesDir/backups/`) queda en claro dentro del almacenamiento privado de la app (sin copia en la nube del sistema).
 - Pendiente: «cifrado por defecto» en la variante `sync` (no hay variante `sync` implementada, ver abajo); contraseñas de otra longitud mínima / indicador de fortaleza.
 
+## Esquema v2: copia a demanda con ajustes (parche 0160)
+
+`schema: 2` añade el objeto `prefs` (clave → valor) con los **ajustes del launcher** guardados en `LauncherFiles.SHARED_PREFERENCES_KEY`. Un archivo v1 sigue leyéndose (sin `prefs`); uno de versión mayor se rechaza.
+- **Lista blanca explícita** (`layoutsync/BackupPrefs.kt`, clave → tipo): `pref_add_icon_to_home` (AOSP) y los interruptores `pref_ul_*` (fondo/sutil/recientes del dock, animaciones de abrir y volver, contrato del gesto, estilo y ampliación de carpetas, girar la pantalla, iconos hasta el borde). Al restaurar se descarta cualquier clave desconocida o de otro tipo; una prueba (`BackupSchemaTest`) falla si se añade un interruptor `pref_ul_*` a `launcher_preferences.xml` sin ponerlo en la lista.
+- Una clave conocida que el archivo no trae estaba en su valor por defecto al guardar: al restaurar se borra para volver a él.
+- **No entran**: los recientes del dock (`ul_recents`, historial de uso), paquete de iconos, fondos de pantalla ni datos de widgets.
+- Al aplicar: se escriben los ajustes (`commit`), se reemplaza la disposición con la copia automática previa, `forceReload` del modelo y `InvariantDeviceProfile.ulReloadGrid()` (mismo gancho que «Iconos hasta el borde») para reconstruir los perfiles. Verificado en tablet: tras restaurar, la pantalla de ajustes reabierta muestra los valores del archivo. La pantalla de Ajustes que estaba abierta durante la restauración no se refresca sola (hay que cerrarla y reabrirla).
+- **Widgets**: se guardan proveedor, tamaño y celda. La configuración interna y el contenido de cada widget los guarda su app y **no se pueden copiar** sin permisos de sistema. Al restaurar, el widget vuelve vacío/pendiente y el sistema pide aceptarlo o configurarlo (flujo de enlace de arriba). La pantalla «Restaurar copia» lo explica antes de aplicar.
+
+### Acceso (Ajustes de inicio > Copia de seguridad)
+- **Guardar copia**: selector del sistema (`CreateDocument`, `application/json`, nombre `ultimatelauncher-AAAA-MM-DD.json`). **Sin cifrar y sin pedir frase** (decisión del usuario: no hay datos críticos); el aviso final recuerda que el archivo lista las apps instaladas.
+- **Restaurar copia**: `OpenDocument`; muestra el resumen (incluida la advertencia de widgets) y pide confirmación. Si el archivo es un sobre cifrado (hecho con «Exportar/importar disposición», que mantiene la frase opcional) pide la frase.
+- **Traer mi pantalla de inicio**: abre `ForeignImportActivity`.
+- El icono «Disposición de UltimateLauncher» del cajón (`LayoutSyncActivity`) sigue existiendo y usa el mismo esquema v2.
+
 ## Importación en otro teléfono (RF-52)
 
 1. **Apps no instaladas**: omitir el icono y anotarlo en un informe final ("faltan estas apps"); opcionalmente dejar un hueco.
@@ -101,7 +116,7 @@ Asistente `ForeignImportActivity`, enlazado desde «Exportar/importar disposici�
 | Export propio de UltimateLauncher | Ya existía | El selector reconoce el JSON y remite a «Exportar/importar» |
 | Launchers cerrados de fabricante (ColorOS, MIUI/HyperOS, EMUI, MagicOS, vivo, One UI) | **Descartada** | No exponen nada sin privilegios; descompilarlos está prohibido. El asistente lo explica y propone alternativas (copia propia del launcher si existe, capturas, conservar el móvil antiguo) |
 | Paquete de iconos elegido | **Descartada** | Los formatos de copia no lo documentan y este launcher no gestiona paquetes de iconos; el asistente avisa de que se vuelva a elegir |
-| Captura guiada de apps por orden | No implementada | Solo descrita como alternativa manual |
+| «Colocar mis apps por orden» (parche 0160) | **Implementada** | Para launchers cerrados: genera páginas con todas las apps lanzables instaladas (sin esta app), ordenadas A–Z (con `Collator`) o por fecha de instalación (`LauncherActivityInfo.firstInstallTime`, sin permisos), con las apps por página que elija el usuario (1 a columnas×filas, relleno por filas). Pasa por `ImportPlanner`, la vista previa y `LayoutStore.apply` (copia automática previa). **No importa** carpetas, dock ni las páginas del launcher viejo; se conserva el dock actual (y sus apps no se repiten en las páginas). No hay orden por «más usadas» (exigiría UsageStats). Lógica pura en `layoutsync/AppsByOrder.kt` |
 
 Datos en `assets/launcher-import-sources.json` (como `oem-intents.json`): paquetes públicos, autoridades por convención de AOSP (`<paquete>.settings`) y vías con `verified=false` hasta probarlas con el launcher real.
 

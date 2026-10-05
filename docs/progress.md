@@ -348,3 +348,8 @@ Petición del usuario: «un setup para importar los iconos de otros launchers se
   7. Salir de la pantalla (inicio/recientes) y volver: vuelve a pedir autenticación; la vista de recientes y las capturas no enseñan la lista (FLAG_SECURE); girar la pantalla no pide de nuevo.
   8. Reiniciar el launcher (matar el proceso): las apps ocultas siguen ocultas. Dispositivo con perfil de trabajo: sus apps no ofrecen «Ocultar».
   9. Quitar el bloqueo de pantalla del sistema: «Apps ocultas» avisa de que no se pueden proteger y deja gestionar la lista.
+### Copia de seguridad a demanda y «Colocar mis apps por orden» (parche 0160, 2026-10-05)
+- Petición: guardar una copia a demanda (sin cifrar) y encontrar «Traer mi pantalla de inicio», que solo colgaba del icono «Disposición de UltimateLauncher» del cajón. Ahora hay una sección **Copia de seguridad** en Ajustes de inicio con Guardar copia, Restaurar copia y Traer mi pantalla de inicio.
+- Esquema v2 (`prefs` con lista blanca, retrocompatible con v1), `BackupActivity` (SAF, sin permisos), advertencia de widgets, y `AppsByOrder` en `ForeignImportActivity`. 12 pruebas nuevas (`BackupSchemaTest`). Detalle en docs/06.
+- Verificado en la MatePad (MRO-W09, tarjeta de release con R8): guardar (3,4 KB, 11 ajustes, 7 elementos), cambiar 3 ajustes y colocar 27 apps A–Z en una página, restaurar el archivo: vuelven reloj, carpeta, dock y los tres ajustes (comprobado reabriendo Ajustes). La tablet quedó como estaba.
+- Sin probar: restaurar en otro dispositivo/otra marca, archivo cifrado en «Restaurar copia», orden por fecha de instalación en dispositivo, widgets con configuración de terceros, móvil.

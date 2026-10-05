@@ -26,6 +26,7 @@ import static com.android.launcher3.InvariantDeviceProfile.TYPE_TABLET;
 import static com.android.launcher3.util.Executors.MAIN_EXECUTOR;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -301,12 +302,36 @@ public class SettingsActivity extends FragmentActivity
         protected boolean initPreference(Preference preference) {
             LauncherDisplayInfo info = DisplayController.INSTANCE.get(getContext()).getInfo();
             switch (preference.getKey()) {
+<<<<<<< HEAD
                 case "pref_ul_hidden_apps_open": // UltimateLauncher 0183
                     preference.setOnPreferenceClickListener(p -> {
                         startActivity(new android.content.Intent().setClassName(
                                 getContext().getPackageName(), "com.qtekfun.ultimatelauncher.hidden.HiddenAppsActivity"));
                         return true;
                     });
+=======
+                case "pref_ul_backup_category": // UltimateLauncher 0160
+                    PreferenceGroup backup = (PreferenceGroup) preference;
+                    for (int i = 0; i < backup.getPreferenceCount(); i++) {
+                        Preference p = backup.getPreference(i);
+                        p.setOnPreferenceClickListener(c -> {
+                            Context ctx = getContext();
+                            switch (c.getKey()) {
+                                case "pref_ul_backup_save":
+                                    com.qtekfun.ultimatelauncher.layoutsync.BackupActivity.launch(ctx,
+                                            com.qtekfun.ultimatelauncher.layoutsync.BackupActivity.ACTION_SAVE);
+                                    break;
+                                case "pref_ul_backup_restore":
+                                    com.qtekfun.ultimatelauncher.layoutsync.BackupActivity.launch(ctx,
+                                            com.qtekfun.ultimatelauncher.layoutsync.BackupActivity.ACTION_RESTORE);
+                                    break;
+                                default:
+                                    com.qtekfun.ultimatelauncher.layoutsync.BackupActivity.launchImport(ctx);
+                            }
+                            return true;
+                        });
+                    }
+>>>>>>> worktree-agent-aa2cb29b0c0dd16fc
                     return true;
                 case com.qtekfun.ultimatelauncher.grid.EdgeGrid.KEY: // UltimateLauncher 0120
                     // Solo tablet (lado corto >= 600 dp); al cambiar se reconstruye la rejilla tras guardar el valor.
