@@ -116,3 +116,16 @@ Quejas: «el dock está levantado, los iconos se ven pequeños». Causas y corre
 - Capturas y volcados: `private-measurements/huawei/` (home, página 2, recorte del dock, gestos). Medidas en `assets/themes/huawei-tablet-medido.json`.
 - Dock de Huawei: dos píldoras (6 apps fijas | asa arrastrable | últimas usadas, ahora 2) de 194 px de alto con iconos de 138 px; rejilla 7×5 con celdas de 322×271 px; iconos sin fondo propio (engranajes de Ajustes, terminal, etc.) se rellenan con una baldosa clara.
 - Petición del usuario: dock de tablet «como Huawei» con zona fija + zona de últimos usados (3–4) e iconos rellenos como los originales.
+
+## Estética cajón (agente) — 2026-10-05 (CPH2841, medido contra private-measurements/drawer.png y home.png)
+Parches 0020–0025 (ver `patches/README.md`); todos los valores salen de `assets/themes/oppo-medido.json` vía `tools/apply-theme-tokens.py`.
+- **Cajón a pantalla completa**: hoja desde y=0 sin esquinas ni asa; fondo = desenfoque de ventana (`blur behind`, 26 dp, apagado/encendido con el progreso del cajón; la base no enlazaba el estado de desenfoque, se consulta `isCrossWindowBlurEnabled()`) y velo negro de alfa 0,33 (medido: la media del borde del cajón es 0,65–0,68 de la del escritorio). Sin desenfoque: velo 0,6 (elección, no medida). Lista plana, sin categorías ni previstas; búsqueda local intacta («cal» devuelve Calendar y las dos Calculadoras).
+- **Columnas**: centros a x=185, 451, 717, 983, 1249 px = referencia (paso 266 px); primera fila con el icono a y=495 (OPPO 493); paso entre filas 400 px.
+- **Buscador abajo**: píldora en y=2914–3070, x desde 64 (OPPO 2914–3070, x desde 63), relleno blanco 12 %. Diferencia: OPPO deja un hueco a la derecha (botón redondo de colores); aquí la píldora es simétrica (1376 px de borde derecho vs 1152). Con el teclado, la píldora sube (parche 0025). La lista se recorta sobre la píldora (OPPO deja ver apenas el borde de la fila siguiente).
+- **Barra A–Z**: 24 letras (las presentes), paso 48 px (OPPO 48), de y=998 a 2130 (OPPO 998–2129), x=1387–1424 (OPPO 1386–1424), altura de mayúscula 29 px (OPPO 28), color gris 210 (OPPO 205). Siempre visible; el pulgar solo aparece al arrastrar. Se activó el flag `letter_fast_scroller` y el contenedor de letras pasó de ConstraintLayout a FrameLayout (con ConstraintLayout las letras salían de 0×0).
+- **Indicador con una página**: punto redondo de 22 px en y=2578–2599 (OPPO 23 px, 2577–2600), desplazado +23 px como en OPPO (centro x=743).
+- **Etiquetas**: «Calendar» mide 180×34 px aquí y 181×34 px en OPPO a 14,4 sp: sin diferencia medible, no se cambia `iconTextSize`. Peso y sombra no se miden con fiabilidad.
+- **Dock**: OPPO no pinta panel ni velo (iconos sobre el fondo); aquí tampoco: sin cambios. Guardado en el JSON.
+- **Carpeta abierta**: referencia medida en `folder.png` (sin tarjeta; fondo desenfocado a pantalla completa; título a y=782, fila de iconos a y=1084, paso 398 px). **NO aplicado**: sigue la tarjeta de AOSP; hacerlo exige una carpeta real para probar y no se crea una en el teléfono del usuario.
+- Verificación en el teléfono antes de commit: sin `FATAL EXCEPTION`; inicio, cajón, búsqueda, menú de pulsación larga y selector de widgets abren. No probados: carpeta, tema claro, horizontal, tablet, modo ahorro de batería (reserva sin desenfoque).
+

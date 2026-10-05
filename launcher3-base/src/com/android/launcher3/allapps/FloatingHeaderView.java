@@ -278,7 +278,7 @@ public class FloatingHeaderView extends LinearLayout implements
     private void updateExpectedHeight() {
         updateFloatingRowsHeight();
         mMaxTranslation = 0;
-        boolean shouldAddSearchBarHeight = mSearchBarOffset > 0 && !Flags.floatingSearchBar();
+        boolean shouldAddSearchBarHeight = false; // UltimateLauncher 0021: el buscador está abajo
         if (shouldAddSearchBarHeight) {
             mMaxTranslation += mSearchBarOffset;
         }
@@ -356,13 +356,20 @@ public class FloatingHeaderView extends LinearLayout implements
         mHeaderClip.top = clipTop;
         // clipping on a draw might cause additional redraw
         setClipBounds(mHeaderClip);
+        // UltimateLauncher 0021: la lista termina sobre el buscador (recorte inferior = relleno inferior)
         if (mMainRV != null) {
+            mRVClip.bottom = mMainRV.getHeight() > 0
+                    ? mMainRV.getHeight() - mMainRV.getPaddingBottom() : Integer.MAX_VALUE;
             mMainRV.setClipBounds(mRVClip);
         }
         if (mWorkRV != null) {
+            mRVClip.bottom = mWorkRV.getHeight() > 0
+                    ? mWorkRV.getHeight() - mWorkRV.getPaddingBottom() : Integer.MAX_VALUE;
             mWorkRV.setClipBounds(mRVClip);
         }
         if (mSearchRV != null) {
+            mRVClip.bottom = mSearchRV.getHeight() > 0
+                    ? mSearchRV.getHeight() - mSearchRV.getPaddingBottom() : Integer.MAX_VALUE;
             mSearchRV.setClipBounds(mRVClip);
         }
     }

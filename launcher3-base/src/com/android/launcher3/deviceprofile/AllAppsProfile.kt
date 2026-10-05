@@ -197,6 +197,9 @@ data class AllAppsProfile(
                             cellLayoutHorizontalPadding - (borderSpacePx.x / 2),
                     )
             }
+            if (!deviceProperties.isLargeScreen) {
+                leftAndRight = context.resources.getDimensionPixelSize(R.dimen.ul_drawer_side_padding) // UL 0022
+            }
             allAppsStyle.recycle()
             return Rect(
                 /* left */ leftAndRight,
