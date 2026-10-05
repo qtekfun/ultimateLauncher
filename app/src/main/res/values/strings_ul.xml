@@ -68,4 +68,6 @@
     <string name="ul_clock_preview_date">Mon, Oct 5</string>
     <string name="ul_clock_preview_weekday">Monday</string>
     <string name="ul_clock_preview_monthday">October 5</string>
+    <string name="ul_pref_edge_grid">Icons to the screen edge</string>
+    <string name="ul_pref_edge_grid_summary">Lets the home grid use the full width on tablets, with no side margins. Off keeps the measured Huawei margins.</string>
 </resources>

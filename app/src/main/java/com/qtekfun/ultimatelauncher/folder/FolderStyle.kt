@@ -100,6 +100,9 @@ object FolderStyle {
     /** Desenfoca lo que hay detrás de la ventana (el fondo de pantalla). Dos vías por si ColorOS ignora una. */
     private fun blur(l: Launcher, px: Int) {
         val w = l.window ?: return
+        softClose?.cancel()
+        softClose = null
+        blurNow = px
         w.setBackgroundBlurRadius(px)
         val a = w.attributes
         a.dimAmount = if (px > 0) DIM else 0f
@@ -123,7 +126,64 @@ object FolderStyle {
 
     @JvmStatic fun onClose(launcher: Launcher) {
         if (!enabled(launcher)) return
+        if (launcher.resources.configuration.smallestScreenWidthDp >= 600) {
+            closeSoft(launcher) // tablet (parche 0121)
+            return
+        }
         blur(launcher, 0)
         covered(launcher).forEach { ObjectAnimator.ofFloat(it, View.ALPHA, it.alpha, 1f).setDuration(FADE_MS).start() }
+    }
+
+    // ---- Tablet (parche 0121): cierre sin saltos ----------------------------------------------------------------------
+    // En el teléfono el desenfoque y el oscurecimiento se quitan de golpe al empezar el cierre. En la MatePad eso se veía
+    // como un salto del fondo (y cada cambio de WindowManager.LayoutParams fuerza un relayout de la ventana, que tiraba
+    // un fotograma justo al arrancar la animación). Además onClose se llamaba dos veces (inicio de animateClosed y
+    // closeComplete), con un segundo relayout al final. Aquí: idempotente, el radio de desenfoque baja por fotograma
+    // (setBackgroundBlurRadius no hace relayout), el oscurecimiento baja en pocos pasos y los indicadores de la ventana
+    // se quitan una sola vez, antes de que termine la animación de la carpeta (200 ms).
+
+    private const val SOFT_CLOSE_MS = 170L
+    private const val DIM_STEPS = 5
+    @Volatile private var blurNow = 0
+    private var softClose: android.animation.ValueAnimator? = null
+
+    private fun closeSoft(l: Launcher) {
+        val w = l.window ?: return
+        if (softClose != null) return // el cierre suave ya está en marcha
+        if (blurNow == 0) return // ya cerrado: no repetir relayout ni fundidos
+        covered(l).forEach { ObjectAnimator.ofFloat(it, View.ALPHA, it.alpha, 1f).setDuration(FADE_MS).start() }
+        val startBlur = blurNow
+        var lastStep = -1
+        val va = android.animation.ValueAnimator.ofFloat(1f, 0f).setDuration(SOFT_CLOSE_MS)
+        va.interpolator = android.view.animation.LinearInterpolator()
+        va.addUpdateListener { anim ->
+            val f = anim.animatedValue as Float
+            w.setBackgroundBlurRadius((startBlur * f).toInt())
+            val step = Math.round(f * DIM_STEPS)
+            if (step != lastStep) { // pocos cambios de atributos de ventana (cada uno es un relayout)
+                lastStep = step
+                val a = w.attributes
+                a.dimAmount = DIM * step / DIM_STEPS
+                a.blurBehindRadius = (startBlur * step / DIM_STEPS)
+                w.attributes = a
+            }
+        }
+        va.addListener(object : android.animation.AnimatorListenerAdapter() {
+            private var cancelled = false
+            override fun onAnimationCancel(animation: android.animation.Animator) { cancelled = true }
+            override fun onAnimationEnd(animation: android.animation.Animator) {
+                if (cancelled) return
+                softClose = null
+                blurNow = 0
+                w.setBackgroundBlurRadius(0)
+                val a = w.attributes
+                a.dimAmount = 0f
+                a.blurBehindRadius = 0
+                w.attributes = a
+                w.clearFlags(android.view.WindowManager.LayoutParams.FLAG_BLUR_BEHIND or android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            }
+        })
+        softClose = va
+        va.start()
     }
 }

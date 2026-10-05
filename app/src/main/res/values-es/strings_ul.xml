@@ -68,4 +68,6 @@
     <string name="ul_clock_preview_date">lun, 5 oct</string>
     <string name="ul_clock_preview_weekday">lunes</string>
     <string name="ul_clock_preview_monthday">5 de octubre</string>
+    <string name="ul_pref_edge_grid">Iconos hasta el borde</string>
+    <string name="ul_pref_edge_grid_summary">En tablet, la rejilla del escritorio usa todo el ancho, sin márgenes laterales. Apagado mantiene los márgenes medidos de Huawei.</string>
 </resources>

@@ -325,6 +325,7 @@ object WorkspaceProfileNonResponsiveFactory {
         deviceProperties: DeviceProperties,
         isSeascape: Boolean,
         hotseatProfile: HotseatProfileInitialValues,
+        edgeToEdge: Boolean = false, // UL 0120
     ): WorkspaceProfile {
         val cellLayoutBorderSpacePx =
             Point(
@@ -335,6 +336,7 @@ object WorkspaceProfileNonResponsiveFactory {
         val desiredWorkspaceHorizontalMarginOriginalPx =
             when {
                 isVerticalLayout -> 0
+                edgeToEdge -> 0 // UL 0120: iconos hasta el borde
                 else -> pxFromDp(inv.horizontalMargin[typeIndex], metrics)
             }
         var iconTextSizePx = iconTextSizePxParam
@@ -344,6 +346,15 @@ object WorkspaceProfileNonResponsiveFactory {
                     iconScale)
                 .toInt()
         var cellWidthPx = pxFromDp(inv.minCellSize.get(typeIndex).x, metrics, scale)
+        if (edgeToEdge) { // UL 0120: las columnas reparten todo el ancho disponible
+            cellWidthPx =
+                com.qtekfun.ultimatelauncher.grid.EdgeGrid.cellWidthPx(
+                    deviceProperties.availableWidthPx,
+                    panelCount,
+                    inv.numColumns,
+                    cellLayoutBorderSpacePx.x,
+                )
+        }
         var cellHeightPx = pxFromDp(inv.minCellSize.get(typeIndex).y, metrics, scale)
 
         if (cellWidthPx < iconSizePx) {
@@ -519,6 +530,7 @@ object WorkspaceProfileNonResponsiveFactory {
         isFirstPass: Boolean,
         isSeascape: Boolean,
         hotseatProfile: HotseatProfileInitialValues,
+        edgeToEdge: Boolean = false, // UL 0120
     ): WorkspaceProfile {
         // Icon scale should never exceed 1, otherwise pixellation may occur.
         val iconScale = min(1f, scale)
@@ -556,6 +568,7 @@ object WorkspaceProfileNonResponsiveFactory {
                         isSeascape = isSeascape,
                         hotseatProfile = hotseatProfile,
                         deviceProperties = deviceProperties,
+                        edgeToEdge = edgeToEdge && !isVerticalLayout, // UL 0120
                     )
                     .let { hideWorkspaceLabelsIfNotEnoughSpace(isVerticalLayout, it, inv) }
 
@@ -596,6 +609,15 @@ object WorkspaceProfileNonResponsiveFactory {
         isSeascape: Boolean,
         hotseatProfile: HotseatProfileInitialValues,
     ): WorkspaceProfile {
+        // UL 0120: «Iconos hasta el borde» (solo tablet, rejilla escalable); la escala sale del perfil normal.
+        val edgeToEdge =
+            isScalableGrid &&
+                com.qtekfun.ultimatelauncher.grid.EdgeGrid.enabled(context) &&
+                com.qtekfun.ultimatelauncher.grid.EdgeGrid.eligible(
+                    min(deviceProperties.widthPx, deviceProperties.heightPx) / metrics.density,
+                    deviceProperties.isTwoPanels,
+                    isVerticalLayout,
+                )
         var workspaceProfile =
             internalCreateWorkspaceProfileNonResponsive(
                 context = context,
@@ -653,6 +675,7 @@ object WorkspaceProfileNonResponsiveFactory {
                     isFirstPass = isFirstPass,
                     isSeascape = isSeascape,
                     hotseatProfile = hotseatProfile,
+                    edgeToEdge = edgeToEdge, // UL 0120
                 )
             extraHeight =
                 max(0, (maxHeight - workspaceProfile.cellLayoutHeightSpecification)).toFloat()
