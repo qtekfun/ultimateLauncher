@@ -73,7 +73,7 @@ object FolderStyle {
 
     /** Fondo de la carpeta cerrada: cristal claro, como el de OPPO/iOS, en lugar del azul oscuro del tema. */
     @JvmStatic fun closedIconColor(context: Context, themeColor: Int): Int =
-        if (enabled(context)) 0x4D808080 else themeColor
+        if (enabled(context)) 0xB3C0B6A6.toInt() else themeColor
 
     @JvmStatic fun transparentCard(context: Context): Boolean = enabled(context)
 
