@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icono propio de «Ampliar carpeta»: cuatro flechas hacia las esquinas. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="20dp"
+    android:height="20dp"
+    android:viewportHeight="24.0"
+    android:viewportWidth="24.0"
+    android:tint="@color/materialColorOnSurface">
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M4,4h6v2H7.41l3.3,3.29l-1.42,1.42L6,7.41V10H4V4zM20,4v6h-2V7.41l-3.29,3.3l-1.42,-1.42L16.59,6H14V4h6zM4,20v-6h2v2.59l3.29,-3.3l1.42,1.42L7.41,18H10v2H4zM20,20h-6v-2h2.59l-3.3,-3.29l1.42,-1.42L18,16.59V14h2v6z" />
+</vector>

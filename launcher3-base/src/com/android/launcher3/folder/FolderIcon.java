@@ -150,6 +150,7 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
     private Animator mDotScaleAnim;
 
     private Rect mTouchArea = new Rect();
+    private final Rect mUlTileBounds = new Rect(); // UltimateLauncher 0141
 
     private float mScaleForReorderBounce = 1f;
 
@@ -294,7 +295,9 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
         CellLayoutLayoutParams lp = (CellLayoutLayoutParams) getLayoutParams();
         CellLayout cl = (CellLayout) getParent().getParent();
 
-        mBackground.animateToAccept(cl, lp.getCellX(), lp.getCellY());
+        if (!com.qtekfun.ultimatelauncher.folder.FolderExpand.isExpanded(this)) { // UltimateLauncher 0141
+            mBackground.animateToAccept(cl, lp.getCellX(), lp.getCellY());
+        }
         mOpenAlarm.setOnAlarmListener(mOnOpenListener);
         if (SPRING_LOADING_ENABLED &&
                 ((dragInfo instanceof WorkspaceItemFactory)
@@ -626,7 +629,12 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
 
         if (mCurrentPreviewItems.isEmpty() && !mAnimating) return;
 
-        mPreviewItemManager.draw(canvas);
+        if (com.qtekfun.ultimatelauncher.folder.FolderExpand.isExpanded(this)) { // UltimateLauncher 0141
+            mBackground.getBounds(mUlTileBounds);
+            com.qtekfun.ultimatelauncher.folder.FolderExpand.drawIcons(this, canvas, mUlTileBounds);
+        } else {
+            mPreviewItemManager.draw(canvas);
+        }
 
         if (!mBackground.drawingDelegated()) {
             mBackground.drawBackgroundStroke(canvas);
@@ -647,6 +655,7 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
 
             float iconScale = (float) mBackground.previewSize / iconSize;
             Utilities.scaleRectAboutCenter(iconBounds, iconScale);
+            com.qtekfun.ultimatelauncher.folder.FolderExpand.dotBounds(this, iconBounds); // UltimateLauncher 0141
 
             // If we are animating to the accepting state, animate the dot out.
             mDotParams.scale = Math.max(0, mDotScale - mBackground.getAcceptScaleProgress());
@@ -656,6 +665,7 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        com.qtekfun.ultimatelauncher.folder.FolderExpand.layoutLabel(this, widthMeasureSpec, heightMeasureSpec); // UltimateLauncher 0141
         boolean shouldCenterIcon = mActivity.getDeviceProfile().getWorkspaceProfile()
                 .getIconCenterVertically();
         if (shouldCenterIcon) {
@@ -707,10 +717,12 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
      * Updates the preview items which match the provided condition
      */
     public void updatePreviewItems(Predicate<ItemInfo> itemCheck) {
+        com.qtekfun.ultimatelauncher.folder.FolderExpand.invalidateIcons(this); // UltimateLauncher 0141 (icono actualizado)
         mPreviewItemManager.updatePreviewItems(itemCheck);
     }
 
     public void onItemsChanged(boolean animate) {
+        com.qtekfun.ultimatelauncher.folder.FolderExpand.invalidateIcons(this); // UltimateLauncher 0141
         updatePreviewItems(false);
         updateDotInfo();
         setContentDescription(getAccessiblityTitle(mInfo.title));
@@ -726,6 +738,7 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        com.qtekfun.ultimatelauncher.folder.FolderExpand.recordTouch(this, event); // UltimateLauncher 0141
         return onDelegateTouchEvent(event);
     }
 

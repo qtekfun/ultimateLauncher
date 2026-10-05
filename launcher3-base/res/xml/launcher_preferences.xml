@@ -101,6 +101,14 @@
         android:defaultValue="true"
         android:persistent="true" />
 
+    <!-- UltimateLauncher 0143 -->
+    <SwitchPreference
+        android:key="pref_ul_folder_expand"
+        android:title="@string/ul_pref_folder_expand"
+        android:summary="@string/ul_pref_folder_expand_summary"
+        android:defaultValue="true"
+        android:persistent="true" />
+
     <!-- UltimateLauncher 0061 -->
     <SwitchPreference
         android:key="pref_ul_allow_rotation"

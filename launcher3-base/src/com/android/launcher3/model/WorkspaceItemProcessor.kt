@@ -491,8 +491,13 @@ class WorkspaceItemProcessor(
         c.applyCommonProperties(collection)
         // Do not trim the folder label, as is was set by the user.
         collection.title = c.title
-        collection.spanX = 1
-        collection.spanY = 1
+        // UltimateLauncher 0140: una carpeta puede estar ampliada a 2x2 (el tamaño guardado se valida)
+        val ulSpan = if (collection is FolderInfo) {
+            com.qtekfun.ultimatelauncher.folder.FolderExpand.loadedSpan(
+                c.spanX, c.spanY, c.cellX, c.cellY, c.container, idp.numColumns, idp.numRows)
+        } else 1
+        collection.spanX = ulSpan
+        collection.spanY = ulSpan
         if (collection is FolderInfo) {
             collection.options = c.options
         } else {
