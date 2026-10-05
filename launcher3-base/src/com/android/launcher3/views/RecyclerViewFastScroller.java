@@ -367,7 +367,7 @@ public class RecyclerViewFastScroller extends View {
         if (!shouldUseLetterFastScroller()) {
             return;
         }
-        ConstraintLayout mLetterList = mRv.getLetterList();
+        android.widget.FrameLayout mLetterList = mRv.getLetterList(); // UL 0023
         for (int i = 0; i < mLetterList.getChildCount(); i++) {
             LetterListTextView currentLetter = (LetterListTextView) mLetterList.getChildAt(i);
             currentLetter.animateBasedOnYPosition(y + mTouchOffsetY);
@@ -420,7 +420,9 @@ public class RecyclerViewFastScroller extends View {
         if (useLetterFastScroller) {
             mThumbPaint.setColor(mThumbLetterScrollerColor);
             mThumbBounds.set(0, 0, 0, mThumbHeight);
-            canvas.drawCircle(-halfW, halfW, r * 2, mThumbPaint);
+            if (mIsDragging) { // UL 0023: en reposo no se ve el pulgar
+                canvas.drawCircle(-halfW, halfW, r * 2, mThumbPaint);
+            }
         } else {
             mThumbPaint.setColor(mThumbColor);
             mThumbBounds.set(-halfW, 0, halfW, mThumbHeight);
@@ -496,7 +498,7 @@ public class RecyclerViewFastScroller extends View {
         if (mPopupVisible != visible) {
             mPopupVisible = visible;
             if (shouldUseLetterFastScroller()) {
-                mRv.getLetterList().animate().alpha(visible ? 1f : 0f)
+                mRv.getLetterList().animate().alpha(1f) // UL 0023: siempre visibles
                         .setDuration(visible ? 200 : 150).start();
             } else {
                 mPopupView.animate().cancel();

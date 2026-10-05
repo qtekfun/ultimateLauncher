@@ -560,6 +560,12 @@ public class PageIndicatorDots extends View implements Insettable, PageIndicator
                         invalidateOutline();
                     }
                 }
+                if (mNumPages == 1) { // UltimateLauncher 0024: punto redondo con una sola página
+                    float ulCx = (sTempRect.left + sTempRect.right) / 2
+                            + getResources().getDimension(R.dimen.ul_page_indicator_single_dx);
+                    sTempRect.left = ulCx - mDotRadius;
+                    sTempRect.right = ulCx + mDotRadius;
+                }
                 canvas.drawRoundRect(sTempRect, mDotRadius, mDotRadius, mPaginationPaint);
 
                 sTempRect.left = x;

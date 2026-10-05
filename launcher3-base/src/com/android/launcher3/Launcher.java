@@ -2517,7 +2517,31 @@ public class Launcher extends StatefulActivity<LauncherState>
      * @param progress Transition progress from 0 to 1; where 0 => home and 1 => all apps.
      */
     public void onAllAppsTransition(float progress) {
-        // No-Op
+        // UltimateLauncher 0020: desenfoque de lo que hay detrás de la ventana (el fondo de pantalla),
+        // proporcional al progreso del cajón y cuantizado en 6 pasos para no redimensionar la ventana en cada fotograma.
+        int max = getResources().getDimensionPixelSize(R.dimen.ul_drawer_blur_radius);
+        int radius = isAllAppsBackgroundBlurEnabled()
+                ? Math.round(Math.round(Math.min(1f, Math.max(0f, progress)) * 6) / 6f * max) : 0;
+        if (radius != mUlBlurRadius) {
+            mUlBlurRadius = radius;
+            LayoutParams lp = getWindow().getAttributes();
+            lp.setBlurBehindRadius(radius);
+            if (radius > 0) {
+                lp.flags |= LayoutParams.FLAG_BLUR_BEHIND;
+            } else {
+                lp.flags &= ~LayoutParams.FLAG_BLUR_BEHIND;
+            }
+            getWindow().setAttributes(lp);
+        }
+    }
+
+    private int mUlBlurRadius = 0;
+
+    /** UltimateLauncher 0020: la base no enlaza el estado de desenfoque; se consulta el sistema. */
+    @Override
+    public boolean isAllAppsBackgroundBlurEnabled() {
+        android.view.WindowManager wm = getSystemService(android.view.WindowManager.class);
+        return wm != null && wm.isCrossWindowBlurEnabled();
     }
 
     /** @return list of View targets to be blurred based on changes to depth. */

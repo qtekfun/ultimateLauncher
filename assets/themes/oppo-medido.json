@@ -1,124 +1,191 @@
 {
-  "id": "oppo-medido",
-  "version": 1,
-  "source": {
-    "device": "OPPO CPH2841",
-    "os": "ColorOS V16.1.0",
-    "androidApi": 36,
-    "date": "2026-10-04",
-    "screenPx": "1440x3168",
-    "densityDpi": 560,
-    "densityNote": "override de usuario; física 640",
-    "themeMode": "oscuro (ajuste del usuario, no se cambió)",
-    "method": "uiautomator dump (bounds) + capturas; dp = px/3.5"
-  },
-  "classes": {
-    "phone": {
-      "grid": {
-        "columns": 5,
-        "rows": 7,
-        "dockColumns": 5
-      },
-      "icon": {
-        "sizeDp": 57.1,
-        "shape": "rounded",
-        "cornerRadiusRatio": null,
-        "labelSizeSp": null,
-        "labelLines": 1
-      },
-      "cell": {
-        "widthDp": 77.7,
-        "heightDp": 86.9,
-        "workspaceTopInsetDp": 85.1
-      },
-      "dock": {
-        "heightDp": 89.1,
-        "cornerRadiusDp": null,
-        "background": null,
-        "blurRadiusDp": null,
-        "scrimAlpha": null
-      },
-      "drawer": {
-        "columns": 5,
-        "cellWidthDp": 76.3,
-        "cellHeightDp": 114.3,
-        "sidePaddingDp": 14.9,
-        "background": null,
-        "blurRadiusDp": null,
-        "scrimAlpha": null,
-        "searchBar": "bottom",
-        "searchBarHeightDp": 80.0,
-        "scrollbar": null,
-        "borderSpaceDp": 0,
-        "note": "Paso vertical medido entre filas = 400 px = cellHeight; sin separación extra."
-      },
-      "folder": {
-        "previewGrid": null,
-        "columns": 3,
-        "cellWidthDp": 114.3,
-        "cellHeightDp": 113.1,
-        "panelWidthDp": 365.7,
-        "cornerRadiusDp": null,
-        "openStyle": null,
-        "background": null
-      },
-      "pageIndicator": {
-        "style": "dots",
-        "sizeDp": null,
-        "centerYPx": 2589,
-        "note": "Medido en la referencia: el punto está centrado en y=2589 px y se muestra con una sola página."
-      },
-      "workspace": {
-        "areaTopPx": 298,
-        "areaBottomPx": 2426,
-        "dockIconTopPx": 2808,
-        "dockIconBottomPx": 3008,
-        "iconVisiblePx": 200,
-        "note": "Medido con uiautomator y píxeles de captura en el CPH2841 (1440x3168, 560 dpi)."
-      },
-      "calibration": {
-        "launcherVisibleRatio": 0.915,
-        "workspaceTopPaddingDp": 28.6,
-        "workspaceBottomPaddingDp": 25.4,
-        "note": "Calibración de ESTE launcher frente a la referencia: el icono visible de Launcher3 mide 183 px con iconImageSize=57,1 dp (ratio 0,915), y el área de iconos empezaba 100 px antes y acababa 110 px después que en OPPO. Se corrige con iconImageSize/ratio y márgenes. Valores iterados con tools/apply-theme-tokens.py y capturas.",
-        "workspaceSideMarginDp": 11.0,
-        "pageIndicatorLiftDp": 43.1,
-        "allAppsVisibleRatio": 0.845
-      }
+ "id": "oppo-medido",
+ "version": 1,
+ "source": {
+  "device": "OPPO CPH2841",
+  "os": "ColorOS V16.1.0",
+  "androidApi": 36,
+  "date": "2026-10-04",
+  "screenPx": "1440x3168",
+  "densityDpi": 560,
+  "densityNote": "override de usuario; física 640",
+  "themeMode": "oscuro (ajuste del usuario, no se cambió)",
+  "method": "uiautomator dump (bounds) + capturas; dp = px/3.5"
+ },
+ "classes": {
+  "phone": {
+   "grid": {
+    "columns": 5,
+    "rows": 7,
+    "dockColumns": 5
+   },
+   "icon": {
+    "sizeDp": 57.1,
+    "shape": "rounded",
+    "cornerRadiusRatio": null,
+    "labelSizeSp": null,
+    "labelLines": 1
+   },
+   "cell": {
+    "widthDp": 77.7,
+    "heightDp": 86.9,
+    "workspaceTopInsetDp": 85.1
+   },
+   "dock": {
+    "heightDp": 89.1,
+    "cornerRadiusDp": null,
+    "background": "none",
+    "blurRadiusDp": null,
+    "scrimAlpha": null,
+    "note": "Sin panel ni velo: los iconos van directamente sobre el fondo de pantalla (home.png). Sin desenfoque medible."
+   },
+   "drawer": {
+    "columns": 5,
+    "cellWidthDp": 76.3,
+    "cellHeightDp": 114.3,
+    "sidePaddingDp": 14.9,
+    "background": "blur",
+    "blurRadiusDp": null,
+    "scrimAlpha": 0.33,
+    "searchBar": "bottom",
+    "searchBarHeightDp": 45.2,
+    "scrollbar": "alphabet",
+    "borderSpaceDp": 0,
+    "note": "Paso vertical medido entre filas = 400 px = cellHeight; sin separación extra.",
+    "scrimColor": "#000000",
+    "fullScreen": true,
+    "cornerRadiusDp": 0,
+    "handle": false,
+    "searchBarSideMarginDp": 18.0,
+    "searchBarBottomGapDp": 11.5,
+    "searchBarPillPx": {
+     "x0": 63,
+     "x1": 1152,
+     "y0": 2914,
+     "y1": 3070
     },
-    "phone-landscape": {
-      "grid": null,
-      "icon": null,
-      "dock": null,
-      "drawer": null,
-      "folder": null,
-      "pageIndicator": null
+    "alphabetStrip": {
+     "xCenterPx": 1405,
+     "yTopPx": 998,
+     "yBottomPx": 2129,
+     "pitchPx": 48,
+     "letters": 24,
+     "capHeightPx": 28,
+     "textGray": 205,
+     "textAlpha": 0.6,
+     "note": "Letras A-Y (solo las presentes), siempre visibles, sin pista ni pulgar en reposo. Tamaño de letra ~11,2 sp deducido de la altura de mayúscula (28 px = 0,71 em).",
+     "endMarginPx": 46,
+     "endMarginNote": "Margen respecto al borde derecho del contenedor de letras de Launcher3, que sobresale 35 px de la pantalla (fastscroll_list_letter_end_margin -10 dp): letra centrada a 1405 px.",
+     "rowTopPx": 984,
+     "rowTopNote": "La primera fila empieza 14 px por encima de la primera letra (glifo centrado en filas de 48 px)."
     },
-    "tablet": {
-      "grid": null,
-      "icon": null,
-      "dock": null,
-      "drawer": null,
-      "folder": null,
-      "pageIndicator": null
+    "note2": "Velo: media del borde izquierdo 0,65-0,68 de la del fondo del escritorio (home.png) => negro con alfa ~0,33 sobre fondo muy desenfocado. Radio de desenfoque: no medible con fiabilidad (null).",
+    "topGapDp": 50.6,
+    "firstRowIconTopPx": 493,
+    "searchBarFill": {
+     "color": "#FFFFFF",
+     "alpha": 0.12,
+     "strokeAlpha": 0.1,
+     "note": "Relleno medido: gris 146-155 sobre fondo 140-142 (blanco ~12 %); borde 1 dp algo más claro."
     },
-    "tablet-landscape": {
-      "grid": null,
-      "icon": null,
-      "dock": null,
-      "drawer": null,
-      "folder": null,
-      "pageIndicator": null
-    }
+    "searchBarHintAlpha": 0.6
+   },
+   "folder": {
+    "previewGrid": null,
+    "columns": 3,
+    "cellWidthDp": 114.3,
+    "cellHeightDp": 113.1,
+    "panelWidthDp": 365.7,
+    "cornerRadiusDp": null,
+    "openStyle": "pantalla completa con fondo desenfocado",
+    "background": "blur",
+    "panel": "ninguno (sin tarjeta redondeada)",
+    "reference": {
+     "titleCenterYPx": 782,
+     "iconRowTopPx": 1084,
+     "labelCenterYPx": 1340,
+     "iconPitchPx": 398,
+     "iconPx": 199,
+     "source": "folder.png (carpeta de 3 apps, OPPO)"
+    },
+    "ultimateStatus": "NO aplicado: sigue la tarjeta de AOSP. Requiere una carpeta real para probar y no se crea una en el teléfono del usuario."
+   },
+   "pageIndicator": {
+    "style": "dots",
+    "sizeDp": 6.7,
+    "centerYPx": 2589,
+    "note": "Medido en la referencia: el punto está centrado en y=2589 px y se muestra con una sola página.",
+    "diameterPx": 23.5,
+    "centerXPx": 743,
+    "shape": "dot (circulo) con una pagina"
+   },
+   "workspace": {
+    "areaTopPx": 298,
+    "areaBottomPx": 2426,
+    "dockIconTopPx": 2808,
+    "dockIconBottomPx": 3008,
+    "iconVisiblePx": 200,
+    "note": "Medido con uiautomator y píxeles de captura en el CPH2841 (1440x3168, 560 dpi)."
+   },
+   "calibration": {
+    "launcherVisibleRatio": 0.915,
+    "workspaceTopPaddingDp": 28.6,
+    "workspaceBottomPaddingDp": 25.4,
+    "note": "Calibración de ESTE launcher frente a la referencia: el icono visible de Launcher3 mide 183 px con iconImageSize=57,1 dp (ratio 0,915), y el área de iconos empezaba 100 px antes y acababa 110 px después que en OPPO. Se corrige con iconImageSize/ratio y márgenes. Valores iterados con tools/apply-theme-tokens.py y capturas.",
+    "workspaceSideMarginDp": 11.0,
+    "pageIndicatorLiftDp": 43.1,
+    "allAppsVisibleRatio": 0.845,
+    "drawerBlurRadiusDp": 26.0,
+    "drawerFallbackScrimAlpha": 0.6,
+    "drawerCalibrationNote": "Valores de ESTE launcher (elección visual comparada con compare-drawer.png), no medidos en OPPO: radio de desenfoque y alfa del velo cuando no hay desenfoque del sistema.",
+    "labelComparison": {
+     "label": "Calendar",
+     "oppoPx": {
+      "width": 181,
+      "height": 34
+     },
+     "ultimatePx": {
+      "width": 180,
+      "height": 34
+     },
+     "note": "Medido en cajón (drawer.png vs captura propia, 14,4 sp): diferencia de 1 px de ancho y 0 de alto; no se cambia iconTextSize. Peso/sombra: no medibles con fiabilidad (apariencia equivalente a simple vista)."
+    },
+    "labelEquivalentSp": 14.4
+   }
   },
-  "wallpaper": {
-    "scrollEffect": null,
-    "depth": null
+  "phone-landscape": {
+   "grid": null,
+   "icon": null,
+   "dock": null,
+   "drawer": null,
+   "folder": null,
+   "pageIndicator": null
   },
-  "notes": [
-    "Solo medido móvil en vertical y tema oscuro. Tema claro, horizontal y tablet: null (no se cambiaron ajustes del teléfono ni hay tablet).",
-    "Radios de esquina, tamaño de etiqueta, desenfoque, scrim y estilo de carpeta/dock/cajón: no medibles con fiabilidad desde bounds; null (requieren análisis de capturas).",
-    "Unidades dp calculadas con densidad 560 dpi (override activo en el dispositivo).",
-    "Cajón: el primer bloque de 432 px de la lista es cabecera; el buscador del cajón está abajo (rect 0,2888-1440,3168)."
-  ]
+  "tablet": {
+   "grid": null,
+   "icon": null,
+   "dock": null,
+   "drawer": null,
+   "folder": null,
+   "pageIndicator": null
+  },
+  "tablet-landscape": {
+   "grid": null,
+   "icon": null,
+   "dock": null,
+   "drawer": null,
+   "folder": null,
+   "pageIndicator": null
+  }
+ },
+ "wallpaper": {
+  "scrollEffect": null,
+  "depth": null
+ },
+ "notes": [
+  "Solo medido móvil en vertical y tema oscuro. Tema claro, horizontal y tablet: null (no se cambiaron ajustes del teléfono ni hay tablet).",
+  "Radios de esquina, tamaño de etiqueta, desenfoque, scrim y estilo de carpeta/dock/cajón: no medibles con fiabilidad desde bounds; null (requieren análisis de capturas).",
+  "Unidades dp calculadas con densidad 560 dpi (override activo en el dispositivo).",
+  "Cajón: el primer bloque de 432 px de la lista es cabecera; el buscador del cajón está abajo (rect 0,2888-1440,3168)."
+ ]
 }
