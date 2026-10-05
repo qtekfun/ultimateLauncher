@@ -26,6 +26,11 @@ object BackupPrefs {
         "pref_ul_folder_expand" to Kind.BOOL,       // 0143
         "pref_ul_allow_rotation" to Kind.BOOL,      // 0061
         "pref_ul_edge_grid" to Kind.BOOL,           // 0120
+        "pref_ul_swipe_down" to Kind.BOOL,          // 0180
+        "pref_ul_swipe_split" to Kind.BOOL,
+        "pref_ul_swipe_swap" to Kind.BOOL,
+        "pref_ul_icon_pack" to Kind.STRING,         // 0171 (paquete elegido; la lista de apps ocultas NO se copia: es sensible)
+        "pref_ul_icon_pack_back" to Kind.BOOL,
     )
 
     /** Filtra un mapa crudo (de SharedPreferences.getAll() o de JSON): conserva solo claves conocidas con el tipo correcto. */

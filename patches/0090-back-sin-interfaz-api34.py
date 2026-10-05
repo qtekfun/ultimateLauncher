@@ -26,6 +26,7 @@ new = """    public void onBackPressed() {
     }
 
     /** UltimateLauncher 0090: ATRAS sin la interfaz OnBackAnimationCallback (stub vacio de D8 en API < 34). */
+    @android.annotation.SuppressLint("NewApi") // canHandleBack es de nuestra interfaz; solo se usa por reflexión en API < 34
     private void onBackPressedPreU() {
         if (isInAutoCancelActionMode()) {
             finishAutoCancelActionMode();
