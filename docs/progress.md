@@ -223,3 +223,4 @@ Parches 0020–0025 (ver `patches/README.md`); todos los valores salen de `asset
 
 ### Título de la carpeta abierta al estilo iOS (2026-10-05)
 - Título 1,35× más grande y en negrita; separación título-iconos reducida (−16 dp sobre el relleno por defecto, ≈ 77 px del texto a la fila de iconos) en lugar de los +20 dp de la referencia de OPPO, que el usuario encontró «fea». `FolderStyle.TITLE_SCALE` y `TITLE_GAP_DP`.
+- Ajuste posterior: título 1,35× era desproporcionado frente a los iconos (≈22 sp con etiquetas de 14,4 sp). Ahora 1,1× la etiqueta (≈18 sp) en negrita real; el peso 600 de fuente variable no lo aplica el tipo de letra del sistema de ColorOS, por eso negrita. Regla: jerarquía discreta, título ≈ 1,1–1,25× la etiqueta, mismo cuerpo de letra que los iconos.

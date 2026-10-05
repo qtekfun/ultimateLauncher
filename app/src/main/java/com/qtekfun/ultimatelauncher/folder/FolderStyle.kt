@@ -22,8 +22,8 @@ object FolderStyle {
     private const val TITLE_CENTER_Y = 0.247f
     /** Ajuste de la separación título-iconos, en dp (negativo = más juntos, estilo iOS). */
     private const val TITLE_GAP_DP = -16f
-    /** Título más grande y en negrita (estilo iOS). */
-    private const val TITLE_SCALE = 1.35f
+    /** Jerarquía discreta estilo iOS: título ≈ 1,1× la etiqueta de los iconos, en negrita. */
+    private const val TITLE_SCALE = 1.1f
     private const val BOTTOM_MARGIN_DP = 16f
     private const val TOP_MARGIN_DP = 24f
 
@@ -49,7 +49,7 @@ object FolderStyle {
                 c.paddingRight, c.paddingBottom)
         }
         name.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, name.textSize * TITLE_SCALE)
-        name.setTypeface(name.typeface, android.graphics.Typeface.BOLD)
+        name.setTypeface(android.graphics.Typeface.create(android.graphics.Typeface.DEFAULT, android.graphics.Typeface.BOLD))
         name.setTextColor(Color.WHITE)
         name.setHintTextColor(0xB3FFFFFF.toInt())
     }
