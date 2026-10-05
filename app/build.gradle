@@ -46,10 +46,23 @@ android {
         ]
     }
 
+    // Clave de publicación: SOLO por variables de entorno (la inyecta el workflow de release desde los secretos del repo).
+    // Sin ellas —local y CI normal— se firma con la clave de depuración. Ver docs/release-signing.md.
+    def ulKeystoreFile = System.getenv('UL_KEYSTORE_FILE')
+    signingConfigs {
+        if (ulKeystoreFile) {
+            release {
+                storeFile file(ulKeystoreFile)
+                storePassword System.getenv('UL_KEYSTORE_PASSWORD')
+                keyAlias System.getenv('UL_KEY_ALIAS')
+                keyPassword System.getenv('UL_KEY_PASSWORD')
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // Para pruebas locales se firma con la clave de depuración. La clave de release propia va fuera del repo (docs/03).
-            signingConfig signingConfigs.debug
+            signingConfig ulKeystoreFile ? signingConfigs.release : signingConfigs.debug
             // R8 (reducción de código): ENCENDIDO por defecto (66 MB -> 10,5 MB; humo funcional probado en el CPH2841).
             // Para desactivarlo: ./gradlew -Pul.minify=false :app:assembleDefaultRelease.
             // Ver docs/arranque-en-frio.md y app/proguard-rules.pro.
