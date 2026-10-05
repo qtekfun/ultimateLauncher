@@ -418,3 +418,6 @@ Hecho SOLO por código y pruebas unitarias: la MatePad estaba desconectada y el 
 13. Resaltado: desde el menú del asa, «Ajustes del dock» desplaza y resalta «Fondo del dock de tablet» aunque ahora esté dentro de una categoría (el código de AOSP busca el padre solo en el primer nivel: si no resalta, es un fallo menor).
 14. Rotación y modo multiventana en tablet: el dock sigue compactado y centrado.
 
+
+### Icono propio (parche 0210, 2026-10-05)
+- Icono adaptable con el estilo del resto de apps Ultimate (fondo liso índigo #4F46E5, formas blancas redondeadas dentro de la zona segura, capa monocroma): rejilla de apps 2x2 cuya última casilla es una carpeta con cuatro huecos. Sustituye al de Launcher3 de AOSP (F-Droid lo pide en los forks). `fastlane/metadata/android/{en-US,es-ES}/images/icon.png` (512x512) con la misma geometría.
