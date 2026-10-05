@@ -23,4 +23,13 @@ class OemAdapterSelectionTest {
 
     @Test fun helpTextFallsBackToEnglish() =
         assertTrue(GenericAdapter().defaultLauncherHelp().forLang("fr").startsWith("Open Settings"))
+
+    @Test fun otherFamiliesAreSelected() {
+        assertEquals("vivo", OemAdapters.select(DeviceInfo("vivo", "vivo")).id)
+        assertEquals("vivo", OemAdapters.select(DeviceInfo("vivo", "iQOO")).id)
+        assertEquals("hyperos", OemAdapters.select(DeviceInfo("Xiaomi", "Redmi")).id)
+        assertEquals("hyperos", OemAdapters.select(DeviceInfo("Xiaomi", "POCO")).id)
+        assertEquals("magicos", OemAdapters.select(DeviceInfo("HONOR", "HONOR")).id)
+        assertEquals("magicos", OemAdapters.select(DeviceInfo("HUAWEI", "HUAWEI")).id)
+    }
 }

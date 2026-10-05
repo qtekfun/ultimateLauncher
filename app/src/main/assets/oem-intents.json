@@ -2,14 +2,77 @@
   "_nota": "Rutas candidatas por familia de ROM. 'verified' indica si se comprobó con cmd package resolve-activity en un dispositivo real (docs/05). Ninguna ruta de autoarranque de ColorOS 16 se pudo resolver en el CPH2841.",
   "coloros": {
     "autostart": [
-      { "component": "com.coloros.safecenter/com.coloros.safecenter.permission.startup.StartupAppListActivity", "verified": false, "device": "CPH2841 / ColorOS 16: no resuelve" },
-      { "component": "com.oppo.safe/com.oppo.safe.permission.startup.StartupAppListActivity", "verified": false, "device": "CPH2841 / ColorOS 16: no resuelve" }
+      {
+        "component": "com.coloros.safecenter/com.coloros.safecenter.permission.startup.StartupAppListActivity",
+        "verified": false,
+        "device": "CPH2841 / ColorOS 16: no resuelve"
+      },
+      {
+        "component": "com.oppo.safe/com.oppo.safe.permission.startup.StartupAppListActivity",
+        "verified": false,
+        "device": "CPH2841 / ColorOS 16: no resuelve"
+      }
     ],
     "battery": [
-      { "action": "android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS", "verified": true, "device": "CPH2841 / ColorOS 16: resuelve a Settings$AppBatteryUsageActivity" }
+      {
+        "action": "android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS",
+        "verified": true,
+        "device": "CPH2841 / ColorOS 16: resuelve a Settings$AppBatteryUsageActivity"
+      }
     ]
   },
-  "vivo": { "autostart": [ { "component": "com.vivo.permissionmanager/com.vivo.permissionmanager.activity.BgStartUpManagerActivity", "verified": false } ], "battery": [] },
-  "hyperos": { "autostart": [ { "component": "com.miui.securitycenter/com.miui.permcenter.autostart.AutoStartManagementActivity", "verified": false } ], "battery": [] },
-  "magicos": { "autostart": [ { "component": "com.huawei.systemmanager/com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity", "verified": false } ], "battery": [] }
+  "vivo": {
+    "autostart": [
+      {
+        "component": "com.vivo.permissionmanager/com.vivo.permissionmanager.activity.BgStartUpManagerActivity",
+        "verified": false
+      },
+      {
+        "component": "com.iqoo.secure/com.iqoo.secure.ui.phoneoptimize.BgStartUpManager",
+        "verified": false
+      }
+    ],
+    "battery": [
+      {
+        "component": "com.vivo.abe/com.vivo.applicationbehaviorengine.ui.ExcessivePowerManagerActivity",
+        "verified": false
+      }
+    ]
+  },
+  "hyperos": {
+    "autostart": [
+      {
+        "component": "com.miui.securitycenter/com.miui.permcenter.autostart.AutoStartManagementActivity",
+        "verified": false
+      }
+    ],
+    "battery": [
+      {
+        "component": "com.miui.powerkeeper/com.miui.powerkeeper.ui.HiddenAppsConfigActivity",
+        "verified": false
+      }
+    ]
+  },
+  "magicos": {
+    "autostart": [
+      {
+        "component": "com.huawei.systemmanager/com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity",
+        "verified": false
+      },
+      {
+        "component": "com.hihonor.systemmanager/com.hihonor.systemmanager.startupmgr.ui.StartupNormalAppListActivity",
+        "verified": false
+      }
+    ],
+    "battery": [
+      {
+        "component": "com.huawei.systemmanager/com.huawei.systemmanager.power.ui.HwPowerManagerActivity",
+        "verified": false
+      },
+      {
+        "component": "com.hihonor.systemmanager/com.hihonor.systemmanager.power.ui.HnPowerManagerActivity",
+        "verified": false
+      }
+    ]
+  }
 }

@@ -989,6 +989,7 @@ public class Launcher extends StatefulActivity<LauncherState>
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
+        com.qtekfun.ultimatelauncher.diag.UlDiag.event("focus=" + hasFocus); // UltimateLauncher 0044
         super.onWindowFocusChanged(hasFocus);
         if (!hasFocus) {
             AccessibilityManagerCompat.sendTestProtocolEventToTest(
