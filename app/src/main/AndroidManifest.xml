@@ -104,7 +104,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Widgets «Reloj digital» (propios): hora con TextClock, sin alarmas ni permisos. -->
+<!-- Widgets «Reloj digital» (propios): hora con TextClock, sin alarmas ni permisos. -->
         <receiver android:name="com.qtekfun.ultimatelauncher.clockwidget.ClockWidgetSquareLight"
             android:label="@string/ul_clock_label_square" android:exported="true">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>

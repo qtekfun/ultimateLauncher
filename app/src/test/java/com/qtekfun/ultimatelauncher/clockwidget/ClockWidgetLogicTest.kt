@@ -11,9 +11,13 @@ class ClockWidgetLogicTest {
     @Test fun narrowTallUsesSquare() = assertEquals(ClockLayout.SQUARE, ClockWidgetLogic.choose(110f, 300f))
     @Test fun smallerThanAnyFallsBackToSmallest() = assertEquals(ClockLayout.COMPACT, ClockWidgetLogic.choose(50f, 20f))
     @Test fun exactBoundariesFit() {
-        assertEquals(ClockLayout.WIDE, ClockWidgetLogic.choose(200f, 100f))
-        assertEquals(ClockLayout.SQUARE, ClockWidgetLogic.choose(199f, 100f))
-        assertEquals(ClockLayout.COMPACT, ClockWidgetLogic.choose(200f, 99f))
+        assertEquals(ClockLayout.WIDE, ClockWidgetLogic.choose(260f, 100f))
+        assertEquals(ClockLayout.SQUARE, ClockWidgetLogic.choose(259f, 100f))
+        assertEquals(ClockLayout.COMPACT, ClockWidgetLogic.choose(260f, 99f))
+    }
+
+    @Test fun threeByThreeStaysSquare() {
+        assertEquals(ClockLayout.SQUARE, ClockWidgetLogic.choose(220f, 220f))
     }
 
     @Test fun datePatternUsesResolver() =
