@@ -5,7 +5,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 CMD="${1:?uso: on|off|status [serie]}"
-S="${2:-${ANDROID_SERIAL:-<ADB_SERIE_OPPO>}}"
+S="${2:-${ANDROID_SERIAL:-}}"
 A="adb -s $S"
 STATE="private-measurements/emulate-tablet.state"
 mkdir -p private-measurements
