@@ -87,14 +87,6 @@ class WallpaperPickerActivity : ComponentActivity() {
                 if (current >= 0) closePreview() else { isEnabled = false; finish() }
             }
         })
-        io.execute {
-            // Miniaturas pequeñas (1/8 de la imagen) para no gastar memoria con la rejilla.
-            for ((i, w) in catalog.withIndex()) {
-                val o = BitmapFactory.Options().apply { inSampleSize = 8 }
-                thumbs[i] = BitmapFactory.decodeResource(resources, w.res, o)
-                ui.post { (grid.adapter as? BaseAdapter)?.notifyDataSetChanged() }
-            }
-        }
         savedInstanceState?.let {
             blurPct = it.getInt("blur"); dimPct = it.getInt("dim")
             val idx = it.getInt("current", -1)
@@ -237,9 +229,30 @@ class WallpaperPickerActivity : ComponentActivity() {
             // Altura = 1,45 x el ancho de la celda (proporción de móvil vertical); en tablet las columnas son más.
             val cellW = (grid.width - grid.paddingLeft - grid.paddingRight - grid.horizontalSpacing * (cols - 1)) / cols
             cell.layoutParams = AbsListViewLayout(if (cellW > 0) cellW else dp(140f), ((if (cellW > 0) cellW else dp(140f)) * 1.45f).toInt())
-            (cell.getChildAt(0) as ImageView).setImageBitmap(thumbs[position])
+            val img = cell.getChildAt(0) as ImageView
+            img.tag = position
+            val cached = thumbs[position]
+            if (cached != null) img.setImageBitmap(cached) else {
+                img.setImageDrawable(ColorDrawable(0xFF1C1D22.toInt()))
+                loadThumb(position, img) // carga perezosa por celda (no depende de un hilo lanzado al abrir)
+            }
             (cell.getChildAt(1) as TextView).setText(catalog[position].name)
             return cell
+        }
+    }
+
+    /** Miniatura 1/8 en el hilo de E/S y asignación en el principal si la celda sigue mostrando esa posición. */
+    private fun loadThumb(position: Int, img: ImageView) {
+        if (io.isShutdown) return
+        io.execute {
+            val bmp = thumbs[position] ?: try {
+                BitmapFactory.decodeResource(resources, catalog[position].res, BitmapFactory.Options().apply { inSampleSize = 8 })
+            } catch (e: Throwable) {
+                android.util.Log.w("ULWallpapers", "miniatura ${catalog[position].name}: $e"); null
+            }
+            if (bmp == null) { android.util.Log.w("ULWallpapers", "miniatura sin decodificar: ${catalog[position].name}"); return@execute }
+            thumbs[position] = bmp
+            ui.post { if (img.tag == position) img.setImageBitmap(bmp) }
         }
     }
 
