@@ -2,6 +2,7 @@
 <!-- Reloj digital, diseño ancho (4x2): hora a la izquierda; día de la semana y fecha a la derecha. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ul_clock_card"
+    android:forceDarkAllowed="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -20,7 +21,7 @@
         android:gravity="center_vertical|start"
         android:maxLines="1"
         android:includeFontPadding="false"
-        android:fontFamily="sans-serif"
+        android:fontFamily="sans-serif-black"
         android:textStyle="bold"
         android:fontFeatureSettings="tnum"
         android:format12Hour="h:mm"

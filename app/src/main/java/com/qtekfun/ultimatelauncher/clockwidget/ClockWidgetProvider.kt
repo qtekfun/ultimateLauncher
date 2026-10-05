@@ -49,7 +49,7 @@ abstract class ClockWidgetProvider(private val dark: Boolean) : AppWidgetProvide
             }
             val rv = RemoteViews(context.packageName, res)
             val primary = if (dark) Color.WHITE else Color.BLACK
-            val secondary = if (dark) 0xB3FFFFFF.toInt() else 0xB3000000.toInt()
+            val secondary = if (dark) 0xB3FFFFFF.toInt() else 0x99000000.toInt()
             rv.setInt(
                 R.id.ul_clock_card, "setBackgroundResource",
                 if (dark) R.drawable.ul_clock_card_dark else R.drawable.ul_clock_card_light,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Widget «Reloj digital» -->
-    <dimen name="ul_clock_corner_radius">36dp</dimen>
+    <dimen name="ul_clock_corner_radius">44dp</dimen>
     <dimen name="ul_clock_padding">10dp</dimen>
     <dimen name="ul_clock_padding_wide">20dp</dimen>
     <dimen name="ul_clock_min_width">110dp</dimen>

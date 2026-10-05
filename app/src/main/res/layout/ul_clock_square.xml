@@ -2,6 +2,7 @@
 <!-- Reloj digital, diseño cuadrado (2x2): hora grande y, debajo, día y fecha. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ul_clock_card"
+    android:forceDarkAllowed="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -17,7 +18,7 @@
         android:gravity="center"
         android:maxLines="1"
         android:includeFontPadding="false"
-        android:fontFamily="sans-serif"
+        android:fontFamily="sans-serif-black"
         android:textStyle="bold"
         android:fontFeatureSettings="tnum"
         android:format12Hour="h:mm"
