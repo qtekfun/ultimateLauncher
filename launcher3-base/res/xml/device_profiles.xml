@@ -17,6 +17,55 @@
 
 <profiles xmlns:launcher="http://schemas.android.com/apk/res-auto" >
 
+    <!-- UL-TABLET-BEGIN: generado por tools/apply-tablet-tokens.py -->
+    <grid-option
+        launcher:name="ultimate_tablet"
+        launcher:numRows="5"
+        launcher:numColumns="7"
+        launcher:numSearchContainerColumns="3"
+        launcher:numFolderRows="3"
+        launcher:numFolderColumns="4"
+        launcher:numHotseatIcons="6"
+        launcher:numAllAppsColumns="7"
+        launcher:isScalable="true"
+        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_6_5"
+        launcher:devicePaddingId="@xml/paddings_6x5"
+        launcher:dbFile="launcher_ultimate_tablet.db"
+        launcher:defaultLayoutId="@xml/default_workspace_6x5"
+        launcher:deviceCategory="tablet" >
+
+        <display-option
+            launcher:name="Medido huawei-tablet-medido"
+            launcher:minWidthDps="900"
+            launcher:minHeightDps="820"
+            launcher:minCellHeight="120"
+            launcher:minCellWidth="143"
+            launcher:minCellHeightLandscape="120"
+            launcher:minCellWidthLandscape="143"
+            launcher:borderSpaceHorizontal="0"
+            launcher:borderSpaceVertical="0"
+            launcher:borderSpaceLandscapeHorizontal="0"
+            launcher:borderSpaceLandscapeVertical="0"
+            launcher:iconImageSize="68.0"
+            launcher:iconTextSize="14"
+            launcher:horizontalMargin="60.0"
+            launcher:horizontalMarginLandscape="120.0"
+            launcher:allAppsCellWidth="143"
+            launcher:allAppsCellHeight="140"
+            launcher:allAppsCellWidthLandscape="143"
+            launcher:allAppsCellHeightLandscape="140"
+            launcher:allAppsIconSize="68.0"
+            launcher:allAppsIconTextSize="14"
+            launcher:allAppsBorderSpaceHorizontal="0"
+            launcher:allAppsBorderSpaceVertical="0"
+            launcher:allAppsBorderSpaceLandscape="0"
+            launcher:hotseatBarBottomSpace="24.5"
+            launcher:hotseatBarBottomSpaceLandscape="24.5"
+            launcher:canBeDefault="true" />
+
+    </grid-option>
+    <!-- UL-TABLET-END -->
+
     <!-- UL-TOKENS-BEGIN: generado por tools/apply-theme-tokens.py -->
     <grid-option
         launcher:name="ultimate_phone"

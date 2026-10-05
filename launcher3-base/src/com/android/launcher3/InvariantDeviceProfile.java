@@ -563,7 +563,7 @@ public class InvariantDeviceProfile {
             boolean isFixedLandscapeMode
     ) {
         // UltimateLauncher 0009: rejilla por defecto = tokens medidos (tools/apply-theme-tokens.py).
-        if (TextUtils.isEmpty(gridName)) gridName = "ultimate_phone";
+        if (TextUtils.isEmpty(gridName)) gridName = displayInfo.getDeviceType() == TYPE_TABLET ? "ultimate_tablet" : "ultimate_phone";
         List<DisplayOption> profiles = DisplayOption.getPredefinedDisplayOptions(
                 displayInfo, isFixedLandscapeMode);
 

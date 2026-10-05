@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GENERADO por tools/apply-tablet-tokens.py: valores por defecto (móvil) -->
+<resources>
+    <string name="ul_icon_mask" translatable="false"></string>
+    <bool name="ul_huawei_dock">false</bool>
+    <integer name="ul_dock_recents_max">0</integer>
+    <dimen name="ul_dock_pill_height">0dp</dimen>
+    <dimen name="ul_dock_pill_radius">0dp</dimen>
+    <dimen name="ul_dock_pill_padding">0dp</dimen>
+    <dimen name="ul_dock_cell">0dp</dimen>
+    <dimen name="ul_dock_gap">0dp</dimen>
+    <dimen name="ul_dock_icon">0dp</dimen>
+    <dimen name="ul_dock_bottom_margin">0dp</dimen>
+</resources>

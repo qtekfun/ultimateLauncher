@@ -153,7 +153,7 @@ public final class Flags {
     public static boolean enableLauncherOverviewInWindow() { return false; }
     public static boolean enableContrastTiles() { return false; }
     public static boolean msdlFeedback() { return false; }
-    public static boolean enableLauncherIconShapes() { return false; }
+    public static boolean enableLauncherIconShapes() { return true; }
     public static boolean restoreArchivedAppIconsFromDb() { return false; }
     public static boolean enableMouseInteractionChanges() { return false; }
     public static boolean enableStrictMode() { return false; }
