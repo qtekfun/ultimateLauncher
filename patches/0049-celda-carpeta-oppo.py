@@ -35,3 +35,13 @@ if "FolderStyle.rowsFor" not in t:
          + "                numRows = com.qtekfun.ultimatelauncher.folder.FolderStyle.rowsFor(inv.numFolderRows[typeIndex], folderCellHeightPx, roundPxValueFromFloat(folderFooterHeightPx * scale), metrics,\n                    com.qtekfun.ultimatelauncher.folder.FolderStyle.phoneCells(context)), // UltimateLauncher 0049\n" + parts[2]
          + "                numRows = com.qtekfun.ultimatelauncher.folder.FolderStyle.rowsFor(inv.numFolderRows[typeIndex], folderCellHeightPx,\n                    roundPxValueFromFloat(res.getDimensionPixelSize(R.dimen.folder_footer_height_default) * scale), metrics, ulPhone), // UltimateLauncher 0049\n" + parts[3])
 p.write_text(t)
+
+t = p.read_text()
+old = "            val folderChildTextSizePx = pxFromSp(invIconTextSizeDp, metrics, scale)\n            val textHeight: Int"
+if "0049b" not in t:
+    assert old in t
+    t = t.replace(old, "            // UltimateLauncher 0049b: etiqueta de las apps dentro de la carpeta de OPPO ≈ 0,87 de la del escritorio (teléfono)\n"
+                       "            val folderChildTextSizePx = (pxFromSp(invIconTextSizeDp, metrics, scale) *\n"
+                       "                (if (metrics.widthPixels / metrics.density < 600f) 0.87f else 1f)).toInt()\n"
+                       "            val textHeight: Int", 1)
+    p.write_text(t)
