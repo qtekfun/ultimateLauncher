@@ -7,6 +7,4 @@
       Launcher3 antiguos para leer su tabla `favorites`. Solo en sync, ver docs/09 y docs/DECISIONS.md. La variante default no
       los declara: allí solo funciona la vía de archivo de copia (selector de documentos). Nada de lo leído se envía a ninguna parte.
     -->
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="com.android.launcher3.permission.READ_SETTINGS" />
 </manifest>

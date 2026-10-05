@@ -1,4 +1,2 @@
 # Permisos EXTRA que solo declara la variante sync (se suman a permissions-allowed.txt, más INTERNET que añade el script).
 # Cada uno debe figurar en la tabla de docs/09 y en docs/DECISIONS.md. La variante default NO puede declararlos.
-com.android.launcher.permission.READ_SETTINGS     # «Importar de otro launcher» por proveedor de contenido (permiso normal de launchers antiguos)
-com.android.launcher3.permission.READ_SETTINGS    # ídem, nombre de Launcher3
