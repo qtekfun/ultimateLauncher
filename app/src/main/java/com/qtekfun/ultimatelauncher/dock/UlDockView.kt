@@ -42,7 +42,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         if (key == RecentApps.CHANGED_KEY) post { refresh() }
     }
     private val settingsListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-        if (key == DockPrefs.KEY_STYLE || key == DockPrefs.KEY_RECENTS) post {
+        if (key == DockPrefs.KEY_BACKGROUND || key == DockPrefs.KEY_SUBTLE || key == DockPrefs.KEY_RECENTS) post {
             if (key == DockPrefs.KEY_RECENTS && !DockPrefs.recentsEnabled(context)) RecentApps.clear(context)
             refresh()
         }
@@ -54,14 +54,22 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         clipToPadding = false
     }
 
+    private var lastHotseatCount = -1
+    private val hotseatListener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+        val c = launcher.hotseat.shortcutsAndWidgets.childCount
+        if (c != lastHotseatCount) { lastHotseatCount = c; post { requestLayout(); invalidate() } }
+    }
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        launcher.hotseat.addOnLayoutChangeListener(hotseatListener)
         RecentApps.prefs(context).registerOnSharedPreferenceChangeListener(listener)
         DockPrefs.prefs(context).registerOnSharedPreferenceChangeListener(settingsListener)
         refresh()
     }
 
     override fun onDetachedFromWindow() {
+        launcher.hotseat.removeOnLayoutChangeListener(hotseatListener)
         RecentApps.prefs(context).unregisterOnSharedPreferenceChangeListener(listener)
         DockPrefs.prefs(context).unregisterOnSharedPreferenceChangeListener(settingsListener)
         super.onDetachedFromWindow()
@@ -109,15 +117,22 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        val w = (r - l).toFloat()
-        val h = (b - t).toFloat()
+        // Coordenadas relativas a esta vista; el hotseat es hermano y ocupa todo el ancho de pantalla (esta vista puede
+        // llevar márgenes por muescas/insets), así que se centra respecto al hotseat y no respecto a sí misma.
+        // (Esta vista se coloca ANTES que el hotseat: no se puede leer su tamaño; se usan las medidas del perfil.)
+        val dp = launcher.deviceProfile
+        val w = dp.deviceProperties.widthPx.toFloat()
+        val x0 = -l.toFloat()
+        val h = (dp.deviceProperties.heightPx - t).toFloat()
         val n = launcher.deviceProfile.hotseatProfile.numShownIcons
-        val leftW = n * cell + 2 * pad
+        // La píldora izquierda abarca solo las apps que hay (mínimo 1), no todos los huecos del hotseat.
+        val k = launcher.hotseat.shortcutsAndWidgets.childCount.coerceIn(1, n)
+        val leftW = k * cell + 2 * pad
         val rightW = if (recents.isEmpty()) 0f else recents.size * cell + 2 * pad
         val g = if (recents.isEmpty()) 0f else gap
         val total = leftW + g + rightW
-        val startX = (w - total) / 2f
-        val bottom = h - launcher.deviceProfile.insets.bottom - bottomMargin
+        val startX = x0 + (w - total) / 2f
+        val bottom = h - bottomMargin
         val top = bottom - pillH
         leftRect.set(startX, top, startX + leftW, bottom)
         rightRect.set(leftRect.right + g, top, leftRect.right + g + rightW, bottom)
@@ -125,7 +140,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val hh = 35f * res.displayMetrics.density
         handleRect.set(leftRect.right + g / 2 - hw / 2, top + (pillH - hh) / 2, leftRect.right + g / 2 + hw / 2, top + (pillH + hh) / 2)
         // El hotseat se centra solo; se desplaza para que el conjunto (izquierda + asa + derecha) quede centrado.
-        launcher.hotseat.translationX = startX - (w - leftW) / 2f
+        launcher.hotseat.translationX = (startX - x0) + pad - (w - n * cell) / 2f
         for (i in 0 until childCount) {
             val v = getChildAt(i)
             val x = (rightRect.left + pad + i * cell + (cell - iconPx) / 2).toInt()

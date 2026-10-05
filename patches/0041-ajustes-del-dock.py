@@ -1,24 +1,29 @@
 #!/usr/bin/env python3
 """Parche 0041 (reaplicable): ajustes del dock de tablet en la pantalla de ajustes del launcher.
 
-Añade a launcher_preferences.xml: estilo del fondo del dock (píldoras / sutil / sin fondo) y «últimas apps usadas» (si se
+Añade a launcher_preferences.xml: fondo del dock (mostrar / sutil) y «últimas apps usadas» (si se
 desactiva, se borran y deja de registrarse). Las cadenas están en app/src/main/res/values{,-es}/strings_ul.xml.
 """
 import pathlib
 p = pathlib.Path(__file__).resolve().parent.parent / "launcher3-base/res/xml/launcher_preferences.xml"
 t = p.read_text()
-if "pref_ul_dock_style" not in t:
+if "pref_ul_dock_background" not in t:
     add = '''
     <!-- UltimateLauncher 0041: dock de tablet -->
-    <ListPreference
-        android:key="pref_ul_dock_style"
-        android:title="@string/ul_pref_dock_style"
-        android:entries="@array/ul_dock_style_entries"
-        android:entryValues="@array/ul_dock_style_values"
-        android:defaultValue="pills"
+    <SwitchPreference
+        android:key="pref_ul_dock_background"
+        android:title="@string/ul_pref_dock_background"
+        android:summary="@string/ul_pref_dock_background_summary"
+        android:defaultValue="true"
+        android:persistent="true" />
+
+    <SwitchPreference
+        android:key="pref_ul_dock_subtle"
+        android:title="@string/ul_pref_dock_subtle"
+        android:summary="@string/ul_pref_dock_subtle_summary"
+        android:defaultValue="false"
         android:persistent="true"
-        app:useSimpleSummaryProvider="true"
-        xmlns:app="http://schemas.android.com/apk/res-auto" />
+        android:dependency="pref_ul_dock_background" />
 
     <SwitchPreference
         android:key="pref_ul_dock_recents"
