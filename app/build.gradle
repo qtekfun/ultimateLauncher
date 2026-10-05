@@ -31,8 +31,9 @@ android {
     buildFeatures { buildConfig = true; compose = true; aidl = true; resValues = true }
 
     // Lint como compuerta de compatibilidad (R1, docs/compat-android12-14.md): NewApi es ERROR y no se admite en la línea base.
-    // El ruido heredado de AOSP (traducciones, recursos sin uso, restos de quickstep) se desactiva; lo que queda de errores
-    // heredados vive en app/lint-baseline.xml (regenerar: ./gradlew :app:updateLintBaselineDefaultDebug, y comprobar que NO contiene NewApi).
+    // El ruido heredado de AOSP (traducciones, recursos sin uso, restos de quickstep) se desactiva por id: sin línea base, así
+    // cualquier error NUEVO de Lint rompe la compilación. Si se necesitara una línea base: añadir `baseline = file('lint-baseline.xml')`
+    // y generarla con ./gradlew :app:updateLintBaselineDefaultDebug, comprobando que NO contiene NewApi.
     lint {
         abortOnError = true
         warningsAsErrors = false
@@ -43,7 +44,6 @@ android {
             'ResAuto', 'MissingClass', 'ThreadConstraint', 'UseAppTint', 'ResourceType', 'AppCompatCustomView', 'RestrictedApi',
             'GestureBackNavigation', 'Range', 'WrongConstant', 'NotificationPermission', 'ProtectedPermissions',
         ]
-        baseline = file('lint-baseline.xml')
     }
 
     flavorDimensions += 'dist'
