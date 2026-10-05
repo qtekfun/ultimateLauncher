@@ -96,4 +96,20 @@ object WallpaperLogic {
     /** Alfa (0..255) de la capa negra para un oscurecimiento de 0..100: el 100 % deja un 15 % de luz para no dar negro puro. */
     @JvmStatic
     fun dimAlpha(dimPct: Int): Int = (dimPct.coerceIn(0, 100) / 100f * 0.85f * 255f).roundToInt()
+
+    /** Columnas de la rejilla de miniaturas: una cada ~160 dp de ancho, entre 2 y 6 (más en tablet y en horizontal). */
+    @JvmStatic
+    fun gridColumns(widthDp: Float): Int = (widthDp / 160f).toInt().coerceIn(2, 6)
+
+    /** Alto/ancho de cada miniatura: la proporción real de la pantalla (vertical alta, horizontal baja), acotada a 0,55..1,45 (1,45 era la de móvil vertical). */
+    @JvmStatic
+    fun cellAspect(screenW: Int, screenH: Int): Float =
+        if (screenW <= 0 || screenH <= 0) 1.45f else (screenH.toFloat() / screenW).coerceIn(0.55f, 1.45f)
+
+    /**
+     * Ancho (dp) del panel de desenfoque/oscurecer/aplicar de la vista previa: toda la pantalla en móvil vertical y una
+     * tarjeta de 460 dp como máximo en horizontal y tablet (así no tapa la imagen de lado a lado ni se estira).
+     */
+    @JvmStatic
+    fun panelWidthDp(screenWidthDp: Float): Int = minOf(screenWidthDp - 24f, 460f).toInt()
 }

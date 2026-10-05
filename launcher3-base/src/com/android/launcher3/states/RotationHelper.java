@@ -105,6 +105,9 @@ public class RotationHelper implements DeviceProfile.OnDeviceProfileChangeListen
 
     @Override
     public void onDeviceProfileChanged(DeviceProfile dp) {
+        // UltimateLauncher 0190: las demás pantallas heredan esta orientación.
+        com.qtekfun.ultimatelauncher.orientation.ScreenOrientation.rememberLauncherOrientation(
+                dp.getDeviceProperties().isLandscape());
         onIgnoreAutoRotateChanged(dp.getDeviceProperties().isLargeScreen());
     }
 
@@ -159,6 +162,10 @@ public class RotationHelper implements DeviceProfile.OnDeviceProfileChangeListen
         DisplayController displayController = DisplayController.INSTANCE.get(mActivity);
         LauncherDisplayInfo info = displayController.getInfo();
         setIgnoreAutoRotateSettings(info.isLargeScreen(info.realBounds));
+        // UltimateLauncher 0190
+        android.content.res.Configuration ulCfg = mActivity.getResources().getConfiguration();
+        com.qtekfun.ultimatelauncher.orientation.ScreenOrientation.rememberLauncherOrientation(
+                ulCfg.screenWidthDp > ulCfg.screenHeightDp);
         ListenableDiffAwareRef<LauncherDisplayInfo, Integer> listenable =
                 displayController.getListenable();
         if (listenable != null) {

@@ -12,9 +12,9 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 import com.android.launcher3.R
+import com.qtekfun.ultimatelauncher.ui.ScreenLayout
 import java.util.Locale
 
 /**
@@ -73,7 +73,7 @@ class FirstRunActivity : Activity() {
         root.addView(button(getString(R.string.ul_btn_done)) { FirstRun.markDone(this); finish() }.apply {
             (layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.END
         })
-        setContentView(ScrollView(this).apply { addView(root) })
+        setContentView(ScreenLayout.scrollColumn(this, root))
     }
 
     override fun onResume() {

@@ -34,7 +34,6 @@ import com.android.launcher3.R
 import com.qtekfun.ultimatelauncher.ui.ContextMenuStyle
 import java.util.concurrent.Executors
 import kotlin.math.max
-import kotlin.math.min
 
 /**
  * «Fondos de UltimateLauncher»: pack propio de fondos (generados por código, ver `tools/gen-wallpapers.py`, empaquetados
@@ -118,13 +117,16 @@ class WallpaperPickerActivity : ComponentActivity() {
             setPadding(dp(20f), 0, dp(20f), dp(12f))
         })
         val dm = resources.displayMetrics
-        val cols = max(2, min(5, (dm.widthPixels / dm.density / 160f).toInt()))
+        // Más columnas en tablet y en horizontal; la celda tiene la proporción real de la pantalla (baja en horizontal).
+        val (scrW, scrH) = screenSize()
+        val cols = WallpaperLogic.gridColumns(scrW / dm.density)
+        val aspect = WallpaperLogic.cellAspect(scrW, scrH)
         grid = GridView(this).apply {
             numColumns = cols
             horizontalSpacing = dp(12f); verticalSpacing = dp(12f)
             setPadding(dp(16f), dp(4f), dp(16f), dp(24f)); clipToPadding = false
             selector = ColorDrawable(Color.TRANSPARENT)
-            adapter = ThumbAdapter(cols)
+            adapter = ThumbAdapter(cols, aspect)
             setOnItemClickListener { _, _, pos, _ -> openPreview(pos) }
         }
         gridPage.addView(grid, LinearLayout.LayoutParams(-1, 0, 1f))
@@ -159,7 +161,12 @@ class WallpaperPickerActivity : ComponentActivity() {
                 LinearLayout.LayoutParams(0, dp(46f), 1f).apply { marginStart = dp(3f); marginEnd = dp(3f) })
         }
         panel.addView(buttons)
-        previewPage.addView(panel, FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM).apply {
+        // Móvil vertical: panel a todo el ancho. Horizontal y tablet: tarjeta de <= 460 dp abajo a la derecha (horizontal) o centrada.
+        val (pw, ph) = screenSize()
+        val widthDp = pw / resources.displayMetrics.density
+        val panelW = if (widthDp < 500f) -1 else dp(WallpaperLogic.panelWidthDp(widthDp).toFloat())
+        val panelGravity = if (pw > ph) Gravity.BOTTOM or Gravity.END else Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+        previewPage.addView(panel, FrameLayout.LayoutParams(panelW, -2, panelGravity).apply {
             setMargins(dp(12f), 0, dp(12f), dp(12f))
         })
         root.addView(previewPage, FrameLayout.LayoutParams(-1, -1))
@@ -210,7 +217,7 @@ class WallpaperPickerActivity : ComponentActivity() {
         return Triple(row, bar, value)
     }
 
-    private inner class ThumbAdapter(private val cols: Int) : BaseAdapter() {
+    private inner class ThumbAdapter(private val cols: Int, private val aspect: Float) : BaseAdapter() {
         override fun getCount() = catalog.size
         override fun getItem(position: Int) = catalog[position]
         override fun getItemId(position: Int) = position.toLong()
@@ -226,9 +233,9 @@ class WallpaperPickerActivity : ComponentActivity() {
                     background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x00000000, 0x99000000.toInt()))
                 }, FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM))
             }
-            // Altura = 1,45 x el ancho de la celda (proporción de móvil vertical); en tablet las columnas son más.
+            // Altura = proporción de la pantalla x el ancho de la celda (1,45 en móvil vertical, ~0,66 en tablet apaisada).
             val cellW = (grid.width - grid.paddingLeft - grid.paddingRight - grid.horizontalSpacing * (cols - 1)) / cols
-            cell.layoutParams = AbsListViewLayout(if (cellW > 0) cellW else dp(140f), ((if (cellW > 0) cellW else dp(140f)) * 1.45f).toInt())
+            cell.layoutParams = AbsListViewLayout(if (cellW > 0) cellW else dp(140f), ((if (cellW > 0) cellW else dp(140f)) * aspect).toInt())
             val img = cell.getChildAt(0) as ImageView
             img.tag = position
             val cached = thumbs[position]
