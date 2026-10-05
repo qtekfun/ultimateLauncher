@@ -1944,7 +1944,41 @@ public class Launcher extends StatefulActivity<LauncherState>
     @Override
     @TargetApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     public void onBackPressed() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) { // UltimateLauncher 0090
+            onBackPressedPreU();
+            return;
+        }
         getOnBackAnimationCallback().onBackInvoked();
+    }
+
+    /** UltimateLauncher 0090: ATRAS sin la interfaz OnBackAnimationCallback (stub vacio de D8 en API < 34). */
+    private void onBackPressedPreU() {
+        if (isInAutoCancelActionMode()) {
+            finishAutoCancelActionMode();
+            return;
+        }
+        if (mDragController.isDragging()) {
+            mDragController.cancelDrag();
+            return;
+        }
+        AbstractFloatingView topView = AbstractFloatingView.getTopOpenView(Launcher.this);
+        if (topView != null && topView.canHandleBack()) {
+            topView.onBackInvoked(); // metodo de clase, no de la interfaz
+            return;
+        }
+        for (BackPressHandler handler : mBackPressedHandlers) {
+            if (handler.canHandleBack()) {
+                try {
+                    java.lang.reflect.Method m = handler.getClass().getMethod("onBackInvoked");
+                    m.setAccessible(true);
+                    m.invoke(handler);
+                } catch (ReflectiveOperationException e) {
+                    Log.e(TAG, "ATRAS: no se pudo invocar el manejador " + handler, e);
+                }
+                return;
+            }
+        }
+        onStateBack();
     }
 
     protected void onBackStarted() {
