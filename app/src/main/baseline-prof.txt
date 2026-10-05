@@ -1,0 +1,21 @@
+# Perfil de línea base ESCRITO A MANO (sin grabación en dispositivo): marca como calientes/de arranque los paquetes que
+# recorre el arranque en frío del launcher (actividad, modelo de datos, inicio, dock, iconos y código propio).
+# Los comodines los expande profgen al compilar. Sustituir por un perfil grabado con Macrobenchmark cuando haya un
+# dispositivo disponible (docs/arranque-en-frio.md). Los índices de método reales los decide ART al compilar.
+HSPLcom/android/launcher3/*;->**(**)**
+HSPLcom/android/launcher3/model/**;->**(**)**
+HSPLcom/android/launcher3/dagger/**;->**(**)**
+HSPLcom/android/launcher3/util/**;->**(**)**
+HSPLcom/android/launcher3/icons/**;->**(**)**
+HSPLcom/android/launcher3/folder/**;->**(**)**
+HSPLcom/android/launcher3/celllayout/**;->**(**)**
+HSPLcom/android/launcher3/deviceprofile/**;->**(**)**
+HSPLcom/android/launcher3/graphics/**;->**(**)**
+HSPLcom/android/launcher3/pageindicators/**;->**(**)**
+HSPLcom/android/launcher3/statemanager/**;->**(**)**
+HSPLcom/android/launcher3/states/**;->**(**)**
+HSPLcom/android/launcher3/touch/**;->**(**)**
+HSPLcom/android/launcher3/views/**;->**(**)**
+HSPLcom/android/launcher3/allapps/**;->**(**)**
+HSPLcom/qtekfun/**;->**(**)**
+Lcom/android/launcher3/**;
