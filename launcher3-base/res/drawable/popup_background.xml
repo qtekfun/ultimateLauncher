@@ -15,6 +15,6 @@
 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/materialColorSurfaceContainer"/>
-    <corners android:radius="@dimen/dialogCornerRadius"/>
+    <solid android:color="@color/ul_menu_card"/>
+    <corners android:radius="@dimen/ul_menu_corner_radius"/>
 </shape>

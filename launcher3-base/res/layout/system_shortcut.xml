@@ -16,7 +16,8 @@
 
 <com.android.launcher3.shortcuts.DeepShortcutView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/bg_popup_item_width"
+    android:layout_width="match_parent"
+    android:minWidth="@dimen/ul_menu_min_width"
     android:layout_height="wrap_content"
     android:id="@+id/system_shortcut"
     android:minHeight="@dimen/bg_popup_item_height"

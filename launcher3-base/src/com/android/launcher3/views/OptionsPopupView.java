@@ -109,29 +109,12 @@ public class OptionsPopupView<T extends Context & ActivityContext> extends Arrow
 
     @Override
     protected boolean shouldAddArrow() {
-        return mShouldAddArrow;
+        return false; // UltimateLauncher 0150: menús sin flecha
     }
 
     @Override
     protected void getTargetObjectLocation(Rect outPos) {
         mTargetRect.roundOut(outPos);
-    }
-
-    @Override
-    public void assignMarginsAndBackgrounds(ViewGroup viewGroup) {
-        assignMarginsAndBackgrounds(viewGroup, mColors[0]);
-    }
-
-    @Override
-    protected void assignMarginsAndBackgrounds(ViewGroup viewGroup, int backgroundColor) {
-        super.assignMarginsAndBackgrounds(viewGroup, backgroundColor);
-        // last shortcut doesn't need bottom margin
-        final int count = viewGroup.getChildCount() - 1;
-        for (int i = 0; i < count; i++) {
-            // These are shortcuts and not shortcut containers, but they still need bottom margin
-            MarginLayoutParams mlp = (MarginLayoutParams) viewGroup.getChildAt(i).getLayoutParams();
-            mlp.bottomMargin = mChildContainerMargin;
-        }
     }
 
     public static void showNoReturn(
@@ -165,8 +148,10 @@ public class OptionsPopupView<T extends Context & ActivityContext> extends Arrow
         popup.mTargetRect = targetRect;
         popup.setShouldAddArrow(shouldAddArrow);
 
+        // UltimateLauncher 0150: filas en un contenedor (una sola tarjeta, como los menús de apps).
+        ViewGroup rows = popup.inflateAndAdd(R.layout.system_shortcut_rows_container, popup);
         for (OptionItem item : items) {
-            DeepShortcutView view = popup.inflateAndAdd(R.layout.system_shortcut, popup);
+            DeepShortcutView view = popup.inflateAndAdd(R.layout.system_shortcut, rows);
             if (width > 0) {
                 view.getLayoutParams().width = width;
             }

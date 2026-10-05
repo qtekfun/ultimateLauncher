@@ -52,8 +52,8 @@
         <item name="bottomSheetDragHandleColor">@color/materialColorOutlineVariant</item>
         <item name="popupColorPrimary">@color/popup_color_primary_light</item>
         <item name="popupColorSecondary">@color/popup_color_secondary_light</item>
-        <item name="popupColorTertiary">@color/popup_color_tertiary_light</item>
-        <item name="popupTextColor">@color/system_on_surface_light</item>
+        <item name="popupColorTertiary">@color/ul_menu_pressed</item>
+        <item name="popupTextColor">@color/ul_menu_text</item>
         <item name="popupShadeFirst">@color/popup_shade_first_light</item>
         <item name="popupShadeSecond">@color/popup_shade_second_light</item>
         <item name="popupShadeThird">@color/popup_shade_third_light</item>
@@ -129,8 +129,8 @@
         <item name="allAppsNavBarScrimColor">#80000000</item>
         <item name="popupColorPrimary">@color/popup_color_primary_dark</item>
         <item name="popupColorSecondary">@color/popup_color_secondary_dark</item>
-        <item name="popupColorTertiary">@color/popup_color_tertiary_dark</item>
-        <item name="popupTextColor">@color/system_on_surface_dark</item>
+        <item name="popupColorTertiary">@color/ul_menu_pressed</item>
+        <item name="popupTextColor">@color/ul_menu_text</item>
         <item name="popupNotificationDotColor">@color/popup_notification_dot_dark</item>
         <item name="popupShadeFirst">@color/popup_shade_first_dark</item>
         <item name="popupShadeSecond">@color/popup_shade_second_dark</item>
