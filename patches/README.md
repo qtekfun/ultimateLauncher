@@ -59,3 +59,5 @@ Cambios que NO son parches sobre archivos de AOSP (andamiaje propio): `build.gra
 Piezas de AOSP no importadas o excluidas: `quickstep/` (recientes/gestos), `viewcapturelib`, `displaylib`, `mechanics`, `cuebarlib`,
 `contextualeducationlib`, `iconloaderlib/src_full_lib`, pruebas.
 | 0100 | El hueco del buscador (OseWidgetView) sin proveedor no captura el táctil: los iconos fijos del dock de tablet vuelven a recibir toques y arrastres | qsb/OseWidgetView.kt | `patches/0100-*.py` |
+| 0120 | Ajuste «Iconos hasta el borde» en tablet: margen lateral 0 y celdas de ancho completo (la escala sale del perfil normal); `ulReloadGrid()` para reconstruir al cambiar | WorkspaceProfileNonResponsiveFactory.kt, InvariantDeviceProfile.java, SettingsActivity.java, launcher_preferences.xml, `app/.../grid/EdgeGrid.kt` | `patches/0120-*.py` |
+| (0121) | Cierre de carpeta sin saltos en tablet: solo código propio en `app/.../folder/FolderStyle.kt` (sin archivo de AOSP, sin script) | — | — |
