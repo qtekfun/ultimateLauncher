@@ -24,4 +24,9 @@
     <string name="ul_sync_error">Error: %1$s</string>
     <string name="ul_sync_schema">Este archivo usa el esquema %1$d, más nuevo de lo que soporta esta app.</string>
     <string name="ul_sync_label">Disposición de UltimateLauncher</string>
+    <string name="ul_pref_dock_style">Fondo del dock de tablet</string>
+    <string name="ul_pref_dock_recents">Últimas apps en el dock</string>
+    <string name="ul_pref_dock_recents_summary">Muestra las últimas apps abiertas desde este launcher (hasta 4). Se guardan solo en este dispositivo; al desactivarlo se borran.</string>
+    <string-array name="ul_dock_style_entries"><item>Píldoras (como Huawei)</item><item>Sutil</item><item>Ninguno (solo iconos)</item></string-array>
+    <string-array name="ul_dock_style_values"><item>pills</item><item>subtle</item><item>none</item></string-array>
 </resources>

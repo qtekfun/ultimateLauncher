@@ -37,4 +37,23 @@
         launcher:logIdOn="613"
         launcher:logIdOff="614" />
 
+
+    <!-- UltimateLauncher 0041: dock de tablet -->
+    <ListPreference
+        android:key="pref_ul_dock_style"
+        android:title="@string/ul_pref_dock_style"
+        android:entries="@array/ul_dock_style_entries"
+        android:entryValues="@array/ul_dock_style_values"
+        android:defaultValue="pills"
+        android:persistent="true"
+        app:useSimpleSummaryProvider="true"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+    <SwitchPreference
+        android:key="pref_ul_dock_recents"
+        android:title="@string/ul_pref_dock_recents"
+        android:summary="@string/ul_pref_dock_recents_summary"
+        android:defaultValue="true"
+        android:persistent="true" />
+
 </androidx.preference.PreferenceScreen>
