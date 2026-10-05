@@ -2,6 +2,11 @@
 
 Última actualización: 2026-10-05. Lo hecho está en `docs/progress.md`; esto es lo que falta o se ha pedido y no está terminado.
 
+## Entrevista del 2026-10-05 (decisiones del usuario)
+- **Copia a demanda del setup:** disposición + ajustes del launcher + widgets (con su configuración hasta donde sea posible; la config interna de cada widget la guarda cada app), en un archivo con el selector del sistema, **sin cifrar**. Acceso desde **Ajustes de inicio** con tres acciones: Guardar copia, Restaurar copia, Traer mi pantalla de inicio.
+- **Traer la pantalla de inicio de launchers cerrados** (OPPO, Huawei, vivo, Honor, Xiaomi, Samsung): solo «apps por orden» (sin capturas). Nova/Lawnchair/Pixel: por archivo de copia.
+- **Funciones nuevas pedidas (prioridad ahora):** fondos de pantalla propios, paquetes de iconos, gestos (deslizar vertical = notificaciones / ajustes rápidos), ocultar apps con biometría o PIN. Doble toque para bloquear: pendiente (exige accesibilidad o administrador de dispositivo).
+
 ## Pedido por el usuario, aún sin hacer
 - **Fondos de pantalla propios en el launcher** («unos fondos de pantalla chulos»): selector de fondos incluido en el launcher o galería de fondos propios (sin red en la variante `default`: imágenes empaquetadas con licencia libre o generadas por nosotros; nada de OEM). Ideas: pack pequeño (6–12) en WebP, selector desde «Fondo de pantalla y estilo», aplicar a inicio/bloqueo con `WallpaperManager` (permiso `SET_WALLPAPER`, ya en la tabla de `docs/09`), versión clara/oscura, desenfoque/oscurecimiento opcional. Decidir licencia y tamaño del APK (ahora 10,5 MB con R8).
 - Arrastre desde la esquina para ampliar carpetas (fase 2 de las carpetas expandibles; hoy solo menú «Ampliar/Reducir»).
