@@ -1,0 +1,15 @@
+{
+  "_nota": "Qué eventos del perfil tienen gancho en el código y cómo se aplican. Lo leen tools/apply-anim-profile.py y tools/validate-anim.py.",
+  "home.pageSnap":   { "modo": "recurso", "recursos": ["config_pageSnapAnimationDuration"] },
+  "drawer.open":     { "modo": "recurso", "recursos": ["config_allAppsOpenDuration"] },
+  "drawer.close":    { "modo": "recurso", "recursos": ["config_allAppsCloseDuration"] },
+  "folder.open":     { "modo": "recurso", "recursos": ["config_materialFolderExpandDuration"],
+                       "nota": "El mismo recurso rige apertura y cierre (FolderAnimationManager/FolderAnimationData); folder.close no se puede aplicar por separado sin parche" },
+  "folder.close":    { "modo": "compartido", "con": "folder.open" },
+  "app.launch":      { "modo": "ninguno", "motivo": "La duración de abrir una app la fija el sistema (ActivityOptions.makeScaleUpAnimation + escala de animaciones de ventana); el launcher solo elige el origen" },
+  "app.returnHome":  { "modo": "ninguno", "motivo": "Volver a inicio con gesto lo anima el launcher de recientes del sistema; el pop del icono (OpenReturnAnim, parche 0043) es propio y no está medido" },
+  "home.pageScroll": { "modo": "ninguno", "motivo": "Muelle/fricción del PagedView en código; sin medición y sin gancho" },
+  "icon.pressScale": { "modo": "ninguno", "motivo": "Constantes en código (parche pendiente); sin medición" },
+  "icon.drag.pickup":{ "modo": "ninguno", "motivo": "Constantes en código (DragView.VIEW_ZOOM_DURATION); sin medición" },
+  "widget.resize":   { "modo": "ninguno", "motivo": "Constantes en código (AppWidgetResizeFrame.SNAP_DURATION_MS); sin medición" }
+}
