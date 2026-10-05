@@ -92,4 +92,13 @@
         android:defaultValue="false"
         android:persistent="true" />
 
+
+    <!-- UltimateLauncher 0048 -->
+    <SwitchPreference
+        android:key="pref_ul_folder_style"
+        android:title="@string/ul_pref_folder_style"
+        android:summary="@string/ul_pref_folder_style_summary"
+        android:defaultValue="true"
+        android:persistent="true" />
+
 </androidx.preference.PreferenceScreen>

@@ -198,12 +198,14 @@ data class FolderProfile(
 
             folderCellWidthPx =
                 if (inv.folderStyle == INVALID_RESOURCE_HANDLE)
-                    roundPxValueFromFloat(cellSize.x * scale)
+                    (if (com.qtekfun.ultimatelauncher.folder.FolderStyle.phoneCells(context)) // UltimateLauncher 0049
+                        pxFromDp(114.3f, metrics, scale) else roundPxValueFromFloat(cellSize.x * scale))
                 else roundPxValueFromFloat(folderCellWidthPx * scale)
 
             folderCellHeightPx =
                 if (inv.folderStyle == INVALID_RESOURCE_HANDLE)
-                    roundPxValueFromFloat(cellSize.y * scale)
+                    (if (com.qtekfun.ultimatelauncher.folder.FolderStyle.phoneCells(context)) // UltimateLauncher 0049
+                        pxFromDp(113.1f, metrics, scale) else roundPxValueFromFloat(cellSize.y * scale))
                 else roundPxValueFromFloat(folderCellHeightPx * scale)
 
             // Recalculating padding and cell height
@@ -273,7 +275,9 @@ data class FolderProfile(
                 (res.getDimensionPixelSize(R.dimen.folder_cell_x_padding) * scale).toInt()
             val cellPaddingY =
                 (res.getDimensionPixelSize(R.dimen.folder_cell_y_padding) * scale).toInt()
-            val folderCellHeightPx = folderChildIconSizePx + 2 * cellPaddingY + textHeight
+            val ulPhone = metrics.widthPixels / metrics.density < 600f // UltimateLauncher 0049
+            val folderCellHeightPx = if (ulPhone) pxFromDp(113.1f, metrics, scale)
+                else folderChildIconSizePx + 2 * cellPaddingY + textHeight
             val folderIconSizePx =
                 Math.round(workspaceProfile.iconSizePx * IconNormalizer.ICON_VISIBLE_AREA_FACTOR)
             return FolderProfile(
@@ -299,7 +303,8 @@ data class FolderProfile(
                     roundPxValueFromFloat(
                         res.getDimensionPixelSize(R.dimen.folder_footer_height_default) * scale
                     ),
-                cellWidthPx = folderChildIconSizePx + 2 * cellPaddingX,
+                cellWidthPx = if (ulPhone) pxFromDp(114.3f, metrics, scale)
+                    else folderChildIconSizePx + 2 * cellPaddingX,
                 cellHeightPx = folderCellHeightPx,
                 labelTextScale = folderLabelTextScale,
                 numRows = inv.numFolderRows[typeIndex],
