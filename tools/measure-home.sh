@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Mide la geometría del inicio del launcher actual en el dispositivo y la compara con la referencia OPPO.
-# Uso: tools/measure-home.sh [serie]   (guarda captura y volcado en private-measurements/, ignorado por git)
+# Uso: tools/measure-home.sh <serie>   (guarda captura y volcado en private-measurements/, ignorado por git)
 set -euo pipefail
 cd "$(dirname "$0")/.."
-S="${1:-<ADB_SERIE_OPPO>}"; A="adb -s $S"; P=private-measurements
+S="${1:-}"; A="adb -s $S"; P=private-measurements
 $A shell input keyevent KEYCODE_HOME; sleep 3
 $A exec-out screencap -p > $P/measure.png
 $A shell uiautomator dump /sdcard/u.xml >/dev/null 2>&1; $A pull /sdcard/u.xml $P/measure.xml >/dev/null; $A shell rm /sdcard/u.xml

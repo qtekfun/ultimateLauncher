@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Instala UltimateLauncher (variante default) y lo fija como launcher predeterminado.
-# Uso: tools/install.sh [serie_adb] [apk]     (por defecto el CPH2841 por wifi y dist/ultimatelauncher-default-release.apk)
+# Uso: tools/install.sh <serie_adb> [apk]   (la serie es obligatoria: adb devices; también vale ANDROID_SERIAL)
 # Para volver al launcher original: tools/restore.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."
-S="${1:-${ANDROID_SERIAL:-<ADB_SERIE_OPPO>}}"
+S="${1:-${ANDROID_SERIAL:-}}"
 if ! adb -s "$S" get-state >/dev/null 2>&1; then
   echo "El dispositivo '$S' no está conectado. Dispositivos:" >&2; adb devices >&2
   echo "Pasa la serie correcta como primer argumento (no se elige ninguna automáticamente para no tocar otro teléfono)." >&2; exit 1
