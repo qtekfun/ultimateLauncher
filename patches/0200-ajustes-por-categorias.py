@@ -1,22 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2015 Google Inc.
+#!/usr/bin/env python3
+"""Parche 0200 (reaplicable, idempotente): Ajustes de inicio agrupados por categorías y refresco tras restaurar una copia.
 
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
+ - launcher_preferences.xml: las preferencias (las de AOSP y las añadidas por 0041..0183) pasan a siete
+   `PreferenceCategory`: Pantalla de inicio, Dock de tablet (solo si `ul_huawei_dock`), Carpetas, Animaciones,
+   Iconos y fondos, Gestos, Privacidad, y la ya existente Copia de seguridad (0160). Las claves no cambian (los
+   scripts anteriores siguen siendo no-ops porque comprueban la clave). Si AOSP añade preferencias nuevas al actualizar,
+   incorporarlas a mano a la categoría que corresponda.
+ - SettingsActivity: `initPreference` se aplica también a los hijos de las categorías (antes solo al primer nivel) y se
+   quitan las categorías que quedan vacías; al volver a la pantalla tras restaurar una copia
+   (`BackupPrefs.restoreCount()` cambió) se recrea la actividad para que los interruptores muestren el estado restaurado.
+Cadenas en app/src/main/res/values{,-es}/strings_ul.xml. Sin permisos nuevos ni red."""
+import pathlib
 
-          http://www.apache.org/licenses/LICENSE-2.0
+R = pathlib.Path(__file__).resolve().parent.parent / "launcher3-base"
+MARK = "UltimateLauncher 0200"
 
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
-<androidx.preference.PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:launcher="http://schemas.android.com/apk/res-auto">
+BODY = '''
 
     <!-- UltimateLauncher 0200: ajustes agrupados por categorías -->
 
@@ -242,3 +241,68 @@
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
+'''
+
+px = R / "res/xml/launcher_preferences.xml"
+t = px.read_text()
+if MARK not in t:
+    start = t.index("<androidx.preference.PreferenceScreen")
+    end_open = t.index(">", start) + 1
+    px.write_text(t[:end_open] + BODY)
+
+ps = R / "src/com/android/launcher3/settings/SettingsActivity.java"
+t = ps.read_text()
+if MARK not in t:
+    old_loop = """            PreferenceScreen screen = getPreferenceScreen();
+            for (int i = screen.getPreferenceCount() - 1; i >= 0; i--) {
+                Preference preference = screen.getPreference(i);
+                if (!initPreference(preference)) {
+                    screen.removePreference(preference);
+                }
+            }
+"""
+    new_loop = """            PreferenceScreen screen = getPreferenceScreen();
+            initGroup(screen); // UltimateLauncher 0200
+"""
+    assert old_loop in t
+    t = t.replace(old_loop, new_loop, 1)
+    anchor = "        private boolean isKeyInPreferenceGroup("
+    helper = """        /** UltimateLauncher 0200: aplica initPreference también dentro de las categorías y quita las que quedan vacías. */
+        private void initGroup(PreferenceGroup group) {
+            for (int i = group.getPreferenceCount() - 1; i >= 0; i--) {
+                Preference preference = group.getPreference(i);
+                if (!initPreference(preference)) {
+                    group.removePreference(preference);
+                } else if (preference instanceof PreferenceGroup && !(preference instanceof PreferenceScreen)) {
+                    PreferenceGroup child = (PreferenceGroup) preference;
+                    initGroup(child);
+                    if (child.getPreferenceCount() == 0) {
+                        group.removePreference(child);
+                    }
+                }
+            }
+        }
+
+"""
+    assert anchor in t
+    t = t.replace(anchor, helper + anchor, 1)
+    old_field = "        private boolean mRestartOnResume = false;\n"
+    new_field = old_field + """
+        // UltimateLauncher 0200: restauraciones de copia vistas al crear la pantalla; si cambia, se recrea al volver.
+        private final int mRestoreCountSeen =
+                com.qtekfun.ultimatelauncher.layoutsync.BackupPrefs.restoreCount();
+"""
+    assert old_field in t
+    t = t.replace(old_field, new_field, 1)
+    old_resume = """            if (mRestartOnResume) {
+                recreateActivityNow();
+            }
+"""
+    new_resume = """            if (mRestartOnResume
+                    || mRestoreCountSeen != com.qtekfun.ultimatelauncher.layoutsync.BackupPrefs.restoreCount()) {
+                recreateActivityNow(); // UltimateLauncher 0200
+            }
+"""
+    assert old_resume in t
+    t = t.replace(old_resume, new_resume, 1)
+    ps.write_text(t)
