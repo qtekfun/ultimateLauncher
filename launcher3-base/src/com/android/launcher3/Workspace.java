@@ -1915,6 +1915,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
                     dragOptions.preDragEndScale = (float) mAllAppsIconSize / btv.getIconSize();
                 }
             } else if (((Flags.homeScreenEditImprovements() && child instanceof Poppable)
+                    || com.qtekfun.ultimatelauncher.folder.FolderExpand.wantsPopup(child) // UltimateLauncher 0142
                     || HomeScreenFilesUtilsKt.isFileSystemItem(item))
                     && !dragOptions.isAccessibleDrag && !dragOptions.isMouseDrag) {
                 Popup popup = mLauncher.getPopupControllerForHomeScreenItems()

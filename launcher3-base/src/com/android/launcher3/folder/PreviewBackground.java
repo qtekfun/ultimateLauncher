@@ -178,6 +178,12 @@ public class PreviewBackground extends DelegatedCellDrawing {
 
         basePreviewOffsetX = (availableSpaceX - previewSize) / 2;
         basePreviewOffsetY = topPadding + grid.getFolderProfile().getFolderIconOffsetYPx();
+        int[] ulTile = com.qtekfun.ultimatelauncher.folder.FolderExpand.backgroundTile(invalidateDelegate, availableSpaceX); // UltimateLauncher 0141
+        if (ulTile != null) {
+            previewSize = ulTile[0];
+            basePreviewOffsetX = ulTile[1];
+            basePreviewOffsetY = ulTile[2];
+        }
 
         // Stroke width is 1dp
         mStrokeWidth = context.getResources().getDisplayMetrics().density;
