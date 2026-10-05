@@ -56,17 +56,32 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
 
     /** Rango de huecos ocupados del hotseat (primer y último cellX) para ajustar la píldora aunque haya huecos libres. */
     private fun occupiedRange(): IntArray {
+        // Durante un arrastre la píldora abarca TODOS los huecos del hotseat: así se ven (y se pueden usar) los libres,
+        // incluidos los que quedan fuera del rango ocupado (p. ej. el hueco izquierdo del buscador).
+        if (dragging) return intArrayOf(0, launcher.deviceProfile.hotseatProfile.numShownIcons - 1)
         val container = launcher.hotseat.shortcutsAndWidgets
-        var lo = Int.MAX_VALUE
-        var hi = -1
+        val cells = ArrayList<Int>()
+        val spans = ArrayList<Int>()
         for (i in 0 until container.childCount) {
             val child = container.getChildAt(i)
             // El hotseat de tablet lleva un hueco del buscador (OseWidgetView, vacío sin GMS): no cuenta como app fija.
             if (child is com.android.launcher3.qsb.OseWidgetView || child.tag !is com.android.launcher3.model.data.ItemInfo) continue
             val lp = child.layoutParams as? com.android.launcher3.celllayout.CellLayoutLayoutParams ?: continue
-            lo = minOf(lo, lp.cellX); hi = maxOf(hi, lp.cellX + lp.cellHSpan - 1)
+            cells += lp.cellX; spans += lp.cellHSpan
         }
-        return if (hi < 0) intArrayOf(0, 0) else intArrayOf(lo, hi)
+        return DockLogic.occupiedRange(cells, spans)
+    }
+
+    private var dragging = false
+    private val dragListener = object : com.android.launcher3.dragndrop.DragController.DragListener {
+        override fun onDragStart(dragObject: com.android.launcher3.DropTarget.DragObject, options: com.android.launcher3.dragndrop.DragOptions) = setDragging(true)
+        override fun onDragEnd() = setDragging(false)
+    }
+
+    private fun setDragging(value: Boolean) {
+        if (dragging == value) return
+        dragging = value
+        requestLayout(); invalidate()
     }
 
     private var lastRange = -1
@@ -87,6 +102,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         super.onAttachedToWindow()
         viewTreeObserver.addOnPreDrawListener(alphaSync)
         launcher.hotseat.addOnLayoutChangeListener(hotseatListener)
+        launcher.dragController.addDragListener(dragListener)
         RecentApps.prefs(context).registerOnSharedPreferenceChangeListener(listener)
         DockPrefs.prefs(context).registerOnSharedPreferenceChangeListener(settingsListener)
         refresh()
@@ -95,6 +111,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     override fun onDetachedFromWindow() {
         viewTreeObserver.removeOnPreDrawListener(alphaSync)
         launcher.hotseat.removeOnLayoutChangeListener(hotseatListener)
+        launcher.dragController.removeDragListener(dragListener)
         RecentApps.prefs(context).unregisterOnSharedPreferenceChangeListener(listener)
         DockPrefs.prefs(context).unregisterOnSharedPreferenceChangeListener(settingsListener)
         super.onDetachedFromWindow()
