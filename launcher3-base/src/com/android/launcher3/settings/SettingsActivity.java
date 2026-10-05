@@ -301,6 +301,13 @@ public class SettingsActivity extends FragmentActivity
         protected boolean initPreference(Preference preference) {
             LauncherDisplayInfo info = DisplayController.INSTANCE.get(getContext()).getInfo();
             switch (preference.getKey()) {
+                case com.qtekfun.ultimatelauncher.grid.EdgeGrid.KEY: // UltimateLauncher 0120
+                    // Solo tablet (lado corto >= 600 dp); al cambiar se reconstruye la rejilla tras guardar el valor.
+                    preference.setOnPreferenceChangeListener((pref, newValue) -> {
+                        InvariantDeviceProfile.INSTANCE.get(getContext()).ulReloadGrid();
+                        return true;
+                    });
+                    return info.isLargeScreen(info.realBounds);
                 case "pref_ul_dock_recents_clear": // UltimateLauncher 0092
                     preference.setOnPreferenceClickListener(p -> {
                         com.qtekfun.ultimatelauncher.dock.RecentApps.clear(getContext());

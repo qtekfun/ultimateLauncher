@@ -58,4 +58,6 @@
     <string name="ul_pref_folder_style_summary">No card: title on top, icons over the blurred wallpaper and the rest of the home screen hidden.</string>
     <string name="ul_pref_allow_rotation">Rotate the home screen</string>
     <string name="ul_pref_allow_rotation_summary">Follows the system orientation so the grid, dock and folders also work in landscape. Off by default (portrait home like OPPO).</string>
+    <string name="ul_pref_edge_grid">Icons to the screen edge</string>
+    <string name="ul_pref_edge_grid_summary">Lets the home grid use the full width on tablets, with no side margins. Off keeps the measured Huawei margins.</string>
 </resources>

@@ -535,6 +535,11 @@ public class InvariantDeviceProfile {
         });
     }
 
+    /** UltimateLauncher 0120: reconstruye los DeviceProfile (p. ej. al cambiar «Iconos hasta el borde»). */
+    public void ulReloadGrid() {
+        mMainExecutor.execute(this::onConfigChanged);
+    }
+
     private Object[] toModelState() {
         return new Object[]{
                 numColumns, numRows, numSearchContainerColumns, numDatabaseHotseatIcons,
