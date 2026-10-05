@@ -16,7 +16,7 @@ Cada hito termina con algo que se pueda **instalar y probar**. No pasar al sigui
 - T1.3 Rellenar la matriz de dispositivos y ejecutar la checklist de `03`.
 - T1.4 Confirmar o corregir la tabla de qué se conserva/elimina de `02`.
 - **Aceptación**: muestra inicio y cajón en Android 12 y en 16/17; informe de qué falla (si algo).
-- **Punto de decisión**: contar las compuertas de compatibilidad que hicieron falta, revisar qué versiones usan los dispositivos reales y decidir si se mantiene `minSdk` 31 o se sube (tabla de `03`).
+- **Punto de decisión**: contar las compuertas de compatibilidad que hicieron falta, revisar qué versiones usan los dispositivos reales y decidir si se mantiene `minSdk` 31 o se sube (tabla de `03`). Datos y recomendación (mantener 31): `docs/compat-android12-14.md`.
 
 ## M2 — Recortes
 - T2.1 Quitar QSB (inicio y dock), fila de previstas, búsqueda extendida y ganchos de feed.

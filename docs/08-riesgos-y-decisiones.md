@@ -4,7 +4,7 @@
 
 | # | Riesgo | Prob. | Impacto | Mitigación |
 |---|---|---|---|---|
-| R1 | Launcher3 de Android 17 usa APIs que no existen en Android 12-16 | Alta | Alto | Compuertas por versión y Lint `NewApi` como error; prueba en M1; revisar `minSdk` (ver `03`) |
+| R1 | Launcher3 de Android 17 usa APIs que no existen en Android 12-16 | Alta | Alto | Compuertas por versión y Lint `NewApi` como error; prueba en M1; revisar `minSdk` (ver `03`). Estado 2026-10-05: Lint `NewApi` = 0 y como error; 10 cambios de compatibilidad; ver `docs/compat-android12-14.md` (sin probar en 13/14) |
 | R2 | Montar la compilación Gradle fuera de AOSP lleva mucho más de lo previsto | Media | Alto | M0 aislado; modelo de Lawnchair; si bloquea, replantear |
 | R3 | No se pueden igualar las animaciones del sistema (gestos y recientes) | Alta | Medio | Alcance declarado en `04`; documentar; opción root futura |
 | R4 | Las ROMs matan el proceso o rompen widgets | Alta | Alto | Asistente por marca; lista de pruebas; avisos |
