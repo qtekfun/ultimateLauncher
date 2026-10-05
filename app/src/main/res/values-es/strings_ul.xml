@@ -33,6 +33,11 @@
     
 <string name="ul_sync_wrong_pass">Frase de paso incorrecta o archivo alterado.</string>
     <string name="ul_sync_label">Disposición de UltimateLauncher</string>
+    <string name="ul_dock_recent_remove">Quitar de recientes</string>
+    <string name="ul_dock_recent_clear_all">Borrar todos los recientes</string>
+    <string name="ul_pref_dock_recents_clear">Borrar los recientes</string>
+    <string name="ul_pref_dock_recents_clear_summary">Quita todas las apps de la zona de recientes del dock.</string>
+    <string name="ul_dock_recents_cleared">Recientes borrados</string>
     <string name="ul_pref_dock_recents">Últimas apps en el dock</string>
     <string name="ul_pref_dock_recents_summary">Muestra las últimas apps abiertas desde este launcher (hasta 4). Se guardan solo en este dispositivo; al desactivarlo se borran.</string>
     <string name="ul_pref_dock_background">Fondo del dock de tablet</string>
@@ -43,7 +48,7 @@
     <string name="ul_pref_open_scale_summary">Las apps crecen desde el icono pulsado. Desactivado: animación de revelado de AOSP.</string>
     <string name="ul_pref_return_pop">Animación del icono al volver</string>
     <string name="ul_pref_return_pop_summary">El icono que lanzaste hace un «pop» al volver al launcher. La ventana de la app la cierra el sistema.</string>
-    <string name="ul_battery_help">Sin esto, ColorOS mata el launcher en segundo plano y la pantalla de inicio se recarga (iconos en blanco un momento) al volver.</string>
+    <string name="ul_battery_help">Sin esto, el sistema (ColorOS, EMUI, MagicOS...) puede matar el launcher en segundo plano y la pantalla de inicio se recarga (iconos en blanco un momento) al volver.</string>
     <string name="ul_btn_battery">No optimizar la batería del launcher</string>
     <string name="ul_battery_yes">La optimización de batería está DESACTIVADA para UltimateLauncher (bien).</string>
     <string name="ul_battery_no">La optimización de batería está ACTIVA: el sistema puede matar el launcher.</string>

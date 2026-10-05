@@ -109,4 +109,13 @@
         android:defaultValue="false"
         android:persistent="true" />
 
+    <!-- UltimateLauncher 0092 -->
+    <Preference
+        android:key="pref_ul_dock_recents_clear"
+        android:title="@string/ul_pref_dock_recents_clear"
+        android:summary="@string/ul_pref_dock_recents_clear_summary"
+        android:persistent="false"
+        app:isPreferenceVisible="@bool/ul_huawei_dock"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+
 </androidx.preference.PreferenceScreen>

@@ -33,6 +33,11 @@
     
 <string name="ul_sync_wrong_pass">Wrong passphrase, or the file was altered.</string>
     <string name="ul_sync_label">UltimateLauncher layout</string>
+    <string name="ul_dock_recent_remove">Remove from recents</string>
+    <string name="ul_dock_recent_clear_all">Clear all recents</string>
+    <string name="ul_pref_dock_recents_clear">Clear recent apps</string>
+    <string name="ul_pref_dock_recents_clear_summary">Removes all apps from the dock recents.</string>
+    <string name="ul_dock_recents_cleared">Recents cleared</string>
     <string name="ul_pref_dock_recents">Recent apps in the dock</string>
     <string name="ul_pref_dock_recents_summary">Shows the last apps opened from this launcher (up to 4). Stored only on this device; turning it off deletes them.</string>
     <string name="ul_pref_dock_background">Tablet dock background</string>
@@ -43,7 +48,7 @@
     <string name="ul_pref_open_scale_summary">Apps grow from the tapped icon. Off: AOSP reveal animation.</string>
     <string name="ul_pref_return_pop">Icon animation on return</string>
     <string name="ul_pref_return_pop_summary">The icon you launched pops back when you return to the launcher. The app window itself is closed by the system.</string>
-    <string name="ul_battery_help">Without this, ColorOS kills the launcher in the background and the home screen reloads (blank icons for a moment) when you come back.</string>
+    <string name="ul_battery_help">Without this, the system (ColorOS, EMUI, MagicOS...) may kill the launcher in the background and the home screen reloads (blank icons for a moment) when you come back.</string>
     <string name="ul_btn_battery">Don\'t optimize battery for the launcher</string>
     <string name="ul_battery_yes">Battery optimization is OFF for UltimateLauncher (good).</string>
     <string name="ul_battery_no">Battery optimization is ON: the system may kill the launcher.</string>

@@ -301,6 +301,14 @@ public class SettingsActivity extends FragmentActivity
         protected boolean initPreference(Preference preference) {
             LauncherDisplayInfo info = DisplayController.INSTANCE.get(getContext()).getInfo();
             switch (preference.getKey()) {
+                case "pref_ul_dock_recents_clear": // UltimateLauncher 0092
+                    preference.setOnPreferenceClickListener(p -> {
+                        com.qtekfun.ultimatelauncher.dock.RecentApps.clear(getContext());
+                        android.widget.Toast.makeText(getContext(), R.string.ul_dock_recents_cleared,
+                                android.widget.Toast.LENGTH_SHORT).show();
+                        return true;
+                    });
+                    return true;
                 case NOTIFICATION_DOTS_PREFERENCE_KEY:
                     return BuildConfig.NOTIFICATION_DOTS_ENABLED;
                 case DEVELOPER_OPTIONS_KEY:

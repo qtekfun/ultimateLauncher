@@ -54,14 +54,38 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         clipToPadding = false
     }
 
-    private var lastHotseatCount = -1
+    /** Rango de huecos ocupados del hotseat (primer y último cellX) para ajustar la píldora aunque haya huecos libres. */
+    private fun occupiedRange(): IntArray {
+        val container = launcher.hotseat.shortcutsAndWidgets
+        var lo = Int.MAX_VALUE
+        var hi = -1
+        for (i in 0 until container.childCount) {
+            val child = container.getChildAt(i)
+            // El hotseat de tablet lleva un hueco del buscador (OseWidgetView, vacío sin GMS): no cuenta como app fija.
+            if (child is com.android.launcher3.qsb.OseWidgetView || child.tag !is com.android.launcher3.model.data.ItemInfo) continue
+            val lp = child.layoutParams as? com.android.launcher3.celllayout.CellLayoutLayoutParams ?: continue
+            lo = minOf(lo, lp.cellX); hi = maxOf(hi, lp.cellX + lp.cellHSpan - 1)
+        }
+        return if (hi < 0) intArrayOf(0, 0) else intArrayOf(lo, hi)
+    }
+
+    private var lastRange = -1
     private val hotseatListener = OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-        val c = launcher.hotseat.shortcutsAndWidgets.childCount
-        if (c != lastHotseatCount) { lastHotseatCount = c; post { requestLayout(); invalidate() } }
+        val r = occupiedRange()
+        val key = r[0] * 100 + r[1]
+        if (key != lastRange) { lastRange = key; post { requestLayout(); invalidate() } }
+    }
+
+    /** Las píldoras siguen la opacidad del hotseat (se desvanecen con el cajón abierto). */
+    private val alphaSync = android.view.ViewTreeObserver.OnPreDrawListener {
+        val a = launcher.hotseat.alpha
+        if (alpha != a) alpha = a
+        true
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        viewTreeObserver.addOnPreDrawListener(alphaSync)
         launcher.hotseat.addOnLayoutChangeListener(hotseatListener)
         RecentApps.prefs(context).registerOnSharedPreferenceChangeListener(listener)
         DockPrefs.prefs(context).registerOnSharedPreferenceChangeListener(settingsListener)
@@ -69,6 +93,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     }
 
     override fun onDetachedFromWindow() {
+        viewTreeObserver.removeOnPreDrawListener(alphaSync)
         launcher.hotseat.removeOnLayoutChangeListener(hotseatListener)
         RecentApps.prefs(context).unregisterOnSharedPreferenceChangeListener(listener)
         DockPrefs.prefs(context).unregisterOnSharedPreferenceChangeListener(settingsListener)
@@ -91,6 +116,8 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val shape = ThemeManager.INSTANCE.get(context).iconShapeData.value
         removeAllViews()
         val shown = ArrayList<ComponentName>()
+        // Poda persistente de apps desinstaladas (antes solo se saltaban al pintar y se quedaban guardadas).
+        RecentApps.prune(context) { cn -> la.getActivityList(cn.packageName, Process.myUserHandle()).any { it.componentName == cn } }
         val li = LauncherIcons.obtain(context)
         try {
             val wanted = if (DockPrefs.recentsEnabled(context)) RecentApps.load(context) else emptyList()
@@ -98,12 +125,15 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
                 if (shown.size >= RecentApps.max(context)) break
                 if (cn.packageName in fixed) continue
                 val info = la.getActivityList(cn.packageName, Process.myUserHandle()).firstOrNull { it.componentName == cn } ?: continue
-                val bmp = li.createBadgedIconBitmap(info.getIcon(0))
+                val bmp = li.createBadgedIconBitmap(
+                    // Mismo origen e iconDpi que el resto del launcher (IconLoader), no getIcon(0): en EMUI daba otro icono.
+                    com.android.launcher3.icons.IconProvider(context).getIcon(info.activityInfo, launcher.deviceProfile.inv.fillResIconDpi))
                 val v = ImageView(context).apply {
                     setImageDrawable(bmp.newIcon(context, 0, shape))
                     contentDescription = info.label
                     layoutParams = LayoutParams(iconPx, iconPx)
                     setOnClickListener { la.startMainActivity(cn, Process.myUserHandle(), null, null) }
+                    setOnLongClickListener { confirmRemove(cn, info.label?.toString().orEmpty()); true }
                 }
                 addView(v)
                 shown += cn
@@ -116,6 +146,19 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         invalidate()
     }
 
+    /** Pulsación larga en un reciente: «Quitar de recientes» / «Borrar todos los recientes». */
+    private fun confirmRemove(cn: ComponentName, label: String) {
+        val items = arrayOf(res.getString(R.string.ul_dock_recent_remove), res.getString(R.string.ul_dock_recent_clear_all))
+        android.app.AlertDialog.Builder(launcher)
+            .setTitle(label)
+            .setItems(items) { _, which ->
+                if (which == 0) RecentApps.remove(context, cn) else RecentApps.clear(context)
+                refresh() // al instante (el listener de preferencias también lo haría, pero asíncrono)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         // Coordenadas relativas a esta vista; el hotseat es hermano y ocupa todo el ancho de pantalla (esta vista puede
         // llevar márgenes por muescas/insets), así que se centra respecto al hotseat y no respecto a sí misma.
@@ -126,7 +169,9 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val h = (dp.deviceProperties.heightPx - t).toFloat()
         val n = launcher.deviceProfile.hotseatProfile.numShownIcons
         // La píldora izquierda abarca solo las apps que hay (mínimo 1), no todos los huecos del hotseat.
-        val k = launcher.hotseat.shortcutsAndWidgets.childCount.coerceIn(1, n)
+        val range = occupiedRange()
+        val first = range[0].coerceIn(0, n - 1)
+        val k = (range[1] - range[0] + 1).coerceIn(1, n)
         val leftW = k * cell + 2 * pad
         val rightW = if (recents.isEmpty()) 0f else recents.size * cell + 2 * pad
         val g = if (recents.isEmpty()) 0f else gap
@@ -140,7 +185,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val hh = 35f * res.displayMetrics.density
         handleRect.set(leftRect.right + g / 2 - hw / 2, top + (pillH - hh) / 2, leftRect.right + g / 2 + hw / 2, top + (pillH + hh) / 2)
         // El hotseat se centra solo; se desplaza para que el conjunto (izquierda + asa + derecha) quede centrado.
-        launcher.hotseat.translationX = (startX - x0) + pad - (w - n * cell) / 2f
+        launcher.hotseat.translationX = (startX - x0) + pad - (w - n * cell) / 2f - first * cell
         for (i in 0 until childCount) {
             val v = getChildAt(i)
             val x = (rightRect.left + pad + i * cell + (cell - iconPx) / 2).toInt()
