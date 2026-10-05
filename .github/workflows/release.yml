@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 # Publica una release de GitHub firmada al empujar una etiqueta vX.Y.Z (o vX.Y.Z-rc.N). Las notas salen de CHANGELOG.md.
-# Secretos del repo (ver docs/release-signing.md): UL_KEYSTORE_BASE64, UL_KEYSTORE_PASSWORD, UL_KEY_ALIAS, UL_KEY_PASSWORD.
+# Los secretos los crea el propietario del repo con SU clave (ver docs/release-signing.md): UL_KEYSTORE_BASE64, UL_KEYSTORE_PASSWORD,
+# UL_KEY_ALIAS, UL_KEY_PASSWORD. Sin ellos la release falla a propósito: no se publica nada sin firmar.
 name: Release
 
 on:
@@ -56,7 +57,8 @@ jobs:
         run: |
           apk=app/build/outputs/apk/default/release/app-default-release.apk
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs "$apk" | tee certs.txt
-          grep -q "CN=UltimateLauncher" certs.txt || { echo "El APK no está firmado con la clave de publicación"; exit 1; }
+          # La clave de depuración de Android no es una clave de publicación: no se publica con ella.
+          if grep -q "Android Debug" certs.txt; then echo "El APK está firmado con la clave de depuración"; exit 1; fi
 
       - name: Publicar la release de GitHub
         env:
