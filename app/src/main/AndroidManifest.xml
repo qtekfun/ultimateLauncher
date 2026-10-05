@@ -25,6 +25,11 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent>
+        <!-- «Importar de otro launcher»: listar los launchers instalados (intent HOME). Visibilidad de paquetes, no es un permiso. -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.HOME" />
+        </intent>
         <!-- Widget «Reloj digital»: saber si hay app de reloj que atienda el toque (no es un permiso). -->
         <intent>
             <action android:name="android.intent.action.SHOW_ALARMS" />
@@ -77,6 +82,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Importar la pantalla de inicio de otro launcher (archivo de copia o proveedor), sin red. Se abre desde Exportar/importar y desde el asistente. -->
+        <activity
+            android:name="com.qtekfun.ultimatelauncher.importer.ForeignImportActivity"
+            android:label="@string/ul_imp_label"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight"
+            android:exported="false" />
 
         <!-- Exportar/importar disposición (M7): archivo por el selector de documentos, sin red. -->
         <activity
