@@ -177,6 +177,7 @@ constructor(
                 )
         }
         if (options.wrapNonAdaptiveIcon) tempIcon = wrapToAdaptiveIcon(tempIcon, options)
+        tempIcon = fillTransparentBackground(tempIcon) // UltimateLauncher 0017
 
         val drawFullBleed = options.drawFullBleed ?: drawFullBleedIcons
         val bitmap = drawableToBitmap(tempIcon, drawFullBleed, options)
@@ -219,6 +220,28 @@ constructor(
         }
 
         return info
+    }
+
+    /** UltimateLauncher 0017: rellena con la baldosa clara los iconos adaptativos sin fondo visible. */
+    private fun fillTransparentBackground(icon: Drawable): Drawable {
+        if (icon !is AdaptiveIconDrawable) return icon
+        val bg = icon.background
+        if (bg != null && !isMostlyTransparent(bg)) return icon
+        val fg = icon.foreground ?: return icon
+        return AdaptiveIconDrawable(ColorDrawable(DEFAULT_WRAPPER_BACKGROUND), fg).apply { setBounds(0, 0, 1, 1) }
+    }
+
+    private fun isMostlyTransparent(d: Drawable): Boolean {
+        val size = 24
+        val bmp = Bitmap.createBitmap(size, size, ARGB_8888)
+        val oldBounds = d.copyBounds()
+        d.setBounds(0, 0, size, size)
+        d.draw(android.graphics.Canvas(bmp))
+        d.bounds = oldBounds
+        var opaque = 0
+        for (y in 0 until size) for (x in 0 until size) if (Color.alpha(bmp.getPixel(x, y)) > 200) opaque++
+        bmp.recycle()
+        return opaque < size * size / 2
     }
 
     fun getBitmapFlagOp(options: IconOptions?): FlagOp {
