@@ -67,4 +67,20 @@
         app:isPreferenceVisible="@bool/ul_huawei_dock"
         xmlns:app="http://schemas.android.com/apk/res-auto" />
 
+
+    <!-- UltimateLauncher 0043: animaciones de abrir/volver -->
+    <SwitchPreference
+        android:key="pref_ul_open_scale"
+        android:title="@string/ul_pref_open_scale"
+        android:summary="@string/ul_pref_open_scale_summary"
+        android:defaultValue="true"
+        android:persistent="true" />
+
+    <SwitchPreference
+        android:key="pref_ul_return_pop"
+        android:title="@string/ul_pref_return_pop"
+        android:summary="@string/ul_pref_return_pop_summary"
+        android:defaultValue="true"
+        android:persistent="true" />
+
 </androidx.preference.PreferenceScreen>
