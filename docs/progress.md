@@ -195,3 +195,7 @@ Parches 0020–0025 (ver `patches/README.md`); todos los valores salen de `asset
 - 0048: tarjeta transparente (Folder + FolderAnimationManager), título arriba y blanco, posición centrada, desenfoque de la ventana (`setBackgroundBlurRadius` + `blurBehindRadius`) y fundido del escritorio/dock (`app/.../folder/FolderStyle.kt`). Interruptor «Carpetas abiertas como OPPO» (activo por defecto).
 - 0049: celda de carpeta 114,3 × 113,1 dp en teléfono (FolderProfile.kt, variantes escalable y no escalable).
 - Comprobado en el CPH2841 con la carpeta existente (2 apps): título a 784 px (ref. 782), paso entre iconos 400 px (ref. 398), apertura y cierre restauran el inicio. Pendiente: fila de iconos ~70 px más arriba que en la referencia (1014 vs 1084), carpetas de 3+ apps y de varias páginas, tablet, tema claro.
+
+### Carpeta: mezcla iOS + ColorOS (parche 0050, 2026-10-05)
+- Carpeta cerrada: forma del icono (superelipse/cuadrado redondeado) en vez de círculo y fondo de cristal claro (blanco 40 %) en vez del azul oscuro del tema (`ThemeManager.folderShape = iconShape`, `FolderStyle.closedIconColor`).
+- Carpeta abierta: fondo desenfocado de OPPO + oscurecimiento 32 % + panel de cristal traslúcido tipo iOS (blanco 22 %) tras título e iconos, para leer sobre fondos claros. Todo tras el interruptor «Carpetas abiertas como OPPO».

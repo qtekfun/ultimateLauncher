@@ -44,6 +44,17 @@ object FolderStyle {
     @JvmStatic fun phoneCells(context: Context): Boolean =
         enabled(context) && context.resources.configuration.smallestScreenWidthDp < 600
 
+    /** Panel traslúcido tipo iOS tras el título y los iconos: aclara lo justo para leer sobre cualquier fondo. */
+    private const val CARD_ARGB = 0x38FFFFFF
+    /** Oscurecimiento del fondo desenfocado (el blanco sobre fondos claros no se lee). */
+    private const val DIM = 0.32f
+
+    @JvmStatic fun cardColor(context: Context): Int = CARD_ARGB
+
+    /** Fondo de la carpeta cerrada: cristal claro, como el de OPPO/iOS, en lugar del azul oscuro del tema. */
+    @JvmStatic fun closedIconColor(context: Context, themeColor: Int): Int =
+        if (enabled(context)) 0x66FFFFFF else themeColor
+
     @JvmStatic fun transparentCard(context: Context): Boolean = enabled(context)
 
     /** Devuelve [x, y] de la esquina de la carpeta: centrada en horizontal y con el título en la banda de OPPO. */
@@ -59,10 +70,11 @@ object FolderStyle {
         val w = l.window ?: return
         w.setBackgroundBlurRadius(px)
         val a = w.attributes
+        a.dimAmount = if (px > 0) DIM else 0f
         a.blurBehindRadius = px
         w.attributes = a
-        if (px > 0) w.addFlags(android.view.WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
-        else w.clearFlags(android.view.WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
+        if (px > 0) w.addFlags(android.view.WindowManager.LayoutParams.FLAG_BLUR_BEHIND or android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        else w.clearFlags(android.view.WindowManager.LayoutParams.FLAG_BLUR_BEHIND or android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
 
     @JvmStatic fun onOpen(launcher: Launcher) {

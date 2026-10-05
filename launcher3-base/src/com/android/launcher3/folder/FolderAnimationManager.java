@@ -192,7 +192,7 @@ public class FolderAnimationManager implements FolderAnimationCreator {
 
         mFolderBackground.mutate();
         mFolderBackground.setColor(com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(mContext)
-                ? android.graphics.Color.TRANSPARENT : (mIsOpening ? initialColor : finalColor)); // UltimateLauncher 0048
+                ? com.qtekfun.ultimatelauncher.folder.FolderStyle.cardColor(mContext) : (mIsOpening ? initialColor : finalColor)); // UltimateLauncher 0048
 
         // Set up the reveal animation that clips the Folder.
         int totalOffsetX = paddingOffsetX + previewItemOffsetX;
@@ -223,7 +223,7 @@ public class FolderAnimationManager implements FolderAnimationCreator {
 
         mBgColorAnimator = getAnimator(mFolderBackground, "color",
                 com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(mContext) ? 0 : initialColor,
-                com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(mContext) ? 0 : finalColor); // UltimateLauncher 0048
+                com.qtekfun.ultimatelauncher.folder.FolderStyle.transparentCard(mContext) ? com.qtekfun.ultimatelauncher.folder.FolderStyle.cardColor(mContext) : finalColor); // UltimateLauncher 0048
         play(a, mBgColorAnimator);
         play(a, getAnimator(mFolder, View.TRANSLATION_X, xDistance, 0f));
         play(a, getAnimator(mFolder, View.TRANSLATION_Y, yDistance, 0f));

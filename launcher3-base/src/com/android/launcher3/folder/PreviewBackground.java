@@ -243,7 +243,7 @@ public class PreviewBackground extends DelegatedCellDrawing {
     }
 
     public int getBgColor() {
-        return mBgColor;
+        return com.qtekfun.ultimatelauncher.folder.FolderStyle.closedIconColor(mContext, mBgColor); // UltimateLauncher 0050
     }
 
     public void drawBackground(Canvas canvas) {
