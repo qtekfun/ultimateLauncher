@@ -34,4 +34,8 @@
     <string name="ul_pref_open_scale_summary">Apps grow from the tapped icon. Off: AOSP reveal animation.</string>
     <string name="ul_pref_return_pop">Icon animation on return</string>
     <string name="ul_pref_return_pop_summary">The icon you launched pops back when you return to the launcher. The app window itself is closed by the system.</string>
+    <string name="ul_battery_help">Without this, ColorOS kills the launcher in the background and the home screen reloads (blank icons for a moment) when you come back.</string>
+    <string name="ul_btn_battery">Don\'t optimize battery for the launcher</string>
+    <string name="ul_battery_yes">Battery optimization is OFF for UltimateLauncher (good).</string>
+    <string name="ul_battery_no">Battery optimization is ON: the system may kill the launcher.</string>
 </resources>

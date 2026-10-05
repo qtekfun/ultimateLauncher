@@ -23,6 +23,7 @@ Esta tabla es la **lista objetivo**. Hay que contrastarla con el manifiesto fusi
 | Expandir barra de estado | Opcional | Gesto de deslizar para notificaciones |
 | Fondo de pantalla | Solo el estrictamente necesario | Mostrar/cambiar el fondo |
 | Vibración | Sí | Respuesta háptica |
+| `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | Sí (añadido 2026-10-05) | Solo si el usuario lo pide en el asistente: abre el diálogo del sistema para que no mate el launcher en segundo plano (si no, ColorOS lo cierra y los iconos tardan en volver). Google Play limita este permiso; la distribución es fuera de Play (como UltimateDeck). Sin red, sin datos. |
 | Almacenamiento, contactos, ubicación, cámara, micrófono, notificaciones propias, biometría | **No** | No se necesitan |
 
 Regla: **cualquier permiso nuevo requiere actualizar esta tabla** y el README público.

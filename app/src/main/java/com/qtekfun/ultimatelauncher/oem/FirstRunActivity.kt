@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.PowerManager
 import android.provider.Settings
 import android.view.Gravity
 import android.view.View
@@ -24,6 +25,7 @@ import java.util.Locale
 class FirstRunActivity : Activity() {
     private lateinit var adapter: OemAdapter
     private lateinit var statusHome: TextView
+    private lateinit var statusBattery: TextView
     private val lang get() = Locale.getDefault().language
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +49,10 @@ class FirstRunActivity : Activity() {
         root.addView(button(getString(R.string.ul_btn_home)) { requestHome() })
 
         root.addView(text(getString(R.string.ul_step_battery), 18f, true))
-        root.addView(button(getString(R.string.ul_btn_open)) { openFirst(adapter.batteryIntents()) })
+        root.addView(text(getString(R.string.ul_battery_help)))
+        statusBattery = text("")
+        root.addView(statusBattery)
+        root.addView(button(getString(R.string.ul_btn_battery)) { requestBatteryExemption() })
 
         root.addView(text(getString(R.string.ul_step_autostart), 18f, true))
         root.addView(text(getString(R.string.ul_autostart_help)))
@@ -67,11 +72,25 @@ class FirstRunActivity : Activity() {
     override fun onResume() {
         super.onResume()
         statusHome.text = getString(if (isDefaultHome()) R.string.ul_home_yes else R.string.ul_home_no)
+        statusBattery.text = getString(if (isBatteryExempt()) R.string.ul_battery_yes else R.string.ul_battery_no)
     }
 
     private fun isDefaultHome(): Boolean {
         val rm = getSystemService(RoleManager::class.java)
         return rm != null && rm.isRoleAvailable(RoleManager.ROLE_HOME) && rm.isRoleHeld(RoleManager.ROLE_HOME)
+    }
+
+    private fun isBatteryExempt(): Boolean =
+        getSystemService(PowerManager::class.java)?.isIgnoringBatteryOptimizations(packageName) == true
+
+    /**
+     * Pide al sistema que no optimice la batería de este launcher (diálogo directo, como UltimateDeck). Si no existe el
+     * diálogo en la ROM, se abre la lista de optimización y, en último caso, los detalles de la app (reserva de docs/05).
+     */
+    private fun requestBatteryExemption() {
+        if (isBatteryExempt()) return
+        val direct = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:$packageName"))
+        try { startActivity(direct) } catch (e: ActivityNotFoundException) { openFirst(adapter.batteryIntents()) }
     }
 
     private fun requestHome() {

@@ -20,6 +20,7 @@ Requisitos: JDK 21, Android SDK con plataforma 37.0 y build-tools 36+, Gradle 9.
 | `REQUEST_DELETE_PACKAGES` | desinstalar desde el icono |
 | `SET_WALLPAPER`, `SET_WALLPAPER_HINTS` | fondo de pantalla (lo exige `WallpaperManager` al arrancar) |
 | `VIBRATE` | respuesta háptica |
+| `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | solo si lo pides en el asistente: evita que el sistema mate el launcher en segundo plano |
 
 Sin `INTERNET`, sin almacenamiento, contactos, ubicación, cámara ni notificaciones. La visibilidad de apps usa `<queries>` (solo apps con icono de lanzador), no `QUERY_ALL_PACKAGES`.
 

@@ -34,4 +34,8 @@
     <string name="ul_pref_open_scale_summary">Las apps crecen desde el icono pulsado. Desactivado: animación de revelado de AOSP.</string>
     <string name="ul_pref_return_pop">Animación del icono al volver</string>
     <string name="ul_pref_return_pop_summary">El icono que lanzaste hace un «pop» al volver al launcher. La ventana de la app la cierra el sistema.</string>
+    <string name="ul_battery_help">Sin esto, ColorOS mata el launcher en segundo plano y la pantalla de inicio se recarga (iconos en blanco un momento) al volver.</string>
+    <string name="ul_btn_battery">No optimizar la batería del launcher</string>
+    <string name="ul_battery_yes">La optimización de batería está DESACTIVADA para UltimateLauncher (bien).</string>
+    <string name="ul_battery_no">La optimización de batería está ACTIVA: el sistema puede matar el launcher.</string>
 </resources>
