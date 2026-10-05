@@ -141,4 +141,10 @@
     <string name="ul_wp_facetas">Facetas</string>
     <string name="ul_wp_tinta">Tinta</string>
     <string name="ul_wp_olas">Olas</string>
+    <!-- Paquetes de iconos (parches 0171-0173) -->
+    <string name="ul_pref_icon_pack">Paquete de iconos</string>
+    <string name="ul_icon_pack_default">Predeterminado</string>
+    <string name="ul_icon_pack_none">No hay paquetes de iconos instalados. Instala uno desde tu tienda de apps y aparecerá aquí.</string>
+    <string name="ul_pref_icon_pack_back">Aplicar el fondo del pack a iconos sin tema</string>
+    <string name="ul_pref_icon_pack_back_summary">Las apps que el pack no cubre reciben su fondo, máscara y capa superior. Desactivado: conservan su icono normal.</string>
 </resources>

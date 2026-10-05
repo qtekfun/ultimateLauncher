@@ -30,6 +30,11 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.HOME" />
         </intent>
+        <!-- Paquetes de iconos (parches 0171-0173): descubrir los packs instalados por las acciones estándar de launchers (visibilidad de paquetes, no son permisos). -->
+        <intent><action android:name="org.adw.launcher.THEMES" /></intent>
+        <intent><action android:name="com.novalauncher.THEME" /></intent>
+        <intent><action android:name="org.adw.launcher.icons.ACTION_PICK_ICON" /></intent>
+        <intent><action android:name="com.anddoes.launcher.THEME" /></intent>
         <!-- Widget «Reloj digital»: saber si hay app de reloj que atienda el toque (no es un permiso). -->
         <intent>
             <action android:name="android.intent.action.SHOW_ALARMS" />
