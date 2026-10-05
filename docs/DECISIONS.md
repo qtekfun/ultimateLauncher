@@ -24,3 +24,7 @@
 | 2026-10-05 | Pruebas del importador con `org.xerial:sqlite-jdbc` y `slf4j-api` SOLO como `testImplementation` (no se empaquetan; ya estaban en la caché de Gradle) | Robolectric; fixtures `.db` binarias | Permite generar bases sintéticas en la propia prueba sin datos personales ni binarios en el repo |
 
 | 2026-10-05 | Importador: permisos `READ_SETTINGS` de otros launchers **retirados** de la variante `sync` (combinación «leer datos de otro launcher» + INTERNET demasiado delicada y casi sin uso: la vía de archivo cubre Nova/Lawnchair sin permisos). Reponer solo si el usuario lo pide: 2 líneas en `app/src/sync/AndroidManifest.xml` y en `tools/permissions-allowed-sync.txt`. | Privacidad primero |
+
+## Copia de seguridad sin cifrar por defecto (2026-10-05, parche 0160)
+- «Guardar copia» (Ajustes de inicio > Copia de seguridad) escribe el JSON v2 en claro: lo pidió el usuario («no hay datos críticos»). El cifrado con frase sigue disponible solo en «Exportar/importar disposición» y «Restaurar copia» lo detecta y pide la frase. Sin permisos nuevos ni red.
+- Lista blanca de ajustes (no por prefijo) para que un archivo ajeno no pueda escribir preferencias arbitrarias; los recientes del dock y los datos de widgets quedan fuera.
