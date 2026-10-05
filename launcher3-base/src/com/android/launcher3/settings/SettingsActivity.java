@@ -173,6 +173,10 @@ public class SettingsActivity extends FragmentActivity
 
         private boolean mRestartOnResume = false;
 
+        // UltimateLauncher 0200: restauraciones de copia vistas al crear la pantalla; si cambia, se recrea al volver.
+        private final int mRestoreCountSeen =
+                com.qtekfun.ultimatelauncher.layoutsync.BackupPrefs.restoreCount();
+
         private String mHighLightKey;
 
         private boolean mPreferenceHighlighted = false;
@@ -209,12 +213,7 @@ public class SettingsActivity extends FragmentActivity
             setPreferencesFromResource(R.xml.launcher_preferences, rootKey);
 
             PreferenceScreen screen = getPreferenceScreen();
-            for (int i = screen.getPreferenceCount() - 1; i >= 0; i--) {
-                Preference preference = screen.getPreference(i);
-                if (!initPreference(preference)) {
-                    screen.removePreference(preference);
-                }
-            }
+            initGroup(screen); // UltimateLauncher 0200
 
             // If the target preference is not in the current preference screen, find the parent
             // preference screen that contains the target preference and set it as the preference
@@ -234,6 +233,22 @@ public class SettingsActivity extends FragmentActivity
 
             if (getActivity() != null && !TextUtils.isEmpty(getPreferenceScreen().getTitle())) {
                 getActivity().setTitle(getPreferenceScreen().getTitle());
+            }
+        }
+
+        /** UltimateLauncher 0200: aplica initPreference también dentro de las categorías y quita las que quedan vacías. */
+        private void initGroup(PreferenceGroup group) {
+            for (int i = group.getPreferenceCount() - 1; i >= 0; i--) {
+                Preference preference = group.getPreference(i);
+                if (!initPreference(preference)) {
+                    group.removePreference(preference);
+                } else if (preference instanceof PreferenceGroup && !(preference instanceof PreferenceScreen)) {
+                    PreferenceGroup child = (PreferenceGroup) preference;
+                    initGroup(child);
+                    if (child.getPreferenceCount() == 0) {
+                        group.removePreference(child);
+                    }
+                }
             }
         }
 
@@ -399,8 +414,9 @@ public class SettingsActivity extends FragmentActivity
                 }
             }
 
-            if (mRestartOnResume) {
-                recreateActivityNow();
+            if (mRestartOnResume
+                    || mRestoreCountSeen != com.qtekfun.ultimatelauncher.layoutsync.BackupPrefs.restoreCount()) {
+                recreateActivityNow(); // UltimateLauncher 0200
             }
         }
 

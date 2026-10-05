@@ -74,6 +74,7 @@ class LayoutStore(private val context: Context) {
             is Boolean -> ed.putBoolean(k, v); is Int -> ed.putInt(k, v); is String -> ed.putString(k, v)
         }
         ed.commit()
+        BackupPrefs.noteRestored() // avisa a una pantalla de Ajustes abierta para que se recree con los valores nuevos
     }
 
     /** Apps lanzables del perfil personal (sin esta app), con su fecha de instalación, para «Colocar mis apps por orden». */
