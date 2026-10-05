@@ -85,6 +85,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         // it is managed by OseWidgetManager and QsbAppWidgetHost.
         closeActions.add(
             oseWidgetManager.providerInfo.forEach(activityContext.uiExecutor) {
+                if (it == null) return@forEach // UltimateLauncher 0016
                 setAppWidget(INVALID_APPWIDGET_ID, it)
                 // We will get valid updateAppWidget remoteview call from OseWidgetManager again.
                 // This is only for resetting the remoteviews using a broken remote view.
@@ -95,6 +96,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         )
         closeActions.add(
             oseWidgetManager.views.forEach(activityContext.uiExecutor) {
+                if (appWidgetInfo == null) return@forEach // UltimateLauncher 0016: sin proveedor (sin GMS)
                 updateAppWidget(it)
                 Log.i(TAG, "updateAppWidget view=$it")
             }::close

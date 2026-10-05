@@ -20,6 +20,10 @@ Base importada sin modificar en el commit "Importación AOSP sin modificar" (ver
 | 0013 | Márgenes superior/inferior/laterales del área de iconos desde recursos de tokens | WorkspaceProfileNonResponsiveFactory.kt | `patches/0013-*.py` + `tools/apply-theme-tokens.py` |
 | 0014 | Indicador de páginas: punto visible con una página, elevado según tokens | PageIndicatorDots.java, Workspace.java | `patches/0014-*.py` |
 | 0004b | Forma de icono genérica con el trazado real de la máscara del sistema (PathParser) | ShapeDelegate.kt | `patches/0004-*.py` |
+| 0015 | Colores de sistema de API 34 → paleta de API 31 (Android 12–13) en `values-v31` y `dynamiccolors` | res/values{,-night}-v31, dynamiccolors | `patches/0015-*.py` |
+| 0016 | `OseWidgetView` no pinta el widget de búsqueda sin proveedor (sin GMS) | qsb/OseWidgetView.kt | `patches/0016-*.py` |
+
+Además: `coreLibraryDesugaringEnabled` (desugar_jdk_libs 2.1.5) en `app/build.gradle` para `Stream.toList` (API 34) en Android 12–13.
 
 Cambios que NO son parches sobre archivos de AOSP (andamiaje propio): `build.gradle*`, `settings.gradle.kts`, `gradle/`, `app/`,
 `platform-stubs/` (incluye copias sin modificar de `plugin_core` y `log/core` de frameworks/base), `launcher3-base/modules/widgetpicker/ul-build.gradle`,
