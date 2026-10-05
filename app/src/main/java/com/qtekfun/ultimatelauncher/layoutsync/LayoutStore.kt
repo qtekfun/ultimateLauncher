@@ -9,6 +9,7 @@ import android.content.pm.LauncherApps
 import android.os.Build
 import android.os.Process
 import com.android.launcher3.LauncherAppState
+import com.android.launcher3.LauncherFiles
 import com.android.launcher3.LauncherSettings.Favorites
 import com.android.launcher3.model.data.LauncherAppWidgetInfo
 import java.io.File
@@ -58,8 +59,27 @@ class LayoutStore(private val context: Context) {
         val sw = context.resources.configuration.smallestScreenWidthDp
         return Snapshot(now(), Device(if (sw >= 600) "tablet" else "phone", Build.BRAND, Build.MODEL, Build.VERSION.SDK_INT, dm.densityDpi,
             context.resources.configuration.screenWidthDp, context.resources.configuration.screenHeightDp),
-            Settings(Grid(idp.numColumns, idp.numRows), if (sw >= 600) "tablet" else "phone"), hot, pages)
+            Settings(Grid(idp.numColumns, idp.numRows), if (sw >= 600) "tablet" else "phone"), hot, pages, BackupPrefs.filter(launcherPrefs().all))
     }
+
+    private fun launcherPrefs() = context.getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+
+    /** Escribe los ajustes ya filtrados con `commit()` (síncrono: el modelo y el launcher los leen al recargar). */
+    private fun applyPrefs(prefs: Map<String, Any>) {
+        val ed = launcherPrefs().edit()
+        for ((k, v) in BackupPrefs.filter(prefs)) when (v) {
+            is Boolean -> ed.putBoolean(k, v); is Int -> ed.putInt(k, v); is String -> ed.putString(k, v)
+        }
+        ed.commit()
+    }
+
+    /** Apps lanzables del perfil personal (sin esta app), con su fecha de instalación, para «Colocar mis apps por orden». */
+    fun installedApps(): List<AppEntry> = launcherApps.getActivityList(null, Process.myUserHandle())
+        .filter { it.componentName.packageName != context.packageName }
+        .map { AppEntry(it.componentName.packageName, it.componentName.className, it.label.toString(), it.firstInstallTime) }
+
+    /** Dock actual (hueco → elemento) para conservarlo al colocar las apps por orden. */
+    fun currentHotseat(): List<Pair<Int, Item>> = export().hotseat
 
     fun deviceState(): DeviceState {
         val launchable = launcherApps.getActivityList(null, Process.myUserHandle()).groupBy({ it.componentName.packageName }, { it.componentName.className })
@@ -72,6 +92,7 @@ class LayoutStore(private val context: Context) {
         val dir = File(context.filesDir, "backups").apply { mkdirs() }
         val backup = File(dir, "layout-" + SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(Date()) + ".json")
         backup.writeText(LayoutJson.toJson(export()))
+        if (plan.prefs.isNotEmpty()) applyPrefs(plan.prefs)
         val db = state.model.modelDbController
         val ownSerial = context.getSystemService(android.os.UserManager::class.java).getSerialNumberForUser(Process.myUserHandle())
         db.delete(null, null)
@@ -118,6 +139,8 @@ class LayoutStore(private val context: Context) {
             }
         } }
         state.model.forceReload("layoutsync")
+        // Reconstruye los perfiles de dispositivo para que «iconos hasta el borde» y similares se relean (mismo gancho que Ajustes).
+        if (plan.prefs.isNotEmpty()) idp.ulReloadGrid()
         return backup
     }
 

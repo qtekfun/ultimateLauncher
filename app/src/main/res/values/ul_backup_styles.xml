@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tema de BackupActivity (Guardar/Restaurar copia): sin ventana visible, solo los diálogos del sistema encima de Ajustes. -->
+<resources>
+    <style name="UlBackupTheme" parent="@android:style/Theme.DeviceDefault.DayNight">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+</resources>

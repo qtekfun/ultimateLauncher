@@ -3,8 +3,11 @@ package com.qtekfun.ultimatelauncher.layoutsync
 import org.json.JSONArray
 import org.json.JSONObject
 
-/** Disposición de la pantalla de inicio en el esquema v1 de docs/06. Sin dependencias de Android salvo org.json. */
-const val SCHEMA_VERSION = 1
+/**
+ * Copia de la pantalla de inicio en el esquema v2 de docs/06 (v1 + ajustes del launcher en `prefs`). Sin dependencias de Android
+ * salvo org.json. Un archivo v1 se sigue leyendo (sin ajustes); uno de versión mayor se rechaza.
+ */
+const val SCHEMA_VERSION = 2
 
 data class Cell(val x: Int, val y: Int)
 data class Span(val w: Int, val h: Int)
@@ -36,7 +39,9 @@ data class Device(val cls: String, val brand: String, val model: String, val and
 data class Settings(val grid: Grid, val gridKey: String = "phone", val iconPack: String? = null, val iconShape: String = "",
                     val animationProfile: String = "aosp-por-defecto", val speedMultiplier: Double = 1.0, val theme: String = "oppo-medido")
 data class Page(val index: Int, val items: List<Item>)
-data class Snapshot(val createdAt: String, val device: Device, val settings: Settings, val hotseat: List<Pair<Int, Item>>, val pages: List<Page>)
+data class Snapshot(val createdAt: String, val device: Device, val settings: Settings, val hotseat: List<Pair<Int, Item>>, val pages: List<Page>,
+                    /** Ajustes del launcher (lista blanca de [BackupPrefs]); vacío en archivos v1. */
+                    val prefs: Map<String, Any> = emptyMap())
 
 class UnsupportedSchemaException(val found: Int) : Exception("Esquema $found mayor que el soportado ($SCHEMA_VERSION)")
 
@@ -50,6 +55,7 @@ object LayoutJson {
             put("iconPack", s.settings.iconPack ?: JSONObject.NULL); put("iconShape", s.settings.iconShape)
             put("animationProfile", s.settings.animationProfile); put("speedMultiplier", s.settings.speedMultiplier); put("theme", s.settings.theme)
         })
+        if (s.prefs.isNotEmpty()) put("prefs", JSONObject().also { p -> BackupPrefs.filter(s.prefs).forEach { (k, v) -> p.put(k, v) } })
         put("hotseat", JSONArray().also { a -> s.hotseat.forEach { (slot, it) -> a.put(JSONObject().put("slot", slot).put("item", item(it))) } })
         put("pages", JSONArray().also { a -> s.pages.forEach { p -> a.put(JSONObject().put("index", p.index).put("items", JSONArray().also { ia -> p.items.forEach { ia.put(item(it)) } })) } })
     }.toString(2)
@@ -78,7 +84,13 @@ object LayoutJson {
         val pages = o.getJSONArray("pages").let { a -> (0 until a.length()).map { a.getJSONObject(it).let { p ->
             Page(p.getInt("index"), p.getJSONArray("items").let { ia -> (0 until ia.length()).map { j -> parse(ia.getJSONObject(j)) } }) } } }
         return Snapshot(o.optString("createdAt"), Device(d.optString("class"), d.optString("brand"), d.optString("model"), d.optInt("androidApi"),
-            d.optInt("density"), d.optInt("widthDp"), d.optInt("heightDp")), settings, hot, pages)
+            d.optInt("density"), d.optInt("widthDp"), d.optInt("heightDp")), settings, hot, pages, parsePrefs(o))
+    }
+
+    /** Lee `prefs` y descarta lo que no esté en la lista blanca o tenga otro tipo (ver [BackupPrefs.filter]). */
+    private fun parsePrefs(o: JSONObject): Map<String, Any> {
+        val p = o.optJSONObject("prefs") ?: return emptyMap()
+        return BackupPrefs.filter(p.keys().asSequence().associateWith { k -> p.opt(k).takeIf { it != JSONObject.NULL } })
     }
 
     private fun cell(o: JSONObject) = o.optJSONObject("cell")?.let { Cell(it.getInt("x"), it.getInt("y")) }
