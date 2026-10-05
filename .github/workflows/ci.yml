@@ -1,39 +1,60 @@
-# Integración continua de UltimateLauncher (docs/07 «Integración continua», docs/09 «Auditoría»).
-# TODO el flujo está COMENTADO a propósito: el repo es local y sin remoto (docs/DECISIONS.md). Para activarlo, descomenta
-# desde `name:` hasta el final. No usa secretos: la compilación release de CI se firma con la clave de depuración;
-# la firma real de publicación se hace aparte y fuera de CI (docs/release-signing.md).
-# Toda la lógica vive en tools/ci.sh, de modo que el mismo comando sirve en local y en cualquier otro CI.
+# SPDX-License-Identifier: Apache-2.0
 #
-# name: ci
-# on:
-#   pull_request:
-#   push:
-#     branches: [master, main]
-#
-# permissions:
-#   contents: read
-#
-# jobs:
-#   build-test-audit:
-#     runs-on: ubuntu-latest
-#     timeout-minutes: 60
-#     steps:
-#       - uses: actions/checkout@v4
-#       - uses: actions/setup-java@v4
-#         with:
-#           distribution: temurin
-#           java-version: '21'
-#       # SDK de Android: plataforma 37.0, build-tools 36+ y cmdline-tools (apkanalyzer). Ver README «Requisitos».
-#       - uses: android-actions/setup-android@v3
-#         with:
-#           packages: 'platforms;android-37.0 build-tools;36.0.0 cmdline-tools;latest'
-#       - name: Compilar, pruebas, Lint y auditoría de privacidad
-#         run: tools/ci.sh
-#         env:
-#           ANDROID_HOME: ${{ env.ANDROID_HOME }}
-#       - name: Informe de Lint
-#         if: failure()
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: lint-report
-#           path: app/build/reports/
+# Integración continua de UltimateLauncher (docs/07 «Integración continua», docs/09 «Auditoría de privacidad»).
+# Toda la lógica vive en tools/ci.sh, de modo que el mismo comando sirve en local (OFFLINE=1) y aquí. Sin secretos:
+# la release de CI se firma con la clave de depuración; la firma real se hace aparte (docs/release-signing.md).
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # SDK de Android: plataforma 37.0, build-tools 36.0.0 y cmdline-tools (apkanalyzer para la auditoría).
+      - uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
+        with:
+          packages: 'platforms;android-37.0 build-tools;36.0.0 cmdline-tools;latest'
+
+      # También valida el checksum del wrapper de Gradle.
+      - uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
+
+      - name: Compilar, pruebas, Lint y auditoría de privacidad
+        run: tools/ci.sh
+
+      - name: Subir el APK de la variante default (release)
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: UltimateLauncher-default-release-apk
+          path: app/build/outputs/apk/default/release/app-default-release.apk
+          retention-days: 14
+
+      - name: Subir informes
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: reports
+          path: |
+            app/build/reports/
+            app/build/test-results/
+          retention-days: 14
