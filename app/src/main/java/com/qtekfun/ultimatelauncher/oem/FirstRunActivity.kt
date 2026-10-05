@@ -58,6 +58,13 @@ class FirstRunActivity : Activity() {
         root.addView(text(getString(R.string.ul_autostart_help)))
         root.addView(button(getString(R.string.ul_btn_open)) { openFirst(adapter.autostartIntents()) })
 
+        // Paso opcional: traer la pantalla de inicio de otro launcher (no cambia ningún estado del asistente).
+        root.addView(text(getString(R.string.ul_step_import), 18f, true))
+        root.addView(text(getString(R.string.ul_import_help)))
+        root.addView(button(getString(R.string.ul_btn_import)) {
+            startActivity(Intent(this, com.qtekfun.ultimatelauncher.importer.ForeignImportActivity::class.java))
+        })
+
         val issues = adapter.knownIssues()
         if (issues.isNotEmpty()) {
             root.addView(text(getString(R.string.ul_known_issues), 18f, true))

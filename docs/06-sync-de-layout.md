@@ -89,3 +89,22 @@ Por privacidad, la compilación por defecto **no declara permiso de red** (ver `
 - Integración (variante `sync`): subida y descarga contra un Nextcloud de prueba o un servidor WebDAV local.
 - Comprobar que la variante por defecto no declara `INTERNET` (ver `09`).
 - Manual: exportar en un dispositivo de la matriz e importar en otro de otra marca.
+
+## Importar de otro launcher (`importer/`, «Traer mi pantalla de inicio»)
+
+Asistente `ForeignImportActivity`, enlazado desde «Exportar/importar disposición» y desde el paso opcional 4 del asistente de primer arranque. Sin red. Reutiliza `ImportPlanner` (instalado/no instalado, widgets solo con proveedor exacto, dock) y `GridReflow` (rejilla distinta), y `LayoutStore.apply` (copia automática previa en `files/backups/`). Antes de aplicar se muestra «Se importarán N apps, M carpetas (K apps dentro), W widgets y D del dock en P página(s). X omitidos» más las razones.
+
+| Vía | Estado | Detalle |
+|---|---|---|
+| Archivo de copia por el selector de documentos (SAF, sin permisos) | **Implementada** | Se detecta por los primeros bytes (no por la extensión): SQLite suelto, ZIP (`.novabackup`, `.lawnchairbackup`) o JSON. En el ZIP se buscan bases SQLite (hasta 4 candidatas, `launcher.db` primero) y se prueba cada una hasta encontrar una con tabla `favorites`. Límites: 64 MB por archivo, 128 MB descomprimidos, 500 entradas. Estructura interna de Nova y Lawnchair **no verificada** (no está documentada oficialmente; el rastreo por contenido evita depender de nombres) |
+| Proveedor de contenido `content://<autoridad>/favorites` de launchers instalados | **Implementada, casi siempre bloqueada** | La rama `android17-release` protege su proveedor con `android.permission.ACCESS_LAUNCHER_DATA` (de sistema): una app normal no puede obtenerlo. El asistente lee `ProviderInfo.readPermission` y, si no lo tenemos, lo dice y remite al archivo de copia. Solo launchers antiguos o forks con permiso normal (`com.android.launcher[3].permission.READ_SETTINGS`) responden, y esos permisos solo se declaran en la variante `sync` (ver `09` y DECISIONS) |
+| Export propio de UltimateLauncher | Ya existía | El selector reconoce el JSON y remite a «Exportar/importar» |
+| Launchers cerrados de fabricante (ColorOS, MIUI/HyperOS, EMUI, MagicOS, vivo, One UI) | **Descartada** | No exponen nada sin privilegios; descompilarlos está prohibido. El asistente lo explica y propone alternativas (copia propia del launcher si existe, capturas, conservar el móvil antiguo) |
+| Paquete de iconos elegido | **Descartada** | Los formatos de copia no lo documentan y este launcher no gestiona paquetes de iconos; el asistente avisa de que se vuelva a elegir |
+| Captura guiada de apps por orden | No implementada | Solo descrita como alternativa manual |
+
+Datos en `assets/launcher-import-sources.json` (como `oem-intents.json`): paquetes públicos, autoridades por convención de AOSP (`<paquete>.settings`) y vías con `verified=false` hasta probarlas con el launcher real.
+
+Mapeo (`ForeignLayoutParser`): `itemType` 0 → app; 1 → app si el intent es MAIN/LAUNCHER con componente (así guardaban las apps launchers viejos) y si no acceso directo (se omite y se cuenta); 2 → carpeta (hijos por `rank`, máx. 100); 4 → widget con proveedor exacto; 6 → acceso profundo (se omite); resto → «no soportado». `container` -100 escritorio, -101 dock (hueco = `screen`), >0 hijos de carpeta, resto (predicciones, cajón) se ignora. Páginas ordenadas por `workspaceScreens.screenRank` si existe o por `screen`. La rejilla de origen no se guarda en la base: se infiere del máximo de celdas usadas. `profileId` ≠ 0 se marca como perfil de trabajo (se omite). Límites: 20 000 filas, 40 páginas, celdas 0..63, spans 1..16, títulos 64 caracteres, intents 4096; todo lo que los supere o esté corrupto se cuenta como «omitido» y nunca se confía.
+
+Pruebas: `ForeignImportTest` (16) con bases SQLite sintéticas generadas en la propia prueba (JDBC solo en `testImplementation`).
