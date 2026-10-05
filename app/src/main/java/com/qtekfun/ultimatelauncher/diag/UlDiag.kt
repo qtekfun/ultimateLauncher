@@ -24,7 +24,7 @@ object UlDiag {
     @JvmStatic
     fun snapshotAfterResume(launcher: Launcher) {
         if (!BuildConfig.DEBUG) return
-        for (delay in longArrayOf(0, 500, 1500, 4000)) {
+        for (delay in longArrayOf(0, 250, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000)) {
             launcher.window?.decorView?.postDelayed({ dump(launcher, "+${delay}ms") }, delay)
         }
     }
