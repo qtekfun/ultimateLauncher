@@ -75,7 +75,10 @@ data class HotseatProfileInitialValues(
             } else if (isQsbInline) {
                 return (max(hotseatIconSizePx, qsbVisualHeight) + barBottomSpacePx)
             } else {
-                return (hotseatIconSizePx + qsbSpace + qsbVisualHeight + barBottomSpacePx)
+                // UltimateLauncher 0012: sin QSB no se reserva su hueco.
+                return if (com.android.launcher3.BuildConfig.QSB_ON_FIRST_SCREEN)
+                    (hotseatIconSizePx + qsbSpace + qsbVisualHeight + barBottomSpacePx)
+                else (hotseatIconSizePx + barBottomSpacePx)
             }
         }
 

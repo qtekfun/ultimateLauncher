@@ -35,9 +35,10 @@
             launcher:name="Medido oppo-medido"
             launcher:minWidthDps="391"
             launcher:minHeightDps="885"
-            launcher:iconImageSize="57.1"
+            launcher:iconImageSize="62.4"
             launcher:iconTextSize="14.4"
-            launcher:allAppsBorderSpace="16"
+            launcher:allAppsIconSize="67.6"
+            launcher:allAppsBorderSpace="0"
             launcher:allAppsCellHeight="114"
             launcher:canBeDefault="true" />
 

@@ -27,3 +27,14 @@ sub("popup/AppLockShortcut.kt", """                        mTarget
                             .asContext()
                             .packageManager
                             .getEnableAppLockIntentForPackage(packageName, newAppLockEnabled)""", """                        null as PendingIntent? // UltimateLauncher 0004: API App Lock no pública""")
+
+# 0004b: la forma genérica se dibuja con el trazado real de la máscara del sistema (PathParser de androidx.core, público),
+# en lugar de un rectángulo redondeado fijo. El poly redondeado se mantiene solo para la animación de revelado.
+sub("graphics/ShapeDelegate.kt", """        private val basePath =
+            Path().apply {
+                Morph(poly, createRoundedRect(0f, 0f, 100f, 100f, 25f)).toPath(0f, this)
+            }""", """        private val basePath =
+            androidx.core.graphics.PathParser.createPathFromPathData(pathString)
+                ?: Path().apply {
+                    Morph(poly, createRoundedRect(0f, 0f, 100f, 100f, 25f)).toPath(0f, this)
+                }""")
