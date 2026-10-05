@@ -19,6 +19,7 @@
         android:maxLines="1"
         android:includeFontPadding="false"
         android:fontFamily="sans-serif-medium"
+        android:textStyle="bold"
         android:text="10:09"
         android:textColor="#FFFFFF"
         android:autoSizeTextType="uniform"

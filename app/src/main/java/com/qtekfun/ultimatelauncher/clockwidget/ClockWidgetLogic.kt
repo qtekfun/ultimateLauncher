@@ -11,7 +11,7 @@ object ClockWidgetLogic {
     val minSizes: Map<ClockLayout, Pair<Float, Float>> = linkedMapOf(
         ClockLayout.COMPACT to (100f to 40f),   // 2x1 o 4x1: solo la hora
         ClockLayout.SQUARE to (100f to 100f),   // 2x2: hora y fecha debajo
-        ClockLayout.WIDE to (200f to 100f),     // 4x2: hora a la izquierda, día y fecha a la derecha
+        ClockLayout.WIDE to (260f to 100f),     // 4x2 (un 3x3 de ~220 dp se queda en el cuadrado): hora a la izquierda, día y fecha a la derecha
     )
 
     /**

@@ -41,7 +41,7 @@ abstract class ClockWidgetProvider(private val dark: Boolean) : AppWidgetProvide
             return RemoteViews(sizes)
         }
 
-        private fun build(context: Context, layout: ClockLayout, dark: Boolean, pending: PendingIntent?): RemoteViews {
+        internal fun build(context: Context, layout: ClockLayout, dark: Boolean, pending: PendingIntent?): RemoteViews {
             val res = when (layout) {
                 ClockLayout.COMPACT -> R.layout.ul_clock_compact
                 ClockLayout.SQUARE -> R.layout.ul_clock_square
