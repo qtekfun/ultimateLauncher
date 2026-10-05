@@ -63,7 +63,7 @@ Cada hito termina con algo que se pueda **instalar y probar**. No pasar al sigui
 - T7.1 Serialización del layout y esquema v1.
 - T7.2 Importador con adaptaciones y resumen previo.
 - T7.3 Archivo local y selector de documentos (por defecto, sin red).
-- T7.4 Variante `sync` con WebDAV, Keystore y cifrado por defecto.
+- T7.4 Variante `sync` con WebDAV, Keystore y cifrado por defecto. **Aplazada** (ver DECISIONS.md 2026-10-05); el cifrado opcional del archivo local sí está hecho (`LayoutCrypto`).
 - T7.5 Adaptación móvil ↔ tablet en la importación.
 - **Aceptación**: exportar en un dispositivo e importar en otro de otra marca con el informe de diferencias.
 
