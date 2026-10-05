@@ -313,3 +313,7 @@ Petición del usuario: «un setup para importar los iconos de otros launchers se
 ### Dock sin tocar y carpeta ampliada sin aceptar iconos (2026-10-05)
 - **Regresión del dock:** el cambio de `OseWidgetView.dispatchTouchEvent` del parche 0100 (el hueco del buscador vacío se quedaba todos los toques del dock) no estaba en el árbol tras las fusiones: el script 0100 existía pero su efecto no se había confirmado en `launcher3-base`. Reaplicado; comprobado que el resto de scripts 0040–0144 son idempotentes y no cambian nada más. Regla: tras fusionar ramas, ejecutar `for p in patches/*.py; do python3 $p; done` y mirar `git status`.
 - **Soltar en carpeta ampliada:** Workspace exigía estar a < medio icono del CENTRO de la celda de destino; en 2x2 solo servían 4 puntos. Parche 0144 (`FolderExpand.beyondFolderRadius`): cualquier punto de la baldosa vale.
+
+### Iconos hasta el borde con mini hueco y reloj más iOS (2026-10-05)
+- Iconos hasta el borde: margen lateral de 12 dp (el mismo que el hueco del dock al borde inferior, `dock.bottomMarginDp` de huawei-tablet-medido.json) en lugar de 0; las celdas reparten el ancho restante (`EdgeGrid.EDGE_MARGIN_DP`, parche 0120 actualizado).
+- Reloj digital: solo tarjeta BLANCA con números negros (se quitaron del selector las variantes oscuras: el usuario veía el negativo), `forceDarkAllowed=false` en los diseños para que ColorOS no invierta la tarjeta con el modo oscuro del sistema, esquinas de 44 dp, dígitos en `sans-serif-black` y fecha en negro al 60 %.

@@ -50,7 +50,7 @@ if "UL 0120" not in t:
             }""", """        val desiredWorkspaceHorizontalMarginOriginalPx =
             when {
                 isVerticalLayout -> 0
-                edgeToEdge -> 0 // UL 0120: iconos hasta el borde
+                edgeToEdge -> pxFromDp(com.qtekfun.ultimatelauncher.grid.EdgeGrid.EDGE_MARGIN_DP, metrics) // UL 0120: iconos hasta el borde (con un mini hueco)
                 else -> pxFromDp(inv.horizontalMargin[typeIndex], metrics)
             }""", 1)
     t = t.replace("""        var cellWidthPx = pxFromDp(inv.minCellSize.get(typeIndex).x, metrics, scale)
@@ -59,7 +59,8 @@ if "UL 0120" not in t:
         if (edgeToEdge) { // UL 0120: las columnas reparten todo el ancho disponible
             cellWidthPx =
                 com.qtekfun.ultimatelauncher.grid.EdgeGrid.cellWidthPx(
-                    deviceProperties.availableWidthPx,
+                    deviceProperties.availableWidthPx -
+                        2 * pxFromDp(com.qtekfun.ultimatelauncher.grid.EdgeGrid.EDGE_MARGIN_DP, metrics),
                     panelCount,
                     inv.numColumns,
                     cellLayoutBorderSpacePx.x,
