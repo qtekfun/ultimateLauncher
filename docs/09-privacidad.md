@@ -21,7 +21,8 @@ Esta tabla es la **lista objetivo**. Hay que contrastarla con el manifiesto fusi
 | `BIND_APPWIDGET` | Sí (verificado 2026-10-05 en el manifiesto fusionado) | Alojar widgets de terceros; sin él cada widget pide el diálogo de enlace del sistema (también al restaurar un layout, ver `06`) |
 | `REQUEST_DELETE_PACKAGES` | Sí (verificado 2026-10-05) | Acción «Desinstalar» del icono; abre el diálogo del sistema |
 | Expandir barra de estado | Opcional | Gesto de deslizar para notificaciones |
-| `SET_WALLPAPER` | Sí (verificado 2026-10-05) | Mostrar/cambiar el fondo |
+| `SET_WALLPAPER` | Sí (verificado 2026-10-05) | Mostrar/cambiar el fondo; también lo usa el selector «Fondos de UltimateLauncher» (imágenes incluidas en el APK, `WallpaperManager.setBitmap` a Inicio/Bloqueo; sin red ni otros permisos) |
+| `<queries>` de paquetes de iconos | Sí (2026-10-05); no son permisos | Cuatro intents con las acciones estándar de packs (`org.adw.launcher.THEMES`, `com.novalauncher.THEME`, `org.adw.launcher.icons.ACTION_PICK_ICON`, `com.anddoes.launcher.THEME`) para listar los packs YA instalados. No se descarga nada; solo se leen los recursos del pack elegido |
 | `VIBRATE` | Sí | Respuesta háptica |
 | `<applicationId>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` (`DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`) | Sí, lo añade androidx | Permiso propio de la app (nivel de firma, no concede nada a terceros) para receptores dinámicos no exportados |
 | `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | Sí (añadido 2026-10-05) | Solo si el usuario lo pide en el asistente: abre el diálogo del sistema para que no mate el launcher en segundo plano (si no, ColorOS lo cierra y los iconos tardan en volver). Google Play limita este permiso; la distribución es fuera de Play (como UltimateDeck). Sin red, sin datos. |
