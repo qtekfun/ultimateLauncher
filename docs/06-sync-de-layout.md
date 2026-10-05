@@ -38,10 +38,20 @@ Reglas del formato:
 - No incluye datos personales aparte de lo que hay en el layout. No incluye contraseñas ni la URL de WebDAV.
 - **El archivo lista las apps instaladas, que es información sensible**: se trata como tal (cifrado opcional en local y por defecto en la variante `sync`).
 
+### Cifrado (implementado en M7, `LayoutCrypto.kt`)
+- Opcional al exportar: si se deja la frase de paso vacía, el archivo queda en claro; si no, se escribe un **sobre JSON versionado**: `{"ulEncrypted":1,"cipher":"AES-256-GCM","kdf":"PBKDF2WithHmacSHA256","iterations":600000,"salt":"b64","iv":"b64","data":"b64"}`.
+- Clave de 256 bits derivada con PBKDF2-HMAC-SHA256 (600 000 iteraciones por defecto, sal de 16 bytes aleatoria por archivo); IV de GCM de 12 bytes aleatorio; etiqueta de 128 bits. Los campos de cabecera (versión, algoritmo, iteraciones, sal, IV) entran como datos autenticados (AAD): manipularlos hace fallar el descifrado.
+- Solo APIs del JDK/Android (`javax.crypto`), sin librerías. Argon2 no existe en la plataforma; PBKDF2 es lo disponible sin dependencias (es la razón de las 600 000 iteraciones).
+- El importador detecta el sobre por el campo `ulEncrypted`, pide la frase y distingue «frase incorrecta o archivo alterado» (indistinguibles por diseño en GCM) de «sobre de versión mayor / algoritmo desconocido / iteraciones fuera de [100 000, 5 000 000]» (un archivo manipulado no puede rebajar el coste de la clave).
+- No se guarda la frase en ningún sitio. La copia automática previa a importar (`filesDir/backups/`) queda en claro dentro del almacenamiento privado de la app (sin copia en la nube del sistema).
+- Pendiente: «cifrado por defecto» en la variante `sync` (no hay variante `sync` implementada, ver abajo); contraseñas de otra longitud mínima / indicador de fortaleza.
+
 ## Importación en otro teléfono (RF-52)
 
 1. **Apps no instaladas**: omitir el icono y anotarlo en un informe final ("faltan estas apps"); opcionalmente dejar un hueco.
 2. **Widgets cuyo proveedor no existe**: omitir y anotar. Los widgets propios de otra marca se sustituyen por un hueco vacío.
+   - **Widgets cuyo proveedor (paquete/clase exactos) sí existe**: se restauran como en una restauración de copia de Android: se escribe la fila con `appWidgetId=-1` y `FLAG_ID_NOT_VALID|FLAG_PROVIDER_NOT_READY`, en la celda reubicada y con su tamaño (recortado a la rejilla). Al recargar, `WidgetInflater` intenta reservar el id y enlazarlo. Como el launcher declara `BIND_APPWIDGET` pero este permiso solo se concede a apps privilegiadas, lo normal es que el enlace automático no se conceda: el widget queda **pendiente** y al tocarlo el sistema muestra su diálogo de enlace/configuración (sin permisos nuevos).
+   - **No se restaura**: el contenido ni la configuración del widget (los guarda cada app; si el widget necesita configurarse, el sistema lanza su actividad de configuración al enlazar), ni un widget del mismo paquete pero con otra clase de proveedor (se omite y se anota). Los widgets en el dock no se importan. No verificado en dispositivo.
 3. **Rejilla distinta**: reubicar manteniendo orden de lectura; los widgets se reajustan a las celdas posibles.
 4. **Perfil de trabajo ausente**: las apps de trabajo se omiten con aviso.
 5. **Ajustes que dependen de capacidades** (blur, frecuencia): se aplican con el valor de reserva y se avisa.
@@ -74,6 +84,7 @@ Por privacidad, la compilación por defecto **no declara permiso de red** (ver `
 ## Pruebas
 
 - Unitarias: ida y vuelta (exportar → importar) devuelve el mismo estado en el mismo dispositivo.
+- Unitarias (`LayoutCryptoTest`): ida y vuelta cifrada, frase errónea, texto cifrado o cabecera alterados, iteraciones rebajadas, versión de sobre mayor, frase vacía.
 - Unitarias: adaptación de rejilla con casos 4x6 → 5x6, 5x6 → 4x5, y con widgets grandes.
 - Integración (variante `sync`): subida y descarga contra un Nextcloud de prueba o un servidor WebDAV local.
 - Comprobar que la variante por defecto no declara `INTERNET` (ver `09`).

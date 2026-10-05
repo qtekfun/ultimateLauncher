@@ -1,0 +1,39 @@
+# Integración continua de UltimateLauncher (docs/07 «Integración continua», docs/09 «Auditoría»).
+# TODO el flujo está COMENTADO a propósito: el repo es local y sin remoto (docs/DECISIONS.md). Para activarlo, descomenta
+# desde `name:` hasta el final. No usa secretos: la compilación release de CI se firma con la clave de depuración;
+# la firma real de publicación se hace aparte y fuera de CI (docs/release-signing.md).
+# Toda la lógica vive en tools/ci.sh, de modo que el mismo comando sirve en local y en cualquier otro CI.
+#
+# name: ci
+# on:
+#   pull_request:
+#   push:
+#     branches: [master, main]
+#
+# permissions:
+#   contents: read
+#
+# jobs:
+#   build-test-audit:
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 60
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-java@v4
+#         with:
+#           distribution: temurin
+#           java-version: '21'
+#       # SDK de Android: plataforma 37.0, build-tools 36+ y cmdline-tools (apkanalyzer). Ver README «Requisitos».
+#       - uses: android-actions/setup-android@v3
+#         with:
+#           packages: 'platforms;android-37.0 build-tools;36.0.0 cmdline-tools;latest'
+#       - name: Compilar, pruebas, Lint y auditoría de privacidad
+#         run: tools/ci.sh
+#         env:
+#           ANDROID_HOME: ${{ env.ANDROID_HOME }}
+#       - name: Informe de Lint
+#         if: failure()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: lint-report
+#           path: app/build/reports/
