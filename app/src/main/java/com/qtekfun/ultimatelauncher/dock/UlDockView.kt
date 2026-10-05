@@ -2,6 +2,7 @@ package com.qtekfun.ultimatelauncher.dock
 
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.LauncherApps
 import android.graphics.Canvas
@@ -9,13 +10,19 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Process
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.android.launcher3.Launcher
 import com.android.launcher3.R
+import com.android.launcher3.AbstractFloatingView
+import com.android.launcher3.LauncherSettings.Favorites
 import com.android.launcher3.graphics.ThemeManager
+import com.android.launcher3.model.data.ItemInfo
+import com.android.launcher3.settings.SettingsActivity
 import com.android.launcher3.icons.LauncherIcons
 import com.qtekfun.ultimatelauncher.ui.ContextMenuStyle
 
@@ -38,6 +45,10 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     private val leftRect = RectF()
     private val rightRect = RectF()
     private val handleRect = RectF()
+    /** Zona táctil del asa (más ancha que la barra dibujada). Coordenadas locales de esta vista. */
+    private val handleHit = RectF()
+    /** Vista invisible colocada sobre el asa: sirve de ancla del menú contextual (no recibe toques). */
+    private val handleAnchor = View(launcher).apply { isClickable = false; importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO }
     private var recents: List<ComponentName> = emptyList()
     private val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
         if (key == RecentApps.CHANGED_KEY) post { refresh() }
@@ -53,6 +64,110 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         setWillNotDraw(false)
         clipChildren = false
         clipToPadding = false
+        addView(handleAnchor, LayoutParams(1, 1))
+    }
+
+    // --- Asa: toque o pulsación larga -> menú contextual (estilo unificado) ---
+
+    private val handleGestures = GestureDetector(launcher, object : GestureDetector.SimpleOnGestureListener() {
+        override fun onDown(e: MotionEvent) = handleHit.contains(e.x, e.y)
+        override fun onSingleTapUp(e: MotionEvent): Boolean { showHandleMenu(); return true }
+        override fun onLongPress(e: MotionEvent) { performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS); showHandleMenu() }
+    })
+
+    // Solo se queda los toques que caen en el asa; el resto sigue su camino como antes.
+    override fun onTouchEvent(event: MotionEvent): Boolean = handleGestures.onTouchEvent(event)
+
+    /** Menú del asa: Ajustes del dock, Borrar los recientes (si hay) y Ocultar/Mostrar recientes. */
+    private fun showHandleMenu() {
+        val enabled = DockPrefs.recentsEnabled(context)
+        val rows = ArrayList<ContextMenuStyle.Row>()
+        rows += ContextMenuStyle.Row(R.string.ul_dock_menu_settings, false) { openDockSettings() }
+        if (enabled && recents.isNotEmpty()) {
+            rows += ContextMenuStyle.Row(R.string.ul_dock_menu_clear_recents, true) { RecentApps.clear(context) }
+        }
+        // Ocultar = desactivar «Últimas apps en el dock» (borra el historial, igual que el interruptor de Ajustes).
+        rows += ContextMenuStyle.Row(if (enabled) R.string.ul_dock_menu_hide_recents else R.string.ul_dock_menu_show_recents, false) {
+            DockPrefs.prefs(context).edit().putBoolean(DockPrefs.KEY_RECENTS, !enabled).apply()
+        }
+        ContextMenuStyle.showRows(handleAnchor, rows) { refresh() }
+    }
+
+    private fun openDockSettings() {
+        context.startActivity(
+            Intent(context, SettingsActivity::class.java)
+                .putExtra(SettingsActivity.EXTRA_FRAGMENT_HIGHLIGHT_KEY, DockPrefs.KEY_BACKGROUND)
+        )
+    }
+
+    // --- Compactación de los fijos (el dock de Huawei empaqueta; Launcher3 deja los huecos del arrastre) ---
+
+    private val compactRunnable = Runnable { compactFixed() }
+    private var compactRetries = 0
+
+    private fun scheduleCompaction() {
+        removeCallbacks(compactRunnable)
+        postDelayed(compactRunnable, COMPACT_DELAY_MS)
+    }
+
+    /** Vistas de apps/carpetas fijas con su ItemInfo; null si hay algo raro (span > 1, fuera del dock) y no se debe tocar. */
+    private fun fixedItems(): List<Triple<View, ItemInfo, com.android.launcher3.celllayout.CellLayoutLayoutParams>>? {
+        val container = launcher.hotseat.shortcutsAndWidgets
+        val out = ArrayList<Triple<View, ItemInfo, com.android.launcher3.celllayout.CellLayoutLayoutParams>>()
+        for (i in 0 until container.childCount) {
+            val child = container.getChildAt(i)
+            if (child is com.android.launcher3.qsb.OseWidgetView) continue // el hueco del buscador vacío no es un fijo
+            val info = child.tag as? ItemInfo ?: continue
+            val lp = child.layoutParams as? com.android.launcher3.celllayout.CellLayoutLayoutParams ?: continue
+            if (info.container != Favorites.CONTAINER_HOTSEAT || lp.cellHSpan != 1 || lp.cellVSpan != 1 || lp.cellY != 0 || lp.useTmpCoords) return null
+            out += Triple(child, info, lp)
+        }
+        return out
+    }
+
+    private fun needsCompaction(): Boolean {
+        if (dragging || launcher.isWorkspaceLoading || launcher.deviceProfile.isVerticalBarLayout) return false
+        val items = fixedItems() ?: return false
+        return DockLogic.needsCompaction(items.map { it.third.cellX }, launcher.deviceProfile.hotseatProfile.numShownIcons)
+    }
+
+    /**
+     * Empaqueta los fijos hacia la izquierda sin cambiar su orden y lo guarda en UNA transacción del modelo
+     * (`scheduleTransaction`). No hace nada durante un arrastre, con el espacio de trabajo cargando o con un menú/carpeta
+     * abierto (reintenta unas veces).
+     */
+    private fun compactFixed() {
+        if (!isAttachedToWindow || launcher.isWorkspaceLoading || launcher.deviceProfile.isVerticalBarLayout) return
+        if (dragging || launcher.dragController.isDragging || AbstractFloatingView.getTopOpenView(launcher) != null) {
+            if (compactRetries++ < MAX_COMPACT_RETRIES) postDelayed(compactRunnable, COMPACT_DELAY_MS)
+            return
+        }
+        compactRetries = 0
+        val items = fixedItems() ?: return
+        val capacity = launcher.deviceProfile.hotseatProfile.numShownIcons
+        val cells = items.map { it.third.cellX }
+        if (!DockLogic.needsCompaction(cells, capacity)) return
+        val targets = DockLogic.compactTargets(cells, capacity)
+        val layout = launcher.hotseat
+        val moved = ArrayList<ItemInfo>()
+        // De izquierda a derecha: cada destino queda siempre libre (los destinos nunca son mayores que el origen).
+        for (i in items.indices.sortedBy { cells[it] }) {
+            val (view, info, lp) = items[i]
+            val target = targets[i]
+            if (target == lp.cellX) continue
+            if (view is com.android.launcher3.Reorderable) {
+                layout.animateChildToPosition(view, target, 0, COMPACT_ANIM_MS, 0, true, true)
+            } else {
+                layout.markCellsAsUnoccupiedForView(view)
+                lp.cellX = target
+                layout.markCellsAsOccupiedForView(view)
+                view.requestLayout()
+            }
+            info.cellX = target; info.cellY = 0; info.screenId = target // en el hotseat horizontal screenId = cellX
+            moved += info
+        }
+        if (moved.isEmpty()) return
+        launcher.modelWriter.scheduleTransaction<Unit>(null) { tx -> moved.forEach { tx.updateItemInDatabase(it) } }
     }
 
     /** Rango de huecos ocupados del hotseat (primer y último cellX) para ajustar la píldora aunque haya huecos libres. */
@@ -76,7 +191,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     private var dragging = false
     private val dragListener = object : com.android.launcher3.dragndrop.DragController.DragListener {
         override fun onDragStart(dragObject: com.android.launcher3.DropTarget.DragObject, options: com.android.launcher3.dragndrop.DragOptions) = setDragging(true)
-        override fun onDragEnd() = setDragging(false)
+        override fun onDragEnd() { setDragging(false); scheduleCompaction() }
     }
 
     private fun setDragging(value: Boolean) {
@@ -90,6 +205,8 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val r = occupiedRange()
         val key = r[0] * 100 + r[1]
         if (key != lastRange) { lastRange = key; post { requestLayout(); invalidate() } }
+        // Hueco intermedio tras quitar un icono por otra vía (desinstalar, menú «Eliminar»): empaquetar.
+        if (needsCompaction()) scheduleCompaction()
     }
 
     /** Las píldoras siguen la opacidad del hotseat (se desvanecen con el cajón abierto). */
@@ -110,6 +227,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     }
 
     override fun onDetachedFromWindow() {
+        removeCallbacks(compactRunnable)
         viewTreeObserver.removeOnPreDrawListener(alphaSync)
         launcher.hotseat.removeOnLayoutChangeListener(hotseatListener)
         launcher.dragController.removeDragListener(dragListener)
@@ -133,6 +251,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val la = context.getSystemService(LauncherApps::class.java)
         val shape = ThemeManager.INSTANCE.get(context).iconShapeData.value
         removeAllViews()
+        addView(handleAnchor, LayoutParams(1, 1))
         val shown = ArrayList<ComponentName>()
         // Poda persistente de apps desinstaladas (antes solo se saltaban al pintar y se quedaban guardadas).
         RecentApps.prune(context) { cn -> la.getActivityList(cn.packageName, Process.myUserHandle()).any { it.componentName == cn } }
@@ -193,7 +312,8 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val k = (range[1] - range[0] + 1).coerceIn(1, n)
         val leftW = k * cell + 2 * pad
         val rightW = if (recents.isEmpty()) 0f else recents.size * cell + 2 * pad
-        val g = if (recents.isEmpty()) 0f else gap
+        // El asa se muestra siempre (sin recientes queda a la derecha de la píldora de fijos) para poder abrir su menú.
+        val g = gap
         val total = leftW + g + rightW
         val startX = x0 + (w - total) / 2f
         val bottom = h - bottomMargin
@@ -203,11 +323,14 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         val hw = 4f * res.displayMetrics.density
         val hh = 35f * res.displayMetrics.density
         handleRect.set(leftRect.right + g / 2 - hw / 2, top + (pillH - hh) / 2, leftRect.right + g / 2 + hw / 2, top + (pillH + hh) / 2)
+        val hitHalf = maxOf(g / 2f, 22f * res.displayMetrics.density)
+        handleHit.set(handleRect.centerX() - hitHalf, top, handleRect.centerX() + hitHalf, bottom)
+        handleAnchor.layout(handleRect.left.toInt(), handleRect.top.toInt(), maxOf(handleRect.right.toInt(), handleRect.left.toInt() + 1), handleRect.bottom.toInt())
         // El hotseat se centra solo; se desplaza para que el conjunto (izquierda + asa + derecha) quede centrado.
         launcher.hotseat.translationX = (startX - x0) + pad - (w - n * cell) / 2f - first * cell
-        for (i in 0 until childCount) {
+        for (i in 1 until childCount) { // el hijo 0 es el ancla del asa
             val v = getChildAt(i)
-            val x = (rightRect.left + pad + i * cell + (cell - iconPx) / 2).toInt()
+            val x = (rightRect.left + pad + (i - 1) * cell + (cell - iconPx) / 2).toInt()
             val y = (top + (pillH - iconPx) / 2).toInt()
             v.layout(x, y, x + iconPx, y + iconPx)
         }
@@ -219,13 +342,15 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         pillPaint.color = Color.argb(a, 0xFF, 0xFF, 0xFF)
         handlePaint.color = Color.argb(a * 0x99 / 0xB8, 0xFF, 0xFF, 0xFF)
         canvas.drawRoundRect(leftRect, radius, radius, pillPaint)
-        if (recents.isNotEmpty()) {
-            canvas.drawRoundRect(rightRect, radius, radius, pillPaint)
-            canvas.drawRoundRect(handleRect, handleRect.width() / 2, handleRect.width() / 2, handlePaint)
-        }
+        if (recents.isNotEmpty()) canvas.drawRoundRect(rightRect, radius, radius, pillPaint)
+        canvas.drawRoundRect(handleRect, handleRect.width() / 2, handleRect.width() / 2, handlePaint)
     }
 
     companion object {
+        private const val COMPACT_DELAY_MS = 600L // deja terminar la animación de soltar antes de empaquetar
+        private const val COMPACT_ANIM_MS = 200
+        private const val MAX_COMPACT_RETRIES = 5
+
         /** Gancho desde Launcher.setupViews (parche 0040). Solo en tablets (ul_huawei_dock). */
         @JvmStatic
         fun attach(launcher: Launcher) {
