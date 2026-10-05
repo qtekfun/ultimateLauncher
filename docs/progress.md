@@ -111,3 +111,8 @@ Quejas: «el dock está levantado, los iconos se ven pequeños». Causas y corre
 - Con la build final: arranca sin FATAL, inicio en landscape (2800×1840) con dock de 5 iconos (Calendario, Galería, AppGallery, Brave, Cámara), indicador de páginas, cajón con 30+ apps y buscador. Primer arranque: el asistente aparece.
 - **NO fijado como launcher predeterminado en la tablet** (el usuario tuvo que desconectarla): se probó lanzando la actividad. Launcher activo al terminar: el original (`com.huawei.android.launcher`). Gestos de EMUI/recientes, rotación, multiventana, widgets y reinicio: NO probados. Rejilla de tablet: se usa `ultimate_phone` solo en móvil; en tablet cae a las rejillas de AOSP (no hay tokens de tablet).
 - Aviso de Huawei al instalar (`AppGallery InstallDistActivity`, comprobación de riesgo): no se tocó.
+
+## Referencia Huawei MatePad (tablet) — 2026-10-05
+- Capturas y volcados: `private-measurements/huawei/` (home, página 2, recorte del dock, gestos). Medidas en `assets/themes/huawei-tablet-medido.json`.
+- Dock de Huawei: dos píldoras (6 apps fijas | asa arrastrable | últimas usadas, ahora 2) de 194 px de alto con iconos de 138 px; rejilla 7×5 con celdas de 322×271 px; iconos sin fondo propio (engranajes de Ajustes, terminal, etc.) se rellenan con una baldosa clara.
+- Petición del usuario: dock de tablet «como Huawei» con zona fija + zona de últimos usados (3–4) e iconos rellenos como los originales.

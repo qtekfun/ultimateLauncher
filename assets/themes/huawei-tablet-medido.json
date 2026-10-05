@@ -1,0 +1,102 @@
+{
+  "id": "huawei-tablet-medido",
+  "version": 1,
+  "source": {
+    "device": "Huawei MatePad MRO-W09",
+    "os": "EMUI 14.2 (Android 12, API 31)",
+    "screenPx": "2800x1840 (horizontal)",
+    "densityDpi": 360,
+    "dpPerPx": 2.25,
+    "date": "2026-10-05",
+    "method": "uiautomator dump (bounds) + capturas; sin descompilar nada. Capturas en private-measurements/huawei/ (ignorado por git)"
+  },
+  "workspace": {
+    "columns": 7,
+    "rows": 5,
+    "cellPx": {
+      "w": 322,
+      "h": 271
+    },
+    "cellDp": {
+      "w": 143.1,
+      "h": 120.4
+    },
+    "areaPx": {
+      "left": 270,
+      "right": 2530,
+      "firstRowTop": 143,
+      "bottom": 1498
+    },
+    "iconVisiblePx": 140,
+    "iconVisibleDp": 62.2,
+    "pages": 2,
+    "pageIndicator": {
+      "centerYPx": 1540,
+      "note": "3 marcadores; el primero es un icono (página inteligente)"
+    }
+  },
+  "dock": {
+    "barPx": {
+      "top": 1593,
+      "bottom": 1840
+    },
+    "layout": "dos píldoras separadas por un asa arrastrable",
+    "left": {
+      "role": "apps fijas",
+      "xPx": [
+        641,
+        1711
+      ],
+      "yPx": [
+        1619,
+        1813
+      ],
+      "heightPx": 194,
+      "cellPx": 175,
+      "count": 6,
+      "cornerRadiusPx": 48
+    },
+    "handle": {
+      "xPx": [
+        1711,
+        1788
+      ],
+      "barPx": {
+        "x": 1745,
+        "y": 1677,
+        "w": 9,
+        "h": 79
+      },
+      "note": "Barra arrastrable: mueve apps entre las dos zonas"
+    },
+    "right": {
+      "role": "últimas apps usadas",
+      "xPx": [
+        1788,
+        2158
+      ],
+      "yPx": [
+        1619,
+        1813
+      ],
+      "count": 2,
+      "maxDesign": 4,
+      "cellPx": 175,
+      "note": "Se ven 2; el usuario pide 3 o 4"
+    },
+    "iconVisiblePx": 138,
+    "bottomMarginPx": 27,
+    "background": "píldora clara translúcida (≈ blanco 70 %)",
+    "badge": "punto rojo con número en la esquina superior derecha"
+  },
+  "icons": {
+    "shape": "squircle",
+    "fill": "Los iconos sin fondo propio se dibujan sobre una baldosa clara con la silueta centrada (p. ej. engranaje negro sobre blanco); los que traen fondo lo mantienen",
+    "labels": "debajo del icono, blancas con sombra, 1 línea"
+  },
+  "notes": [
+    "Valores en px de esta pantalla; dp = px / 2,25.",
+    "Radio de píldora y color medidos a ojo sobre captura (aproximados).",
+    "No se midieron animaciones."
+  ]
+}
