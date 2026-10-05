@@ -100,3 +100,8 @@ Quejas: «el dock está levantado, los iconos se ven pequeños». Causas y corre
 - Área de iconos del inicio: filas de 304 px de 2122 a 2426 (idénticas a la referencia); márgenes laterales 11,0 dp; punto del indicador en y=2588 (OPPO 2588) y visible con una sola página.
 - Forma del icono: ahora se dibuja con el trazado real de la máscara del sistema; diferencia de contorno ≤ 4 px sobre 200 en la esquina.
 - SIGUE distinto: cajón (OPPO: pantalla completa con fondo desenfocado, pestañas Todos/Categorías y barra A–Z; aquí: hoja inferior oscura con buscador arriba), punto del indicador (aquí una píldora), tipografía/peso de etiquetas, fondo/blur del dock y carpetas, tema claro, horizontal y tablet.
+
+## Tablet Huawei MatePad MRO-W09 (serie USB <SERIE_TABLET>) — autorizada por el usuario el 2026-10-05
+- Dispositivo: Android 12 (API 31), EMUI 14.2.0 (`MRO-W09 4.2.0.192(C432E2R1P1)`), 2800×1840 físico (modo vertical 1840×2800), 360 dpi, hasta 144 Hz (120 por defecto), **sin GMS** (0 paquetes `gms`), un solo usuario.
+- Launcher original (VÍA DE VUELTA): `com.huawei.android.launcher/.unihome.UniHomeLauncher`. Restaurar: `tools/restore.sh <SERIE_TABLET> com.huawei.android.launcher` (o `adb -s <SERIE_TABLET> shell cmd role add-role-holder --user 0 android.app.role.HOME com.huawei.android.launcher`; si el rol no existe en EMUI: Ajustes > Apps > Apps predeterminadas > App de inicio).
+- Reglas: solo instalar la app, fijarla como launcher y leer logs/capturas.
