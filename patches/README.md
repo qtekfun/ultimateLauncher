@@ -16,6 +16,10 @@ Base importada sin modificar en el commit "Importación AOSP sin modificar" (ver
 | 0009 | Rejilla por defecto = tokens medidos (`ultimate_phone`) | `device_profiles.xml` (bloque generado), `InvariantDeviceProfile.java` (1 línea) | `tools/apply-theme-tokens.py` |
 | 0010 | Gancho `FirstRun.maybeShow(this)` en `Launcher.onCreate` | Launcher.java | `patches/0010-*.py` |
 | 0011 | **Preparado, NO aplicado**: `getParcelable(Extra)` con clase (API 33) → `BundleCompat`/`IntentCompat` en el selector de widgets | WidgetPickerActivity.kt, WidgetPickerComposeWrapperImpl.kt | `patches/0011-*.py` (compila; sin verificar en dispositivo) |
+| 0012 | El dock no reserva el hueco de la barra de búsqueda (≈64 dp) cuando no hay QSB | HotseatProfileInitialValues.kt | `patches/0012-*.py` |
+| 0013 | Márgenes superior/inferior/laterales del área de iconos desde recursos de tokens | WorkspaceProfileNonResponsiveFactory.kt | `patches/0013-*.py` + `tools/apply-theme-tokens.py` |
+| 0014 | Indicador de páginas: punto visible con una página, elevado según tokens | PageIndicatorDots.java, Workspace.java | `patches/0014-*.py` |
+| 0004b | Forma de icono genérica con el trazado real de la máscara del sistema (PathParser) | ShapeDelegate.kt | `patches/0004-*.py` |
 
 Cambios que NO son parches sobre archivos de AOSP (andamiaje propio): `build.gradle*`, `settings.gradle.kts`, `gradle/`, `app/`,
 `platform-stubs/` (incluye copias sin modificar de `plugin_core` y `log/core` de frameworks/base), `launcher3-base/modules/widgetpicker/ul-build.gradle`,

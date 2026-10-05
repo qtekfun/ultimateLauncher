@@ -48,7 +48,9 @@
         "scrimAlpha": null,
         "searchBar": "bottom",
         "searchBarHeightDp": 80.0,
-        "scrollbar": null
+        "scrollbar": null,
+        "borderSpaceDp": 0,
+        "note": "Paso vertical medido entre filas = 400 px = cellHeight; sin separación extra."
       },
       "folder": {
         "previewGrid": null,
@@ -62,7 +64,26 @@
       },
       "pageIndicator": {
         "style": "dots",
-        "sizeDp": null
+        "sizeDp": null,
+        "centerYPx": 2589,
+        "note": "Medido en la referencia: el punto está centrado en y=2589 px y se muestra con una sola página."
+      },
+      "workspace": {
+        "areaTopPx": 298,
+        "areaBottomPx": 2426,
+        "dockIconTopPx": 2808,
+        "dockIconBottomPx": 3008,
+        "iconVisiblePx": 200,
+        "note": "Medido con uiautomator y píxeles de captura en el CPH2841 (1440x3168, 560 dpi)."
+      },
+      "calibration": {
+        "launcherVisibleRatio": 0.915,
+        "workspaceTopPaddingDp": 28.6,
+        "workspaceBottomPaddingDp": 25.4,
+        "note": "Calibración de ESTE launcher frente a la referencia: el icono visible de Launcher3 mide 183 px con iconImageSize=57,1 dp (ratio 0,915), y el área de iconos empezaba 100 px antes y acababa 110 px después que en OPPO. Se corrige con iconImageSize/ratio y márgenes. Valores iterados con tools/apply-theme-tokens.py y capturas.",
+        "workspaceSideMarginDp": 11.0,
+        "pageIndicatorLiftDp": 43.1,
+        "allAppsVisibleRatio": 0.845
       }
     },
     "phone-landscape": {

@@ -177,9 +177,10 @@ interface ShapeDelegate {
             createRoundedRect(0f, 0f, 100f, 100f, 25f)
         // This ensures that a valid morph is possible from the provided path
         private val basePath =
-            Path().apply {
-                Morph(poly, createRoundedRect(0f, 0f, 100f, 100f, 25f)).toPath(0f, this)
-            }
+            androidx.core.graphics.PathParser.createPathFromPathData(pathString)
+                ?: Path().apply {
+                    Morph(poly, createRoundedRect(0f, 0f, 100f, 100f, 25f)).toPath(0f, this)
+                }
         private val tmpPath = Path()
         private val tmpMatrix = Matrix()
 

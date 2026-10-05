@@ -240,6 +240,7 @@ public class PageIndicatorDots extends View implements Insettable, PageIndicator
 
     private void hideAfterDelay() {
         mDelayedPaginationFadeHandler.removeCallbacksAndMessages(null);
+        if (mNumPages <= 1) return; // UltimateLauncher 0014: con una página el punto se queda
         mDelayedPaginationFadeHandler.postDelayed(mHidePaginationRunnable, PAGINATION_FADE_DELAY);
     }
 
@@ -431,11 +432,11 @@ public class PageIndicatorDots extends View implements Insettable, PageIndicator
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mNumPages < 2) {
+        if (mNumPages < 1) { // UltimateLauncher 0014: punto también con una página
             return;
         }
 
-        if (mShouldAutoHide && mTotalScroll == 0) {
+        if (mShouldAutoHide && mTotalScroll == 0 && mNumPages > 1) { // UltimateLauncher 0014
             mPaginationPaint.setAlpha(INVISIBLE_ALPHA);
             return;
         }

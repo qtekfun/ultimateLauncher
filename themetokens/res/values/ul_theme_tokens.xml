@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GENERADO por tools/apply-theme-tokens.py -->
+<resources>
+    <dimen name="ul_workspace_top_padding">28.6dp</dimen>
+    <dimen name="ul_workspace_bottom_padding">25.4dp</dimen>
+    <dimen name="ul_workspace_side_margin">11.0dp</dimen>
+    <dimen name="ul_page_indicator_lift">43.1dp</dimen>
+</resources>

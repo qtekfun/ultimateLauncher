@@ -180,7 +180,7 @@ object WorkspaceProfileNonResponsiveFactory {
         val desiredWorkspaceHorizontalMarginOriginalPx =
             when {
                 isVerticalLayout -> 0
-                else -> res.getDimensionPixelSize(R.dimen.dynamic_grid_left_right_margin)
+                else -> res.getDimensionPixelSize(R.dimen.ul_workspace_side_margin) // UL 0013
             }
         var iconDrawablePaddingPx =
             (getNormalizedIconDrawablePadding(iconSizePx, iconDrawablePaddingOriginalPx) *
@@ -221,8 +221,8 @@ object WorkspaceProfileNonResponsiveFactory {
                 edgeMarginPx = edgeMarginPx,
                 workspacePageIndicatorHeight = workspacePageIndicatorHeight,
                 workspacePageIndicatorOverlapWorkspace = workspacePageIndicatorOverlapWorkspace,
-                workspaceTopPadding = 0,
-                workspaceBottomPadding = 0,
+                workspaceTopPadding = res.getDimensionPixelSize(R.dimen.ul_workspace_top_padding), // UL 0013
+                workspaceBottomPadding = res.getDimensionPixelSize(R.dimen.ul_workspace_bottom_padding), // UL 0013
                 iconSize = iconSizePx,
                 hotseatBarBottomSpacePx = hotseatProfile.barBottomSpacePx,
                 hotseatQsbSpace = hotseatProfile.qsbSpace,
@@ -284,8 +284,8 @@ object WorkspaceProfileNonResponsiveFactory {
                 ),
             workspaceCellPaddingXPx =
                 res.getDimensionPixelSize(R.dimen.dynamic_grid_cell_padding_x),
-            workspaceTopPadding = 0,
-            workspaceBottomPadding = 0,
+            workspaceTopPadding = res.getDimensionPixelSize(R.dimen.ul_workspace_top_padding), // UL 0013
+            workspaceBottomPadding = res.getDimensionPixelSize(R.dimen.ul_workspace_bottom_padding), // UL 0013
             maxEmptySpace = 0,
             workspacePadding = workspacePadding,
             cellLayoutPaddingPx = cellLayoutPaddingPx,
@@ -418,8 +418,8 @@ object WorkspaceProfileNonResponsiveFactory {
                 edgeMarginPx = edgeMarginPx,
                 workspacePageIndicatorHeight = workspacePageIndicatorHeight,
                 workspacePageIndicatorOverlapWorkspace = workspacePageIndicatorOverlapWorkspace,
-                workspaceTopPadding = 0,
-                workspaceBottomPadding = 0,
+                workspaceTopPadding = res.getDimensionPixelSize(R.dimen.ul_workspace_top_padding), // UL 0013
+                workspaceBottomPadding = res.getDimensionPixelSize(R.dimen.ul_workspace_bottom_padding), // UL 0013
                 iconSize = iconSizePx,
                 hotseatBarBottomSpacePx = hotseatProfile.barBottomSpacePx,
                 hotseatQsbSpace = hotseatProfile.qsbSpace,
@@ -480,8 +480,8 @@ object WorkspaceProfileNonResponsiveFactory {
                 ),
             workspaceCellPaddingXPx =
                 res.getDimensionPixelSize(R.dimen.dynamic_grid_cell_padding_x),
-            workspaceTopPadding = 0,
-            workspaceBottomPadding = 0,
+            workspaceTopPadding = res.getDimensionPixelSize(R.dimen.ul_workspace_top_padding), // UL 0013
+            workspaceBottomPadding = res.getDimensionPixelSize(R.dimen.ul_workspace_bottom_padding), // UL 0013
             maxEmptySpace = 0,
             workspacePadding = workspacePadding,
             cellLayoutPaddingPx = cellLayoutPaddingPx,
