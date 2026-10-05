@@ -59,6 +59,13 @@
     <string name="ul_pref_allow_rotation">Rotate the home screen</string>
     <string name="ul_pref_allow_rotation_summary">Follows the system orientation so the grid, dock and folders also work in landscape. Off by default (portrait home like OPPO).</string>
 
+    <!-- Expandable folders (patches 0140-0143) -->
+    <string name="ul_folder_expand">Expand folder</string>
+    <string name="ul_folder_shrink">Shrink folder</string>
+    <string name="ul_folder_no_room">No room to expand this folder</string>
+    <string name="ul_pref_folder_expand">Expandable folders</string>
+    <string name="ul_pref_folder_expand_summary">Long-press a folder on the home screen to expand it to 2x2: its apps show on the tile and open with one tap.</string>
+
     <!-- Digital clock widget -->
     <string name="ul_clock_label_square">Digital clock</string>
     <string name="ul_clock_label_wide">Digital clock (wide)</string>

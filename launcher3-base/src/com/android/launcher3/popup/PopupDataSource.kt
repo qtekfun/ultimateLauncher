@@ -77,7 +77,9 @@ object PopupDataSource {
 object FolderSystemShortcuts : PopupDataMapper {
 
     override fun getPopupDataByItemInfo(itemInfo: ItemInfo): List<PopupData>? =
-        if (itemInfo.itemType == ITEM_TYPE_FOLDER) listOf(PopupDataSource.removePopupData) else null
+        if (itemInfo.itemType == ITEM_TYPE_FOLDER) {
+            com.qtekfun.ultimatelauncher.folder.FolderExpand.popupData(itemInfo) + listOf(PopupDataSource.removePopupData) // UltimateLauncher 0142
+        } else null
 }
 
 object AppPairSystemShortcuts : PopupDataMapper {
