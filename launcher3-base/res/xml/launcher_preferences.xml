@@ -83,4 +83,13 @@
         android:defaultValue="true"
         android:persistent="true" />
 
+
+    <!-- UltimateLauncher 0046 -->
+    <SwitchPreference
+        android:key="pref_ul_gesture_contract"
+        android:title="@string/ul_pref_gesture_contract"
+        android:summary="@string/ul_pref_gesture_contract_summary"
+        android:defaultValue="false"
+        android:persistent="true" />
+
 </androidx.preference.PreferenceScreen>

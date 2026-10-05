@@ -38,4 +38,6 @@
     <string name="ul_btn_battery">No optimizar la batería del launcher</string>
     <string name="ul_battery_yes">La optimización de batería está DESACTIVADA para UltimateLauncher (bien).</string>
     <string name="ul_battery_no">La optimización de batería está ACTIVA: el sistema puede matar el launcher.</string>
+    <string name="ul_pref_gesture_contract">Contrato del gesto de inicio</string>
+    <string name="ul_pref_gesture_contract_summary">Anima la vuelta al icono tras el gesto hacia arriba. Apagado por defecto: en ColorOS puede dejar los iconos ocultos un momento.</string>
 </resources>
