@@ -33,6 +33,10 @@ Base importada sin modificar en el commit "Importación AOSP sin modificar" (ver
 | 0024 | Indicador con UNA página: punto redondo (no píldora), tamaño y desplazamiento de tokens | PageIndicatorDots.java | `patches/0024-*.py` + generador (`page_indicator_dot_size`) |
 | 0025 | El buscador de abajo sube con el teclado (`WindowInsetsAnimation.Callback`) y la barra A-Z se oculta al buscar | AppsSearchContainerLayout.java, ActivityAllAppsContainerView.java | `patches/0025-*.py` |
 
+| 0048-0050 | Carpeta abierta/cerrada al estilo OPPO (ver progress.md). 2026-10-05: 0048 pasa también la altura a `FolderStyle.position` (no sale por abajo en horizontal); 0049 usa el lado corto (<600 dp) para decidir «teléfono» y reduce las filas por página en horizontal (`FolderStyle.rowsFor`) | Folder.java, FolderProfile.kt | `patches/0048-*.py`, `0049-*.py` |
+| 0060 | Tema claro legible: `textColorSecondary` y el color de etiqueta de `BaseIcon.AllApps` en blanco (el cajón es ya fondo desenfocado con velo, no hoja clara) | launcher3-base/res/values/styles.xml | `patches/0060-*.py` |
+| 0061 | Interruptor «Girar la pantalla de inicio» (apagado por defecto): el launcher sigue la orientación del sistema en teléfono | RotationHelper.java, launcher_preferences.xml, `app/.../RotationPref.kt` | `patches/0061-*.py` |
+
 Además: `coreLibraryDesugaringEnabled` (desugar_jdk_libs 2.1.5) en `app/build.gradle` para `Stream.toList` (API 34) en Android 12–13.
 | 0017 | Iconos: adaptativos sin fondo → baldosa clara; heredados opacos → a sangre con el color de su borde | iconloaderlib BaseIconFactory.kt | `patches/0017-*.py` |
 | 0018 | Máscara de icono desde tokens (`ul_icon_mask`) | ThemeManager.kt | `patches/0018-*.py` + `tools/apply-tablet-tokens.py` |
