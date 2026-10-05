@@ -8,7 +8,9 @@ Launcher Android (fork delgado de Launcher3 de AOSP `android17-release`), sin se
 cp app/build/outputs/apk/default/debug/app-default-debug.apk dist/ultimatelauncher-default-debug.apk
 tools/install.sh [serie_adb]               # instala y fija como launcher
 tools/restore.sh [serie_adb]               # vuelve al launcher original de OPPO
-tools/check-permissions.sh                 # la variante default no debe declarar INTERNET
+tools/check-permissions.sh [apk] [default|sync]   # permisos exactos, sin INTERNET en default, sin clases de red
+tools/privacy-audit.sh [--build]           # APK default y sync, dependencias y export sin credenciales (docs/privacy-audit.md)
+tools/ci.sh                                # compila, pruebas, Lint y auditoría (workflow comentado en .github/workflows/ci.yml)
 ./gradlew :app:testDefaultDebugUnitTest    # 14 pruebas unitarias
 ```
 Requisitos: JDK 21, Android SDK con plataforma 37.0 y build-tools 36+, Gradle 9.8 (wrapper).

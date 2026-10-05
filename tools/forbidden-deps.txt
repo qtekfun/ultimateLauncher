@@ -1,0 +1,21 @@
+# Artefactos prohibidos (expresión regular sobre grupo:artefacto). docs/09: sin GMS, Firebase, Play, ML Kit ni librerías con red.
+^com\.google\.android\.gms
+^com\.google\.firebase
+^com\.google\.android\.play
+^com\.google\.mlkit
+^com\.google\.android\.datatransport
+^com\.google\.android\.libraries
+^com\.google\.android\.apps
+^com\.squareup\.(okhttp|okio|retrofit)
+^com\.android\.volley
+^io\.grpc
+^org\.chromium
+^com\.google\.net\.cronet
+^org\.apache\.httpcomponents
+^io\.ktor
+^io\.coil-kt
+^com\.github\.bumptech
+^com\.facebook
+^io\.sentry
+^com\.bugsnag
+^com\.crashlytics
