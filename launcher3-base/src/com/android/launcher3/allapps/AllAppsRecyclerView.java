@@ -452,6 +452,71 @@ public class AllAppsRecyclerView extends FastScrollRecyclerView {
             ulParent.requestLayout();
         });
         mLetterList.setAlpha(1);
+        ulScheduleLetterFit(); // UltimateLauncher 0190
+    }
+
+    // UltimateLauncher 0190: la barra A-Z cabe en pantallas bajas (horizontal). Se ejecuta tras el post() de 0023.
+    private boolean mUlFitListener;
+
+    private void ulScheduleLetterFit() {
+        mLetterList.post(this::ulFitLetterBar);
+        if (!mUlFitListener && mLetterList.getParent() instanceof View) {
+            mUlFitListener = true;
+            ((View) mLetterList.getParent()).addOnLayoutChangeListener(
+                    (v, l, t, r, b, ol, ot, or, ob) -> {
+                        if (b - t != ob - ot) {
+                            mLetterList.post(this::ulFitLetterBar);
+                        }
+                    });
+        }
+    }
+
+    private void ulFitLetterBar() {
+        if (mLetterList == null || mLetterList.getChildCount() == 0
+                || !(mLetterList.getParent() instanceof View)) {
+            return;
+        }
+        final View parent = (View) mLetterList.getParent();
+        final android.content.res.Resources res = getResources();
+        final float density = res.getDisplayMetrics().density;
+        final int count = mLetterList.getChildCount();
+        final int pitch0 = Math.round(res.getDimension(R.dimen.ul_drawer_az_pitch));
+        final com.qtekfun.ultimatelauncher.drawer.AzBarLogic.Fit fit =
+                com.qtekfun.ultimatelauncher.drawer.AzBarLogic.fit(
+                        parent.getHeight(), count, pitch0,
+                        Math.round(res.getDimension(R.dimen.ul_drawer_az_top)),
+                        Math.round(com.qtekfun.ultimatelauncher.drawer.AzBarLogic.BOTTOM_RESERVE_DP * density),
+                        parent.getPaddingTop() + Math.round(
+                                com.qtekfun.ultimatelauncher.drawer.AzBarLogic.MIN_TOP_DP * density));
+        final float textPx = res.getDimension(R.dimen.ul_drawer_az_text_size) * fit.getTextScale();
+        for (int i = 0; i < count; i++) {
+            View letter = mLetterList.getChildAt(i);
+            if (!(letter.getLayoutParams() instanceof android.widget.FrameLayout.LayoutParams)) {
+                continue;
+            }
+            android.widget.FrameLayout.LayoutParams lp =
+                    (android.widget.FrameLayout.LayoutParams) letter.getLayoutParams();
+            lp.width = fit.getPitch();
+            lp.height = fit.getPitch();
+            lp.topMargin = i * fit.getPitch();
+            letter.setLayoutParams(lp);
+            if (letter instanceof TextView) {
+                ((TextView) letter).setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, textPx);
+            }
+        }
+        final int height = fit.getPitch() * count + getScrollBarTop() + getScrollBarMarginBottom();
+        final int topMargin = fit.getTop() - getScrollBarTop() - parent.getPaddingTop();
+        for (View v : new View[] {mLetterList, mScrollbar}) {
+            if (v != null && v.getLayoutParams() instanceof android.widget.RelativeLayout.LayoutParams) {
+                android.widget.RelativeLayout.LayoutParams lp =
+                        (android.widget.RelativeLayout.LayoutParams) v.getLayoutParams();
+                if (lp.height != height || lp.topMargin != topMargin) {
+                    lp.height = height;
+                    lp.topMargin = topMargin;
+                    v.setLayoutParams(lp);
+                }
+            }
+        }
     }
 
     private void constraintTextViewsVertically(ConstraintLayout constraintLayout,

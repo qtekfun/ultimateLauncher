@@ -37,6 +37,7 @@ public class LauncherApplication extends Application implements AppFunctionConfi
     @Override
     public void onCreate() {
         super.onCreate();
+        com.qtekfun.ultimatelauncher.orientation.ScreenOrientation.install(this); // UltimateLauncher 0190
         LauncherComponentProvider.get(this).getMainProcessInitializer().init(this);
     }
 
