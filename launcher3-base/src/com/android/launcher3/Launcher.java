@@ -933,6 +933,7 @@ public class Launcher extends StatefulActivity<LauncherState>
 
     @Override
     protected void onStop() {
+        com.qtekfun.ultimatelauncher.diag.UlDiag.event("onStop"); // UltimateLauncher 0044
         super.onStop();
         hideKeyboard();
         logStopAndResume(false /* isResume */);
@@ -944,6 +945,7 @@ public class Launcher extends StatefulActivity<LauncherState>
 
     @Override
     protected void onStart() {
+        com.qtekfun.ultimatelauncher.diag.UlDiag.event("onStart"); // UltimateLauncher 0044
         TraceHelper.INSTANCE.beginSection(ON_START_EVT);
         super.onStart();
         mAppWidgetHolder.setActivityStarted(true);
@@ -1108,6 +1110,7 @@ public class Launcher extends StatefulActivity<LauncherState>
 
     @Override
     protected void onResume() {
+        com.qtekfun.ultimatelauncher.diag.UlDiag.event("onResume"); com.qtekfun.ultimatelauncher.diag.UlDiag.snapshotAfterResume(this); // UltimateLauncher 0044
         TraceHelper.INSTANCE.beginSection(ON_RESUME_EVT);
         super.onResume();
         com.qtekfun.ultimatelauncher.anim.OpenReturnAnim.playReturn(this); // UltimateLauncher 0043
@@ -1118,6 +1121,7 @@ public class Launcher extends StatefulActivity<LauncherState>
 
     @Override
     protected void onPause() {
+        com.qtekfun.ultimatelauncher.diag.UlDiag.event("onPause"); // UltimateLauncher 0044
         // Ensure that items added to Launcher are queued until Launcher returns
         ItemInstallQueue.INSTANCE.get(this).pauseModelPush(FLAG_ACTIVITY_PAUSED);
 
@@ -1414,6 +1418,7 @@ public class Launcher extends StatefulActivity<LauncherState>
 
     @Override
     protected void onNewIntent(Intent intent) {
+        com.qtekfun.ultimatelauncher.diag.UlDiag.event("onNewIntent"); // UltimateLauncher 0044
         if (Utilities.isRunningInTestHarness()) {
             Log.d(TestProtocol.PERMANENT_DIAG_TAG, "Launcher.onNewIntent: " + intent);
         }
@@ -2020,6 +2025,7 @@ public class Launcher extends StatefulActivity<LauncherState>
 
     @Override
     public void onTrimMemory(int level) {
+        com.qtekfun.ultimatelauncher.diag.UlDiag.event("onTrimMemory=" + level); // UltimateLauncher 0044
         super.onTrimMemory(level);
         if (level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
             // The widget preview db can result in holding onto over

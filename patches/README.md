@@ -41,6 +41,7 @@ Además: `coreLibraryDesugaringEnabled` (desugar_jdk_libs 2.1.5) en `app/build.g
 | 0041 | Ajustes del dock (estilo de fondo y recientes) | launcher_preferences.xml | `patches/0041-*.py` |
 Además: `coreLibraryDesugaringEnabled` (desugar_jdk_libs 2.1.5) en `app/build.gradle` para `Stream.toList` (API 34) en Android 12–13. `lint { ... }` en `app/build.gradle`: `NewApi` como error y ruido heredado de AOSP desactivado (docs/compat-android12-14.md).
 | 0043 | Animación de abrir (escala desde el icono) y de volver (pop del icono) + 2 ajustes | ActivityContext.java, Launcher.java, launcher_preferences.xml | `patches/0043-*.py` |
+| 0044 | Diagnóstico de ciclo de vida e iconos (solo debug, `ULDIAG`) | Launcher.java | `patches/0044-*.py` |
 
 Cambios que NO son parches sobre archivos de AOSP (andamiaje propio): `build.gradle*`, `settings.gradle.kts`, `gradle/`, `app/`,
 `platform-stubs/` (incluye copias sin modificar de `plugin_core` y `log/core` de frameworks/base), `launcher3-base/modules/widgetpicker/ul-build.gradle`,
