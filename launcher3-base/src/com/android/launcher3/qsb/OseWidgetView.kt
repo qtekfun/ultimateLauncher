@@ -113,6 +113,10 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         closeActions.executeAllAndClear()
     }
 
+    // UltimateLauncher 0100: sin proveedor (sin GMS) el hueco está vacío y no debe tapar los iconos del dock
+    override fun dispatchTouchEvent(ev: android.view.MotionEvent): Boolean =
+        if (appWidgetInfo == null) false else super.dispatchTouchEvent(ev)
+
     override fun shouldDelayChildPressedState(): Boolean {
         // Delay the ripple effect on the widget view when swiping up from home screen
         // to go to all apps.

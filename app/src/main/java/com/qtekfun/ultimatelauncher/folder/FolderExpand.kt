@@ -60,6 +60,16 @@ object FolderExpand {
         context.getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE).getBoolean(KEY, true)
     } catch (e: Exception) { true }
 
+    /**
+     * ¿El dedo está demasiado lejos para soltar en la carpeta de la celda de destino? Con una carpeta ampliada debajo
+     * vale cualquier punto de su baldosa (parche 0144); con una normal, el radio estándar de AOSP.
+     */
+    @JvmStatic fun beyondFolderRadius(target: CellLayout, cell: IntArray, distance: Float): Boolean {
+        val v = target.getChildAt(cell[0], cell[1])
+        if (v is FolderIcon && isExpanded(v)) return false
+        return distance > target.getFolderCreationRadius(cell)
+    }
+
     @JvmStatic fun isExpanded(icon: FolderIcon): Boolean =
         icon.mInfo != null && icon.mInfo.spanX >= Logic.EXPANDED_SPAN && icon.mInfo.spanY >= Logic.EXPANDED_SPAN
 
