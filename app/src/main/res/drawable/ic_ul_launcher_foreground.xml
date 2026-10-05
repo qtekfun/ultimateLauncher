@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
-  SPDX-License-Identifier: Apache-2.0
+  SPDX-License-Identifier: GPL-3.0-or-later
 -->
 <!-- Una rejilla de aplicaciones 2x2 donde la última casilla es una carpeta (con sus mini-apps recortadas): el launcher en un vistazo.
      Mismo lenguaje que el resto de apps Ultimate: fondo liso, formas blancas redondeadas, todo dentro de la zona segura (círculo de 66 dp). -->
