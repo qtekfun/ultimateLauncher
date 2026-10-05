@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
 # Publica una release de GitHub firmada al empujar una etiqueta vX.Y.Z (o vX.Y.Z-rc.N). Las notas salen de CHANGELOG.md.
 # Los secretos los crea el propietario del repo con SU clave (ver docs/release-signing.md): UL_KEYSTORE_BASE64, UL_KEYSTORE_PASSWORD,

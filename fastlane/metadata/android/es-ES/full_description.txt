@@ -1,0 +1,31 @@
+UltimateLauncher es un launcher (pantalla de inicio) para Android 12 o posterior, basado en Launcher3 de AOSP, pensado para móvil y tablet.
+
+<b>Privacidad primero</b>
+• No declara el permiso de Internet: Android le impide abrir conexiones. Sin cuentas, sin anuncios, sin telemetría y sin informes de fallos automáticos.
+• Sin servicios de Google (GMS), sin Firebase ni bibliotecas de red; funciona igual en teléfonos sin GMS.
+• No guarda historial de uso, apps recientes ni predicciones. La búsqueda del cajón filtra en memoria y no guarda consultas.
+• Las comprobaciones de privacidad (permisos exactos, dependencias y clases de red prohibidas) se ejecutan en cada cambio del código.
+
+<b>Qué ofrece</b>
+• Escritorio y cajón de aplicaciones con rejilla, iconos, dock y carpetas ajustados a mediciones propias; carpetas ampliables a 2x2.
+• Dock de tablet configurable.
+• Copia de seguridad y restauración a demanda, en un archivo que eliges tú (con cifrado opcional en la exportación de la disposición). No se envía a ningún sitio.
+• Importar la pantalla de inicio desde un archivo de copia de otro launcher (Nova, Lawnchair y similares).
+• Fondos de pantalla incluidos (12, generados por código y sin imágenes de terceros) y soporte de paquetes de iconos ya instalados (ADW, Nova, Apex).
+• Gesto opcional de deslizar hacia abajo en el escritorio para abrir notificaciones o ajustes rápidos (apagado por defecto).
+• Apps ocultas del cajón y de la búsqueda, protegidas con huella, rostro o PIN del dispositivo.
+• Widget de reloj digital propio.
+
+<b>Permisos</b>
+Alojar widgets (BIND_APPWIDGET), desinstalar desde el icono, cambiar el fondo, vibración, pedir que el sistema no cierre el launcher (solo si lo aceptas en el asistente), expandir la barra de estado (gesto opcional) y autenticación biométrica (apps ocultas). Ninguno da acceso a tus datos personales; no hay permisos de almacenamiento, contactos, ubicación, cámara ni micrófono.
+
+<b>Qué no hace</b>
+• No incluye el feed de Google, búsqueda web, sugerencias ni predicciones de apps.
+• No sincroniza en la nube. La variante con red (WebDAV) que figura en el código no se publica aquí y no tiene cliente de red implementado.
+• No bloquea la pantalla con doble toque (exigiría permisos de accesibilidad o de administrador del dispositivo).
+• No es un producto de ningún fabricante y no contiene código, recursos ni marcas de terceros.
+
+<b>Estado</b>
+Versión inicial (0.1.0), probada en un número limitado de dispositivos (Android 16 y Android 12). Algunas funciones están verificadas solo por código; los fallos se agradecen en el repositorio.
+
+Licencia Apache-2.0. Código fuente y documentación de privacidad en el repositorio del proyecto.

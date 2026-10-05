@@ -9,3 +9,4 @@ dist/*.apk
 local.properties
 private-measurements/
 third_party/
+.kotlin/

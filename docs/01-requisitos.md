@@ -49,7 +49,7 @@ Una persona que cambia con frecuencia entre teléfonos OPPO, vivo, Xiaomi y Hono
 - RNF-02 **Privacidad primero**: sin telemetría, sin analíticas, sin informes de fallos automáticos y **sin permiso `INTERNET` en la compilación por defecto** (ver `09`). La red solo existe en una variante opcional de sincronización.
 - RNF-03 Arranque en frío y desplazamiento sin saltos de fotograma en gama media; objetivo de 60 fps sostenidos y a la frecuencia nativa del panel (90/120 Hz) cuando el sistema la conceda.
 - RNF-04 Idioma de interfaz: español e inglés.
-- RNF-05 Licencia compatible con la base (Launcher3 es Apache 2.0). **Propuesta: GPLv3** (pendiente de confirmar).
+- RNF-05 Licencia compatible con la base (Launcher3 es Apache 2.0). **Decidido: GPL-3.0-or-later** para todo el proyecto (2026-10-05, ver `docs/DECISIONS.md`; Apache-2.0 es compatible con incluirse en un proyecto GPLv3; el usuario puede cambiarla).
 - RNF-06 Distribución: APK propio (Obtainium/GitHub); F-Droid más adelante, no en v1.
 - RNF-07 `minSdk` **31** (Android 12). Foco de pruebas: Android 16 y 17. Se revisará subir el mínimo si aporta ventajas sustanciales (ver `03`).
 

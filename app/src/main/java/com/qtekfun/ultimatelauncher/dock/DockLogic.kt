@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+// SPDX-License-Identifier: GPL-3.0-or-later
 package com.qtekfun.ultimatelauncher.dock
 
 /** Lógica pura (sin Android) de la zona de apps fijas del dock de tablet, para poder probarla en la JVM. */

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Mide la geometría del inicio del launcher actual en el dispositivo y la compara con la referencia OPPO.
 # Uso: tools/measure-home.sh <serie>   (guarda captura y volcado en private-measurements/, ignorado por git)
 set -euo pipefail

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Instala UltimateLauncher (variante default) y lo fija como launcher predeterminado.
 # Uso: tools/install.sh <serie_adb> [apk]   (la serie es obligatoria: adb devices; también vale ANDROID_SERIAL)
 # Para volver al launcher original: tools/restore.sh

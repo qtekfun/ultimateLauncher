@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Genera el pack de fondos de pantalla propios de UltimateLauncher (WebP) por código, sin imágenes de terceros.
 
 Cada fondo es un cuadrado de SIDE x SIDE px con la composición pensada para recortarse en el centro: el selector hace un

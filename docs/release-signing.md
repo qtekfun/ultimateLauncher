@@ -31,5 +31,5 @@ Definir un `signingConfig` que lea ruta y contraseñas de variables de entorno o
 
 ## Pendiente (objetivo de M8)
 - Minificación R8 (hoy `minifyEnabled false`): puede cambiar el resultado de la auditoría de clases; volver a pasar `tools/privacy-audit.sh`.
-- Build reproducible: no verificado (dos compilaciones consecutivas no se han comparado byte a byte). Sin `dist/` versionado.
+- Build reproducible: dos compilaciones sin firmar (`-Pul.unsigned=true`) en directorios distintos y sin caché dieron el mismo SHA-256 (2026-10-05); falta probarlo contra otro entorno (JDK/SDK de F-Droid). Detalle y plan en `docs/fdroid.md`. Sin `dist/` versionado.
 - Escáner de trackers externo (Exodus Privacy / `exodus-standalone`): no instalado ni ejecutado; la comprobación propia de clases prohibidas lo sustituye solo en parte.

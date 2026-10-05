@@ -1,0 +1,50 @@
+# BORRADOR de la receta para fdroiddata (gitlab.com/fdroid/fdroiddata, archivo metadata/com.qtekfun.ultimatelauncher.yml).
+# No es válido tal cual hasta que exista la etiqueta v0.1.0 con estos cambios; ver docs/fdroid.md (lista de comprobación).
+# Antes de enviar: `fdroid rewritemeta com.qtekfun.ultimatelauncher`, `fdroid lint` y `fdroid build -v -l com.qtekfun.ultimatelauncher`.
+Categories:
+  - System
+License: GPL-3.0-or-later
+SourceCode: https://github.com/qtekfun/ultimateLauncher
+IssueTracker: https://github.com/qtekfun/ultimateLauncher/issues
+Changelog: https://github.com/qtekfun/ultimateLauncher/blob/HEAD/CHANGELOG.md
+
+AutoName: UltimateLauncher
+Summary: Launcher sin servicios de Google, sin telemetría y sin permiso de Internet
+
+RepoType: git
+Repo: https://github.com/qtekfun/ultimateLauncher.git
+
+# Sin AntiFeatures: la variante `default` no declara INTERNET, no usa GMS/Firebase ni binarios sin fuentes, y todos los
+# recursos son propios o de AOSP (Apache-2.0). Revisar si el revisor detecta algo (ver docs/fdroid.md, apartado «Anti-Features»).
+# AntiFeatures:
+#   NonFreeNet: no aplica (sin red)   NonFreeAssets: no aplica   NonFreeDep: no aplica   Tracking: no aplica
+
+Builds:
+  - versionName: 0.1.0
+    versionCode: 1
+    commit: v0.1.0
+    subdir: app
+    # Sin `sudo`: el buildserver (Debian trixie) trae OpenJDK 21 por defecto, que es lo que pide el proyecto. Si cambiara,
+    # añadir `sudo: [apt-get update, apt-get install -y openjdk-21-jdk-headless]` y seleccionarlo con update-alternatives.
+    gradle:
+      - default
+    gradleprops:
+      # Release sin firma (app/build.gradle): F-Droid firma con su clave o copia la firma del upstream (ver AllowedAPKSigningKeys).
+      - ul.unsigned=true
+    output: app/build/outputs/apk/default/release/app-default-release-unsigned.apk
+    # La plataforma 37.0 no está preinstalada en el buildserver (solo hasta android-33 en provision-android-sdk); AGP la
+    # descarga si las licencias están aceptadas. Si falla, descomentar y adaptar:
+    # prebuild:
+    #   - sdkmanager 'platforms;android-37.0' 'build-tools;36.0.0'
+    # R8 (minify) está activo en release; no hace falta `scanignore` ni `scandelete`: el árbol no trae JAR, .so, APK ni
+    # keystores (el gradle-wrapper.jar lo sustituye gradlew-fdroid).
+
+# Reproducibilidad (sólo si docs/fdroid.md confirma que el APK sale idéntico; si no, F-Droid firma con su clave y los
+# usuarios no podrán actualizar entre la app de GitHub y la de F-Droid):
+#   Binaries: https://github.com/qtekfun/ultimateLauncher/releases/download/v%v/UltimateLauncher-%v.apk
+#   AllowedAPKSigningKeys: <SHA-256 del certificado de publicación, en minúsculas y sin dos puntos; se rellena cuando el propietario cree su clave>
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: 0.1.0
+CurrentVersionCode: 1

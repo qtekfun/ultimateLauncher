@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 UltimateLauncher contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Restaura el launcher original de OPPO como predeterminado.
 # Uso: tools/restore.sh [serie] [paquete_original]   (o ANDROID_SERIAL / ORIGINAL_LAUNCHER)
 set -euo pipefail
