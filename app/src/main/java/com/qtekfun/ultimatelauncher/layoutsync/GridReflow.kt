@@ -10,8 +10,14 @@ object GridReflow {
 
     private fun spanOf(i: Item) = if (i is Item.Widget) i.span else Span(1, 1)
 
+    /** Cabe si cada elemento tiene celda dentro de la rejilla y NINGUNO se solapa con otro (archivos ajenos pueden venir corruptos). */
     fun fits(pages: List<Page>, dst: Grid): Boolean = pages.all { p ->
-        p.items.all { i -> val c = i.cell ?: return@all false; val s = spanOf(i); c.x + s.w <= dst.columns && c.y + s.h <= dst.rows }
+        val occ = HashSet<Int>()
+        p.items.all { i ->
+            val c = i.cell ?: return@all false; val s = spanOf(i)
+            if (c.x < 0 || c.y < 0 || c.x + s.w > dst.columns || c.y + s.h > dst.rows) return@all false
+            (0 until s.h).all { dy -> (0 until s.w).all { dx -> occ.add((c.y + dy) * 1000 + c.x + dx) } }
+        }
     }
 
     fun reflow(pages: List<Page>, dst: Grid): Result {

@@ -35,6 +35,8 @@ class LayoutSyncActivity : Activity() {
                 .putExtra(Intent.EXTRA_TITLE, "ultimatelauncher-layout.json"), export) } })
         root.addView(Button(this).apply { text = getString(R.string.ul_sync_import); setOnClickListener {
             startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*"), import) } })
+        root.addView(Button(this).apply { text = getString(R.string.ul_imp_open_from_sync); setOnClickListener {
+            startActivity(Intent(this@LayoutSyncActivity, com.qtekfun.ultimatelauncher.importer.ForeignImportActivity::class.java)) } })
         status = TextView(this).apply { setPadding(0, pad, 0, 0) }
         root.addView(status)
         setContentView(root)

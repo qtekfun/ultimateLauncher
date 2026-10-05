@@ -1,0 +1,115 @@
+{
+  "_nota": "Fuentes de importación de la pantalla de inicio de OTROS launchers (docs/06, «Importar de otro launcher»). Solo nombres de paquete públicos (visibles en cualquier tienda o con `pm list packages`) y convenciones documentadas del esquema Launcher3 de AOSP. Nada de esto sale de descompilar APK ni de mediciones: 'verified' es false en todas las vías hasta que se pruebe con el launcher real instalado en un dispositivo. 'provider' = content://<authority>/favorites (el permiso de lectura lo fija el launcher de origen; AOSP moderno usa android.permission.ACCESS_LAUNCHER_DATA, de firma/privilegiado, que una app normal no puede obtener); 'backup' = archivo que el usuario elige con el selector de documentos (sin permisos); sin vías = el launcher no ofrece ninguna sin privilegios. '{package}' en una autoridad se sustituye por el paquete del launcher.",
+  "sources": [
+    {
+      "id": "aosp-launcher3",
+      "label": "Launcher3 (AOSP) / Quickstep",
+      "packages": ["com.android.launcher3", "com.android.launcher3.quickstep"],
+      "closed": false,
+      "routes": [
+        {"type": "provider", "authority": "com.android.launcher3.settings", "verified": false,
+         "note": {"es": "El proveedor de AOSP actual exige android.permission.ACCESS_LAUNCHER_DATA (solo sistema); las compilaciones antiguas usaban un permiso normal de lectura.",
+                  "en": "Current AOSP provider requires android.permission.ACCESS_LAUNCHER_DATA (system only); older builds used a normal read permission."}}
+      ]
+    },
+    {
+      "id": "pixel",
+      "label": "Pixel Launcher",
+      "packages": ["com.google.android.apps.nexuslauncher"],
+      "closed": false,
+      "routes": [
+        {"type": "provider", "authority": "com.google.android.apps.nexuslauncher.settings", "verified": false,
+         "note": {"es": "Deriva de Launcher3; casi seguro protegido por un permiso de sistema. Se intenta y se informa del permiso que pida.",
+                  "en": "Derived from Launcher3; very likely protected by a system permission. It is tried and the requested permission is reported."}}
+      ]
+    },
+    {
+      "id": "lawnchair",
+      "label": "Lawnchair",
+      "packages": ["app.lawnchair", "app.lawnchair.debug", "ch.deletescape.lawnchair.plah"],
+      "closed": false,
+      "routes": [
+        {"type": "backup", "extensions": [".lawnchairbackup"], "verified": false,
+         "note": {"es": "Copia de seguridad de Lawnchair (Ajustes de inicio > Más > Crear copia). Se busca dentro la base de datos de Launcher3; la estructura interna no está documentada oficialmente.",
+                  "en": "Lawnchair backup (Home settings > More > Create backup). The Launcher3 database inside is looked up; the internal structure is not officially documented."}},
+        {"type": "provider", "authority": "{package}.settings", "verified": false,
+         "note": {"es": "Si el permiso de lectura que declare es normal, se podrá leer directamente.",
+                  "en": "If the read permission it declares is a normal one, it can be read directly."}}
+      ]
+    },
+    {
+      "id": "trebuchet",
+      "label": "Trebuchet (LineageOS)",
+      "packages": ["org.lineageos.trebuchet"],
+      "closed": false,
+      "routes": [
+        {"type": "provider", "authority": "org.lineageos.trebuchet.settings", "verified": false,
+         "note": {"es": "Deriva de Launcher3; mismo caso que AOSP.", "en": "Derived from Launcher3; same case as AOSP."}}
+      ]
+    },
+    {
+      "id": "nova",
+      "label": "Nova Launcher",
+      "packages": ["com.teslacoilsw.launcher", "com.teslacoilsw.launcher.prime"],
+      "closed": false,
+      "routes": [
+        {"type": "backup", "extensions": [".novabackup"], "verified": false,
+         "note": {"es": "Copia de Nova (Ajustes de Nova > Copia de seguridad). Es un ZIP; se busca dentro una base de datos con tabla «favorites». Las subcuadrículas de Nova se llevan a la posición más cercana.",
+                  "en": "Nova backup (Nova settings > Backup). It is a ZIP; a database with a «favorites» table is looked up inside. Nova subgrids are snapped to the nearest position."}}
+      ]
+    },
+    {
+      "id": "generic-launcher3",
+      "label": "Otro launcher basado en Launcher3",
+      "packages": [],
+      "closed": false,
+      "routes": [
+        {"type": "provider", "authority": "{package}.settings", "verified": false,
+         "note": {"es": "Convención de AOSP: la autoridad es «<paquete>.settings». Se intenta con cada launcher instalado no listado.",
+                  "en": "AOSP convention: the authority is «<package>.settings». Tried for every installed launcher not listed."}}
+      ]
+    },
+    {
+      "id": "coloros",
+      "label": "ColorOS / OxygenOS / realme UI (OPPO, OnePlus, realme)",
+      "packages": ["com.android.launcher", "com.oppo.launcher"],
+      "closed": true,
+      "routes": []
+    },
+    {
+      "id": "miui",
+      "label": "Xiaomi HyperOS / MIUI / POCO",
+      "packages": ["com.miui.home", "com.mi.android.globallauncher"],
+      "closed": true,
+      "routes": []
+    },
+    {
+      "id": "emui",
+      "label": "Huawei EMUI / HarmonyOS",
+      "packages": ["com.huawei.android.launcher"],
+      "closed": true,
+      "routes": []
+    },
+    {
+      "id": "magicos",
+      "label": "Honor MagicOS",
+      "packages": ["com.hihonor.android.launcher"],
+      "closed": true,
+      "routes": []
+    },
+    {
+      "id": "vivo",
+      "label": "vivo Funtouch / OriginOS",
+      "packages": ["com.bbk.launcher2"],
+      "closed": true,
+      "routes": []
+    },
+    {
+      "id": "oneui",
+      "label": "Samsung One UI Home",
+      "packages": ["com.sec.android.app.launcher"],
+      "closed": true,
+      "routes": []
+    }
+  ]
+}

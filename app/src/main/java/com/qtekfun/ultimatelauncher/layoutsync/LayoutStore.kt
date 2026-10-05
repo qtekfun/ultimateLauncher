@@ -94,20 +94,25 @@ class LayoutStore(private val context: Context) {
             put(Favorites.PROFILE_ID, ownSerial); put(Favorites.RANK, 0)
             put(Favorites.RESTORED, LauncherAppWidgetInfo.FLAG_ID_NOT_VALID or LauncherAppWidgetInfo.FLAG_PROVIDER_NOT_READY)
         }
-        plan.hotseat.forEach { (slot, it) -> if (it is Item.App) db.insert(appValues(it, Favorites.CONTAINER_HOTSEAT, slot, slot, 0, 0)) }
+        fun insertFolder(f: Item.Folder, container: Int, screen: Int, x: Int, y: Int) {
+            val fid = db.generateNewItemId()
+            db.insert(ContentValues().apply {
+                put(Favorites._ID, fid); put(Favorites.TITLE, f.title); put(Favorites.CONTAINER, container)
+                put(Favorites.SCREEN, screen); put(Favorites.CELLX, x); put(Favorites.CELLY, y); put(Favorites.SPANX, 1); put(Favorites.SPANY, 1)
+                put(Favorites.ITEM_TYPE, Favorites.ITEM_TYPE_FOLDER); put(Favorites.PROFILE_ID, ownSerial); put(Favorites.RANK, 0); put(Favorites.RESTORED, 0)
+            })
+            f.items.forEachIndexed { rank, a -> db.insert(appValues(a, fid, 0, rank % 3, rank / 3, rank)) }
+        }
+        plan.hotseat.forEach { (slot, it) -> when (it) {
+            is Item.App -> db.insert(appValues(it, Favorites.CONTAINER_HOTSEAT, slot, slot, 0, 0))
+            is Item.Folder -> insertFolder(it, Favorites.CONTAINER_HOTSEAT, slot, slot, 0)
+            else -> Unit
+        } }
         plan.pages.forEachIndexed { screen, items -> items.forEach { it ->
             val c = it.cell ?: Cell(0, 0)
             when (it) {
                 is Item.App -> db.insert(appValues(it, Favorites.CONTAINER_DESKTOP, screen, c.x, c.y, 0))
-                is Item.Folder -> {
-                    val fid = db.generateNewItemId()
-                    db.insert(ContentValues().apply {
-                        put(Favorites._ID, fid); put(Favorites.TITLE, it.title); put(Favorites.CONTAINER, Favorites.CONTAINER_DESKTOP)
-                        put(Favorites.SCREEN, screen); put(Favorites.CELLX, c.x); put(Favorites.CELLY, c.y); put(Favorites.SPANX, 1); put(Favorites.SPANY, 1)
-                        put(Favorites.ITEM_TYPE, Favorites.ITEM_TYPE_FOLDER); put(Favorites.PROFILE_ID, ownSerial); put(Favorites.RANK, 0); put(Favorites.RESTORED, 0)
-                    })
-                    it.items.forEachIndexed { rank, a -> db.insert(appValues(a, fid, 0, rank % 3, rank / 3, rank)) }
-                }
+                is Item.Folder -> insertFolder(it, Favorites.CONTAINER_DESKTOP, screen, c.x, c.y)
                 is Item.Widget -> db.insert(widgetValues(it, screen, c))
                 else -> Unit // accesos directos: no se restauran en v1 (se avisa en el resumen)
             }
