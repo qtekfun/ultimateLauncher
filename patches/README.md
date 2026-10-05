@@ -37,6 +37,11 @@ Base importada sin modificar en el commit "Importación AOSP sin modificar" (ver
 | 0060 | Tema claro legible: `textColorSecondary` y el color de etiqueta de `BaseIcon.AllApps` en blanco (el cajón es ya fondo desenfocado con velo, no hoja clara) | launcher3-base/res/values/styles.xml | `patches/0060-*.py` |
 | 0061 | Interruptor «Girar la pantalla de inicio» (apagado por defecto): el launcher sigue la orientación del sistema en teléfono | RotationHelper.java, launcher_preferences.xml, `app/.../RotationPref.kt` | `patches/0061-*.py` |
 
+| 0042 | Espacio del hotseat de tablet acotado a (celda del dock − icono) | HotseatProfileInitialValues.kt | `patches/0042-*.py` |
+| 0090 | ATRAS sin la interfaz `OnBackAnimationCallback` (stub vacío de D8) en API < 34: sin él el launcher moría con NoSuchMethodError en Android 12 | Launcher.java | `patches/0090-*.py` |
+| 0091 | Cajón: el panel/velo llega a los bordes en tablet (margen negativo = relleno lateral de la rejilla) | ActivityAllAppsContainerView.java | `patches/0091-*.py` |
+| 0092 | Preferencia «Borrar los recientes» del dock de tablet | launcher_preferences.xml, SettingsActivity.java | `patches/0092-*.py` |
+
 Además: `coreLibraryDesugaringEnabled` (desugar_jdk_libs 2.1.5) en `app/build.gradle` para `Stream.toList` (API 34) en Android 12–13.
 | 0017 | Iconos: adaptativos sin fondo → baldosa clara; heredados opacos → a sangre con el color de su borde | iconloaderlib BaseIconFactory.kt | `patches/0017-*.py` |
 | 0018 | Máscara de icono desde tokens (`ul_icon_mask`) | ThemeManager.kt | `patches/0018-*.py` + `tools/apply-tablet-tokens.py` |

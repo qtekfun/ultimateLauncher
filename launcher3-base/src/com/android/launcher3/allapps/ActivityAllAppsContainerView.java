@@ -1204,6 +1204,18 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
             setPadding(grid.getAllAppsProfile().getLeftRightMargin(), topPadding,
                     grid.getAllAppsProfile().getLeftRightMargin(), 0);
         }
+        // UltimateLauncher 0091: el panel de fondo del cajon a pantalla completa en tablet (compensa el relleno lateral)
+        if (mBottomSheetBackground != null
+                && mBottomSheetBackground.getLayoutParams() instanceof MarginLayoutParams) {
+            MarginLayoutParams plp = (MarginLayoutParams) mBottomSheetBackground.getLayoutParams();
+            int extra = grid.getDeviceProperties().isLargeScreen() ? -getPaddingLeft() : 0;
+            int extraEnd = grid.getDeviceProperties().isLargeScreen() ? -getPaddingRight() : 0;
+            if (plp.leftMargin != extra || plp.rightMargin != extraEnd) {
+                plp.leftMargin = extra;
+                plp.rightMargin = extraEnd;
+                mBottomSheetBackground.setLayoutParams(plp);
+            }
+        }
         InsettableFrameLayout.dispatchInsets(this, insets);
     }
 

@@ -30,17 +30,33 @@ object RecentApps {
         if (cn.packageName == context.packageName) return
         if (!intent.hasCategory(Intent.CATEGORY_LAUNCHER) && intent.action != Intent.ACTION_MAIN) return
         if (item != null && item.container == Favorites.CONTAINER_HOTSEAT) return // ya están en la zona fija
-        val list = load(context).toMutableList()
-        list.remove(cn)
-        list.add(0, cn)
-        save(context, list.take(max(context)))
+        save(context, RecentsLogic.record(raw(context), cn.flattenToString(), max(context)))
+    }
+
+    private fun raw(context: Context): List<String> =
+        RecentsLogic.parse(prefs(context).getString(KEY, "").orEmpty())
+
+    /** Pulsación larga → «Quitar de recientes». */
+    fun remove(context: Context, cn: ComponentName) =
+        save(context, RecentsLogic.remove(raw(context), cn.flattenToString()))
+
+    /**
+     * Poda los recientes cuyo componente ya no existe como actividad de lanzador (app desinstalada). No se puede podar «lo que ya
+     * no está en las tareas recientes» sin un permiso nuevo (GET_TASKS/REAL_GET_TASKS son de firma y UsageStats exige acceso
+     * especial; docs/09 prohíbe ambos): para eso están el borrado manual y «Borrar todos los recientes» en los ajustes.
+     */
+    fun prune(context: Context, exists: (ComponentName) -> Boolean) {
+        val before = raw(context)
+        val after = RecentsLogic.prune(before) { s -> ComponentName.unflattenFromString(s)?.let(exists) == true }
+        if (after != before) save(context, after)
     }
 
     fun load(context: Context): List<ComponentName> =
-        prefs(context).getString(KEY, "").orEmpty().split('|').mapNotNull { ComponentName.unflattenFromString(it) }
+        raw(context).mapNotNull { ComponentName.unflattenFromString(it) }
 
+    @JvmStatic
     fun clear(context: Context) = prefs(context).edit().remove(KEY).apply()
 
-    private fun save(context: Context, list: List<ComponentName>) =
-        prefs(context).edit().putString(KEY, list.joinToString("|") { it.flattenToString() }).apply()
+    private fun save(context: Context, list: List<String>) =
+        prefs(context).edit().putString(KEY, RecentsLogic.serialize(list)).apply()
 }

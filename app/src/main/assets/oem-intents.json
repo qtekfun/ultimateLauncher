@@ -57,21 +57,30 @@
     "autostart": [
       {
         "component": "com.huawei.systemmanager/com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity",
-        "verified": false
+        "verified": false,
+        "device": "MRO-W09 / EMUI 14.2 (Android 12): resuelve, pero startActivity falla con SecurityException: exige com.huawei.permission.external_app_settings.USE_COMPONENT (signature|privileged). Inusable para terceros; el asistente cae al siguiente"
       },
       {
         "component": "com.hihonor.systemmanager/com.hihonor.systemmanager.startupmgr.ui.StartupNormalAppListActivity",
-        "verified": false
+        "verified": false,
+        "device": "MRO-W09: el paquete com.hihonor.* no existe (solo Honor); sin verificar en un Honor"
       }
     ],
     "battery": [
       {
         "component": "com.huawei.systemmanager/com.huawei.systemmanager.power.ui.HwPowerManagerActivity",
-        "verified": false
+        "verified": false,
+        "device": "MRO-W09 / EMUI 14.2 (Android 12): resuelve, pero startActivity falla con SecurityException: exige com.huawei.permission.external_app_settings.USE_COMPONENT (signature|privileged). Inusable para terceros; el asistente cae al siguiente"
       },
       {
         "component": "com.hihonor.systemmanager/com.hihonor.systemmanager.power.ui.HnPowerManagerActivity",
-        "verified": false
+        "verified": false,
+        "device": "MRO-W09: el paquete com.hihonor.* no existe (solo Honor); sin verificar en un Honor"
+      },
+      {
+        "action": "android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS",
+        "verified": true,
+        "device": "MRO-W09 / EMUI 14.2: abre 'Optimizacion de bateria' (Settings$HighPowerApplicationsActivity). Verificado con captura"
       }
     ]
   }
