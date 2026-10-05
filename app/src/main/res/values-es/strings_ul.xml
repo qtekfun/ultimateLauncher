@@ -51,4 +51,6 @@
     <string name="ul_pref_gesture_contract_summary">Anima la vuelta al icono tras el gesto hacia arriba. Apagado por defecto: en ColorOS puede dejar los iconos ocultos un momento.</string>
     <string name="ul_pref_folder_style">Carpetas abiertas como OPPO</string>
     <string name="ul_pref_folder_style_summary">Sin tarjeta: título arriba, iconos sobre el fondo desenfocado y el resto de la pantalla de inicio oculto.</string>
+    <string name="ul_pref_allow_rotation">Girar la pantalla de inicio</string>
+    <string name="ul_pref_allow_rotation_summary">Sigue la orientación del sistema para usar cuadrícula, dock y carpetas en horizontal. Apagado por defecto (inicio vertical como OPPO).</string>
 </resources>

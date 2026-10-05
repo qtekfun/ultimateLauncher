@@ -12,6 +12,7 @@ import pathlib
 R = pathlib.Path(__file__).resolve().parent.parent / "launcher3-base"
 F = "com.qtekfun.ultimatelauncher.folder.FolderStyle"
 p = R / "src/com/android/launcher3/folder/Folder.java"; t = p.read_text()
+t = t.replace("width, height, getFooterHeight(), ulPos);", "width, getFooterHeight(), ulPos);")  # normaliza (idempotencia)
 def sub(old, new):
     global t
     if new in t: return
@@ -38,6 +39,8 @@ sub("    private void animateClosed() {\n",
 sub("    private void closeComplete(boolean wasAnimated) {\n        mIsOpen = false;\n",
     "    private void closeComplete(boolean wasAnimated) {\n        mIsOpen = false;\n"
     f"        {F}.onClose((com.android.launcher3.Launcher) mActivityContext); // UltimateLauncher 0048\n")
+# 0060+ (2026-10-05): la altura de la carpeta se pasa a FolderStyle.position para no salirse por abajo en horizontal.
+t = t.replace("width, getFooterHeight(), ulPos);", "width, height, getFooterHeight(), ulPos);")
 p.write_text(t)
 pa = R / "src/com/android/launcher3/folder/FolderAnimationManager.java"; ta = pa.read_text()
 old = "        mFolderBackground.mutate();\n        mFolderBackground.setColor(mIsOpening ? initialColor : finalColor);\n"

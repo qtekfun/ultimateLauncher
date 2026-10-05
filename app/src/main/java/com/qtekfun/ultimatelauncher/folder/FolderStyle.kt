@@ -20,6 +20,10 @@ object FolderStyle {
     private const val FADE_MS = 220L
     /** Posición vertical del centro del título (OPPO: 782 de 3168 px = 24,7 %). */
     private const val TITLE_CENTER_Y = 0.247f
+    /** Hueco extra entre el pie (título) y la fila de iconos, en dp: (1084-1014 px)/3,5 = 20. */
+    private const val TITLE_GAP_DP = 20f
+    private const val BOTTOM_MARGIN_DP = 16f
+    private const val TOP_MARGIN_DP = 24f
 
     fun enabled(context: Context): Boolean =
         context.getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
@@ -36,6 +40,12 @@ object FolderStyle {
         if (!enabled(folder.context)) return
         // El título pasa encima de los iconos.
         (footer.parent as? ViewGroup)?.let { p -> p.removeView(footer); p.addView(footer, 0) }
+        // Separación título-iconos: la referencia tiene la fila de iconos 302 px bajo el título; sin esto quedaba ~70 px
+        // más arriba (20 dp a 560 dpi). Se suma al relleno superior del contenido (cuenta en la altura deseada).
+        folder.findViewById<View>(com.android.launcher3.R.id.folder_content)?.let { c ->
+            c.setPadding(c.paddingLeft, c.paddingTop + (TITLE_GAP_DP * c.resources.displayMetrics.density).toInt(),
+                c.paddingRight, c.paddingBottom)
+        }
         name.setTextColor(Color.WHITE)
         name.setHintTextColor(0xB3FFFFFF.toInt())
     }
@@ -43,6 +53,16 @@ object FolderStyle {
     /** Celda de carpeta medida en OPPO: solo con el estilo activo y en pantallas de teléfono. */
     @JvmStatic fun phoneCells(context: Context): Boolean =
         enabled(context) && context.resources.configuration.smallestScreenWidthDp < 600
+
+    /**
+     * Filas por página de la carpeta: en horizontal (≈411 dp de alto a 560 dpi) 4 filas de 113 dp no caben, así que se
+     * reducen hasta que quepan (con título, hueco y relleno) y el resto de apps pasa a páginas. En vertical no cambia.
+     */
+    @JvmStatic fun rowsFor(rows: Int, cellHeightPx: Int, footerPx: Int, metrics: android.util.DisplayMetrics, phone: Boolean): Int {
+        if (!phone || cellHeightPx <= 0) return rows
+        val usable = metrics.heightPixels * 0.80f - footerPx - (TITLE_GAP_DP + 24f) * metrics.density
+        return (usable / cellHeightPx).toInt().coerceIn(1, rows)
+    }
 
     /** Panel traslúcido tipo iOS tras el título y los iconos: aclara lo justo para leer sobre cualquier fondo. */
     private const val CARD_ARGB = 0x38FFFFFF
@@ -58,11 +78,14 @@ object FolderStyle {
     @JvmStatic fun transparentCard(context: Context): Boolean = enabled(context)
 
     /** Devuelve [x, y] de la esquina de la carpeta: centrada en horizontal y con el título en la banda de OPPO. */
-    @JvmStatic fun position(launcher: Launcher, width: Int, footerHeight: Int, out: IntArray) {
+    @JvmStatic fun position(launcher: Launcher, width: Int, height: Int, footerHeight: Int, out: IntArray) {
         if (!enabled(launcher)) return
         val dl = launcher.dragLayer
         out[0] = (dl.width - width) / 2
-        out[1] = (dl.height * TITLE_CENTER_Y - footerHeight / 2f).toInt()
+        val wanted = (dl.height * TITLE_CENTER_Y - footerHeight / 2f).toInt()
+        // En horizontal la banda de OPPO (24,7 %) deja la carpeta fuera por abajo: se sube hasta que quepa sobre la barra de gestos.
+        val bottom = dl.height - (BOTTOM_MARGIN_DP * dl.resources.displayMetrics.density).toInt()
+        out[1] = minOf(wanted, bottom - height).coerceAtLeast((TOP_MARGIN_DP * dl.resources.displayMetrics.density).toInt())
     }
 
     /** Desenfoca lo que hay detrás de la ventana (el fondo de pantalla). Dos vías por si ColorOS ignora una. */
@@ -80,6 +103,12 @@ object FolderStyle {
     @JvmStatic fun onOpen(launcher: Launcher) {
         if (!enabled(launcher)) return
         blur(launcher, BLUR_PX)
+        // Tema claro: las etiquetas de las apps son oscuras (pensadas para la tarjeta clara); sobre el fondo oscurecido
+        // deben ser blancas, como el título. Se aplica una vez que la carpeta está en el árbol de vistas.
+        launcher.dragLayer.post {
+            Folder.getOpen(launcher)?.iconsInReadingOrder?.filterIsInstance<android.widget.TextView>()
+                ?.forEach { it.setTextColor(Color.WHITE) }
+        }
         covered(launcher).forEach { ObjectAnimator.ofFloat(it, View.ALPHA, it.alpha, 0f).setDuration(FADE_MS).start() }
     }
 

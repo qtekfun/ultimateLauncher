@@ -1329,7 +1329,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         left = inOutPosition[0];
         top = inOutPosition[1];
         int[] ulPos = new int[]{left, top}; // UltimateLauncher 0048
-        com.qtekfun.ultimatelauncher.folder.FolderStyle.position((com.android.launcher3.Launcher) mActivityContext, width, getFooterHeight(), ulPos);
+        com.qtekfun.ultimatelauncher.folder.FolderStyle.position((com.android.launcher3.Launcher) mActivityContext, width, height, getFooterHeight(), ulPos);
         left = ulPos[0];
         top = ulPos[1];
 

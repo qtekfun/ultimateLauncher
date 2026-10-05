@@ -108,7 +108,7 @@
      "iconPx": 199,
      "source": "folder.png (carpeta de 3 apps, OPPO)"
     },
-    "ultimateStatus": "NO aplicado: sigue la tarjeta de AOSP. Requiere una carpeta real para probar y no se crea una en el teléfono del usuario."
+    "ultimateStatus": "Aplicado (parches 0048-0050, 0060): sin tarjeta, fondo desenfocado, fila de iconos a +302 px del título (hueco extra de 20 dp). Horizontal: filas por página reducidas hasta que quepan; sin medición de OPPO en horizontal (campos null)."
    },
    "pageIndicator": {
     "style": "dots",
