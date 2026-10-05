@@ -83,6 +83,14 @@
             </intent-filter>
         </activity>
 
+        <!-- Fondos de UltimateLauncher: pack incluido en el APK; se abre desde el menú del escritorio y los ajustes (parche 0170). -->
+        <activity
+            android:name="com.qtekfun.ultimatelauncher.wallpaper.WallpaperPickerActivity"
+            android:label="@string/ul_wp_menu"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
+            android:exported="false"
+            android:excludeFromRecents="true" />
+
         <!-- Importar la pantalla de inicio de otro launcher (archivo de copia o proveedor), sin red. Se abre desde Exportar/importar y desde el asistente. -->
         <activity
             android:name="com.qtekfun.ultimatelauncher.importer.ForeignImportActivity"

@@ -113,4 +113,32 @@
     <string name="ul_step_import">4. Traer mi pantalla de inicio (opcional)</string>
     <string name="ul_import_help">Importa iconos, carpetas y dock de otro launcher instalado o de su archivo de copia. Nada sale del teléfono.</string>
     <string name="ul_btn_import">Traer mi pantalla de inicio</string>
+    <!-- Fondos de UltimateLauncher (parche 0170) -->
+    <string name="ul_wp_menu">Fondos de UltimateLauncher</string>
+    <string name="ul_pref_wallpapers">Fondos de UltimateLauncher</string>
+    <string name="ul_pref_wallpapers_summary">Un conjunto de fondos incluido en la app y dibujado por ella misma. Aplícalos al inicio, al bloqueo o a ambos.</string>
+    <string name="ul_wp_title">Fondos de pantalla</string>
+    <string name="ul_wp_subtitle">Incluidos en la app. No se descarga nada.</string>
+    <string name="ul_wp_back">Atrás</string>
+    <string name="ul_wp_blur">Desenfoque</string>
+    <string name="ul_wp_dim">Oscurecer</string>
+    <string name="ul_wp_apply_to">Poner como</string>
+    <string name="ul_wp_home">Inicio</string>
+    <string name="ul_wp_lock">Bloqueo</string>
+    <string name="ul_wp_both">Ambos</string>
+    <string name="ul_wp_applying">Aplicando…</string>
+    <string name="ul_wp_applied">Fondo puesto: %1$s</string>
+    <string name="ul_wp_error">No se pudo poner el fondo (el sistema o tu administrador no lo permite).</string>
+    <string name="ul_wp_aurora">Aurora</string>
+    <string name="ul_wp_atardecer">Atardecer</string>
+    <string name="ul_wp_oceano">Océano</string>
+    <string name="ul_wp_seda">Seda</string>
+    <string name="ul_wp_dunas">Dunas</string>
+    <string name="ul_wp_montanas">Montañas</string>
+    <string name="ul_wp_luna">Luna</string>
+    <string name="ul_wp_bokeh">Bokeh</string>
+    <string name="ul_wp_geometrico">Geométrico</string>
+    <string name="ul_wp_facetas">Facetas</string>
+    <string name="ul_wp_tinta">Tinta</string>
+    <string name="ul_wp_olas">Olas</string>
 </resources>
