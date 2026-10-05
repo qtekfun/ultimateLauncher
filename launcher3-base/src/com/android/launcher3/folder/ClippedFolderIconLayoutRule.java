@@ -4,7 +4,11 @@ import com.android.launcher3.Flags;
 
 public class ClippedFolderIconLayoutRule {
 
-    public static final int MAX_NUM_ITEMS_IN_PREVIEW = 4;
+    public static final int MAX_NUM_ITEMS_IN_PREVIEW = 9; // UltimateLauncher 0051
+    // Rejilla 3x3 medida en OPPO: fracciones del lado del icono de carpeta.
+    private static final float UL_GRID_PAD = 0.126f;
+    private static final float UL_GRID_PITCH = 0.273f;
+    private static final float UL_GRID_ICON = 0.202f;
     private static final int MIN_NUM_ITEMS_IN_PREVIEW = 2;
 
     public static final float MIN_SCALE = 0.44f;
@@ -123,6 +127,11 @@ public class ClippedFolderIconLayoutRule {
      * 2 3  // 3 is row 1, col 1`
      */
     private void getGridPosition(int row, int col, float[] result) {
+        if (true) { // UltimateLauncher 0051
+            result[0] = mAvailableSpace * (UL_GRID_PAD + col * UL_GRID_PITCH);
+            result[1] = mAvailableSpace * (UL_GRID_PAD + row * UL_GRID_PITCH);
+            return;
+        }
         // We use position 0 and 3 to calculate the x and y distances between items.
         getPosition(0, 4, result);
         float left = result[0];
@@ -137,6 +146,10 @@ public class ClippedFolderIconLayoutRule {
     }
 
     private void getPosition(int index, int curNumItems, float[] result) {
+        if (true) { // UltimateLauncher 0051
+            getGridPosition(index / 3, index % 3, result);
+            return;
+        }
         // The case of two items is homomorphic to the case of one.
         curNumItems = Math.max(curNumItems, 2);
 
@@ -196,6 +209,9 @@ public class ClippedFolderIconLayoutRule {
      */
     public float scaleForItem(int numItems, int page) {
         float scale;
+        if (page == 0) { // UltimateLauncher 0051
+            return UL_GRID_ICON * mBaselineIconScale;
+        }
         if (page > 0) {
             scale = MIN_SCALE;
         } else if (numItems <= 3) {
