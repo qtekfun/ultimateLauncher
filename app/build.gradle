@@ -46,6 +46,14 @@ android {
         ]
     }
 
+    buildTypes {
+        release {
+            // Para pruebas locales se firma con la clave de depuración. La clave de release propia va fuera del repo (docs/03).
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+        }
+    }
+
     flavorDimensions += 'dist'
     productFlavors {
         'default' { dimension 'dist' }
