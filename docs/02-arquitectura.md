@@ -72,7 +72,8 @@ Mi entendimiento, a verificar en las primeras pruebas:
 - Launcher3 ya modela **perfiles de dispositivo** (rejillas por tamaño y orientación). Se parte de eso, no se reescribe.
 - Clases de pantalla mínimas: `phone`, `phone-landscape`, `tablet`, `tablet-landscape`, cada una con rejilla, tamaños y dock propios dentro de `ThemeTokens`.
 - La barra de tareas de tablet pertenece al launcher del sistema (mi entendimiento: depende de ser el proveedor de recientes). **No se espera** en UltimateLauncher; se confirma en el hito M3b.
-- Plegables: no se diseña para ellos; cambiar de estado no debe cerrar la app ni perder datos.
+- Plegables: en v1 no se diseña para ellos; cambiar de estado no debe cerrar la app ni perder datos. En v2 se optimizan (ver `11`).
+- Private Space: v2, módulo Dual apps (ver `10`); se mantiene `minSdk` 31 con compuerta en API 35.
 - Rotación, cambio de tamaño de ventana y multiventana no deben recargar la base de datos ni perder estado.
 
 ## Privacidad
