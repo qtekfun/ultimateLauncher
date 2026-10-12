@@ -49,7 +49,7 @@ Estrategia:
 | 31 (Android 12) | Desenfoque de ventana, `RenderEffect`, colores dinámicos, esquinas redondeadas y diseños adaptables en widgets | Ya incluido: es el suelo |
 | 33 (Android 13) | Capa monocromática en iconos adaptativos (iconos temáticos), idioma por app, permiso de notificaciones en ejecución | Útil solo si se quieren iconos temáticos nativos sin trabajo propio |
 | 34 (Android 14) | Retroceso predictivo más completo, cambios en lanzamiento de actividades en segundo plano | Marginal |
-| 35 (Android 15) | Private Space y archivado de apps (que la base ya soporta) | Solo si se quiere Private Space/archivado |
+| 35 (Android 15) | Private Space y archivado de apps (que la base ya soporta) | Solo si se quiere Private Space/archivado. v2 usa Private Space **sin subir el mínimo** (compuerta `SDK_INT >= 35`, ver `10`) |
 | 36-37 | Coincide con la base de Android 17: menos compuertas | Menos código de compatibilidad, pero deja fuera los Android 12-15 |
 
 Recomendación: mantener 31 durante M0 y M1. Al cierre de M1, contar cuántas compuertas hicieron falta y qué versiones usan los dispositivos reales; si son muchas y los dispositivos ya están en 33 o más, valorar subir (el candidato con más sentido sería 33 por los iconos temáticos). La decisión formal está en el punto de decisión de M1.

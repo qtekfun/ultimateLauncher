@@ -24,13 +24,15 @@ Fork del **Launcher3 de AOSP, rama `android17-release`** (etiqueta `android-17.0
 | `07-tareas-e-hitos.md` | Hitos, tareas, criterios de aceptación, CI |
 | `08-riesgos-y-decisiones.md` | Riesgos, decisiones tomadas y abiertas, notas legales |
 | `09-privacidad.md` | Privacidad, permisos, funcionamiento sin GMS, auditoría |
+| `10-dual-apps.md` | **v2**: dos copias de una app (principal + Private Space) bajo un icono |
+| `11-plegables.md` | **v2**: pantalla exterior/interior, continuidad al plegar y postura |
 | `CLAUDE.md` | Instrucciones para Claude Code al trabajar en el repo |
 
 ## Orden de lectura para Claude Code
 
 1. `CLAUDE.md`
 2. `01` → `02` → `03` → `09`
-3. Trabajar por hitos de `07`, leyendo `04`, `05` o `06` cuando toque cada hito.
+3. Trabajar por hitos de `07`, leyendo `04`, `05` o `06` cuando toque cada hito (y `10` u `11` en los hitos de v2).
 
 ## Dato clave sobre OPPO
 
