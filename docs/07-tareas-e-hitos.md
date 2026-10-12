@@ -88,6 +88,7 @@ M9 y M10 empiezan cuando M8 cumpla su aceptación. Son independientes: pueden av
 - T9.5 Ajustes (interruptor, lista de pares, copia por defecto, «ocultar pares», pares como apps separadas).
 - T9.6 `DualAppTileService` («Abrir cuenta 2»).
 - **Aceptación**: RF-70 a RF-73 en un dispositivo con Private Space; en un emulador API 31–34 el módulo no aparece; la tabla de pares no entra en copias ni exportaciones.
+- **Estado (2026-10-12)**: hecho y probado en un Pixel 8 con Android 17 (ver `10`, «Verificado en dispositivo»). Falta: desbloqueo con credencial real, API 31–34 en dispositivo, perfiles clonados de fabricantes y una app real con cuenta en las dos copias.
 
 ## M10 — Plegables (ver `11`)
 - T10.1 Rejillas `multi_display` para exterior e interior a partir de las de la base; valores en `null` hasta medirlos.

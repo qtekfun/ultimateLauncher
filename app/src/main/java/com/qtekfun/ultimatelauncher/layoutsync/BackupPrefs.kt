@@ -41,7 +41,15 @@ object BackupPrefs {
         "pref_ul_swipe_swap" to Kind.BOOL,
         "pref_ul_icon_pack" to Kind.STRING,         // 0171 (paquete elegido; la lista de apps ocultas NO se copia: es sensible)
         "pref_ul_icon_pack_back" to Kind.BOOL,
+        "pref_ul_dual_apps" to Kind.BOOL,           // 0220
+        "pref_ul_dual_swipe" to Kind.BOOL,
     )
+
+    /**
+     * Interruptores que NO se copian a propósito (docs/10, «Bloqueo y privacidad»): «ocultar pares» delataría que hay
+     * un espacio privado que se quiere ocultar. Tampoco se copian la última app emparejada ni los iconos privados.
+     */
+    val EXCLUDED: Set<String> = setOf("pref_ul_dual_hide")
 
     /** Filtra un mapa crudo (de SharedPreferences.getAll() o de JSON): conserva solo claves conocidas con el tipo correcto. */
     fun filter(raw: Map<String, Any?>): Map<String, Any> {

@@ -58,7 +58,8 @@ class BackupSchemaTest {
         val blocks = Regex("<SwitchPreference[^>]*?>", RegexOption.DOT_MATCHES_ALL).findAll(xml).map { it.value }
         val keys = blocks.mapNotNull { Regex("android:key=\"([^\"]+)\"").find(it)?.groupValues?.get(1) }.filter { it.startsWith("pref_ul_") }.toList()
         assertTrue(keys.isNotEmpty())
-        keys.forEach { assertTrue("$it falta en BackupPrefs.SPEC", it in BackupPrefs.SPEC) }
+        keys.forEach { assertTrue("$it falta en BackupPrefs.SPEC", it in BackupPrefs.SPEC || it in BackupPrefs.EXCLUDED) }
+        BackupPrefs.EXCLUDED.forEach { assertTrue("$it no puede estar en SPEC y en EXCLUDED", it !in BackupPrefs.SPEC) }
     }
 
     // --- Colocar mis apps por orden ---

@@ -25,6 +25,7 @@ Requisitos: JDK 21, Android SDK con plataforma 37.0 y build-tools 36+, Gradle 9.
 | `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | solo si lo pides en el asistente: evita que el sistema mate el launcher en segundo plano |
 | `EXPAND_STATUS_BAR` | gesto opcional (apagado por defecto) de deslizar hacia abajo en el escritorio para abrir notificaciones o ajustes rápidos |
 | `USE_BIOMETRIC` | «Apps ocultas»: pedir huella, rostro o PIN del dispositivo para verlas |
+| `ACCESS_HIDDEN_PROFILES` | «Apps dobles» (Android 15+): ver el espacio privado para mostrar sus apps junto a la copia principal |
 
 Sin `INTERNET`, sin almacenamiento, contactos, ubicación, cámara ni notificaciones. La visibilidad de apps usa `<queries>` (solo apps con icono de lanzador), no `QUERY_ALL_PACKAGES`.
 

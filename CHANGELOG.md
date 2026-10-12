@@ -2,6 +2,14 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Las notas de cada versión se publican en la release de GitHub.
 
+## [Sin publicar]
+### Añadido
+- Apps dobles (Android 15+): las apps del espacio privado pueden ir al escritorio junto a la copia principal, con la insignia del sistema y en gris mientras el espacio esté bloqueado; tocarlas pide el desbloqueo. «Abrir en la otra cuenta» y «Añadir cuenta 2 al escritorio» en el menú, deslizar hacia arriba sobre el icono para abrir la otra copia y mosaico de Ajustes rápidos «Abrir cuenta 2». Ajustes en «Apps dobles».
+### Corregido
+- El launcher se cerraba al bloquear el espacio privado (lectura de un ajuste del sistema no permitido a terceros).
+### Permisos
+- `ACCESS_HIDDEN_PROFILES` (normal): necesario para ver el espacio privado.
+
 ## [0.1.0] - 2026-10-05
 Primera versión pública.
 - Launcher basado en Launcher3 de AOSP (`android17-release`), minSdk 31, sin servicios de Google, sin telemetría y sin permiso `INTERNET` en la variante `default`.
