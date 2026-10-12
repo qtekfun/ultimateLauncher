@@ -1,0 +1,6 @@
+0.2.0
+• Apps dobles (Android 15+): las apps del espacio privado pueden ir al escritorio junto a la copia principal, con su insignia y en gris mientras el espacio esté bloqueado; tocarlas pide el desbloqueo.
+• «Abrir en la otra cuenta» en el menú, deslizar hacia arriba sobre el icono y mosaico de Ajustes rápidos «Abrir cuenta 2».
+• Corregido: el launcher se cerraba al bloquear el espacio privado.
+• Plegables: rejilla preparada para dos pantallas.
+• Permiso nuevo: ACCESS_HIDDEN_PROFILES (normal), para ver el espacio privado.
