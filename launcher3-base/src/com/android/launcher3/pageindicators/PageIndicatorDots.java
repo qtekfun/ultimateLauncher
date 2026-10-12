@@ -423,7 +423,9 @@ public class PageIndicatorDots extends View implements Insettable, PageIndicator
         int width = MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY ?
                 MeasureSpec.getSize(widthMeasureSpec) :
                         // #ofGaps*gap_size + (#ofDots + 1 for double size dot)*dot_size
-                (int) (((mNumPages - 1) * mGapWidth) + ((1 + mNumPages) * mDotRadius * 2));
+                (int) (((mNumPages - 1) * mGapWidth) + ((1 + mNumPages) * mDotRadius * 2)
+                        + (mNumPages == 1 ? 2 * Math.ceil(Math.abs(getResources().getDimension(
+                                R.dimen.ul_page_indicator_single_dx))) : 0)); // UltimateLauncher 0232
         int height = MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY
                 ? MeasureSpec.getSize(heightMeasureSpec)
                 : (int) (HEIGHT_MULTIPLIER * mDotRadius);

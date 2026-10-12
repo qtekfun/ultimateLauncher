@@ -34,7 +34,8 @@ import com.qtekfun.ultimatelauncher.ui.ContextMenuStyle
  * dibuja las píldoras y el asa, y aloja los iconos de recientes. Solo se crea si R.bool.ul_huawei_dock (tablets).
  */
 class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
-    private val res = resources
+    // Medidas de tablet aunque se cree con el plegable cerrado (en móvil valen 0). Parche 0230.
+    private val res = com.qtekfun.ultimatelauncher.foldable.Foldables.tabletRes(launcher)
     private val cell = res.getDimension(R.dimen.ul_dock_cell)
     private val pad = res.getDimension(R.dimen.ul_dock_pill_padding)
     private val pillH = res.getDimension(R.dimen.ul_dock_pill_height)
@@ -229,6 +230,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         launcher.hotseat.addOnLayoutChangeListener(hotseatListener)
         launcher.dragController.addDragListener(dragListener)
         launcher.addOnDeviceProfileChangeListener(profileListener)
+        applyScreen(launcher.deviceProfile)
         RecentApps.prefs(context).registerOnSharedPreferenceChangeListener(listener)
         DockPrefs.prefs(context).registerOnSharedPreferenceChangeListener(settingsListener)
         refresh()
@@ -246,17 +248,17 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
     }
 
     /**
-     * Si el dispositivo deja de usar el dock de tablet (un plegable reconocido tras plegarlo por primera vez en
-     * Android < 17), el dock se quita y el hotseat vuelve a su sitio.
+     * En un plegable el dock de tablet solo va en la pantalla interior: al plegar se oculta y el hotseat de móvil vuelve a
+     * su sitio; al desplegar reaparece (parche 0230).
      */
     private val profileListener = com.android.launcher3.DeviceProfile.OnDeviceProfileChangeListener { dp ->
-        if (!com.qtekfun.ultimatelauncher.foldable.Foldables.tabletDock(resources, dp.inv.deviceType)) {
-            // Fuera del reparto de avisos: quitar la vista también quita este oyente de la lista que se recorre.
-            post {
-                launcher.hotseat.translationX = 0f
-                (parent as? ViewGroup)?.removeView(this)
-            }
-        }
+        applyScreen(dp)
+    }
+
+    private fun applyScreen(dp: com.android.launcher3.DeviceProfile) {
+        val show = com.qtekfun.ultimatelauncher.foldable.Foldables.tabletDock(dp.deviceProperties.isLargeScreen)
+        visibility = if (show) VISIBLE else GONE
+        if (show) requestLayout() else launcher.hotseat.translationX = 0f
     }
 
     private fun fixedPackages(): Set<String> {
@@ -374,10 +376,10 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         private const val COMPACT_ANIM_MS = 200
         private const val MAX_COMPACT_RETRIES = 5
 
-        /** Gancho desde Launcher.setupViews (parche 0040). Solo en tablets que no sean plegables (parche 0230). */
+        /** Gancho desde Launcher.setupViews (parche 0040). Tablets y plegables; en estos, solo visible en la interior (0230). */
         @JvmStatic
         fun attach(launcher: Launcher) {
-            if (!com.qtekfun.ultimatelauncher.foldable.Foldables.tabletDock(launcher.resources, launcher.deviceProfile.inv.deviceType)) return
+            if (!com.qtekfun.ultimatelauncher.foldable.Foldables.hasTabletDock(launcher)) return
             val parent = launcher.hotseat.parent as? ViewGroup ?: return
             val dock = UlDockView(launcher)
             parent.addView(dock, parent.indexOfChild(launcher.hotseat), ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))

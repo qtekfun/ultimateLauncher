@@ -802,8 +802,9 @@ public class DeviceProfile {
     public Rect getHotseatLayoutPadding(Context context) {
         Rect hotseatBarPadding = new Rect();
         if (!isVerticalBarLayout() && com.qtekfun.ultimatelauncher.foldable.Foldables.tabletDock(
-                context.getResources(), inv.deviceType)) { // UltimateLauncher 0040, 0230
-            int dockCell = context.getResources().getDimensionPixelSize(R.dimen.ul_dock_cell);
+                mDeviceProperties.isLargeScreen())) { // UltimateLauncher 0040, 0230: por pantalla, no por recursos
+            int dockCell = com.qtekfun.ultimatelauncher.foldable.Foldables.tabletRes(context)
+                    .getDimensionPixelSize(R.dimen.ul_dock_cell);
             int side = Math.max(0, (mDeviceProperties.getWidthPx()
                     - dockCell * mHotseatProfile.getNumShownIcons()) / 2);
             hotseatBarPadding.set(side, 0, side, getHotseatBarBottomPadding());
