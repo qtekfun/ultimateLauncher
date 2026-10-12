@@ -75,6 +75,28 @@ Cada hito termina con algo que se pueda **instalar y probar**. No pasar al sigui
 - T8.5 Auditoría de privacidad completa (`09`) y build reproducible como objetivo.
 - **Aceptación**: todos los criterios de producto de `01`.
 
+# v2 (abierta el 2026-10-12)
+
+M9 y M10 empiezan cuando M8 cumpla su aceptación. Son independientes: pueden avanzar en paralelo. Si el spike de M9 falla, M9 se para y sigue M10.
+
+## M9 — Dual apps (ver `10`)
+- T9.0 **Spike**: si la base deja poner apps del Private Space en el escritorio; `ACCESS_HIDDEN_PROFILES`, `requestQuietModeEnabled` y modo oculto en Android 15/16/17; activar los flags de Private Space de Launcher3 sin romper API 31–34; clonado propio de cada marca (`getProfiles()`); criterio genérico de viabilidad (una app real con cuenta funciona en las dos copias). Resultado en `oem-issues.md` y `10`.
+- T9.1 `ProfileRepository` y `PrivateSpaceController`, con compuerta en API 35. Permiso nuevo en `09` y en `tools/permissions-allowed.txt`.
+- T9.2 `DualAppIndex` con pruebas unitarias.
+- T9.3 `LaunchRouter`: lanzar por perfil y desbloquear antes de lanzar.
+- T9.4 Iconos del Private Space en el escritorio con insignia propia, atajo «Abrir en la otra cuenta» en el menú, deslizar hacia arriba para la otra copia y comportamiento con el espacio bloqueado u oculto.
+- T9.5 Ajustes (interruptor, lista de pares, copia por defecto, «ocultar pares», pares como apps separadas).
+- T9.6 `DualAppTileService` («Abrir cuenta 2»).
+- **Aceptación**: RF-70 a RF-73 en un dispositivo con Private Space; en un emulador API 31–34 el módulo no aparece; la tabla de pares no entra en copias ni exportaciones.
+
+## M10 — Plegables (ver `11`)
+- T10.1 Rejillas `multi_display` para exterior e interior a partir de las de la base; valores en `null` hasta medirlos.
+- T10.2 Escritorio a dos paneles, dock a todo el ancho y cajón ancho en la interior; modo de diseño sincronizado por defecto, con opción independiente.
+- T10.3 Continuidad al plegar/desplegar (página, cajón y widgets reajustados sin borrarse).
+- T10.4 Postura con `WindowInfoTracker` (libro y mesa) y alternativa sin información.
+- T10.5 Pruebas instrumentadas con `WindowLayoutInfoPublisherRule` y capturas de cada disposición.
+- **Aceptación**: RF-80 a RF-82 en un plegable real con firmware global o en el emulador «foldable»; 20 pliegues seguidos sin cierre ni pérdida de posición; sin regresiones en tablet (M3b).
+
 ## Integración continua (propuesta)
 
 - Compilación y pruebas en cada PR (GitHub Actions).

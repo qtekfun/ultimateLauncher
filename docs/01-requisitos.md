@@ -55,7 +55,23 @@ Una persona que cambia con frecuencia entre teléfonos OPPO, vivo, Xiaomi y Hono
 
 ## Fuera de alcance v1
 
-Feed o asistente, gestos de recientes nativos con animaciones del sistema (requieren root o ser app del sistema), barra de tareas de tablet del sistema (ver `02`), Private Space (no debe romperse, pero no se diseña para él), plegables (no deben romperse, no se optimizan), temas dinámicos por fondo de pantalla, copia de seguridad en la nube de terceros.
+Feed o asistente, gestos de recientes nativos con animaciones del sistema (requieren root o ser app del sistema), barra de tareas de tablet del sistema (ver `02`), Private Space y plegables (no deben romperse en v1; pasan a **v2**, ver abajo), temas dinámicos por fondo de pantalla, copia de seguridad en la nube de terceros.
+
+## v2 (abierta el 2026-10-12)
+
+Se abre tras cerrar M8. Detalle en `10` y `11`; hitos M9 y M10 de `07`.
+
+**Dual apps** (`10`)
+- RF-70 Las dos copias de una app (espacio principal + Private Space) se pueden tener en el escritorio como **dos iconos**; el del Private Space lleva una insignia propia («2» o similar) y desde cualquiera de los dos se abre la otra copia (menú o gesto). Solo API 35+; en API 31–34 la función no aparece.
+- RF-71 Desbloqueo del Private Space desde el launcher, con la autenticación del sistema.
+- RF-72 Mosaico de Ajustes rápidos «Abrir cuenta 2».
+- RF-73 Con el Private Space bloqueado u oculto, el launcher no deja ver la cuenta 2 (opción manual «ocultar pares» si el modo oculto no se puede leer).
+- Fuera: perfil de trabajo como clonado, usuarios secundarios, más de dos copias.
+
+**Plegables** (`11`)
+- RF-80 Rejilla y disposición propias para la pantalla exterior y la interior; escritorio a dos paneles en la interior.
+- RF-81 Plegar y desplegar no recrea la actividad ni pierde página, cajón ni widgets.
+- RF-82 Adaptación a postura semiabierta (libro y mesa) con Jetpack WindowManager; sin información de postura, pantalla plana.
 
 ## Criterios de "hecho" a nivel de producto
 

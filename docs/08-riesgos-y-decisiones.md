@@ -17,6 +17,10 @@
 | R11 | Móvil y tablet multiplican las rejillas, tokens y pruebas | Alta | Medio | Clases de pantalla sobre los perfiles de Launcher3; M3b; matriz con tablet |
 | R12 | Sin permiso de red, el sync depende de otra app (selector de documentos) o de la variante `sync` | Media | Medio | Documentar los dos caminos; verificar Nextcloud en el selector; variante `sync` opcional |
 | R13 | Dos variantes (`default` y `sync`) con `applicationId` distinto no comparten datos | Media | Bajo | Paso entre ambas por archivo; decisión abierta sobre si se mantiene la variante `sync` |
+| R14 | v2: la app que se quiere usar en dos copias exige integridad fuerte o limita las cuentas múltiples | Media | Alto (M9) | Spike de la fase 0 con criterio genérico (`10`); si falla, M9 se para y sigue M10 |
+| R15 | v2: ColorOS de China (y quizá otras ROMs chinas) no deja fijar el launcher como inicio, sin el que no hay Private Space ni uso real en plegables | Alta | Alto | Documentado en `oem-issues.md`; probar con firmware global |
+| R16 | v2: el modo oculto de Private Space no es legible por terceros y el launcher podría delatar el espacio | Media | Alto | Opción manual «ocultar pares»; verificar en 16/17 |
+| R17 | v2: cada rebase de AOSP rompe el código de dos paneles | Media | Medio | Clases propias y solo puntos de extensión en `/patches` |
 
 ## Decisiones tomadas
 
@@ -33,7 +37,16 @@
 4. **Matriz de dispositivos** real del usuario (móviles y tablet, Android, GMS).
 5. **Repositorio**: dónde alojarlo y política de ramas.
 6. **Sistema de ajustes**: preferencias estándar o la capa de la base.
-7. **Private Space y archivado de apps**: solo si el `minSdk` sube a 35.
+7. ~~**Private Space y archivado de apps**: solo si el `minSdk` sube a 35.~~ Cerrada el 2026-10-12: Private Space entra en **v2** (`10`) con compuerta en API 35, sin subir `minSdk`. Archivado de apps: sigue fuera.
+8. **v2 — Dual apps (`10`) y plegables (`11`)**, pendientes de respuesta:
+   - ~~¿Disposición independiente o sincronizada por defecto?~~ **Sincronizada** (2026-10-12).
+   - ~~¿Qué copia abre el toque?~~ Ya no aplica: **dos iconos en el escritorio**, el del Private Space con insignia; cada uno abre su copia (2026-10-12).
+   - ~~Con el Private Space bloqueado, ¿icono atenuado o fuera del escritorio?~~ **Atenuado (gris) con candado**; el toque pide desbloqueo (2026-10-12).
+   - ~~¿Otro usuario en lugar del Private Space?~~ **No es posible** para un launcher sin privilegios (ver `10`, «No entra») (2026-10-12).
+   - ~~¿Gesto de deslizar sobre el icono en v2?~~ **Sí, en v2** (2026-10-12).
+   - ~~¿Qué plegables físicos hay?~~ **Pixel 9 Pro Fold**, más adelante (2026-10-12). Mientras tanto, emulador «foldable».
+   - ~~¿Qué dispositivo para M9?~~ El mismo **Pixel 9 Pro Fold** con GrapheneOS (2026-10-12).
+   - ~~ColorOS de China~~: **se acepta de momento** que M9 y M10 no funcionen allí (2026-10-12).
 
 ## Notas legales y de uso
 
