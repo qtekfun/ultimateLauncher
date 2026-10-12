@@ -1,6 +1,6 @@
 # 11 — Plegables (v2)
 
-Estado: borrador v2 — 2026-10-12. Hito **M10** de `07`. No depende de Dual apps (`10`): puede avanzar en paralelo a M9.
+Estado: **parcial** — 2026-10-12. Hecho: elección de rejilla en plegables (ver *Estado de M10*). Sin plegable ni emulador disponibles: lo demás está pendiente. Hito **M10** de `07`. No depende de Dual apps (`10`): puede avanzar en paralelo a M9.
 
 ## Qué es
 
@@ -43,7 +43,7 @@ Que el launcher se adapte a la **pantalla exterior**, a la **interior** y a la *
 
 ## Tablets
 
-Comparten el camino de la pantalla interior: rejilla ancha, dos paneles en horizontal y uno en vertical. No debe romper lo hecho en M3b (dock de tablet, parches 0040–0042, 0091, 0120).
+**Corregido (2026-10-12)**: en AOSP los dos paneles solo existen en dispositivos con dos pantallas (`isTwoPanels = isLargeScreen && isMultiDisplay`). Una tablet de una sola pantalla es `TYPE_TABLET` y sigue con su rejilla medida (`ultimate_tablet`) y el dock de M3b (parches 0040–0042, 0091, 0120). Dar dos paneles a una tablet apaisada sería un cambio de diseño aparte, sin pedir.
 
 ## Mantenimiento
 
@@ -59,3 +59,21 @@ Cada rebase de AOSP puede romper el código de dos paneles. Los cambios van en c
 **Manuales clave**
 - Plegar y desplegar 20 veces seguidas con el cajón abierto y con un widget grande: sin cierre ni pérdida de posición.
 - Rotación y multiventana en la pantalla interior sin pérdida de estado (RF-62).
+
+## Estado de M10 (2026-10-12)
+
+**Lo que ya trae AOSP** (leído en el código de `android17-release`; sin verificar en un plegable real):
+- `LauncherDisplayInfo.deviceType` devuelve `TYPE_MULTI_DISPLAY` cuando las pantallas del dispositivo incluyen una de móvil y otra grande; `DeviceProperties.isTwoPanels` activa el escritorio a dos paneles en la interior.
+- Las dos pantallas comparten **una misma base de datos de escritorio**; la interior muestra las páginas de dos en dos. Es el diseño **sincronizado** decidido por defecto.
+- `DisplayController` detecta el cambio de pantalla activa (`CHANGE_ACTIVE_SCREEN`) y recalcula el `DeviceProfile`; la actividad no se recrea (`configChanges`).
+
+**Hecho**
+- T10.1 (rejillas): el parche 0009 forzaba `ultimate_phone` (solo `phone`) en todo lo que no fuera tablet. En un plegable esa rejilla no vale y la base elegía entre **todas** las rejillas, incluidas las de tablet. Ahora `DefaultGrid` (con prueba) deja en plegables y escritorio la rejilla de AOSP `phone|multi_display`, hasta que haya medidas; en móvil y tablet nada cambia (comprobado en el Pixel 8: `ultimate_phone`, 5×7).
+
+**Pendiente** (hace falta el Pixel 9 Pro Fold o un emulador plegable):
+- Verificar en un plegable los dos paneles, la continuidad al plegar/desplegar y los 20 pliegues seguidos.
+- Opción «cada pantalla con su disposición» (exige dos bases de datos; AOSP no lo trae).
+- T10.4 postura (libro y mesa) con `WindowInfoTracker`: no se implementa sin un dispositivo donde verla.
+- T10.5 pruebas instrumentadas con `WindowLayoutInfoPublisherRule` y capturas.
+- Medir la rejilla exterior e interior de un plegable real para sustituir las de AOSP.
+
