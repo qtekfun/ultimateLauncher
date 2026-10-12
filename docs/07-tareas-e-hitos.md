@@ -97,6 +97,7 @@ M9 y M10 empiezan cuando M8 cumpla su aceptación. Son independientes: pueden av
 - T10.4 Postura con `WindowInfoTracker` (libro y mesa) y alternativa sin información.
 - T10.5 Pruebas instrumentadas con `WindowLayoutInfoPublisherRule` y capturas de cada disposición.
 - **Aceptación**: RF-80 a RF-82 en un plegable real con firmware global o en el emulador «foldable»; 20 pliegues seguidos sin cierre ni pérdida de posición; sin regresiones en tablet (M3b).
+- **Estado (2026-10-12)**: parcial. T10.1 hecho (rejilla de AOSP `multi_display` en plegables, ver `11`). T10.2–T10.3 los da AOSP (sin verificar en plegable). T10.4–T10.5 pendientes de dispositivo.
 
 ## Integración continua (propuesta)
 

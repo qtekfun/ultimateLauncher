@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Las notas 
 ### Añadido
 - Apps dobles (Android 15+): las apps del espacio privado pueden ir al escritorio junto a la copia principal, con la insignia del sistema y en gris mientras el espacio esté bloqueado; tocarlas pide el desbloqueo. «Abrir en la otra cuenta» y «Añadir cuenta 2 al escritorio» en el menú, deslizar hacia arriba sobre el icono para abrir la otra copia y mosaico de Ajustes rápidos «Abrir cuenta 2». Ajustes en «Apps dobles».
 ### Corregido
+- Plegables: se usaba la rejilla medida de móvil, que no admite dos pantallas, y el launcher podía acabar con una rejilla de tablet; ahora usa la rejilla de AOSP preparada para plegables.
 - El launcher se cerraba al bloquear el espacio privado (lectura de un ajuste del sistema no permitido a terceros).
 ### Permisos
 - `ACCESS_HIDDEN_PROFILES` (normal): necesario para ver el espacio privado.
