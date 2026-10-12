@@ -17,8 +17,8 @@ android {
         applicationId 'com.qtekfun.ultimatelauncher'
         minSdk 31
         targetSdk 37
-        versionCode 1
-        versionName '0.1.0'
+        versionCode 2
+        versionName '0.2.0'
         // Equivalentes a tools/buildconfig.sh de Launcher3 (valores por defecto de AOSP, salvo QSB).
         buildConfigField 'boolean', 'IS_STUDIO_BUILD', 'false'
         buildConfigField 'boolean', 'IS_DEBUG_DEVICE', 'false'

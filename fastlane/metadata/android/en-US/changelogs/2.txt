@@ -1,0 +1,6 @@
+0.2.0
+• Dual apps (Android 15+): private space apps can sit on the home screen next to the main copy, with their badge and greyed out while the space is locked; tapping them asks to unlock.
+• "Open in the other account" in the menu, swipe up on the icon and a "Open account 2" Quick Settings tile.
+• Fixed: the launcher closed when locking the private space.
+• Foldables: grid ready for two screens.
+• New permission: ACCESS_HIDDEN_PROFILES (normal), to see the private space.
