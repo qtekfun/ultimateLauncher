@@ -2,7 +2,7 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Las notas de cada versión se publican en la release de GitHub.
 
-## [Sin publicar]
+## [0.2.0] - 2026-10-12
 ### Añadido
 - Apps dobles (Android 15+): las apps del espacio privado pueden ir al escritorio junto a la copia principal, con la insignia del sistema y en gris mientras el espacio esté bloqueado; tocarlas pide el desbloqueo. «Abrir en la otra cuenta» y «Añadir cuenta 2 al escritorio» en el menú, deslizar hacia arriba sobre el icono para abrir la otra copia y mosaico de Ajustes rápidos «Abrir cuenta 2». Ajustes en «Apps dobles».
 ### Corregido
