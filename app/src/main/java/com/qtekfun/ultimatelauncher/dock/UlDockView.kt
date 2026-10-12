@@ -77,8 +77,13 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         override fun onLongPress(e: MotionEvent) { performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS); showHandleMenu() }
     })
 
-    // Solo se queda los toques que caen en el asa; el resto sigue su camino como antes.
-    override fun onTouchEvent(event: MotionEvent): Boolean = handleGestures.onTouchEvent(event)
+    // Solo se queda los toques que caen en el asa; el resto sigue su camino como antes. Los demás NO pasan por el
+    // detector: GestureDetector programa la pulsación larga en cualquier ACTION_DOWN aunque onDown devuelva false, y
+    // como la vista ya no recibe ni UP ni CANCEL, el menú saltaba al deslizar hacia el cajón desde encima del dock.
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (event.actionMasked == MotionEvent.ACTION_DOWN && !handleHit.contains(event.x, event.y)) return false
+        return handleGestures.onTouchEvent(event)
+    }
 
     /** Menú del asa: Ajustes del dock, Borrar los recientes (si hay) y Ocultar/Mostrar recientes. */
     private fun showHandleMenu() {

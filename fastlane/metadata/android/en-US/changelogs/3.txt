@@ -1,0 +1,2 @@
+0.2.1
+• Fixed: on tablets and foldables, swiping up to the app drawer from just above the dock opened the dock menu.
