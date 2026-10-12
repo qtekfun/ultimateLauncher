@@ -14,7 +14,7 @@ Usar las dos copias de una app (espacio principal + **Private Space**) desde el 
 
 **No entra**
 - Perfil de trabajo como mecanismo de clonado. El perfil de trabajo (p. ej. Intune) se sigue mostrando tal cual (RF-20), **sin emparejarlo**.
-- Usuarios secundarios: un launcher no puede abrir apps de otro usuario.
+- Usuarios secundarios (revisado 2026-10-12, descartado): cada usuario es una sesión aparte con su propio launcher; `LauncherApps.getProfiles()` solo devuelve los perfiles del usuario actual (principal, trabajo, privado) y lanzar o listar apps de otro usuario exige `INTERACT_ACROSS_USERS(_FULL)`, de firma/privilegiado. Una app normal no puede, ni con el usuario en segundo plano.
 - Más de dos copias de una app.
 - Taskbar y Recientes: siguen siendo del sistema (`02`, «Límites del modelo sin root»).
 
@@ -61,7 +61,7 @@ Código propio en clases nuevas; sobre AOSP solo puntos de extensión registrado
 
 ## Bloqueo y privacidad
 
-- Con el espacio bloqueado, el icono con insignia se muestra atenuado con candado (como una app de trabajo en pausa) y el toque pide desbloqueo y abre la app al volver. El atajo «Abrir en la otra cuenta» del icono principal hace lo mismo. Alternativa: quitar del escritorio los iconos del Private Space mientras esté bloqueado (ver `08`, decisión 8).
+- Con el espacio bloqueado, el icono con insignia se muestra atenuado con candado (como una app de trabajo en pausa) y el toque pide desbloqueo y abre la app al volver. El atajo «Abrir en la otra cuenta» del icono principal hace lo mismo. Decidido 2026-10-12 (descartado: quitarlos del escritorio mientras esté bloqueado).
 - Si el usuario oculta el Private Space, los iconos con insignia y los atajos a la otra cuenta desaparecen del escritorio. Como el modo oculto puede no ser legible, hay una opción manual **«ocultar pares»**.
 - Ningún dato del par sale del almacenamiento privado del launcher ni aparece en registros (`09`, «Datos locales»).
 - La tabla de pares, la última app usada y las posiciones de los iconos del Private Space **no** entran en la copia de seguridad ni en la exportación de disposición (`06`): revelarían que existe el Private Space.
