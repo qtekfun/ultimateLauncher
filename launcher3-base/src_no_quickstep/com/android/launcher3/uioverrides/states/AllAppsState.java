@@ -87,13 +87,10 @@ public class AllAppsState extends LauncherState {
 
     @Override
     public PageAlphaProvider getWorkspacePageAlphaProvider(Launcher launcher) {
-        PageAlphaProvider superPageAlphaProvider = super.getWorkspacePageAlphaProvider(launcher);
         return new PageAlphaProvider(DECELERATE) {
             @Override
             public float getPageAlpha(int pageIndex) {
-                return launcher.getDeviceProfile().getDeviceProperties().isLargeScreen()
-                        ? superPageAlphaProvider.getPageAlpha(pageIndex)
-                        : 0;
+                return 0; // UL 0231: el cajón a pantalla completa (0020) tapa el escritorio en todos los tamaños
             }
         };
     }
