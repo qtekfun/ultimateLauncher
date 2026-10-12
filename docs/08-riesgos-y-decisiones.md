@@ -41,7 +41,8 @@
 8. **v2 — Dual apps (`10`) y plegables (`11`)**, pendientes de respuesta:
    - ~~¿Disposición independiente o sincronizada por defecto?~~ **Sincronizada** (2026-10-12).
    - ~~¿Qué copia abre el toque?~~ Ya no aplica: **dos iconos en el escritorio**, el del Private Space con insignia; cada uno abre su copia (2026-10-12).
-   - Con el Private Space bloqueado, ¿su icono queda atenuado con candado (propuesta) o desaparece del escritorio? **Pendiente.**
+   - ~~Con el Private Space bloqueado, ¿icono atenuado o fuera del escritorio?~~ **Atenuado (gris) con candado**; el toque pide desbloqueo (2026-10-12).
+   - ~~¿Otro usuario en lugar del Private Space?~~ **No es posible** para un launcher sin privilegios (ver `10`, «No entra») (2026-10-12).
    - ~~¿Gesto de deslizar sobre el icono en v2?~~ **Sí, en v2** (2026-10-12).
    - ~~¿Qué plegables físicos hay?~~ **Pixel 9 Pro Fold**, más adelante (2026-10-12). Mientras tanto, emulador «foldable».
    - ~~¿Qué dispositivo para M9?~~ El mismo **Pixel 9 Pro Fold** con GrapheneOS (2026-10-12).
