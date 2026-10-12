@@ -7,8 +7,8 @@ Estado: borrador v2 — 2026-10-12. Hito **M10** de `07`. No depende de Dual app
 Que el launcher se adapte a la **pantalla exterior**, a la **interior** y a la **transición** entre ambas, y a la **postura** semiabierta. Se aprovecha lo que Launcher3 de Android 17 ya trae para multipantalla (`InvariantDeviceProfile`, `DisplayController`, escritorio a dos paneles) y se añade solo lo que falta: rejillas propias por pantalla, continuidad al plegar y postura.
 
 **Plataformas**
-- Pixel plegables con GrapheneOS o AOSP, y el emulador «foldable».
-- Plegables de OPPO, vivo, Xiaomi y Honor **con firmware global**. En **ColorOS de China** el launcher no se puede fijar como inicio (`oem-issues.md`, PMX110), así que M10 no se puede probar ni usar allí; vale la misma reserva para otras ROMs chinas hasta comprobarlas.
+- Pixel plegables con GrapheneOS o AOSP, y el emulador «foldable». Dispositivo de pruebas: **Pixel 9 Pro Fold** (disponible más adelante); hasta entonces, emulador.
+- Plegables de OPPO, vivo, Xiaomi y Honor **con firmware global**. En **ColorOS de China** el launcher no se puede fijar como inicio (`oem-issues.md`, PMX110), así que M10 no se puede probar ni usar allí (aceptado de momento, 2026-10-12); vale la misma reserva para otras ROMs chinas hasta comprobarlas.
 
 ## Lo que ya hay en la base
 
@@ -26,7 +26,7 @@ Que el launcher se adapte a la **pantalla exterior**, a la **interior** y a la *
 
 - **Interior**: escritorio a dos paneles (dos páginas visibles), dock centrado a todo el ancho, cajón en cuadrícula ancha.
 - **Exterior**: disposición de móvil normal.
-- **Modo de diseño**: cada pantalla con su disposición, u opción de sincronizar (la interior muestra en pares las páginas de la exterior). Valor por defecto: ver *Preguntas abiertas*.
+- **Modo de diseño**: por defecto **sincronizado** (decidido 2026-10-12): la interior muestra en pares las páginas de la exterior. Opción para que cada pantalla tenga su propia disposición.
 - **Widgets**: al cambiar de pantalla se reajustan con `minResizeWidth/Height`; si no caben, pasan a la siguiente celda libre **sin borrarse**.
 
 ## Continuidad al plegar y desplegar
