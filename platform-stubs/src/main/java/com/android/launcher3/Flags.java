@@ -229,7 +229,7 @@ public final class Flags {
     public static boolean updateRecentsWmWwmConfiguration() { return false; }
     public static boolean enableRecentsWindowBlur() { return false; }
     public static boolean enableSaveActionInOverviewShare() { return false; }
-    public static boolean enablePrivateSpace() { return false; }
+    public static boolean enablePrivateSpace() { return true; }
     public static boolean privateSpaceAnimation() { return false; }
     public static boolean nudgePill() { return false; }
     public static boolean privateSpaceAddFloatingMaskView() { return false; }

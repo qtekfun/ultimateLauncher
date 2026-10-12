@@ -317,6 +317,8 @@ public class SettingsActivity extends FragmentActivity
         protected boolean initPreference(Preference preference) {
             LauncherDisplayInfo info = DisplayController.INSTANCE.get(getContext()).getInfo();
             switch (preference.getKey()) {
+                case "pref_ul_cat_dual": // UltimateLauncher 0220
+                    return com.qtekfun.ultimatelauncher.dualapps.DualApps.isSupported(getContext());
                 case "pref_ul_hidden_apps_open": // UltimateLauncher 0183
                     preference.setOnPreferenceClickListener(p -> {
                         startActivity(new android.content.Intent().setClassName(

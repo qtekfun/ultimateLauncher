@@ -412,6 +412,7 @@ public class Launcher extends StatefulActivity<LauncherState>
 
         super.onCreate(savedInstanceState);
         com.qtekfun.ultimatelauncher.oem.FirstRun.maybeShow(this); // UltimateLauncher 0010
+        com.qtekfun.ultimatelauncher.dualapps.DualApps.init(this); // UltimateLauncher 0220
         mWallpaperThemeManager = new WallpaperThemeManager(this);
 
         LauncherAppState app = LauncherAppState.getInstance(this);
@@ -2482,7 +2483,9 @@ public class Launcher extends StatefulActivity<LauncherState>
     }
 
     public TouchController[] createTouchControllers() {
-        return new TouchController[] {getDragController(), new AllAppsSwipeController(this),
+        return new TouchController[] {getDragController(),
+                new com.qtekfun.ultimatelauncher.dualapps.DualSwipeController(this), // UltimateLauncher 0220
+                new AllAppsSwipeController(this),
                 new com.qtekfun.ultimatelauncher.gesture.HomeSwipeController(this)}; // UltimateLauncher 0180
     }
 
@@ -2861,18 +2864,18 @@ public class Launcher extends StatefulActivity<LauncherState>
     public Stream<SystemShortcut.Factory> getSupportedShortcuts(ItemInfo itemInfo) {
         int container = itemInfo.container;
         if (container == CONTAINER_DESKTOP || container == CONTAINER_HOTSEAT) {
-            return Stream.of(APP_INFO, WIDGETS, INSTALL, com.qtekfun.ultimatelauncher.hidden.HideAppShortcut.FACTORY, REMOVE); // UltimateLauncher 0182
+            return Stream.of(com.qtekfun.ultimatelauncher.dualapps.OpenOtherCopyShortcut.FACTORY, com.qtekfun.ultimatelauncher.dualapps.AddOtherCopyShortcut.FACTORY, APP_INFO, WIDGETS, INSTALL, com.qtekfun.ultimatelauncher.hidden.HideAppShortcut.FACTORY, REMOVE); // UltimateLauncher 0182, 0220
         } else if (container == CONTAINER_ALL_APPS || container == CONTAINER_ALL_APPS_PREDICTION) {
             // TODO(b/444744861): Update private space apps to have its own container.
             boolean isPinnable = itemInfo instanceof ItemInfoWithIcon info
                     && (info.runtimeStatusFlags & FLAG_NOT_PINNABLE) == 0;
             if (isPinnable) {
-                return Stream.of(APP_INFO, WIDGETS, INSTALL, ADD_TO_HOME_SCREEN, com.qtekfun.ultimatelauncher.hidden.HideAppShortcut.FACTORY); // UltimateLauncher 0182
+                return Stream.of(com.qtekfun.ultimatelauncher.dualapps.OpenOtherCopyShortcut.FACTORY, com.qtekfun.ultimatelauncher.dualapps.AddOtherCopyShortcut.FACTORY, APP_INFO, WIDGETS, INSTALL, ADD_TO_HOME_SCREEN, com.qtekfun.ultimatelauncher.hidden.HideAppShortcut.FACTORY); // UltimateLauncher 0182, 0220
             } else {
-                return Stream.of(APP_INFO, WIDGETS, INSTALL, com.qtekfun.ultimatelauncher.hidden.HideAppShortcut.FACTORY); // UltimateLauncher 0182
+                return Stream.of(com.qtekfun.ultimatelauncher.dualapps.OpenOtherCopyShortcut.FACTORY, com.qtekfun.ultimatelauncher.dualapps.AddOtherCopyShortcut.FACTORY, APP_INFO, WIDGETS, INSTALL, com.qtekfun.ultimatelauncher.hidden.HideAppShortcut.FACTORY); // UltimateLauncher 0182, 0220
             }
         }
-        return Stream.of(APP_INFO, WIDGETS, INSTALL, com.qtekfun.ultimatelauncher.hidden.HideAppShortcut.FACTORY); // UltimateLauncher 0182
+        return Stream.of(com.qtekfun.ultimatelauncher.dualapps.OpenOtherCopyShortcut.FACTORY, com.qtekfun.ultimatelauncher.dualapps.AddOtherCopyShortcut.FACTORY, APP_INFO, WIDGETS, INSTALL, com.qtekfun.ultimatelauncher.hidden.HideAppShortcut.FACTORY); // UltimateLauncher 0182, 0220
     }
 
     /**
