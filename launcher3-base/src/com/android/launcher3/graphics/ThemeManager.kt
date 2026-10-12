@@ -158,8 +158,8 @@ constructor(
         val iconMask =
             when {
                 shapeModel != null -> shapeModel.pathString
-                context.resources.getString(com.android.launcher3.R.string.ul_icon_mask).isNotEmpty() ->
-                    context.resources.getString(com.android.launcher3.R.string.ul_icon_mask) // UL 0018
+                com.qtekfun.ultimatelauncher.foldable.Foldables.tabletIconMask(context).isNotEmpty() ->
+                    com.qtekfun.ultimatelauncher.foldable.Foldables.tabletIconMask(context) // UL 0018, 0230
                 CONFIG_ICON_MASK_RES_ID == Resources.ID_NULL -> ""
                 else -> context.resources.getString(CONFIG_ICON_MASK_RES_ID)
             }

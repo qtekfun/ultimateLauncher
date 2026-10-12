@@ -317,6 +317,8 @@ public class SettingsActivity extends FragmentActivity
         protected boolean initPreference(Preference preference) {
             LauncherDisplayInfo info = DisplayController.INSTANCE.get(getContext()).getInfo();
             switch (preference.getKey()) {
+                case "pref_ul_cat_dock": // UltimateLauncher 0230: dock de tablet, no en plegables
+                    return com.qtekfun.ultimatelauncher.foldable.Foldables.tabletDock(getContext());
                 case "pref_ul_cat_dual": // UltimateLauncher 0220
                     return com.qtekfun.ultimatelauncher.dualapps.DualApps.isSupported(getContext());
                 case "pref_ul_hidden_apps_open": // UltimateLauncher 0183
@@ -354,7 +356,8 @@ public class SettingsActivity extends FragmentActivity
                         InvariantDeviceProfile.INSTANCE.get(getContext()).ulReloadGrid();
                         return true;
                     });
-                    return info.isLargeScreen(info.realBounds);
+                    return info.isLargeScreen(info.realBounds)
+                            && info.getDeviceType() != TYPE_MULTI_DISPLAY; // UltimateLauncher 0230
                 case "pref_ul_wallpapers": // UltimateLauncher 0170
                     preference.setOnPreferenceClickListener(p -> {
                         startActivity(com.qtekfun.ultimatelauncher.wallpaper.WallpaperPickerActivity.intent(getContext()));

@@ -44,7 +44,14 @@ import javax.inject.Named
 
 private object Modules
 
-@Module abstract class WindowManagerProxyModule
+@Module
+abstract class WindowManagerProxyModule {
+    // UltimateLauncher 0230: todas las pantallas internas (plegables), no solo la activa.
+    @Binds
+    abstract fun bindWindowManagerProxy(
+        impl: com.qtekfun.ultimatelauncher.foldable.UlWindowManagerProxy
+    ): com.android.launcher3.util.window.WindowManagerProxy
+}
 
 @Module(includes = [SystemDragModule::class])
 abstract class ActivityContextModule {

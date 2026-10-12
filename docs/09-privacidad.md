@@ -38,6 +38,7 @@ Regla: **cualquier permiso nuevo requiere actualizar esta tabla** y el README p�
 ## Datos locales
 
 - **Sin historial de uso**: no se guardan apps abiertas, recientes ni predicciones (no hay fila de previstas). **Única excepción** (Dual apps, `10`): se guarda una sola marca con el paquete y el perfil de la última app **emparejada** abierta, para el mosaico «Abrir cuenta 2». Se sobrescribe en cada apertura, se borra al desactivar Dual apps u «ocultar pares» y no entra en copias ni exportaciones.
+- Plegables (`11`, parche 0230): en Android 12–16 se guardan hasta 4 **tamaños físicos de pantalla** en píxeles (p. ej. `1080x2424`) para reconocer un plegable tras plegarlo una vez; en Android 17+ no se guarda nada (lo da el sistema). Son datos del aparato, no de uso; no salen del almacenamiento privado ni entran en copias.
 - La búsqueda del cajón filtra la lista en memoria y **no guarda consultas**.
 - Copia en la nube del sistema desactivada para los datos del launcher; la única exportación es la que pide el usuario (ver `06`).
 - Registros: en versiones de producción, sin registros con nombres de apps ni datos personales; eliminar trazas de depuración en la compilación de release.
