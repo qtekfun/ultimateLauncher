@@ -206,6 +206,36 @@
             android:persistent="true" />
     </PreferenceCategory>
 
+    <!-- UltimateLauncher 0220: Dual apps (docs/10) -->
+    <PreferenceCategory
+        android:key="pref_ul_cat_dual"
+        android:title="@string/ul_pref_cat_dual"
+        android:persistent="false">
+
+        <SwitchPreference
+            android:key="pref_ul_dual_apps"
+            android:title="@string/ul_pref_dual_apps"
+            android:summary="@string/ul_pref_dual_apps_summary"
+            android:defaultValue="true"
+            android:persistent="true" />
+
+        <SwitchPreference
+            android:key="pref_ul_dual_swipe"
+            android:title="@string/ul_pref_dual_swipe"
+            android:summary="@string/ul_pref_dual_swipe_summary"
+            android:defaultValue="true"
+            android:dependency="pref_ul_dual_apps"
+            android:persistent="true" />
+
+        <SwitchPreference
+            android:key="pref_ul_dual_hide"
+            android:title="@string/ul_pref_dual_hide"
+            android:summary="@string/ul_pref_dual_hide_summary"
+            android:defaultValue="false"
+            android:dependency="pref_ul_dual_apps"
+            android:persistent="true" />
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="pref_ul_cat_privacy"
         android:title="@string/ul_pref_cat_privacy"

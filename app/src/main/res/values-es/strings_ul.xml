@@ -209,4 +209,17 @@
     <string name="ul_pref_cat_icons">Iconos y fondos</string>
     <string name="ul_pref_cat_gestures">Gestos</string>
     <string name="ul_pref_cat_privacy">Privacidad</string>
+    <!-- Dual apps (docs/10, parche 0220) -->
+    <string name="ul_pref_cat_dual">Apps dobles</string>
+    <string name="ul_pref_dual_apps">Apps dobles</string>
+    <string name="ul_pref_dual_apps_summary">Relaciona las dos copias de una app (espacio principal y espacio privado): abre la otra copia desde el menú, el gesto o el mosaico de Ajustes rápidos, y permite apps del espacio privado en el escritorio</string>
+    <string name="ul_pref_dual_swipe">Deslizar hacia arriba sobre un icono</string>
+    <string name="ul_pref_dual_swipe_summary">Deslizar hacia arriba sobre una app relacionada abre su otra copia</string>
+    <string name="ul_pref_dual_hide">Ocultar pares</string>
+    <string name="ul_pref_dual_hide_summary">No ofrecer nada de la otra copia (menú, gesto, mosaico). Úsalo si ocultas el espacio privado, porque su estado oculto no se puede leer</string>
+    <string name="ul_dual_open_other">Abrir en la otra cuenta</string>
+    <string name="ul_dual_add_other">Añadir cuenta 2 al escritorio</string>
+    <string name="ul_dual_unavailable">No se puede abrir la otra copia</string>
+    <string name="ul_dual_tile_label">Abrir cuenta 2</string>
+    <string name="ul_dual_tile_none">Abre antes una app relacionada</string>
 </resources>

@@ -3,6 +3,7 @@
 android.permission.BIND_APPWIDGET
 android.permission.REQUEST_DELETE_PACKAGES
 android.permission.USE_BIOMETRIC
+android.permission.ACCESS_HIDDEN_PROFILES
 android.permission.VIBRATE
 android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 android.permission.EXPAND_STATUS_BAR
