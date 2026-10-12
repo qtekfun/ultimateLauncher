@@ -4,10 +4,11 @@ Estado: borrador v2 — 2026-10-12. Hito **M9** de `07`. Depende del spike de la
 
 ## Qué es
 
-Agrupar las dos copias de una app (espacio principal + **Private Space**) bajo **un solo icono** con acceso a las dos cuentas. No usa perfil de trabajo.
+Usar las dos copias de una app (espacio principal + **Private Space**) desde el escritorio como **dos iconos**: el de la copia principal, normal, y el de la copia del Private Space con una **insignia** pequeña («2» o similar). El launcher sabe que forman un **par** para ofrecer accesos rápidos a la otra copia. No usa perfil de trabajo.
 
 **Entra**
-- Detección de pares entre el espacio principal y el Private Space; icono único con dos destinos.
+- Detección de pares entre el espacio principal y el Private Space.
+- Iconos de apps del Private Space en el escritorio, con insignia, junto a los de la copia principal.
 - Desbloqueo del Private Space desde el launcher.
 - Mosaico de Ajustes rápidos «Abrir cuenta 2».
 
@@ -50,19 +51,20 @@ Código propio en clases nuevas; sobre AOSP solo puntos de extensión registrado
 
 ## Interacción
 
-- **Icono**: uno solo en inicio y cajón, con insignia «2» en una esquina. **Diseño propio**: no se copia la insignia del clonador de ningún fabricante. El estilo se configura y sigue los tokens de `04`; las medidas de la insignia son `null` hasta definirlas.
-- **Toque**: abre la copia preferida del par; configurable por app. Valor por defecto **pendiente** (`08`, decisión 8): la principal o la última usada.
-- **Mantener pulsado**: el menú contextual (parche 0150) añade «Cuenta 1» y «Cuenta 2» arriba del todo.
-- **Deslizar hacia arriba sobre el icono**: abre la otra copia. **Entra en v2** (decidido 2026-10-12); se puede desactivar en Ajustes.
+- **Iconos** (decidido 2026-10-12): **dos en el escritorio**, uno por copia. La copia principal lleva su icono normal; la del Private Space, el mismo icono con una insignia pequeña en una esquina («2» o similar). **Diseño propio**: no se copia la insignia del clonador de ningún fabricante. El estilo se configura y sigue los tokens de `04`; las medidas de la insignia son `null` hasta definirlas.
+- **Añadir al escritorio**: desde el cajón (sección de Private Space) o desde el menú del icono principal («Añadir cuenta 2 al escritorio», que la coloca en la celda libre más cercana). **Sin verificar** que la base deje poner apps del Private Space en el escritorio (spike T9.0); si no lo deja, es un parche propio.
+- **Toque**: cada icono abre **su** copia.
+- **Mantener pulsado**: el menú contextual (parche 0150) de cualquiera de los dos iconos añade arriba «Abrir en la otra cuenta».
+- **Deslizar hacia arriba sobre un icono del par**: abre la otra copia. **Entra en v2** (decidido 2026-10-12); se puede desactivar en Ajustes.
 - **Cajón**: se mantiene la sección de Private Space de Launcher3; las apps emparejadas no se duplican fuera de ella.
-- **Ajustes**: interruptor global, lista de pares con copia por defecto y opción para tratar los pares como apps separadas.
+- **Ajustes**: interruptor global, lista de pares, estilo de la insignia, gesto de deslizar y opción para tratar los pares como apps sin relación (sin accesos a la otra copia).
 
 ## Bloqueo y privacidad
 
-- Con el espacio bloqueado, el icono abre solo la copia principal; «Cuenta 2» aparece con candado y pide desbloqueo.
-- Si el usuario oculta el Private Space, la insignia y los atajos de cuenta 2 desaparecen. Como el modo oculto puede no ser legible, hay una opción manual **«ocultar pares»**.
+- Con el espacio bloqueado, el icono con insignia se muestra atenuado con candado (como una app de trabajo en pausa) y el toque pide desbloqueo y abre la app al volver. El atajo «Abrir en la otra cuenta» del icono principal hace lo mismo. Alternativa: quitar del escritorio los iconos del Private Space mientras esté bloqueado (ver `08`, decisión 8).
+- Si el usuario oculta el Private Space, los iconos con insignia y los atajos a la otra cuenta desaparecen del escritorio. Como el modo oculto puede no ser legible, hay una opción manual **«ocultar pares»**.
 - Ningún dato del par sale del almacenamiento privado del launcher ni aparece en registros (`09`, «Datos locales»).
-- La tabla de pares y la última app usada **no** entran en la copia de seguridad ni en la exportación de disposición (`06`): revelarían que existe el Private Space.
+- La tabla de pares, la última app usada y las posiciones de los iconos del Private Space **no** entran en la copia de seguridad ni en la exportación de disposición (`06`): revelarían que existe el Private Space.
 
 ## Fallback en ROMs de fabricante
 

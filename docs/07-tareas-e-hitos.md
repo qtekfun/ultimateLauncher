@@ -80,11 +80,11 @@ Cada hito termina con algo que se pueda **instalar y probar**. No pasar al sigui
 M9 y M10 empiezan cuando M8 cumpla su aceptación. Son independientes: pueden avanzar en paralelo. Si el spike de M9 falla, M9 se para y sigue M10.
 
 ## M9 — Dual apps (ver `10`)
-- T9.0 **Spike**: `ACCESS_HIDDEN_PROFILES`, `requestQuietModeEnabled` y modo oculto en Android 15/16/17; activar los flags de Private Space de Launcher3 sin romper API 31–34; clonado propio de cada marca (`getProfiles()`); criterio genérico de viabilidad (una app real con cuenta funciona en las dos copias). Resultado en `oem-issues.md` y `10`.
+- T9.0 **Spike**: si la base deja poner apps del Private Space en el escritorio; `ACCESS_HIDDEN_PROFILES`, `requestQuietModeEnabled` y modo oculto en Android 15/16/17; activar los flags de Private Space de Launcher3 sin romper API 31–34; clonado propio de cada marca (`getProfiles()`); criterio genérico de viabilidad (una app real con cuenta funciona en las dos copias). Resultado en `oem-issues.md` y `10`.
 - T9.1 `ProfileRepository` y `PrivateSpaceController`, con compuerta en API 35. Permiso nuevo en `09` y en `tools/permissions-allowed.txt`.
 - T9.2 `DualAppIndex` con pruebas unitarias.
 - T9.3 `LaunchRouter`: lanzar por perfil y desbloquear antes de lanzar.
-- T9.4 Icono único con insignia propia, atajos «Cuenta 1/2» en el menú, deslizar hacia arriba para la otra copia y comportamiento con el espacio bloqueado u oculto.
+- T9.4 Iconos del Private Space en el escritorio con insignia propia, atajo «Abrir en la otra cuenta» en el menú, deslizar hacia arriba para la otra copia y comportamiento con el espacio bloqueado u oculto.
 - T9.5 Ajustes (interruptor, lista de pares, copia por defecto, «ocultar pares», pares como apps separadas).
 - T9.6 `DualAppTileService` («Abrir cuenta 2»).
 - **Aceptación**: RF-70 a RF-73 en un dispositivo con Private Space; en un emulador API 31–34 el módulo no aparece; la tabla de pares no entra en copias ni exportaciones.

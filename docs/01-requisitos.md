@@ -62,7 +62,7 @@ Feed o asistente, gestos de recientes nativos con animaciones del sistema (requi
 Se abre tras cerrar M8. Detalle en `10` y `11`; hitos M9 y M10 de `07`.
 
 **Dual apps** (`10`)
-- RF-70 Las dos copias de una app (espacio principal + Private Space) se muestran como **un solo icono** con insignia propia y acceso a las dos cuentas. Solo API 35+; en API 31–34 la función no aparece.
+- RF-70 Las dos copias de una app (espacio principal + Private Space) se pueden tener en el escritorio como **dos iconos**; el del Private Space lleva una insignia propia («2» o similar) y desde cualquiera de los dos se abre la otra copia (menú o gesto). Solo API 35+; en API 31–34 la función no aparece.
 - RF-71 Desbloqueo del Private Space desde el launcher, con la autenticación del sistema.
 - RF-72 Mosaico de Ajustes rápidos «Abrir cuenta 2».
 - RF-73 Con el Private Space bloqueado u oculto, el launcher no deja ver la cuenta 2 (opción manual «ocultar pares» si el modo oculto no se puede leer).
