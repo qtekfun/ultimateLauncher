@@ -13,7 +13,7 @@ Base importada sin modificar en el commit "Importación AOSP sin modificar" (ver
 | 0006 | `LoaderTask.sendFirstScreenActiveInstallsBroadcast` desactivado (privacidad + NPE) | LoaderTask.java | `patches/0006-*.py` |
 | 0007 | Compuerta de versión/try-catch para `AppWidgetHostView.start/stopVisibilityTracking` (API de Android 17) | WidgetVisibilityTracker.kt | `patches/0007-*.py` |
 | 0008 | 12 colores `@android:color/system_*` solo de API 37 → `values-v37` + línea base M3 | `launcher3-base/res/values-v34/colors.xml`, dynamiccolors | `patches/0008-*.py` |
-| 0009 | Rejilla por defecto = tokens medidos (`ultimate_phone`) | `device_profiles.xml` (bloque generado), `InvariantDeviceProfile.java` (1 línea) | `tools/apply-theme-tokens.py` |
+| 0009 | Rejilla por defecto = tokens medidos (`ultimate_phone` en móvil, `ultimate_tablet` en tablet; plegables y escritorio con la de AOSP: `DefaultGrid`, 2026-10-12) | `device_profiles.xml` (bloque generado), `InvariantDeviceProfile.java` (1 línea) | `tools/apply-theme-tokens.py` |
 | 0010 | Gancho `FirstRun.maybeShow(this)` en `Launcher.onCreate` | Launcher.java | `patches/0010-*.py` |
 | 0011 | `getParcelable(Extra)` con clase (API 33) → `BundleCompat`/`IntentCompat` en el selector de widgets (aplicado el 2026-10-05) | WidgetPickerActivity.kt, WidgetPickerComposeWrapperImpl.kt | `patches/0011-*.py` (compila; sin verificar en dispositivo) |
 | 0012 | El dock no reserva el hueco de la barra de búsqueda (≈64 dp) cuando no hay QSB | HotseatProfileInitialValues.kt | `patches/0012-*.py` |

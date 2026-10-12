@@ -50,9 +50,14 @@ p.write_text(t)
 idp = root / "launcher3-base/src/com/android/launcher3/InvariantDeviceProfile.java"
 s = idp.read_text()
 old = "        List<DisplayOption> profiles = DisplayOption.getPredefinedDisplayOptions(\n                displayInfo, isFixedLandscapeMode);\n"
-new = "        // UltimateLauncher 0009: rejilla por defecto = tokens medidos (tools/apply-theme-tokens.py).\n        if (TextUtils.isEmpty(gridName)) gridName = displayInfo.getDeviceType() == TYPE_TABLET ? \"ultimate_tablet\" : \"ultimate_phone\";\n" + old
+# Móvil y tablet: rejillas medidas; plegable (multi_display) y escritorio: las de AOSP (DefaultGrid, docs/11).
+line = "        if (TextUtils.isEmpty(gridName)) gridName = com.qtekfun.ultimatelauncher.grid.DefaultGrid.forDeviceType(displayInfo.getDeviceType());\n"
+new = "        // UltimateLauncher 0009: rejilla por defecto = tokens medidos (tools/apply-theme-tokens.py).\n" + line + old
 if "UltimateLauncher 0009" not in s:
     assert old in s; idp.write_text(s.replace(old, new))
+else:
+    s2 = re.sub(r"        if \(TextUtils\.isEmpty\(gridName\)\) gridName = [^\n]*\n", lambda m: line, s, count=1)
+    if s2 != s: idp.write_text(s2)
 az = dr.get("alphabetStrip") or {}
 def argbw(a):
     return '#%02XFFFFFF' % round(a * 255)
