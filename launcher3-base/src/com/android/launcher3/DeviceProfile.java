@@ -801,7 +801,8 @@ public class DeviceProfile {
      */
     public Rect getHotseatLayoutPadding(Context context) {
         Rect hotseatBarPadding = new Rect();
-        if (!isVerticalBarLayout() && context.getResources().getBoolean(R.bool.ul_huawei_dock)) { // UltimateLauncher 0040
+        if (!isVerticalBarLayout() && com.qtekfun.ultimatelauncher.foldable.Foldables.tabletDock(
+                context.getResources(), inv.deviceType)) { // UltimateLauncher 0040, 0230
             int dockCell = context.getResources().getDimensionPixelSize(R.dimen.ul_dock_cell);
             int side = Math.max(0, (mDeviceProperties.getWidthPx()
                     - dockCell * mHotseatProfile.getNumShownIcons()) / 2);

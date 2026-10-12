@@ -28,6 +28,8 @@ object RecentApps {
     @JvmStatic
     fun record(context: Context, intent: Intent?, item: ItemInfo?) {
         if (max(context) <= 0 || intent == null || !DockPrefs.recentsEnabled(context)) return
+        // Sin dock de tablet (plegables, parche 0230) no se guarda historial que nadie va a ver.
+        if (!com.qtekfun.ultimatelauncher.foldable.Foldables.tabletDock(context)) return
         val cn = intent.component ?: return
         if (cn.packageName == context.packageName) return
         if (!intent.hasCategory(Intent.CATEGORY_LAUNCHER) && intent.action != Intent.ACTION_MAIN) return

@@ -228,6 +228,7 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         viewTreeObserver.addOnPreDrawListener(alphaSync)
         launcher.hotseat.addOnLayoutChangeListener(hotseatListener)
         launcher.dragController.addDragListener(dragListener)
+        launcher.addOnDeviceProfileChangeListener(profileListener)
         RecentApps.prefs(context).registerOnSharedPreferenceChangeListener(listener)
         DockPrefs.prefs(context).registerOnSharedPreferenceChangeListener(settingsListener)
         refresh()
@@ -238,9 +239,24 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         viewTreeObserver.removeOnPreDrawListener(alphaSync)
         launcher.hotseat.removeOnLayoutChangeListener(hotseatListener)
         launcher.dragController.removeDragListener(dragListener)
+        launcher.removeOnDeviceProfileChangeListener(profileListener)
         RecentApps.prefs(context).unregisterOnSharedPreferenceChangeListener(listener)
         DockPrefs.prefs(context).unregisterOnSharedPreferenceChangeListener(settingsListener)
         super.onDetachedFromWindow()
+    }
+
+    /**
+     * Si el dispositivo deja de usar el dock de tablet (un plegable reconocido tras plegarlo por primera vez en
+     * Android < 17), el dock se quita y el hotseat vuelve a su sitio.
+     */
+    private val profileListener = com.android.launcher3.DeviceProfile.OnDeviceProfileChangeListener { dp ->
+        if (!com.qtekfun.ultimatelauncher.foldable.Foldables.tabletDock(resources, dp.inv.deviceType)) {
+            // Fuera del reparto de avisos: quitar la vista también quita este oyente de la lista que se recorre.
+            post {
+                launcher.hotseat.translationX = 0f
+                (parent as? ViewGroup)?.removeView(this)
+            }
+        }
     }
 
     private fun fixedPackages(): Set<String> {
@@ -358,10 +374,10 @@ class UlDockView(private val launcher: Launcher) : FrameLayout(launcher) {
         private const val COMPACT_ANIM_MS = 200
         private const val MAX_COMPACT_RETRIES = 5
 
-        /** Gancho desde Launcher.setupViews (parche 0040). Solo en tablets (ul_huawei_dock). */
+        /** Gancho desde Launcher.setupViews (parche 0040). Solo en tablets que no sean plegables (parche 0230). */
         @JvmStatic
         fun attach(launcher: Launcher) {
-            if (!launcher.resources.getBoolean(R.bool.ul_huawei_dock)) return
+            if (!com.qtekfun.ultimatelauncher.foldable.Foldables.tabletDock(launcher.resources, launcher.deviceProfile.inv.deviceType)) return
             val parent = launcher.hotseat.parent as? ViewGroup ?: return
             val dock = UlDockView(launcher)
             parent.addView(dock, parent.indexOfChild(launcher.hotseat), ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
