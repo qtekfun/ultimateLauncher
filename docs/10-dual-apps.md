@@ -18,7 +18,7 @@ Agrupar las dos copias de una app (espacio principal + **Private Space**) bajo *
 - Taskbar y Recientes: siguen siendo del sistema (`02`, «Límites del modelo sin root»).
 
 **Plataformas**
-- Objetivo principal: **GrapheneOS en Pixel** (plegables y no plegables) y cualquier AOSP con Private Space.
+- Objetivo principal: **GrapheneOS en Pixel** (plegables y no plegables) y cualquier AOSP con Private Space. Dispositivo de pruebas: **Pixel 9 Pro Fold** con GrapheneOS (disponible más adelante); hasta entonces, emulador API 35+.
 - ROMs de OPPO, vivo, Xiaomi y Honor: modo «lo que el sistema exponga» (ver *Fallback en ROMs de fabricante*).
 
 ## Restricciones técnicas
@@ -34,7 +34,7 @@ El launcher se instala como app normal, no de sistema.
 | Un solo Private Space por dispositivo, solo en el usuario principal | Máximo dos copias por app. Si el launcher corre en un usuario secundario, Dual apps se desactiva |
 | Flags aconfig de Launcher3 todos a `false` (`tools/gen-flags.py`, DECISIONS 2026-10-04) | `PrivateProfileManager` y la sección de Private Space del cajón dependen de `Flags.enablePrivateSpace()` y afines. Hay que activarlos (parche en `/patches`) y probar que no rompen API 31–34 |
 | Ajustes de Private Space no expuestos a terceros (al menos en Android 15) | No se puede abrir su pantalla de ajustes ni leer si está en modo «oculto». Se trata como **estado desconocido** y se verifica en el spike en 16 y 17 |
-| ColorOS de China no deja fijar el launcher como inicio (`oem-issues.md`, PMX110) | Sin `ROLE_HOME` no hay Private Space: **Dual apps no está disponible** en ese firmware |
+| ColorOS de China no deja fijar el launcher como inicio (`oem-issues.md`, PMX110) | Sin `ROLE_HOME` no hay Private Space: **Dual apps no está disponible** en ese firmware. Aceptado de momento (2026-10-12) |
 
 Fuente: documentación de Private Space de AOSP (source.android.com).
 
@@ -51,9 +51,9 @@ Código propio en clases nuevas; sobre AOSP solo puntos de extensión registrado
 ## Interacción
 
 - **Icono**: uno solo en inicio y cajón, con insignia «2» en una esquina. **Diseño propio**: no se copia la insignia del clonador de ningún fabricante. El estilo se configura y sigue los tokens de `04`; las medidas de la insignia son `null` hasta definirlas.
-- **Toque**: abre la copia preferida del par; configurable por app. Por defecto: ver *Preguntas abiertas*.
+- **Toque**: abre la copia preferida del par; configurable por app. Valor por defecto **pendiente** (`08`, decisión 8): la principal o la última usada.
 - **Mantener pulsado**: el menú contextual (parche 0150) añade «Cuenta 1» y «Cuenta 2» arriba del todo.
-- **Deslizar hacia arriba sobre el icono** (opcional): abre la otra copia. Alcance en v2: ver *Preguntas abiertas*.
+- **Deslizar hacia arriba sobre el icono**: abre la otra copia. **Entra en v2** (decidido 2026-10-12); se puede desactivar en Ajustes.
 - **Cajón**: se mantiene la sección de Private Space de Launcher3; las apps emparejadas no se duplican fuera de ella.
 - **Ajustes**: interruptor global, lista de pares con copia por defecto y opción para tratar los pares como apps separadas.
 

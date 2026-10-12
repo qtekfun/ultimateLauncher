@@ -84,14 +84,14 @@ M9 y M10 empiezan cuando M8 cumpla su aceptación. Son independientes: pueden av
 - T9.1 `ProfileRepository` y `PrivateSpaceController`, con compuerta en API 35. Permiso nuevo en `09` y en `tools/permissions-allowed.txt`.
 - T9.2 `DualAppIndex` con pruebas unitarias.
 - T9.3 `LaunchRouter`: lanzar por perfil y desbloquear antes de lanzar.
-- T9.4 Icono único con insignia propia, atajos «Cuenta 1/2» en el menú y comportamiento con el espacio bloqueado u oculto.
+- T9.4 Icono único con insignia propia, atajos «Cuenta 1/2» en el menú, deslizar hacia arriba para la otra copia y comportamiento con el espacio bloqueado u oculto.
 - T9.5 Ajustes (interruptor, lista de pares, copia por defecto, «ocultar pares», pares como apps separadas).
 - T9.6 `DualAppTileService` («Abrir cuenta 2»).
 - **Aceptación**: RF-70 a RF-73 en un dispositivo con Private Space; en un emulador API 31–34 el módulo no aparece; la tabla de pares no entra en copias ni exportaciones.
 
 ## M10 — Plegables (ver `11`)
 - T10.1 Rejillas `multi_display` para exterior e interior a partir de las de la base; valores en `null` hasta medirlos.
-- T10.2 Escritorio a dos paneles, dock a todo el ancho y cajón ancho en la interior; modo de diseño independiente o sincronizado.
+- T10.2 Escritorio a dos paneles, dock a todo el ancho y cajón ancho en la interior; modo de diseño sincronizado por defecto, con opción independiente.
 - T10.3 Continuidad al plegar/desplegar (página, cajón y widgets reajustados sin borrarse).
 - T10.4 Postura con `WindowInfoTracker` (libro y mesa) y alternativa sin información.
 - T10.5 Pruebas instrumentadas con `WindowLayoutInfoPublisherRule` y capturas de cada disposición.

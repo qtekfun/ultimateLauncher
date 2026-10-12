@@ -39,12 +39,12 @@
 6. **Sistema de ajustes**: preferencias estándar o la capa de la base.
 7. ~~**Private Space y archivado de apps**: solo si el `minSdk` sube a 35.~~ Cerrada el 2026-10-12: Private Space entra en **v2** (`10`) con compuerta en API 35, sin subir `minSdk`. Archivado de apps: sigue fuera.
 8. **v2 — Dual apps (`10`) y plegables (`11`)**, pendientes de respuesta:
-   - ¿Disposición independiente por pantalla o sincronizada como opción por defecto?
-   - ¿Qué copia abre el toque por defecto: la principal o la última usada?
-   - ¿Gesto de deslizar sobre el icono en v2 o más adelante?
-   - ¿Qué plegables físicos hay para probar (Pixel Fold y alguno con firmware global de otra marca)?
-   - ¿Qué dispositivo con GrapheneOS (u otro AOSP con Private Space) hay para M9?
-   - ColorOS de China no deja fijar el launcher como inicio: ¿se acepta que M9 y M10 no funcionen allí, o se busca un plegable con firmware global?
+   - ~~¿Disposición independiente o sincronizada por defecto?~~ **Sincronizada** (2026-10-12).
+   - ¿Qué copia abre el toque por defecto: la principal o la última usada? **Pendiente.**
+   - ~~¿Gesto de deslizar sobre el icono en v2?~~ **Sí, en v2** (2026-10-12).
+   - ~~¿Qué plegables físicos hay?~~ **Pixel 9 Pro Fold**, más adelante (2026-10-12). Mientras tanto, emulador «foldable».
+   - ~~¿Qué dispositivo para M9?~~ El mismo **Pixel 9 Pro Fold** con GrapheneOS (2026-10-12).
+   - ~~ColorOS de China~~: **se acepta de momento** que M9 y M10 no funcionen allí (2026-10-12).
 
 ## Notas legales y de uso
 
