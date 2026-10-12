@@ -44,13 +44,6 @@ object FoldLogic {
         return dps.any { it < TABLET_MIN_DP } && dps.any { it >= TABLET_MIN_DP }
     }
 
-    /**
-     * Dock de tablet (dos píldoras y recientes): solo si los recursos son de tablet y el dispositivo NO es plegable. En
-     * un plegable cada pantalla usa el dock de AOSP, para que plegar no cambie el dock de forma ni de contenido.
-     */
-    @JvmStatic
-    fun tabletDock(resourcesSayTablet: Boolean, foldable: Boolean): Boolean = resourcesSayTablet && !foldable
-
     /** Lista recordada tras ver `seen`: la más reciente primero, sin repetir y con [MAX_REMEMBERED] como máximo. */
     @JvmStatic
     fun remember(previous: List<PanelSize>, seen: PanelSize): List<PanelSize> =

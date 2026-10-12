@@ -33,13 +33,6 @@ class FoldLogicTest {
         assertFalse(FoldLogic.isFoldable(listOf(inner, outer), 0))
     }
 
-    @Test fun tabletDockOnlyOnNonFoldableTablets() {
-        assertTrue(FoldLogic.tabletDock(resourcesSayTablet = true, foldable = false))
-        assertFalse(FoldLogic.tabletDock(resourcesSayTablet = true, foldable = true))
-        assertFalse(FoldLogic.tabletDock(resourcesSayTablet = false, foldable = false))
-        assertFalse(FoldLogic.tabletDock(resourcesSayTablet = false, foldable = true))
-    }
-
     @Test fun sizeIsNormalized() {
         assertEquals(PanelSize.of(2424, 1080), outer)
         assertEquals("1080x2424", outer.toString())

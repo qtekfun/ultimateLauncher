@@ -317,8 +317,8 @@ public class SettingsActivity extends FragmentActivity
         protected boolean initPreference(Preference preference) {
             LauncherDisplayInfo info = DisplayController.INSTANCE.get(getContext()).getInfo();
             switch (preference.getKey()) {
-                case "pref_ul_cat_dock": // UltimateLauncher 0230: dock de tablet, no en plegables
-                    return com.qtekfun.ultimatelauncher.foldable.Foldables.tabletDock(getContext());
+                case "pref_ul_cat_dock": // UltimateLauncher 0230: tablets y plegables (pantalla interior)
+                    return com.qtekfun.ultimatelauncher.foldable.Foldables.hasTabletDock(getContext());
                 case "pref_ul_cat_dual": // UltimateLauncher 0220
                     return com.qtekfun.ultimatelauncher.dualapps.DualApps.isSupported(getContext());
                 case "pref_ul_hidden_apps_open": // UltimateLauncher 0183

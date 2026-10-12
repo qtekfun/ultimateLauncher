@@ -8,7 +8,6 @@ import android.hardware.display.DisplayManager
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Display
-import com.android.launcher3.InvariantDeviceProfile
 import com.android.launcher3.R
 
 /**
@@ -69,14 +68,38 @@ object Foldables {
     fun isFoldable(context: Context): Boolean =
         cached ?: FoldLogic.isFoldable(builtInSizes(context), DisplayMetrics.DENSITY_DEVICE_STABLE).also { cached = it }
 
-    /** Dock de tablet: recursos de tablet y dispositivo que no sea plegable. */
+    /**
+     * ¿Tiene el dispositivo dock de tablet en alguna pantalla? Tablets y plegables (en su pantalla interior). Decide si
+     * se crea el dock, se guardan recientes y se ven sus ajustes, también desde la pantalla exterior.
+     */
     @JvmStatic
-    fun tabletDock(res: Resources, deviceType: Int): Boolean =
-        FoldLogic.tabletDock(res.getBoolean(R.bool.ul_huawei_dock), deviceType == InvariantDeviceProfile.TYPE_MULTI_DISPLAY)
+    fun hasTabletDock(context: Context): Boolean =
+        context.resources.getBoolean(R.bool.ul_huawei_dock) || isFoldable(context)
 
+    /**
+     * ¿Dock de tablet en ESTA pantalla? Se decide por la pantalla del perfil (`DeviceProperties.isLargeScreen`), no por
+     * los recursos del contexto: en un plegable pueden ser todavía los de la otra pantalla.
+     */
     @JvmStatic
-    fun tabletDock(context: Context): Boolean =
-        tabletDock(context.resources, InvariantDeviceProfile.INSTANCE.get(context).deviceType)
+    fun tabletDock(isLargeScreen: Boolean): Boolean = isLargeScreen
+
+    @Volatile private var tabletRes: Pair<Int, Resources>? = null
+
+    /**
+     * Recursos de pantalla grande (`values-sw600dp`): medidas del dock de tablet sea cual sea la pantalla activa. En
+     * móvil esas medidas valen 0, y el dock de un plegable puede crearse con el teléfono cerrado.
+     */
+    @JvmStatic
+    fun tabletRes(context: Context): Resources {
+        val config = context.resources.configuration
+        tabletRes?.let { (density, res) -> if (density == config.densityDpi) return res }
+        val c = android.content.res.Configuration(config).apply {
+            smallestScreenWidthDp = maxOf(smallestScreenWidthDp, FoldLogic.TABLET_MIN_DP.toInt())
+        }
+        val res = context.applicationContext.createConfigurationContext(c).resources
+        tabletRes = config.densityDpi to res
+        return res
+    }
 
     /**
      * Máscara de icono de tablet (parche 0018). En un plegable no se usa: la forma del icono no debe cambiar al plegar

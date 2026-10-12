@@ -22,14 +22,15 @@ object RecentApps {
 
     fun prefs(context: Context) = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
-    fun max(context: Context) = context.resources.getInteger(R.integer.ul_dock_recents_max)
+    fun max(context: Context) =
+        com.qtekfun.ultimatelauncher.foldable.Foldables.tabletRes(context).getInteger(R.integer.ul_dock_recents_max)
 
     /** Llamado al lanzar una actividad desde el launcher (parche 0040). */
     @JvmStatic
     fun record(context: Context, intent: Intent?, item: ItemInfo?) {
         if (max(context) <= 0 || intent == null || !DockPrefs.recentsEnabled(context)) return
-        // Sin dock de tablet (plegables, parche 0230) no se guarda historial que nadie va a ver.
-        if (!com.qtekfun.ultimatelauncher.foldable.Foldables.tabletDock(context)) return
+        // Solo con dock de tablet (tablets y plegables, parche 0230): sin él no se guarda historial que nadie va a ver.
+        if (!com.qtekfun.ultimatelauncher.foldable.Foldables.hasTabletDock(context)) return
         val cn = intent.component ?: return
         if (cn.packageName == context.packageName) return
         if (!intent.hasCategory(Intent.CATEGORY_LAUNCHER) && intent.action != Intent.ACTION_MAIN) return
