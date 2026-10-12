@@ -7,7 +7,7 @@ aconfig no está disponible fuera del árbol de AOSP y los valores de release vi
 así que todos los flags quedan en su valor por defecto 'false' salvo los listados en ENABLED.
 """
 import re, glob, pathlib
-ENABLED = {"enable_launcher_icon_shapes", "letter_fast_scroller"}   # nombres (snake_case) que se fuerzan a true: forma de icono propia (recorte en el launcher) y barra A-Z del cajón
+ENABLED = {"enable_launcher_icon_shapes", "letter_fast_scroller", "enable_private_space"}   # nombres (snake_case) que se fuerzan a true: forma de icono propia (recorte en el launcher), barra A-Z del cajón y Private Space (Dual apps, docs/10)
 root = pathlib.Path(__file__).resolve().parent.parent
 flags = []
 for f in sorted(glob.glob(str(root / "launcher3-base/aconfig/*.aconfig"))):

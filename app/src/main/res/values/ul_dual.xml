@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dual apps (docs/10): el mosaico solo existe con Private Space (API 35+). -->
+<resources>
+    <bool name="ul_dual_tile_enabled">false</bool>
+</resources>

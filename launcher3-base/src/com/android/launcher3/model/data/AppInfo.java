@@ -206,7 +206,7 @@ public class AppInfo extends ItemInfoWithIcon implements WorkspaceItemFactory {
 
         info.runtimeStatusFlags |= appInfo.isSystem() ? FLAG_SYSTEM_YES : FLAG_SYSTEM_NO;
 
-        if (userIconInfo.isPrivate()) {
+        if (userIconInfo.isPrivate() && !com.qtekfun.ultimatelauncher.dualapps.DualApps.pinPrivateApps) { // UltimateLauncher 0220
             info.runtimeStatusFlags |= FLAG_NOT_PINNABLE;
         } else {
             info.runtimeStatusFlags &= ~FLAG_NOT_PINNABLE;

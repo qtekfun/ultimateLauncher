@@ -428,6 +428,7 @@ public class ItemClickHandler {
             // Preload the icon to reduce latency b/w swapping the floating view with the original.
             FloatingIconView.fetchIcon(launcher, v, item, true /* isOpening */);
         }
+        if (com.qtekfun.ultimatelauncher.dualapps.DualApps.interceptLaunch(launcher, item)) return; // UltimateLauncher 0220
         launcher.startActivitySafely(v, intent, item);
     }
 

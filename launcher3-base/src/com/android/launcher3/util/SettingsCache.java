@@ -166,12 +166,16 @@ public class SettingsCache extends ContentObserver {
         String key = keyUri.getLastPathSegment();
         boolean newVal;
         int defaultValue = mUrisEnabledByDefault.contains(keyUri) ? 1 : 0;
+        try { // UltimateLauncher 0220: claves @hide no legibles por terceros
         if (keyUri.toString().startsWith(SYSTEM_URI_PREFIX)) {
             newVal = Settings.System.getInt(mResolver, key, defaultValue) == 1;
         } else if (keyUri.toString().startsWith(GLOBAL_URI_PREFIX)) {
             newVal = Settings.Global.getInt(mResolver, key, defaultValue) == 1;
         } else { // SETTING_SECURE
             newVal = Settings.Secure.getInt(mResolver, key, defaultValue) == 1;
+        }
+        } catch (SecurityException e) { // UltimateLauncher 0220
+            newVal = defaultValue == 1;
         }
 
         return newVal;

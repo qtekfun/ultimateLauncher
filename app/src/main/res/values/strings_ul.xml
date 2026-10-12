@@ -209,4 +209,17 @@
     <string name="ul_pref_cat_icons">Icons and wallpapers</string>
     <string name="ul_pref_cat_gestures">Gestures</string>
     <string name="ul_pref_cat_privacy">Privacy</string>
+    <!-- Dual apps (docs/10, parche 0220) -->
+    <string name="ul_pref_cat_dual">Dual apps</string>
+    <string name="ul_pref_dual_apps">Dual apps</string>
+    <string name="ul_pref_dual_apps_summary">Link the two copies of an app (main space and private space): open the other copy from the menu, the gesture or the Quick Settings tile, and allow private space apps on the home screen</string>
+    <string name="ul_pref_dual_swipe">Swipe up on an icon</string>
+    <string name="ul_pref_dual_swipe_summary">Swiping up on a linked app opens its other copy</string>
+    <string name="ul_pref_dual_hide">Hide pairs</string>
+    <string name="ul_pref_dual_hide_summary">Do not offer anything from the other copy (menu, gesture, tile). Use it if you hide the private space, since its hidden state cannot be read</string>
+    <string name="ul_dual_open_other">Open in the other account</string>
+    <string name="ul_dual_add_other">Add account 2 to home screen</string>
+    <string name="ul_dual_unavailable">The other copy cannot be opened</string>
+    <string name="ul_dual_tile_label">Open account 2</string>
+    <string name="ul_dual_tile_none">Open a linked app first</string>
 </resources>

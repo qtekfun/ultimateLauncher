@@ -30,14 +30,14 @@ Esta tabla es la **lista objetivo**. Hay que contrastarla con el manifiesto fusi
 | `<applicationId>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` (`DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`) | Sí, lo añade androidx | Permiso propio de la app (nivel de firma, no concede nada a terceros) para receptores dinámicos no exportados |
 | `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | Sí (añadido 2026-10-05) | Solo si el usuario lo pide en el asistente: abre el diálogo del sistema para que no mate el launcher en segundo plano (si no, ColorOS lo cierra y los iconos tardan en volver). Google Play limita este permiso; la distribución es fuera de Play (como UltimateDeck). Sin red, sin datos. |
 | ~~`com.android.launcher.permission.READ_SETTINGS` y `com.android.launcher3.permission.READ_SETTINGS`~~ (NO declarados: propuestos por el importador, retirados a la espera de que el usuario los apruebe; la vía de archivo no los necesita) | **Solo en la variante `sync`** (añadidos 2026-10-05); la variante `default` NO los declara (prohibidos en `tools/permissions-forbidden.txt`) | «Importar de otro launcher» por proveedor de contenido: son permisos normales que declaraban los launchers derivados de Launcher3 antiguos para leer su tabla de iconos. Solo se leen a petición del usuario y nada se envía. La rama actual de AOSP usa un permiso de sistema, así que en la práctica solo sirven con launchers antiguos. Ver DECISIONS.md |
-| `ACCESS_HIDDEN_PROFILES` | **v2, aún no declarado** (se añade en M9 T9.1, `10`) | Ver el Private Space para agrupar las dos copias de una app. Solo API 35+ y solo siendo launcher por defecto. Nivel de protección: sin verificar (spike T9.0). La tabla de pares no sale del almacenamiento privado ni entra en copias |
+| `ACCESS_HIDDEN_PROFILES` | Sí (añadido 2026-10-12, M9, parche 0220) | Dual apps (`10`): ver el Private Space para mostrar sus apps y relacionarlas con la copia principal. Permiso **normal** (verificado en Android 17); el sistema solo lo honra en API 35+ y siendo launcher por defecto. Sin red ni datos nuevos: los pares se calculan al momento y no se guardan |
 | Almacenamiento, contactos, ubicación, cámara, micrófono, notificaciones propias, accesibilidad, administrador de dispositivo | **No** | No se necesitan |
 
 Regla: **cualquier permiso nuevo requiere actualizar esta tabla** y el README público.
 
 ## Datos locales
 
-- **Sin historial de uso**: no se guardan apps abiertas, recientes ni predicciones (no hay fila de previstas).
+- **Sin historial de uso**: no se guardan apps abiertas, recientes ni predicciones (no hay fila de previstas). **Única excepción** (Dual apps, `10`): se guarda una sola marca con el paquete y el perfil de la última app **emparejada** abierta, para el mosaico «Abrir cuenta 2». Se sobrescribe en cada apertura, se borra al desactivar Dual apps u «ocultar pares» y no entra en copias ni exportaciones.
 - La búsqueda del cajón filtra la lista en memoria y **no guarda consultas**.
 - Copia en la nube del sistema desactivada para los datos del launcher; la única exportación es la que pide el usuario (ver `06`).
 - Registros: en versiones de producción, sin registros con nombres de apps ni datos personales; eliminar trazas de depuración en la compilación de release.
