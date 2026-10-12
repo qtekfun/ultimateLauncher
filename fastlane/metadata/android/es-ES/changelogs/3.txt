@@ -1,0 +1,2 @@
+0.2.1
+• Corregido: en tablets y plegables, al deslizar hacia el cajón desde encima del dock saltaba el menú del dock.
